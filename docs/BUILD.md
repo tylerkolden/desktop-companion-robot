@@ -1,6 +1,6 @@
 # Staged build instructions
 
-These instructions cover preparation and the planned sequence. **Firmware and printed parts are not released yet.** Do not interpret future stages as already tested or flash the upstream sketch unchanged: it drives servos directly, whereas this robot uses a PCA9685.
+These instructions cover preparation and the planned sequence. **Bench firmware and fit gauges are now included; full robot CAD is not.** Start with [FIRST-POWER-ON.md](FIRST-POWER-ON.md). No physical tests have occurred. Do not flash the upstream sketch unchanged: it drives servos directly, whereas this robot uses a PCA9685.
 
 ## 1. Receive and inspect
 
@@ -18,11 +18,11 @@ Before connecting the driver, use the multimeter to establish adapter voltage an
 
 ## 3. Establish USB programming
 
-Use Arduino IDE and the Espressif ESP32 board package, selecting **XIAO_ESP32C3**. Follow the [Seeed setup guide](https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/) if the board is not listed or needs bootloader recovery. Record the exact package and IDE versions once a build works; no versions are certified by this repo yet.
+Use Arduino IDE and Espressif ESP32 board package **3.3.0**, selecting **XIAO_ESP32C3** with USB CDC enabled. Follow the [Seeed setup guide](https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/) if the board is not listed or needs bootloader recovery. Exact compiled dependency versions are in [firmware/README.md](../firmware/README.md); physical hardware validation remains pending.
 
-Required future firmware dependencies: Adafruit SSD1306, Adafruit GFX, Adafruit MPU6050, Adafruit Unified Sensor, Adafruit BusIO, and Adafruit PWM Servo Driver. Install dependencies through Library Manager when developing the diagnostics. `ESP32Servo` is not required for PCA9685 control.
+Firmware dependencies: Adafruit SSD1306, Adafruit GFX, Adafruit MPU6050, Adafruit Unified Sensor, Adafruit BusIO, and Adafruit PWM Servo Driver. Use the pinned versions in the firmware guide. `ESP32Servo` is not required for PCA9685 control.
 
-**Next implementation milestone:** add and compile an I2C scan sketch in `firmware/`. Until then there is no project sketch to upload.
+Open `firmware/Companion/Companion.ino`. Its `scan` and `status` commands cover the first hardware checks.
 
 ## 4. Bring up low-current modules
 
@@ -30,13 +30,13 @@ Keep servo power off and all servos disconnected. Follow the logic wiring table.
 
 ## 5. Calibrate a single servo
 
-Requires the future calibration sketch. Remove legs and horns, connect one servo to channel 0, and use 50Hz PWM with a nominal 1500us neutral command. Energize servo power only with stable controller logic and known commands. Remove power before attaching a horn. Increase travel in small steps while unloaded; stop at binding or persistent buzzing. Store center, direction and conservative limits per servo. Repeat for all four channels.
+Use the bench firmware's `cal`, `jog`, `stop` and `save` commands documented in FIRST-POWER-ON.md. Remove legs and horns and start with one servo on channel 0. Energize servo power only with stable controller logic and known commands. Remove power before attaching a horn. Increase travel in small steps while unloaded; stop at binding or persistent buzzing. Store center, direction and conservative limits per servo. Repeat for all four channels.
 
 Never command every servo to extreme positions as a first test. Keep limbs clear during startup and leave an accessible means to unplug servo power.
 
 ## 6. Print fit samples
 
-Requires future CAD. Print the OLED mount and one servo cradle first, at 100% scale. Starting profile: A1, actual nozzle size, suitable PLA preset, approximately 0.20mm layers if using a 0.4mm nozzle. These are starting settings, not validated production settings. Check screen opening, header clearance, servo ears, horn access, wire exits and screw engagement. Record failures and adjust CAD before the full shell.
+Print the included [fit gauges](../cad/README.md) first, at 100% scale. Starting profile: A1, actual nozzle size, suitable PLA preset, approximately 0.20mm layers if using a 0.4mm nozzle. These are starting settings, not validated production settings. Check the PCB/body outlines and record fit. Structural mounts, screen opening and screw engagement are checked in the next CAD revision before the full shell.
 
 ## 7. Assemble and test V1
 

@@ -2,12 +2,19 @@
 
 A personal, solder-free desktop robot inspired by Nickson Kiprotich's TN-24: an OLED face, four expressive legs, and motion sensing. Build a corded V1 first, then develop a cordless V2.
 
-**Status: planning and procurement. No working firmware, CAD, STLs, or hardware test results are included yet.** This repository is a build specification and development plan, not a completed robot kit.
+**Status: first bench firmware and printable fit gauges available; no physical hardware or print tests yet.** This is an early build in progress, not a completed robot kit. Full body/leg CAD and walking behavior remain pending.
+
+## Build something now
+
+- All additional V1 parts are reported in hand. Begin with checks rather than more electronics purchases.
+- Start with [First power-on](docs/FIRST-POWER-ON.md): upload the bench firmware, check the OLED and motion sensor, then calibrate one unloaded servo.
+- Print the [two fit gauges](cad/README.md) to check your hardware dimensions before printing a complete body.
+- Record `status` / `scan` output and fit results so the next enclosure revision can match the actual parts.
 
 ## Start here
 
 1. Review the [Amazon shopping list](docs/SHOPPING-LIST.md) before ordering.
-2. Follow the [staged build instructions](docs/BUILD.md). Stop at stages requiring unreleased firmware or CAD.
+2. Follow the [staged build instructions](docs/BUILD.md) and the new first-power-on guide. Full enclosure assembly remains a later stage.
 3. Use the [wiring specification](docs/WIRING.md) and [measurement sheet](docs/MEASUREMENTS.md).
 4. Track progress against the [V1/V2 plan](docs/PLAN.md) and record results in the [test log](docs/TEST-LOG.md).
 5. See the [upstream study and sources](docs/UPSTREAM.md) for what exists in TN-24 and what we need to implement.
@@ -49,8 +56,9 @@ All modules share ground. The servo supply does not feed the XIAO's 5V or 3V3 pi
 ## Repository layout
 
 - `docs/`: shopping, wiring, assembly, measurement, validation, and roadmap.
-- `firmware/`: future diagnostic sketches and robot firmware.
-- `cad/`: future editable models, fit samples, and STL exports.
+- `firmware/`: bench diagnostics, calibration, animated face and a small gesture demo.
+- `cad/`: editable fit gauges and STL exports; full robot models are pending.
+- `scripts/`: repeatable firmware build and STL validation.
 
 ## Development approach
 

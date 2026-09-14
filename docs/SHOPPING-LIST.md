@@ -2,6 +2,8 @@
 
 Reviewed September 13, 2026. Links identify the researched ASIN, not a guarantee of seller, price, inventory, accessory inclusion, or unchanged variants. Quantities below distinguish pieces used from packs purchased. Selected does not mean ordered or physically tested.
 
+**Owner update: all additional V1 parts are now in hand.** Do not reorder this list. Voltage/polarity, accessory inclusion, installed headers and physical fit still need the receipt/bench checks below. Filament and CAD-dependent fasteners remain unconfirmed.
+
 ## Already reported owned
 
 | Component | Used in V1 | Amazon listing | Receipt check |

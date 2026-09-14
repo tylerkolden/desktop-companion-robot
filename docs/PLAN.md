@@ -6,20 +6,23 @@
 - [x] Record owned hardware and Amazon-only selections.
 - [x] Choose solder-free assembly, corded V1 and cordless V2.
 - [x] Draft wiring, measurement, build and validation instructions.
-- [ ] Confirm additional purchases and receipt checks.
+- [x] Owner confirmed all additional V1 parts are in hand.
+- [ ] Complete receipt checks and physical validation.
 
 ## Milestone 1: bench diagnostics
 
-- [ ] Add I2C scanner and serial diagnostics; compile for XIAO ESP32C3.
-- [ ] Pin exact board/library versions and document a repeatable build.
+- [x] Implement serial commands, scanning, display, IMU polling and one-channel calibration in `firmware/Companion/` (physical validation pending).
+- [x] Add I2C scanner and serial diagnostics; compile for XIAO ESP32C3.
+- [x] Pin exact board/library versions and document a repeatable build.
 - [ ] Validate OLED and IMU separately.
-- [ ] Add PCA9685 one-servo calibration with outputs inactive until commanded.
+- [x] Implement PCA9685 one-servo calibration with outputs disabled at initialization; hardware behavior still requires validation.
 - [ ] Measure supply behavior and calibrate four unloaded servos.
 
 Exit: repeatable upload, detected modules, stable power, recorded calibration.
 
 ## Milestone 2: editable mechanical design
 
+- [x] Create and mesh-check original servo/OLED outline fit gauges with editable OpenSCAD source.
 - [ ] Measure actual boards, servo horns and connector envelopes.
 - [ ] Model servo cradle and display mount fit coupons.
 - [ ] Print, measure and revise coupons.
@@ -32,6 +35,7 @@ Exit: assembled shell with accessible plugs, no binding, and documented fastener
 
 ## Milestone 3: V1 behavior
 
+- [x] Implement initial animated face, idle timer, double-tap detector and a manually armed 10-second limited gesture (hardware tuning pending).
 - [ ] Separate display, sensing, motion, behavior and configuration modules.
 - [ ] Use a non-blocking scheduler; continue sensing during animations.
 - [ ] Implement real double-tap timing/debounce, orientation hysteresis and recovery.
@@ -43,7 +47,7 @@ Exit: assembled shell with accessible plugs, no binding, and documented fastener
 ## V1 release acceptance
 
 - [ ] Reproduce firmware build from a clean checkout.
-- [ ] Boot with servos inactive until initialization succeeds.
+- [ ] Verify startup with servo supply disconnected until controller initialization succeeds; software cannot guarantee pulse shutdown through an MCU-only reset.
 - [ ] Demonstrate display, motion sensing and four calibrated legs.
 - [ ] Demonstrate tap timeout, orientation response and idle sleep.
 - [ ] Run a 30-minute supervised gesture/idle cycle without observed resets, binding or loose wires.

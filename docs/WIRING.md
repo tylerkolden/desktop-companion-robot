@@ -19,11 +19,13 @@ Status: proposed connection plan, not yet physically validated. Read board label
 | D4 / GPIO6 | OLED SDA, GY-521 SDA, PCA9685 SDA |
 | D5 / GPIO7 | OLED SCL, GY-521 SCL, PCA9685 SCL |
 
-Use `Wire.begin(6, 7)` in ESP32 Arduino firmware. Start at 100kHz. Use mini breadboards as junctions for these four low-current nets, checking continuity of each connected group before applying power. Pre-soldered XIAO header placement may need adjacent breadboards to leave accessible holes; never force pins or assume opposite sides of a board are connected.
+Use `Wire.begin(6, 7)` in ESP32 Arduino firmware. Sensor/control transactions start at 100kHz. The OLED library temporarily uses 400kHz for framebuffer transfers and restores 100kHz afterwards; keep jumper runs short. Use mini breadboards as junctions for these four low-current nets, checking continuity of each connected group before applying power. Pre-soldered XIAO header placement may need adjacent breadboards to leave accessible holes; never force pins or assume opposite sides of a board are connected.
 
 Use 3.3V module power so I2C pull-ups do not pull the bus to 5V. The GY-521 clone's onboard regulator and pull-ups must be verified during sensor bring-up; if it fails at this supply, investigate that module rather than applying 5V to the shared bus.
 
 Leave MPU6050 auxiliary XDA/XCL and INT unconnected for polling. AD0 normally defaults low; verify by scanning. PCA9685 OE normally has a pull-down on this board style; verify outputs are enabled. If OE is floating, connect it to GND. Its V+ control-header pin is not a logic supply.
+
+The included firmware uses this wiring without an OE interlock. A grounded OE allows retained pulses while the controller resets. Disconnect servo power before uploads or resets; see [First power-on](FIRST-POWER-ON.md). Adding a fail-disabled OE circuit is future work, not a property of the current wiring.
 
 ## Servo connections
 
