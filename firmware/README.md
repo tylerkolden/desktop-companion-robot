@@ -29,6 +29,12 @@ Install Arduino CLI 1.5.1 from its official release, then from the repository ro
 
 `-Install` downloads the exact board package and libraries. Omit it on subsequent builds. The script accepts `-ArduinoCli` and `-ConfigFile` to use a separate local toolchain. Build binaries go into ignored `build/Companion/`.
 
+### If `arduino-cli` is not recognized
+
+`-Install` installs board packages and libraries; it does not install Arduino CLI. Either put the CLI on PATH or pass its full executable path with `-ArduinoCli`.
+
+This computer has an ignored `build.local.psd1` file pointing to the existing CLI and dependency installation, so the normal `./scripts/build.ps1` command works without a PATH change. A new clone on another computer needs its own setup. The optional settings file has `ArduinoCli` and `ConfigFile` string entries, plus `ShortPathRoot` for a workspace containing the checkout and toolchain. When set, the script temporarily maps a free drive letter to that root to avoid Windows compiler path-length errors, generates a local configuration inside `build/`, and removes the mapping when finished. Do not run concurrent builds using this configuration. Explicit command arguments override local executable/config defaults.
+
 ```powershell
 arduino-cli board list
 # Replace COM7 with the detected XIAO port. Disconnect servo power before upload.

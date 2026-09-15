@@ -16,6 +16,10 @@ No physical hardware or print tests have been completed. The following checks we
 - OLED gauge: 236 triangles; 32 x 32.3 x 2.4mm; volume 455.4mm3.
 - Not tested: electrical wiring, USB upload, module detection, servo current/travel, tap sensitivity, stop latency, physical prints, fit or runtime.
 
+## 2026-09-14 — Windows terminal setup correction
+
+The owner encountered `arduino-cli` not found because the CLI used for the initial build was outside PATH. Added ignored local toolchain settings, automatic temporary short-path mapping, and a clearer missing-CLI error. Running `./scripts/build.ps1 -Install` from the real checkout succeeded using the existing pinned dependencies: 357,140 bytes flash and 13,144 bytes global RAM. No device was uploaded or powered by this check.
+
 ## Physical session template
 
 Copy this template for each session:
