@@ -1,0 +1,12 @@
+Book QA report
+Words (including references/code): 10576
+Reading sections: 26 (20 numbered chapters plus front matter and 5 appendices)
+EPUB bytes: 431880
+PASS: mimetype first and uncompressed
+PASS: all XML/XHTML parses
+PASS: all local links and image targets resolve
+PASS: all images have alternative text
+PASS: manifest and reading-order references resolve
+Original images: 6
+Not tested: Amazon conversion, Kindle device rendering, hardware experiments.
+This structural checker is not the official EPUBCheck validator.

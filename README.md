@@ -4,6 +4,10 @@ A personal, solder-free desktop robot inspired by Nickson Kiprotich's TN-24: an 
 
 **Status: first bench firmware and printable fit gauges available; no physical hardware or print tests yet.** This is an early build in progress, not a completed robot kit. Full body/leg CAD and walking behavior remain pending.
 
+## Learn together
+
+Start with [Andrew and the Tiny Robot with Big Ideas](docs/book/README.md), our illustrated family robotics book. It includes a Kindle EPUB, browser edition, twenty beginner chapters, experiments, and a parent workshop plan. Arduino IDE is the beginner path; the full bench firmware is the reference project. Powered lessons require an adult, and full-body CAD and physical validation remain pending.
+
 ## Build something now
 
 - All additional V1 parts are reported in hand. Begin with checks rather than more electronics purchases.

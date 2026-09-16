@@ -1,0 +1,388 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Andrew and the Tiny Robot with Big Ideas</title><style>body { font-family: Georgia, serif; line-height: 1.5; margin: 5%; color: #18242c; background: white; }
+h1,h2,h3 { font-family: Arial, sans-serif; line-height: 1.2; text-align: left; }
+h1 { font-size: 1.75em; } h2 { font-size: 1.45em; } h3 { font-size: 1.15em; margin-top: 1.5em; }
+p { margin: 0.7em 0; } img { display:block; max-width:100%; height:auto; margin:1em auto; }
+pre { white-space:pre-wrap; overflow-wrap:break-word; padding:0.7em; border:1px solid #88959d; font-size:0.85em; }
+code { font-family:monospace; } a { color:#175a67; } li { margin:0.4em 0; }
+.cover img { max-height:90vh; width:auto; } .subtitle { font-style:italic; }
+@media screen { body { max-width:46em; margin:3em auto; padding:0 1em; } }
+ section{margin:4em 0}</style><body><img src="images/cover.jpg" alt="Book cover"><nav><h1>Contents</h1><ol><li><a href="#c0">A note from Mission Control</a></li><li><a href="#c1">1. The day the parts became a team</a></li><li><a href="#c2">2. Electricity without the mystery fog</a></li><li><a href="#c3">3. A guided tour of the tiny city</a></li><li><a href="#c4">4. XIAO: a computer with a very small desk</a></li><li><a href="#c5">5. The face made of 8,192 little decisions</a></li><li><a href="#c6">6. The sensor that notices a tilt</a></li><li><a href="#c7">7. Servos: muscles with instructions</a></li><li><a href="#c8">8. The PCA9685: timekeeper, not power magician</a></li><li><a href="#c9">9. Protocols: how rectangles hold a conversation</a></li><li><a href="#c10">10. Wiring: a map, not a guessing contest</a></li><li><a href="#c11">11. The meter is a question-asking machine</a></li><li><a href="#c12">12. Arduino IDE: the workshop for instructions</a></li><li><a href="#c13">13. Code that can pay attention</a></li><li><a href="#c14">14. First power-on: a ladder of small victories</a></li><li><a href="#c15">15. Calibration: teaching the robot what its body means</a></li><li><a href="#c16">16. Printing a body that actually fits</a></li><li><a href="#c17">17. Debugging: the mystery is the lesson</a></li><li><a href="#c18">18. Project management for people who would rather build robots</a></li><li><a href="#c19">19. V2 and the battery that did not get the job</a></li><li><a href="#c20">20. Andrew’s inventor badge</a></li><li><a href="#c21">Appendix A. Family workshop sessions</a></li><li><a href="#c22">Appendix B. The notebook that saves the day</a></li><li><a href="#c23">Appendix C. Quick-reference dictionary</a></li><li><a href="#c24">Appendix D. Send this adventure to Kindle</a></li><li><a href="#c25">Appendix E. Sources, credits, and the changing project</a></li></ol></nav><section id="c0"><h1>A note from Mission Control</h1>
+<p><strong>A family adventure in circuits, code, and creating a desktop companion.</strong></p>
+<p>Written especially for Andrew, age eleven, and the grown-up building beside him.</p>
+<p>First edition • September 2026</p>
+<p>Andrew, this book begins with an unusual promise: you do not have to understand every word before you start. You only need to be curious enough to ask what the next word means.</p>
+<p>Your robot will have a small glowing face, four servos, a motion sensor, and a computer small enough to lose under a cookie. Please do not test the cookie theory. Crumbs are not an approved electronic component.</p>
+<p>For our adventure, its nickname is <strong>ANDI: Andrew’s New Desktop Inventor</strong>. ANDI is a story character, not a new product you need to buy. When ANDI talks in these pages, that is imagination. Our real robot has no speaker or microphone, does not understand conversation, and has no human feelings. It can still have an excellent eyebrow attitude.</p>
+<p>This book explains the project inspired by TN-24 and the independent desktop-companion-robot repository your family has started. It is an introduction, a workshop companion, and a collection of investigations. The live repository is the place to check the latest wiring and build instructions.</p>
+<p><strong>Our honest starting point:</strong> the bench firmware compiles, and two printable fit gauges have passed computer mesh checks. Hardware operation and printed fit have not yet been verified. The complete body, legs, walking behavior, browser controls, and battery system remain development work. A successful compilation is evidence about code; it is not evidence that a wire is in the right hole.</p>
+<h3>How to use the adventure</h3>
+<p>Read a chapter together, then try its mission. Most missions need only paper, a pencil, or unplugged parts. Powered experiments are clearly marked and require an adult. You can read ahead without doing every experiment.</p>
+<p>Each mission follows four moves: <strong>predict, try, observe, explain</strong>. A prediction that turns out wrong is useful. It tells you that your model of the world needs an update. That is what scientists and engineers do all day, with slightly more coffee.</p>
+<p>For now, the building tool is Arduino IDE. Later, VS Code and command-line tools can join the workshop. Learning robotics should not begin with a battle against eleven unfamiliar programs.</p>
+<h3>The workshop agreement</h3>
+<p>Andrew can lead the questions, draw designs, change approved code, keep the log, and explain results. The adult checks power connections, handles the first supply measurements, supervises servo tests, and manages printer hazards. Disconnect power before changing wiring. Keep fingers and cables away from moving joints. The printer’s hot nozzle and bed are adult-supervised territory.</p>
+<p>Use only the low-voltage side of the sealed power adapter. Never open it or probe a wall socket. Keep the loose lithium batteries out of these V1 experiments. If something smells wrong, becomes unexpectedly hot, or moves strangely, stop and have the adult disconnect power. You are allowed to stop a test. You never have to prove bravery to a circuit board.</p></section><section id="c1"><h1>1. The day the parts became a team</h1>
+<p>Andrew spread the parts on the table.</p>
+<p>“Which one is the robot?” he asked.</p>
+<p>“At the moment,” ANDI replied from the imaginary corner of the workshop, “I am several unrelated rectangles.”</p>
+<p>A robot is a system. Its parts become useful because they exchange energy, information, and force. A screen without a program is quiet. A program without electricity is also quiet. A servo without a plan may be very enthusiastic in an unhelpful direction.</p>
+<p>Our system has five jobs. It receives energy. It senses something about the world. It decides what to do. It produces an action. Its physical structure holds everything in useful places.</p>
+<p>The XIAO ESP32C3 runs instructions. The OLED makes a face. The MPU6050 measures motion-related quantities. The PCA9685 produces timed control pulses. Four SG90 servos turn their output shafts. Printed parts will hold the modules and turn shaft motion into a gesture. Wires connect the team. The power supply pays the energy bill.</p>
+<p>Notice that “robot” does not automatically mean “artificial intelligence.” A robot can follow a short set of rules. If a double tap is detected, display happy eyes. If nobody interacts for a while, display sleepy eyes. These are programmed responses, and they are a fine beginning.</p>
+<p><img alt="The robot team: controller, face, sensor, timing board, and servos." src="images/team.png" /></p>
+<p>Our first version, V1, is corded. During bench development, that actually means two power leads: USB for the controller and a separate adapter for the servos. V2 is the future cordless version. Calling it V2 is a reminder that it must earn its place through tests, not sneak in because batteries look exciting.</p>
+<p>The first useful success is not a walking robot. It might be a message in a window. Then a face. Then a tilt reading. Then one carefully controlled servo. Each success creates a trustworthy starting point for the next.</p>
+<p><strong>Mission: recruit the team.</strong> With everything unplugged, arrange the parts in groups: computation, sensing, output, power, connection, structure, and tools. Some belong in more than one group. Explain where the PCA9685 belongs and why. There is no penalty for a sensible alternative classification.</p>
+<p><strong>Checkpoint:</strong> is the OLED a sensor? No: in this project it shows information rather than measuring the outside world. The MPU6050 is the sensor. A servo is an actuator: it turns electrical energy into mechanical action.</p></section><section id="c2"><h1>2. Electricity without the mystery fog</h1>
+<p>“I require four electricity,” said ANDI.</p>
+<p>“Four what?” Andrew asked.</p>
+<p>“Excellent question. My request has failed its units test.”</p>
+<p>Electricity becomes easier when you separate three ideas: voltage, current, and resistance.</p>
+<p><strong>Voltage</strong>, measured in volts, describes an electrical potential difference between two points. A water-pressure comparison can help you imagine it, although wires are not literally pipes. We care about voltage between points, not an isolated number floating in space.</p>
+<p><strong>Current</strong>, measured in amperes or amps, is the rate at which electric charge flows. A circuit needs a complete path. Energy reaches a device, and current returns through a connected path. The charge is not used up like fuel; energy is transferred to light, motion, heat, and other forms.</p>
+<p><strong>Resistance</strong>, measured in ohms, describes opposition to current. For a simple resistor, Ohm’s law is V = I × R. A 1,000-ohm resistor with 3.3 volts across it carries 0.0033 amps, or 3.3 milliamps. That is a paper calculation, not a request to connect random components. Motors and complete electronic boards do not behave like one fixed resistor in every condition.</p>
+<p><strong>Power</strong>, measured in watts, is the rate of energy transfer. For our DC examples, P = V × I. A device taking 0.2 amps at 5 volts uses 1 watt. A supply rated 5 volts and 4 amps can provide up to its rated current under its specified conditions. It does not force four amps through every connected gadget. The correct voltage matters, and the load draws current according to its behavior.</p>
+<p>The servo supply is selected as 5V/4A. That is a maximum rated output of 20 watts, not a claim that our robot constantly uses 20 watts. A servo resting without much load may draw less than one pushing against a jam. A jam can turn your electrical budget into unwanted heat.</p>
+<h3>Ground is the meeting place</h3>
+<p>GND is our circuit’s common reference and return connection. It is not necessarily connected to the Earth, and it is not a magic drain where electrons disappear. The controller and servo board need a shared reference to interpret signal voltages reliably.</p>
+<p>Our 3.3V logic and 5V servo power have different jobs. A GPIO pin is a message connection, not a motor power outlet. Never try to run a servo from a XIAO GPIO or its 3V3 pin. We leave the XIAO’s 5V pin unconnected in our two-supply plan.</p>
+<p>A short circuit creates an unintended low-resistance path. A stray wire strand between positive and ground can do that. This is why we inspect stripped wires before switching on. A tidy connection is an electrical decision, not a fashion decision.</p>
+<p><strong>Mission: energy accountant.</strong> On paper, calculate the power for 5V at 0.5A, then 5V at 2A. What changed? Predict whether a stalled servo could demand more current than an unloaded one. Do not deliberately stall a servo to find out.</p>
+<p><strong>Answers:</strong> 2.5W and 10W. Voltage stayed the same; current and power increased. A stalled servo can demand high current. We prevent binding instead of using it as an experiment.</p></section><section id="c3"><h1>3. A guided tour of the tiny city</h1>
+<p>A circuit board resembles a tiny city viewed from an airplane. The copper tracks are routes between components. The insulating board keeps those routes separated. The green or blue coating is usually solder mask, which protects much of the copper. Labels printed on top are often called silkscreen.</p>
+<p>An <strong>integrated circuit</strong>, or chip, contains many microscopic electronic elements. A <strong>transistor</strong> can act as a switch or amplifier. Digital chips use huge numbers of transistors to store and process information. You will not need to solder individual transistors into this robot, but understanding that they exist makes the “computer rectangle” less mysterious.</p>
+<p>A <strong>resistor</strong> limits current or helps establish a voltage condition. A <strong>capacitor</strong> stores a small amount of electrical energy. Capacitors near chips help with brief supply disturbances. The larger capacitor on the servo board is not a substitute for a suitable power supply; it cannot solve an unlimited shortage of energy.</p>
+<p>A <strong>voltage regulator</strong> helps provide a particular supply voltage. It has limits, including current and heat. A regulator on a sensor board does not automatically mean every signal pin can tolerate every voltage printed in a sales listing.</p>
+<p>A <strong>diode</strong> mainly conducts in one direction under normal operating conditions. An LED is a light-emitting diode. OLED pixels also emit light, using a different construction. Polarity matters for many components: reversing positive and negative can damage them.</p>
+<p>A <strong>header</strong> is a row of connector pins or sockets. Your project deliberately uses boards with headers already soldered in place. “Solder-free” means you do not need to make solder joints during assembly. The manufacturer still used solder to assemble the boards.</p>
+<p>The same chip can appear on several breakout boards. A breakout board exposes tiny chip connections as more manageable pins and may add regulators, resistors, or connectors. Your GY-521 uses an MPU6050, but it is not identical to every MPU6050 board in a tutorial. Your PCA9685 board follows a familiar design, but you must still inspect its labels.</p>
+<p><strong>Mission: board archaeology.</strong> With all power disconnected, use a magnifier to find a chip, a resistor label beginning with R, a capacitor label beginning with C, and a ground label. Sketch what you see. Do not scrape coatings or remove parts. If a label is too small to read, write “unknown.” Unknown is a valid observation.</p>
+<p><strong>Checkpoint:</strong> why is a picture of a similar board not enough for wiring? Because connectors, pin order, regulators, and board revisions can differ even when the main chip has the same name.</p></section><section id="c4"><h1>4. XIAO: a computer with a very small desk</h1>
+<p>The Seeed XIAO ESP32C3 is the controller in our project. Think of it as a worker with a notebook of instructions and a limited desk for temporary work. The flash memory keeps the program when power is removed. RAM holds temporary information while the program runs.</p>
+<p>The processor executes instructions. A clock provides timing. GPIO means general-purpose input/output: pins that can read or produce certain electrical signals. Some pins can perform special communication jobs. On our board, D4 corresponds to GPIO6 and D5 corresponds to GPIO7. Those are two naming systems for the same connections, rather like “Andrew” and “chief robot investigator.”</p>
+<p>The USB connector provides a route for power and communication. A data-capable cable is required to upload programs. A cable that only charges can make a working board look mysteriously uncooperative.</p>
+<p>Reset restarts the program. It does not usually erase the stored program. Uploading writes a new program into flash. Our firmware can also store calibration settings separately, so those settings survive an ordinary restart.</p>
+<p>The board supports wireless features, but our first firmware does not offer a Wi-Fi control page. Having a radio chip does not magically create an application. That is like owning a pencil and assuming your homework has completed itself.</p>
+<p>Reference for the board and pin names: <a href="https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/">Seeed XIAO ESP32C3 guide</a>.</p>
+<h3>A microscopic schedule</h3>
+<p>The controller needs to read commands, check sensing, update motion, and draw the face. It cannot ignore everything else every time it blinks. Later we will use short timed tasks to share its attention.</p>
+<p>There is also a separation between capability and permission. The hardware might be able to issue large servo movements. Our firmware intentionally restricts them. An engineer does not use every available ability merely because a button exists.</p>
+<p><strong>Mission: memory detective.</strong> Imagine that ANDI is asleep, happy, and calibrated. Which information should survive unplugging? A saved servo center is worth keeping. A temporary blink position probably is not. Explain why saving every blink into flash would be unnecessary.</p>
+<p><strong>Checkpoint:</strong> the XIAO is a microcontroller board, not a Raspberry Pi running a desktop operating system. We upload firmware that starts when the board starts. Arduino IDE is the program on the family computer used to prepare that firmware.</p></section><section id="c5"><h1>5. The face made of 8,192 little decisions</h1>
+<p>ANDI requested a face with “at least seven eyebrows.” Andrew proposed starting with two eyes.</p>
+<p>Your AITRIP screen is a 0.96-inch, 128-by-64 monochrome OLED module using an SSD1306 controller. There are 128 × 64 = 8,192 pixel positions. For a simple monochrome image, each pixel is represented as on or off. A single bit can hold that choice; eight bits make a byte. A complete one-bit image therefore needs 1,024 bytes before other program data is counted.</p>
+<p>The display is an output device. It does not see Andrew, and it is not a touch screen. Its white pixels emit light. Its controller receives information and manages the display. The graphics library helps us draw shapes without manually describing every individual pixel transaction.</p>
+<p>Coordinates are addresses for positions. In the usual graphics arrangement, x increases toward the right and y increases downward, beginning at the top left. The bottom-right pixel is (127, 63), not (128, 64), because counting starts at zero.</p>
+<p><img alt="A pixel grid showing x across and y down, plus two eyes." src="images/pixels.png" /></p>
+<p>Our program draws into a <strong>framebuffer</strong>, a memory image of what the screen should show. Sending that image to the display makes the new frame visible. A library call that draws an eye into memory is not necessarily the same as a call that updates the physical screen.</p>
+<p>Emotion can be suggested with very little information. Tall open eyes look attentive. Narrow eyes look sleepy. A curved or shifted shape may seem cheerful. Andrew can become an animator by changing geometry, not by buying a larger computer.</p>
+<p>The OLED library and graphics library have different jobs: one talks to this kind of screen; the other provides drawing tools. Reference: <a href="https://learn.adafruit.com/monochrome-oled-breakouts">Adafruit monochrome OLED guide</a>. That guide covers several boards; our four-pin module uses I²C, and its actual labels decide the wiring.</p>
+<p><strong>Mission: paper pixels.</strong> Draw a 16-by-8 grid. Make two eyes using only filled and empty squares. Create awake, suspicious, and sleepy expressions. Trade the drawings with your adult without showing the labels. Which expressions can they recognize?</p>
+<p><strong>Checkpoint:</strong> an expressive face does not prove that a robot has feelings. It proves that humans are very good at interpreting shapes. You are designing a communication interface.</p></section><section id="c6"><h1>6. The sensor that notices a tilt</h1>
+<p>“How will I know if I am upside down?” ANDI asked.</p>
+<p>“Your sensor can help,” said Andrew. “Your dramatic complaining is optional.”</p>
+<p>The GY-521 board carries an MPU6050, which combines a three-axis accelerometer and a three-axis gyroscope. Six measurement axes are sometimes described as six degrees of freedom. This does not mean the chip magically knows its exact location in the room.</p>
+<p>The accelerometer measures specific force along three axes. For an introductory test, the important surprise is that a stationary, supported sensor normally reports gravity-related readings. With its positive Z axis facing upward, our expected Z reading is roughly +9.8 metres per second squared. It is not zero simply because the board is sitting still.</p>
+<p>Rotate the board slowly, and gravity’s contribution shifts among its axes. Shake it, and actual motion also affects the readings. That is why using acceleration as a tilt clue works best under suitable conditions. A vigorous gesture can confuse a simple threshold.</p>
+<p>The gyroscope measures angular rate: how quickly the board rotates around each axis. Turning a rate into an angle requires keeping track over time. Small measurement errors can accumulate. A magnetometer would measure magnetic field, but the MPU6050 does not include one. Our first firmware mainly uses acceleration and does not calculate a full navigation solution.</p>
+<p>Reference for the sensor family: <a href="https://learn.adafruit.com/mpu6050-6-dof-accelerometer-and-gyro">Adafruit MPU6050 introduction</a>. The library supports our chip; board-level wiring still follows our GY-521 inspection.</p>
+<h3>Noise is data’s untidy roommate</h3>
+<p>A sensor rarely gives the exact same number forever. Tiny variations can come from vibration, electronics, and measurement uncertainty. A filter can smooth some rapid changes, but filtering also affects how quickly a system responds. There is a trade-off, not a perfect “make data good” button.</p>
+<p>Our upright test uses <strong>hysteresis</strong>: two thresholds instead of one. It takes a higher Z reading to enter upright than to remain upright. That helps avoid rapid toggling when a reading wobbles near one boundary. The current thresholds are provisional and need testing on the actual mounted robot.</p>
+<p><strong>Mission: act like a sensor.</strong> Draw x, y, and z arrows on a cardboard box. Slowly turn it. Name which arrow points upward each time. Predict what happens if the real sensor is mounted sideways but the program still assumes +Z is up.</p>
+<p><strong>Answer:</strong> the program may interpret the robot’s orientation incorrectly. We must mount it consistently or deliberately transform the measurements in software. The sensor cannot read our intentions.</p></section><section id="c7"><h1>7. Servos: muscles with instructions</h1>
+<p>A hobby positional servo usually contains a small motor, gears, an internal position sensor, and control electronics. The controller inside the servo compares its measured position with the requested position and drives the motor to reduce the difference. That is <strong>feedback control</strong>.</p>
+<p>The SG90 servos in our plan are positional servos. A continuous-rotation servo behaves differently: its command generally controls direction and speed rather than a specific angle. A listing with a similar picture is not enough; the actual type matters.</p>
+<p>The little plastic arm on the shaft is a <strong>horn</strong>. Gears trade speed for torque. Torque is the turning effect of a force. A longer leg or lever can need more torque for the same force at its end. A leg that is twice as long can create a harder job, even if it looks cooler in a drawing.</p>
+<p>Three wires normally connect a servo: power, ground, and signal. Common colours are red for power, brown or black for ground, and orange or yellow for signal, but verify the actual connector and labels. Colour is a clue, not proof.</p>
+<h3>A message measured in time</h3>
+<p>Our servo control uses repeating pulses. At 50Hz, one full cycle lasts 20 milliseconds. A nominal centre command is a pulse roughly 1,500 microseconds long, or 1.5 milliseconds. The rest of the cycle is low. Pulse width carries the request; it is not simply “send more voltage to turn farther.”</p>
+<p>Different servos and mechanisms can have different usable ranges. Never assume a 0-to-180-degree example from another project is safe for our attached legs. Even a valid electrical pulse can command a mechanical collision.</p>
+<p>Our initial calibration range is deliberately small: 1,450 to 1,550 microseconds around a nominal 1,500 centre. A <code>jog</code> changes the request by at most ten microseconds at a time. These settings are starting limits, not a guarantee that every mounted mechanism is safe.</p>
+<p><strong>Mission: lever laboratory.</strong> On paper, sketch a short leg and a long leg lifting the same imaginary weight. Circle the joint that feels the turning effect. Why might making the entire robot bigger require more than scaling up its STL files?</p>
+<p><strong>Checkpoint:</strong> the controller does not read the SG90’s internal position sensor through this three-wire connection. Our program knows what it requested, not the exact measured shaft angle or whether a leg is jammed. Watch, listen, and test carefully with an adult.</p></section><section id="c8"><h1>8. The PCA9685: timekeeper, not power magician</h1>
+<p>The PCA9685 produces repeated pulses without requiring the XIAO to time every edge itself. It has sixteen output channels; our plan uses four. Its timing resolution is twelve bits, giving 4,096 steps per cycle. The frequency is shared across its channels, while pulse widths can differ. See the <a href="https://www.nxp.com/docs/en/data-sheet/PCA9685.pdf">NXP PCA9685 data sheet</a>.</p>
+<p>At 50Hz, a 20,000-microsecond cycle divided by 4,096 gives about 4.88 microseconds per timing step. A 1,500-microsecond pulse is about 307 steps. Real oscillator accuracy is another reason to calibrate instead of pretending these numbers create perfect angles.</p>
+<p><img alt="One 20 millisecond servo cycle with a 1.5 millisecond high pulse." src="images/pulse.png" /></p>
+<p>The board has two power roles that must not be confused. <strong>VCC</strong> powers the control electronics and comes from the XIAO’s 3.3V supply in our plan. <strong>V+</strong> supplies the servo power rail from the separate 5V adapter. The chip’s signal outputs tell the servos what to do; they do not provide the motor current. This distinction is explained in the <a href="https://learn.adafruit.com/16-channel-pwm-servo-driver/pinouts">Adafruit reference-board pin guide</a>; inspect the Teyleten board’s markings before connecting it.</p>
+<p>The screw terminal is useful because we can clamp prepared wires without soldering. An adult checks that no loose strands escape, that the insulation is not preventing contact, and that a gentle tug does not pull a wire free.</p>
+<p>The output-enable pin, OE, can be used in designs that disable output signals. Our current arrangement does not include a fail-disabled hardware interlock. A grounded OE allows the board to keep producing previously configured pulses when the main controller resets. This is why resetting the XIAO is not our emergency power switch.</p>
+<p><strong>Mission: divide the jobs.</strong> Andrew plays the XIAO and hands the adult a card reading “repeat a short clap every twenty counts.” The adult is the PCA9685 and keeps repeating until given another instruction. If Andrew stops talking, does the adult automatically know to stop? This illustrates why independent hardware can retain an earlier command. Real timing is far faster than clapping.</p>
+<p><strong>Checkpoint:</strong> a <code>stop</code> command asks software and the board to disable pulses. Physically unplugging the servo supply removes its electrical power. These are different actions, and neither guarantees that an unsupported leg will keep holding the robot upright.</p></section><section id="c9"><h1>9. Protocols: how rectangles hold a conversation</h1>
+<p>A <strong>protocol</strong> is an agreed set of communication rules. “Knock twice, wait for an answer, then speak” is a human protocol. Electronics also need rules about who speaks, how bits are represented, and when a message starts and ends.</p>
+<p>Our main board-to-module protocol is <strong>I²C</strong>, often typed I2C and sometimes labelled IIC. Two signal lines are shared: SDA carries data, and SCL carries a clock signal. The XIAO initiates transactions in this project. A device address selects which module should respond.</p>
+<p>Imagine three houses sharing a road. Delivering a message requires the correct house number. The OLED often uses address <code>0x3C</code>, the MPU6050 <code>0x68</code>, and the PCA9685 <code>0x40</code>. These are expectations to check with a scan, not guaranteed discoveries. A PCA board may also respond at <code>0x70</code>, its all-call address. That does not necessarily mean a mysterious fourth board has appeared.</p>
+<p>The <code>0x</code> prefix means hexadecimal, base sixteen. After 0 through 9 come A through F. You do not need to become a hexadecimal wizard immediately. Recognize that <code>0x40</code> is an address written in a different number system, not pin forty.</p>
+<p>I²C devices use pull-up resistors so released signal lines return high. Devices pull a line low rather than fighting by actively driving opposite high and low levels. Pull-ups must go to a suitable logic voltage. Several breakout boards may already include them; adding more blindly can create another problem rather than fix one.</p>
+<p>Keep our shared bus at 3.3V logic. A module advertised as accepting 5V power is not automatic evidence that all its signals are appropriate for the XIAO. Wiring details and level compatibility matter.</p>
+<h3>The other conversations</h3>
+<p>USB connects the computer and XIAO. Serial Monitor provides a text conversation with the firmware. USB CDC is the feature that lets this connection appear as a serial interface. In our setup we select 115200 in Serial Monitor and use newline endings; the firmware uses the newline to know that a command is complete.</p>
+<p>UART is another serial communication method often involving TX and RX signals. Our USB text console is not a request to wire those UART pins. SPI is another bus, commonly using a clock, data lines, and selection signals. Wi-Fi sends information by radio. Knowing those names helps you compare future designs; we do not need to wire every protocol the controller supports.</p>
+<p>Servo pulse control is yet another kind of signalling. It sends a timed position request. It does not use the OLED’s I²C address or a USB message directly.</p>
+<p><strong>Mission: address game.</strong> Give three people or paper figures different numbered cards. Read “house 0x3C, show happy eyes.” Only the matching figure responds. Now give two figures the same address. Discuss why two identical-address devices sharing a bus can be troublesome.</p>
+<p><strong>Checkpoint:</strong> an I²C scan checks for acknowledgements. It does not prove the sensor is mounted correctly, the screen draws correctly, or the servo supply is adequate. Detection is one layer of evidence.</p></section><section id="c10"><h1>10. Wiring: a map, not a guessing contest</h1>
+<p>“I connected the blue wire to the blue board,” said imaginary ANDI.</p>
+<p>Andrew put down his pencil. “We need better reasoning.”</p>
+<p>Wiring begins with names and functions. A <strong>net</strong> is a set of points electrically connected together. Our low-current logic wiring has four important shared nets: 3V3, GND, SDA, and SCL.</p>
+<p><strong>Adult checkpoint: all power disconnected.</strong> Read the physical labels on each board. Locate each pin before placing any jumper. Do not infer left-to-right order from a picture. Board photos can be rotated, and similar displays can have different pin orders.</p>
+<p>The exact intended connections are:</p>
+<ul>
+<li>XIAO <strong>3V3</strong> to OLED VCC, GY-521 VCC, and PCA9685 VCC.</li>
+<li>XIAO <strong>GND</strong> to OLED GND, GY-521 GND, and PCA9685 GND.</li>
+<li>XIAO <strong>D4 / GPIO6</strong> to each module’s SDA.</li>
+<li>XIAO <strong>D5 / GPIO7</strong> to each module’s SCL.</li>
+<li>Separate regulated adapter <strong>+5V</strong> to PCA9685 <strong>V+</strong>.</li>
+<li>Adapter negative to PCA9685 GND, which shares the logic ground.</li>
+<li>Leave the XIAO <strong>5V pin unconnected</strong>. No battery is connected.</li>
+</ul>
+<p><img alt="Power and signal relationships, with separate controller and servo supplies." src="images/wiring.png" /></p>
+<p>This is a connection map, not a photograph of pin positions. The written pin labels and the repository’s wiring document control the physical assembly. The GY-521 clone’s regulator and pull-ups still require verification. If it fails at our 3.3V supply, investigate with the adult rather than changing the shared bus to 5V.</p>
+<h3>What is inside a breadboard?</h3>
+<p>A solderless breadboard has spring contacts under its holes. Groups of holes are electrically linked. The layout varies, especially on mini breadboards. Opposite sides of a centre gap are not automatically connected. Some boards lack long power rails entirely.</p>
+<p>Use an unpowered continuity test to map the actual groups. Sketch the result. Put the same-net wires into connected holes and different nets into separate groups. Use breadboards for our low-current logic junctions, not the servo power distribution path.</p>
+<p>Dupont jumpers come with pin or socket ends, often called male and female. Match them to the installed headers. A jumper that appears attached may still be loose. Strain relief prevents movement of a cable from pulling directly on a connection. Leave room for plugs to be removed later; serviceability is part of design.</p>
+<p>The selected 20-AWG stranded wire is for short adapter-to-servo-board power connections. AWG is a wire-size system in which a smaller gauge number generally means a thicker conductor. Thickness alone does not decide every current limit: length, insulation, connectors, and installation also matter.</p>
+<p><strong>Mission: trace one journey.</strong> On paper, trace the data path from XIAO SDA to the OLED. Then trace the servo power route. Explain why the servo’s operating current should not take a shortcut through a tiny logic jumper or breadboard contact.</p></section><section id="c11"><h1>11. The meter is a question-asking machine</h1>
+<p>A multimeter does not merely “check electricity.” Its setting decides which question it asks. Wrong settings can create a wrong measurement or a short circuit.</p>
+<p>For the first voltage test, the adult puts the black lead in COM and the red lead in the voltage/resistance socket. Select DC volts, using the 20V range if the meter is manually ranged. Probe only the low-voltage adapter output. A correctly oriented measurement should be approximately positive five volts. A negative reading means the probes’ polarity is opposite to the measured polarity; stop and interpret it before connecting boards.</p>
+<p>For continuity, disconnect all power first. This checks whether a conductive path exists. It can help map breadboard contacts and trace a wire. A beep does not tell you that every powered circuit will function correctly.</p>
+<p>Do not put a meter in current mode directly across a supply. Current measurement uses a different connection method, and an incorrect connection can short the supply. Our first lessons do not need that experiment. Measuring fast servo current peaks also requires appropriate equipment and method; a basic meter’s displayed average may miss important brief events.</p>
+<h3>A measurement needs context</h3>
+<p>“It was five” is not a complete log entry. Five what? At which points? With which setting? Was the servo moving? Were the probes reversed?</p>
+<p>A useful entry could say: “Adapter output, no robot connected, DC volts, red probe on identified positive contact, 5.08V.” That is an example, not a measurement from your adapter. Label examples honestly.</p>
+<p>The number on a screen has uncertainty. Instruments have limits, and contact quality matters. Measure twice when a result is surprising. Do not hide a result merely because it disagrees with your prediction.</p>
+<p><strong>Mission: paper detective.</strong> Which note is better: “Power okay,” or “No-load output 5.08V, positive polarity, measured by adult before connecting”? Explain what the better note still does not prove.</p>
+<p><strong>Answer:</strong> the second is more useful, but it does not prove the supply stays stable when four servos move. No-load and loaded tests answer different questions.</p></section><section id="c12"><h1>12. Arduino IDE: the workshop for instructions</h1>
+<p>The IDE is where you write, check, and upload the program. IDE stands for integrated development environment. It combines several tools in one place, which is helpful when you are learning.</p>
+<p>The <strong>editor</strong> lets you change source code. The <strong>compiler</strong> translates it into a form the processor can run. The upload tool transfers the result to the board. Serial Monitor lets the firmware send messages back and receive text commands.</p>
+<p><strong>Verify</strong> compiles; it does not upload. <strong>Upload</strong> normally compiles and then transfers. An error from compilation is different from a board that cannot be found during upload. Read which step failed before changing wires.</p>
+<p>A <strong>board package</strong> teaches the tools about a family of boards. A <strong>library</strong> supplies reusable functions for a device or task. Libraries depend on other libraries. Pinning versions means recording the exact versions used so another builder can reproduce the environment.</p>
+<p>Your project uses ESP32 board package <strong>3.3.0</strong>, board <strong>XIAO_ESP32C3</strong>, with <strong>USB CDC On Boot enabled</strong>. These are the library versions used for the successful bench build:</p>
+<ul>
+<li>Adafruit BusIO <strong>1.17.4</strong>.</li>
+<li>Adafruit Unified Sensor <strong>1.1.15</strong>.</li>
+<li>Adafruit GFX Library <strong>1.12.6</strong>.</li>
+<li>Adafruit SSD1306 <strong>2.5.17</strong>.</li>
+<li>Adafruit MPU6050 <strong>2.2.6</strong>.</li>
+<li>Adafruit PWM Servo Driver Library <strong>3.0.2</strong>.</li>
+</ul>
+<p>Use Tools → Manage Libraries to install them, choosing the recorded version. The ESP32 package supplies <code>Wire</code> and <code>Preferences</code>; those are not extra shopping items. The live firmware README is the authority if project versions change after this edition.</p>
+<p>Open <code>firmware/Companion/Companion.ino</code> without separating it from its accompanying header files. Select the correct board. Click Verify before connecting anything. Arduino’s <a href="https://support.arduino.cc/hc/en-us/articles/5145457742236-Install-libraries-in-the-Arduino-IDE">library installation instructions</a> and <a href="https://support.arduino.cc/hc/en-us/articles/360016119519-Add-boards-to-Arduino-IDE">board installation instructions</a> provide the interface details.</p>
+<h3>First tiny program: Andrew says hello</h3>
+<p>This is a complete <strong>separate learning sketch</strong>, not text to paste into the middle of Companion. Save it as <code>AndrewHello</code>. With an adult, connect only the bare XIAO by USB; disconnect other modules and servo power before this lesson.</p>
+<pre><code class="language-cpp">void setup() {
+  Serial.begin(115200);
+}
+
+void loop() {
+  Serial.println(&quot;Hello from Andrew!&quot;);
+  delay(1000);
+}
+</code></pre>
+<p><code>setup()</code> runs once after startup. <code>loop()</code> runs repeatedly. The message is a string: text inside quotation marks. <code>delay(1000)</code> waits about one second. Here that is acceptable because the sketch has no motion or sensor responsibilities. We will not carry long blocking waits into the full robot.</p>
+<p>After selecting the XIAO’s port and uploading, open Serial Monitor at 115200. A repeating greeting is evidence that the program, upload route, and text connection work together. Upload Companion again before returning to its commands.</p>
+<p><strong>Mission: one edit.</strong> Predict what changing 1000 to 2000 will do. Change only that number, upload, and observe. Then change the greeting. Explain the difference between changing source code and changing what is already stored on the board.</p></section><section id="c13"><h1>13. Code that can pay attention</h1>
+<p>ANDI wanted to blink dramatically for three seconds. Andrew asked what would happen to a stop command during those three seconds.</p>
+<p>That question leads to <strong>non-blocking design</strong>. Instead of waiting in one long pause, the main loop repeatedly checks whether it is time to do a short piece of work. It resembles looking at a clock while cooking several dishes, rather than staring at one boiling potato until dinner is over.</p>
+<p>A variable stores a value. An <code>if</code> statement makes a decision. A function groups work under a name. A state records which situation the program is currently in: asleep, awake, calibrating, or gesturing, for example.</p>
+<p>Here is a conceptual timing fragment. It belongs inside a complete program with its variables declared appropriately; it is not a second standalone upload lesson.</p>
+<pre><code class="language-cpp">unsigned long now = millis();
+if (now - lastBlink &gt;= 1000) {
+  lastBlink = now;
+  // Update the blink state here.
+}
+// Other jobs can still run.
+</code></pre>
+<p><code>millis()</code> counts elapsed milliseconds since the program started. Unsigned subtraction is a useful way to compare elapsed time, including normal timer rollover when used with suitable intervals. See the <a href="https://docs.arduino.cc/language-reference/en/functions/time/millis/">Arduino millis reference</a>. We do not need to wait until a timer rolls over in real life to test the arithmetic; code tests can use chosen example values.</p>
+<p>Our firmware schedules display, sensing, and motion work. Some library transfers still take time. Sending a full OLED frame is not instantaneous, so a nominal scheduling interval is not a hard real-time guarantee. Understanding a limitation is better than claiming a perfect schedule.</p>
+<h3>Two taps, not two unrelated bumps</h3>
+<p>A double tap needs rules. Our current detector looks for two rising events separated by about 100 to 500 milliseconds, with magnitude thresholds used to avoid counting one held event repeatedly. These are provisional tuning values. A tap wakes the face; it does not arm motion.</p>
+<p>Why not accept any two bumps? Because one bump at breakfast and another after school should not count as a double tap. Why not count every high reading? Because one physical tap can produce several samples.</p>
+<p>The idle timer has a different question: when did a person last interact? If every automatic blink resets that timer, the robot may never become idle. We track interaction separately from its own animation.</p>
+<p><strong>Mission: become the scheduler.</strong> Make cards labelled “read command,” “read sensor,” and “draw face.” Move a counter around them repeatedly. Add a “wait ten seconds” card and see which tasks get delayed. Remove it and replace it with “check whether ten seconds have passed.” Describe the difference.</p></section><section id="c14"><h1>14. First power-on: a ladder of small victories</h1>
+<p>Bring-up means introducing a new system to power and checking it in stages. It is less dramatic than plugging in every wire and shouting “IT LIVES,” but it produces much better explanations when something does not work.</p>
+<p><strong>Adult-led powered session.</strong> Work on a clear surface. Servo power remains disconnected through uploads, resets, and wiring changes. Turn off USB too before adding or removing modules. Keep the project’s current <code>docs/FIRST-POWER-ON.md</code> and <code>docs/WIRING.md</code> open beside this book.</p>
+<p><strong>Step one: the controller.</strong> Verify and upload Companion with only the XIAO connected by USB. Open Serial Monitor at 115200 with Newline endings. Enter <code>help</code>, then <code>status</code>. Missing peripherals are expected when they are not attached. Do not interpret that as a failed controller.</p>
+<p><strong>Step two: one I²C device.</strong> Unplug USB. Connect the OLED using the labelled logic nets. Reconnect USB and allow startup. Try <code>scan</code> and <code>status</code>. Look for an expected OLED address and test <code>face happy</code>, <code>face awake</code>, and <code>face sleep</code>.</p>
+<p><strong>Step three: the motion sensor.</strong> Power off, add the GY-521, and restart. Check its expected address. With +Z upward, look for a positive Z reading around gravity’s value. Slowly change orientation without tugging wires. Observe the numbers rather than just the animated face.</p>
+<p><strong>Step four: servo board logic.</strong> Power off, connect PCA9685 logic, and restart. Keep its servo supply off. Confirm detection before attaching a servo. A successful scan does not energize or validate the motor supply.</p>
+<p><strong>Step five: one unloaded servo.</strong> Disconnect both supplies before plugging it into channel 0. The adult checks connector orientation and adapter polarity. Start controller USB while servo power remains off. Confirm PCA available and no active channel. Only then connect the checked servo supply.</p>
+<p>Enter these commands one at a time, observing between them:</p>
+<pre><code class="language-text">cal 0
+jog 0 10
+jog 0 -10
+stop
+</code></pre>
+<p><code>cal 0</code> arms that channel at its centre. A jog changes the requested pulse slightly. A fifteen-second calibration-command timeout disables pulses. Keep the servo unloaded and do not attach a leg for this first test. If it buzzes persistently or appears blocked, stop and disconnect servo power rather than repeatedly commanding it.</p>
+<p><strong>Important:</strong> software stop needs functioning software and communication. The PCA may retain pulses through an MCU reset or communication failure. Disconnect servo power before uploads, resets, horn installation, or repairs. Support a future chassis so pulse-off cannot make it collapse.</p>
+<p><strong>Mission: write the evidence.</strong> Record which modules were connected, addresses found, commands sent, and what happened. Copy actual text output. “Display showed happy eyes after <code>face happy</code>” is more useful than “robot works.”</p></section><section id="c15"><h1>15. Calibration: teaching the robot what its body means</h1>
+<p>Two servos with the same model name are not automatically identical. Horns may sit at different angles. A left leg and right leg may be mirrored. A mechanical stop may be closer on one side. Calibration records useful relationships between our commands and the actual assembly.</p>
+<p>We need a centre, lower and upper travel limits, and a direction for each channel. Our planned map is channel 0 front left, 1 front right, 2 rear left, and 3 rear right. Agree on “front” from the robot’s perspective and label it in a drawing.</p>
+<p>A centre pulse is not a promise of exactly ninety degrees. First command the unloaded servo near neutral. Remove servo power before fitting a horn. Later, inspect the mounted geometry and test tiny changes with adult supervision. Move one variable at a time and keep the chassis supported.</p>
+<p>The current firmware offers <code>center N</code>, <code>limits N LOW HIGH</code>, <code>invert N</code>, and <code>save N</code>. Read <code>help</code> and the power-on guide before using them. Limits and inversion changes require motion stopped. The absolute allowed envelope in this prototype is 1,300 to 1,700 microseconds, with much narrower defaults. The outer envelope is a software restriction, not permission to explore all of it with an attached leg.</p>
+<p>Saving is a human statement: “We have physically checked these settings.” It is not the servo telling the controller that everything is safe. Editing centre, limits, or inversion means the calibration needs saving again. Saved values survive restart, but motion is not automatically rearmed.</p>
+<p>The <code>demo</code> command requires four saved calibrations, the sensor, and an upright reading. It produces a short, limited gesture lasting ten seconds. It is not a walking gait. The current repository has not established that the completed robot can walk, balance, or avoid a desk edge.</p>
+<h3>Geometry has a vote</h3>
+<p>A beautiful leg shape can still collide with a neighbour or pull its wires tight. A full range test must consider the complete path, not just the endpoints. If a wire stretches at the middle of a movement, passing the endpoint checks is not enough.</p>
+<p><strong>Mission: robot-side map.</strong> Draw a top view, label front, and number the four channels. Turn the page around and ask someone to identify front left. This tiny exercise prevents surprising amounts of confusion later.</p>
+<p><strong>Checkpoint:</strong> does <code>save 0</code> prove channel 0 is mechanically safe? No. It records the operator’s decision. Your observations and log are the evidence.</p></section><section id="c16"><h1>16. Printing a body that actually fits</h1>
+<p>“I have designed an excellent shell,” said ANDI. “There is no room for wires, but the silhouette is magnificent.”</p>
+<p>Andrew added “room for wires” to the requirements.</p>
+<p><strong>CAD</strong> means computer-aided design. It describes shape and dimensions. Our editable fit-gauge source uses OpenSCAD, where code describes geometry. An STL represents a surface using triangles. It does not preserve every design decision, parameter, or feature history from the original CAD.</p>
+<p>A <strong>slicer</strong>, such as Bambu Studio, converts a model into printer instructions. It chooses layers, paths, walls, infill, and other settings for the selected printer and material. The Bambu Lab A1 melts and deposits filament layer by layer. The result is a manufactured object, with tolerances and material properties rather than mathematical perfection.</p>
+<p><strong>Clearance</strong> is deliberate extra room. A measured 12.2mm part may not slide into a nominally 12.2mm printed opening. Printer behaviour, measurement error, surface texture, and part variation all matter. More clearance can make assembly easier but retention worse.</p>
+<p>Our servo gauge provides three openings based on an assumed 23 × 12.2mm body, with 0, 0.4, and 0.8mm added to each opening dimension. The dimples identify the alternatives. These are total dimension additions, not extra space on each side. Our OLED outline gauge is based on assumed board dimensions and has an open header side. It is not a finished holder and does not retain the display.</p>
+<p>Print the gauges flat at 100% scale. The provisional starting profile is PLA, a 0.4mm nozzle, 0.2mm layers, three walls, and no supports, assuming that matches the installed nozzle. The adult handles printer setup and hot parts. Support the OLED by hand during fit checks; never force the glass or flex cable into the gauge.</p>
+<p><img alt="The design loop: measure, model, print, test, revise." src="images/iterate.png" /></p>
+<p>A manifold mesh check can show that a digital surface is closed and consistently connected. It cannot prove that a servo fits or that the print is strong. Physical testing answers a different question.</p>
+<p>The final shell needs space for connectors, wire bends, removable screws, the USB plug, and strain relief. Printed layers can make strength depend on direction. A small decorative overhang may need support; a load-bearing leg needs more careful design than a face bezel. Start with small test pieces before printing a complete body.</p>
+<p><strong>Mission: the cardboard enclosure.</strong> Make a loose paper or cardboard layout of the modules with their plugs attached while unpowered. Add space for fingers to remove connectors. Sketch where a cable exits. Do not power electronics inside a makeshift enclosure. This is a spatial planning exercise.</p>
+<p><strong>Checkpoint:</strong> when a part does not fit, measure the mismatch and change one dimension. Scaling the entire robot can accidentally change screw holes, wall thickness, and servo spacing together.</p></section><section id="c17"><h1>17. Debugging: the mystery is the lesson</h1>
+<p>ANDI’s screen went blank. Andrew could have declared the robot broken forever. Instead, he asked, “Which facts do we have?”</p>
+<p>Debugging begins by describing the symptom without jumping to a cause. “The OLED is blank after startup” is an observation. “The display is defective” is a hypothesis. A hypothesis needs a test.</p>
+<p>Use this loop: reproduce, isolate, predict, change one thing, test, record. If you change three wires, two libraries, and the power supply at once, success becomes difficult to explain. You may have fixed one problem and introduced another.</p>
+<h3>Case file: the invisible message</h3>
+<p><strong>Symptom:</strong> Serial Monitor shows nothing. Check the selected board and port, USB CDC setting, cable data capability, and whether the correct sketch was uploaded. The first text may have been printed before the monitor opened. With Companion, sending <code>help</code> gives it a new reason to reply. Servo power stays off during reset or upload attempts.</p>
+<h3>Case file: the missing face</h3>
+<p><strong>Symptom:</strong> OLED is blank. With power off, inspect VCC/GND and SDA/SCL labels and contacts. After reconnecting, scan for an address. If a device acknowledges, test the display command and correct driver/size assumptions. An address alone does not prove every display function works. Do not randomly raise its supply voltage.</p>
+<h3>Case file: the robot forgets itself when it moves</h3>
+<p><strong>Symptom:</strong> controller restarts during servo motion. Possible causes include a supply dip, a ground-path problem, a loose connection, or binding that increases load. Disconnect power and inspect before testing. The adult investigates power under relevant conditions. Adding another long delay to the program is not a reliable cure for inadequate power.</p>
+<h3>Case file: one tap becomes twelve</h3>
+<p><strong>Symptom:</strong> repeated tap events. Sensor sampling may capture several high readings from one impact. Check event edges, debounce/refractory timing, release threshold, and mounting vibrations. The remedy should match the mechanism of the error.</p>
+<h3>Tests come in layers</h3>
+<p>A compile-time assertion checks a logical claim during compilation. A bench test checks hardware together. A fit test checks geometry. A longer run checks stability over time. None replaces all the others.</p>
+<p>Our project has logic checks for timing, tap handling, pulse limits, and orientation hysteresis. Those checks do not simulate the entire physical robot. An engineer states what a test covers and what remains unknown.</p>
+<p><strong>Mission: write a bug report.</strong> Use four sentences: “I expected… I observed… I can repeat it by… My next single test is…” Include the firmware version and connected parts. A good report is a gift to your future self.</p>
+<p><strong>Checkpoint:</strong> finding a mistake is progress. Blaming the person who found it teaches people to hide evidence. A good workshop rewards useful observations.</p></section><section id="c18"><h1>18. Project management for people who would rather build robots</h1>
+<p>“I would like to add voice, lasers, a dishwasher, and flight,” announced ANDI.</p>
+<p>Andrew wrote them under “later,” except the lasers and flight, which did not belong in this project’s workshop plan.</p>
+<p>Project management is deciding what to build next and how to tell whether it worked. It is not paperwork invented to prevent fun. It protects fun from turning into a tangled pile of unfinished features.</p>
+<p>A <strong>requirement</strong> describes a needed property. Our requirements include solder-free assembly, Amazon-only purchases, corded V1 before cordless V2, and hardware that can be maintained. A <strong>constraint</strong> limits choices. A <strong>milestone</strong> marks a meaningful result, such as “one unloaded servo responds predictably.”</p>
+<p>A <strong>bill of materials</strong>, or BOM, lists parts and quantities. Packs purchased and pieces used are different. Owning five OLED modules does not mean the robot needs five faces. The electronics are reported in hand; filament, final fasteners, and enclosure details still need checking. Do not order duplicate parts because a list looks official.</p>
+<p>A <strong>dependency</strong> is something another step needs. Final mounting holes depend on actual measurements. A battery choice depends on measured power requirements. You can draw imaginary versions earlier, but label assumptions so they do not quietly become facts.</p>
+<p>Make a small board with four columns: Ideas, Ready, Doing, and Checked. Keep only one main experiment in Doing. A card moves to Checked when its acceptance condition is met, not when everyone feels tired.</p>
+<p>Example card: “OLED face test. Pass when <code>face happy</code> and <code>face sleep</code> produce visibly different expressions after two restarts. Record firmware version and I²C address.” This is much clearer than “finish screen.”</p>
+<h3>Git and GitHub: the project’s memory</h3>
+<p>The repository is a folder with files and tracked history. Git records changes locally. GitHub hosts a remote copy and collaboration tools. A clone creates a local copy of a repository. A commit records a chosen set of changes. Push sends local commits to the remote. A branch lets you develop an idea separately from the main line.</p>
+<p>A good commit message explains a small change: “Add sleepy-eye drawing” is better than “stuff.” Before experimenting, record a working baseline. Do not commit passwords, Wi-Fi credentials, or private account information. Use the family’s existing account arrangement and have the adult manage online access.</p>
+<p>The project folder contains docs, firmware, CAD, and scripts because building requires more than source code. A photograph of a tested wire connection and a measurement sheet may save more time than a clever function.</p>
+<p><strong>Mission: make three cards.</strong> One for the screen, one for a sensor reading, and one for a fit test. Write a pass condition for each. Put an exciting future feature into Ideas without letting it interrupt the current experiment.</p></section><section id="c19"><h1>19. V2 and the battery that did not get the job</h1>
+<p>The family already owns a 3.7V, 3,000mAh lithium-polymer battery type. Its stated size is 65 × 36 × 10mm, mass about 49g per pack, and connector described as JST1.25. Why not plug it into the robot immediately?</p>
+<p>Because a battery must satisfy more than “fits in my hand.” Voltage, peak current, capacity, connector family, polarity, charging, protection, and mechanical mounting all matter. A plug that physically fits can still have the opposite polarity.</p>
+<p>Capacity describes stored charge. Three thousand milliamp-hours is three amp-hours. It does not mean “this battery safely supplies three amps under every condition.” Multiplying nominal voltage by amp-hours gives an approximate energy value: 3.7 × 3 = 11.1 watt-hours. Usable energy and runtime depend on operating conditions, cutoff, and losses.</p>
+<p>The supplied listing is inconsistent: it mentions 1C, which would suggest 3A for a 3Ah pack, but also explicitly limits operating current to about 1.5A. We use the restrictive stated limit rather than inventing permission to draw more. That is why it is not selected as our four-servo supply.</p>
+<p>A boost converter can raise voltage while losing some energy as heat. It cannot create extra power. At 3.7V and 1.5A, input power is 5.55W. At an illustrative 85% efficiency, that becomes about 4.72W, or about 0.94A at 5V. This is a planning calculation, not a tested rating for a particular converter or battery arrangement.</p>
+<p>An adult must select a compatible charging and power system after V1 measurements. Do not combine the two packs, repin connectors, improvise charging, or attach them for these lessons. A built-in protection board does not remove the need for correct polarity and appropriate use.</p>
+<h3>Runtime is a question, not a sticker</h3>
+<p>Suppose a future tested system has 8Wh of usable energy and averages 2W. An ideal estimate would be four hours. But if our assumptions are wrong, the estimate is wrong. Peaks can also cause trouble even when average energy seems sufficient. First establish load behaviour, then choose the cordless design.</p>
+<p><strong>Mission: choose evidence over excitement.</strong> Write three questions you would need answered before choosing a V2 battery. Include at least one electrical question and one mechanical question. Examples: what peak current occurs, how charging works, and whether the added mass makes the robot unstable.</p>
+<p><strong>Checkpoint:</strong> rejecting a component for a particular job is not wasting it. It is matching tools to requirements.</p></section><section id="c20"><h1>20. Andrew’s inventor badge</h1>
+<p>By now, the rectangles on the table have names, jobs, and relationships. You can explain why a sensor is different from a screen, why voltage is different from current, why the PCA’s VCC is different from V+, and why a beautiful STL can still be the wrong size.</p>
+<p>You have also learned something less obvious: good engineering is a conversation with evidence. The robot does not care how confident a guess sounds. It responds to its actual wiring, actual power, actual geometry, and actual program.</p>
+<p>For your final mission, choose one small improvement. A new eye expression is an excellent option. A clearer diagnostic message is another. A label that prevents a reversed connector can be an improvement even though it does not move.</p>
+<p>Write the requirement in one sentence. Predict what will change. Save a working baseline. Change one thing. Test it. Show the evidence. Explain one limitation. Then decide whether to keep the change, revise it, or restore the earlier version.</p>
+<p>This is <strong>iterative development</strong>: repeated cycles that use results to improve the next attempt. It is not endlessly changing things without a goal. Each cycle should teach you something or satisfy a requirement.</p>
+<h3>The explain-it-to-someone-else challenge</h3>
+<p>Tell a friend how a tap could become a happy face. Your explanation should travel through the sensor, I²C messages, the controller’s rules, the graphics buffer, and the display. Then explain how the path for a leg gesture differs. If you get stuck, you have discovered the next question to investigate.</p>
+<p>ANDI looked at the notebook.</p>
+<p>“Am I finished?” it asked.</p>
+<p>“You are a project,” Andrew said. “Some parts are finished. Some are tested. Some are ideas.”</p>
+<p>“That sounds complicated.”</p>
+<p>“It is,” Andrew said. “But now we know how to make the next part smaller.”</p>
+<p>That is the inventor badge: not knowing everything, but knowing how to investigate the next thing.</p></section><section id="c21"><h1>Appendix A. Family workshop sessions</h1>
+<p>Plan roughly 25–40 minutes per session, with permission to stop earlier. Finish by writing one observation and one next step. Do not rush a power or mechanical check to meet a timer.</p>
+<p><strong>Session 1 — Meet the team.</strong> Read chapters 1–3. Sort unplugged parts, sketch a board, and start the notebook. Success: Andrew can identify controller, sensor, actuator, and power source.</p>
+<p><strong>Session 2 — A message from a tiny computer.</strong> Read chapters 4 and 12. Try the separate Hello sketch with only the XIAO on USB. Success: Andrew changes the message and explains Verify versus Upload.</p>
+<p><strong>Session 3 — Faces and addresses.</strong> Read chapters 5, 9, and 10. Adult checks one-module OLED wiring. Upload Companion again. Success: find the display and show two expressions.</p>
+<p><strong>Session 4 — The world has three axes.</strong> Read chapter 6. Add the sensor with power off, then observe readings. Success: predict which orientation produces positive Z near gravity.</p>
+<p><strong>Session 5 — One small movement.</strong> Read chapters 7, 8, 11, and 14. Adult checks the separate servo supply and conducts the unloaded test. Success: one controlled jog and a documented stop, without a leg attached.</p>
+<p><strong>Session 6 — Shape meets reality.</strong> Read chapter 16. Inspect measurements and print fit gauges with an adult. Success: record fit without forcing a component. Final body design waits for these results.</p>
+<p><strong>Session 7 — A personality experiment.</strong> Read chapters 13 and 17. Choose a small display change and test it from a saved baseline. Success: explain the observed result and restore the original if needed.</p>
+<p><strong>Session 8 — The project review.</strong> Read chapters 18–20. Show a notebook, a bug report, and a future-feature card. Success: distinguish tested results, assumptions, and unfinished plans.</p>
+<p>These are a suggested teaching route, not eight finished lesson directories already present in the repository. Except for the standalone Hello example in this book, use the actual Companion firmware and current project instructions.</p></section><section id="c22"><h1>Appendix B. The notebook that saves the day</h1>
+<p>Copy this template into a notebook or a new project document:</p>
+<p><strong>Question:</strong> What are we trying to learn?</p>
+<p><strong>Prediction:</strong> What do we think will happen, and why?</p>
+<p><strong>Setup:</strong> Which parts, wiring revision, firmware version, and power sources are involved?</p>
+<p><strong>Adult check:</strong> What must be inspected before power or motion?</p>
+<p><strong>One change:</strong> What is different from the previous test?</p>
+<p><strong>Observation:</strong> What actually happened? Include values, units, commands, and timing where useful.</p>
+<p><strong>Result:</strong> Pass, fail, or inconclusive—and according to which condition?</p>
+<p><strong>Explanation:</strong> What does this evidence support? What does it not prove?</p>
+<p><strong>Next step:</strong> What is the smallest useful experiment now?</p>
+<p>Example, entirely hypothetical: “Question: is the OLED on the expected address? Prediction: scan finds 0x3C. Setup: only XIAO and OLED, checked 3.3V wiring, Companion. Observation: scan reports 0x3C, but screen blank. Result: address detection passed; drawing not established. Next: send <code>face awake</code> and inspect display status.” Notice that the record does not turn one successful observation into a claim that everything works.</p></section><section id="c23"><h1>Appendix C. Quick-reference dictionary</h1>
+<p><strong>Actuator:</strong> a device that produces physical action, such as a servo.</p>
+<p><strong>Address:</strong> a value used to select a communication destination; not necessarily a pin number.</p>
+<p><strong>Algorithm:</strong> a procedure for solving a problem or choosing actions.</p>
+<p><strong>Ampere:</strong> unit of electric current; often shortened to amp.</p>
+<p><strong>BOM:</strong> bill of materials, listing required parts and quantities.</p>
+<p><strong>Breadboard:</strong> reusable spring-contact platform for temporary connections.</p>
+<p><strong>Bus:</strong> shared communication connections used by multiple devices.</p>
+<p><strong>Byte:</strong> eight bits. A bit has two possible logical values.</p>
+<p><strong>CAD:</strong> computer-aided design of shapes and dimensions.</p>
+<p><strong>Calibration:</strong> establishing useful relationships between commands or readings and physical reality.</p>
+<p><strong>Capacitor:</strong> component that stores electrical energy in an electric field.</p>
+<p><strong>Clearance:</strong> intentional space between parts that need to fit together.</p>
+<p><strong>Compiler:</strong> tool that translates source code into executable form.</p>
+<p><strong>Current:</strong> rate of electric charge flow.</p>
+<p><strong>Dependency:</strong> something another component or task requires.</p>
+<p><strong>Firmware:</strong> software installed on an embedded device.</p>
+<p><strong>Flash:</strong> memory that retains information without power.</p>
+<p><strong>Framebuffer:</strong> memory holding an image to display.</p>
+<p><strong>GPIO:</strong> general-purpose input/output connection on a controller.</p>
+<p><strong>Ground:</strong> the circuit reference and return network in our design.</p>
+<p><strong>Hertz:</strong> cycles per second; 50Hz means fifty cycles each second.</p>
+<p><strong>Hysteresis:</strong> different thresholds for entering and leaving a state.</p>
+<p><strong>I²C:</strong> addressed communication bus using SDA and SCL.</p>
+<p><strong>IDE:</strong> software environment for editing, building, and working with code.</p>
+<p><strong>IMU:</strong> inertial measurement unit; our motion module combines acceleration and angular-rate sensing.</p>
+<p><strong>Iteration:</strong> a development cycle that uses results to guide the next change.</p>
+<p><strong>Library:</strong> reusable software providing functions for a task or device.</p>
+<p><strong>Microsecond:</strong> one millionth of a second; a millisecond is one thousandth.</p>
+<p><strong>Net:</strong> points intended to be electrically connected.</p>
+<p><strong>OLED:</strong> organic light-emitting diode display technology.</p>
+<p><strong>Polarity:</strong> the positive/negative relationship of a connection or measurement.</p>
+<p><strong>Protocol:</strong> agreed rules for communicating.</p>
+<p><strong>PWM:</strong> pulse-width modulation; varying a pulse’s high duration. Servo position signalling uses timed pulses whose width carries a request.</p>
+<p><strong>RAM:</strong> working memory used while a program runs.</p>
+<p><strong>Repository:</strong> project files together with tracked history when managed by Git.</p>
+<p><strong>Sensor:</strong> device that measures a physical quantity.</p>
+<p><strong>Servo:</strong> controlled actuator; our positional servos use internal feedback.</p>
+<p><strong>Slicer:</strong> software that turns model geometry into printer paths and settings.</p>
+<p><strong>State:</strong> a recorded condition that helps determine program behaviour.</p>
+<p><strong>STL:</strong> triangle-based surface model format often used for 3D printing.</p>
+<p><strong>Strain relief:</strong> arrangement that reduces pulling force on an electrical connection.</p>
+<p><strong>Torque:</strong> turning effect of a force.</p>
+<p><strong>Voltage:</strong> electrical potential difference between two points.</p>
+<p><strong>Watt:</strong> unit of power, the rate of energy transfer.</p></section><section id="c24"><h1>Appendix D. Send this adventure to Kindle</h1>
+<p>The supplied <strong>EPUB</strong> is the recommended reading file. Its text can reflow when you change font size. Diagrams are included, and the contents links let you jump between chapters. This is a personal document; you do not need to publish a book or pay for Kindle Direct Publishing.</p>
+<h3>Easiest route: Send to Kindle on the web</h3>
+<ol>
+<li>On your computer, open <a href="https://www.amazon.com/sendtokindle">Amazon Send to Kindle</a>.</li>
+<li>Sign in to the Amazon account registered to the Kindle or Kindle app where you want the book.</li>
+<li>Choose the supplied <code>Andrew-and-the-Tiny-Robot-with-Big-Ideas.epub</code> file. Upload the EPUB itself, not the source folder or a ZIP archive.</li>
+<li>Confirm the title. Enable <strong>Add to your library</strong> if that option appears, then send.</li>
+<li>Connect the Kindle to Wi-Fi and sync. Look in Library; if a Books-only filter hides it, select All or Documents as available. Conversion and delivery can take a little time.</li>
+</ol>
+<p>Amazon’s current guidance supports EPUB through Send to Kindle and web uploads up to 200MB. This book is much smaller. See <a href="https://digprjsurvey.amazon.com/csad/help/node/TCUBEdEkbIhK07ysFu">Amazon’s transfer guidance</a>. Interface labels may vary by account and device.</p>
+<h3>Email alternative</h3>
+<p>In Amazon’s <strong>Manage Your Content and Devices</strong>, locate <strong>Preferences → Personal Document Settings</strong>. Find the destination’s Send-to-Kindle email address and add your ordinary sending email to the approved sender list. Attach the EPUB to a message from that approved address and send it to the Kindle address. Complete any Amazon verification request, then sync the Kindle. Use the web method if finding email settings is frustrating.</p>
+<h3>A note for Andrew’s reading profile</h3>
+<p>Start by confirming delivery in the registered adult account’s normal library. A child profile can have different sharing controls, and personal documents may not be available there in the same way as purchased books. Do not promise that a file will appear in an Amazon Kids profile. The adult can check available sharing options or supervise reading in the ordinary Kindle library or app.</p>
+<p>Do not simply copy the raw EPUB over USB and assume every Kindle will read it. Send to Kindle handles conversion. No copy has been sent automatically, and you do not need to provide an account password to the assistant.</p></section><section id="c25"><h1>Appendix E. Sources, credits, and the changing project</h1>
+<p>This is original educational writing for Andrew and his family, created with OpenAI Codex assistance. ANDI’s dialogue is fictional. Diagrams are original explanatory drawings, not manufacturer pin-layout drawings. Product and project names identify the hardware being discussed, without implying endorsement.</p>
+<p>The teaching story draws on our family’s project documents and original firmware. It is not a reproduction of the TN-24 tutorial. The inspiration is <a href="https://github.com/tech-nickk/TN24">tech-nickk/TN24</a> and the <a href="https://www.electromaker.io/project/view/tn-24-v20-cute-desktop-companion-robot">TN-24 V2 project article</a>. Our earlier repository study found no STL files in the reviewed upstream revision. That finding concerns the reviewed material, not a promise about every future update.</p>
+<p>The private family repository is <a href="https://github.com/tylerkolden/desktop-companion-robot">desktop-companion-robot</a>. It requires an authorized GitHub sign-in. This edition reflects project documentation and firmware through commit <strong>b84e1a0</strong>, reviewed September 15, 2026. Check current instructions before physical work.</p>
+<p>Useful primary references, also linked near the relevant chapters:</p>
+<ul>
+<li><a href="https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/">Seeed XIAO ESP32C3 guide</a> — controller and pin identification.</li>
+<li><a href="https://learn.adafruit.com/16-channel-pwm-servo-driver/pinouts">Adafruit PCA9685 reference-board pinouts</a> — logic power versus servo power; actual clone labels still matter.</li>
+<li><a href="https://www.nxp.com/docs/en/data-sheet/PCA9685.pdf">NXP PCA9685 data sheet</a> — timing hardware.</li>
+<li><a href="https://learn.adafruit.com/monochrome-oled-breakouts">Adafruit OLED guide</a> — display concepts and controller family.</li>
+<li><a href="https://learn.adafruit.com/mpu6050-6-dof-accelerometer-and-gyro">Adafruit MPU6050 guide</a> — motion sensor family.</li>
+<li><a href="https://support.arduino.cc/hc/en-us/articles/5145457742236-Install-libraries-in-the-Arduino-IDE">Arduino library installation</a> and <a href="https://support.arduino.cc/hc/en-us/articles/360016119519-Add-boards-to-Arduino-IDE">board installation</a> — IDE setup.</li>
+<li><a href="https://docs.arduino.cc/language-reference/en/functions/time/millis/">Arduino millis reference</a> — elapsed-time programming.</li>
+<li><a href="https://www.amazon.com/sendtokindle">Amazon Send to Kindle</a> — personal-document delivery.</li>
+</ul>
+<p>Adult reminder: a chip data sheet, a reference breakout tutorial, a seller listing, and a measurement of your own part are different kinds of evidence. Good engineering keeps those distinctions visible.</p>
+<p>The most important future source will be Andrew’s notebook.</p></section></body></html>
