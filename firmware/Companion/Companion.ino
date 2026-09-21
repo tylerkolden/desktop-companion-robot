@@ -23,6 +23,7 @@ companion::TapDetector taps;
 uint8_t oledAddress = 0, imuAddress = 0;
 bool pcaOK = false, oledOK = false, imuOK = false, storageOK = false;
 bool upright = false, imuSampleValid = false, demo = false;
+bool motorGuideReady = false;
 bool benchTest = false;
 bool benchOffsetSent = false;
 uint32_t benchStart = 0;
@@ -44,6 +45,7 @@ bool probe(uint8_t address) {
 void stopMotion() {
   demo = false;
   benchTest = false;
+  motorGuideReady = false;
   activeChannel = -1;
   taps = companion::TapDetector{};
   if (pcaOK) {
@@ -124,7 +126,7 @@ void showStatus() {
 
 void printHelp() {
   Serial.println("Companion bench firmware 0.1.0 | 115200 baud | newline commands");
-  Serial.println("help | status | scan | details | stop | face awake/happy/sleep");
+  Serial.println("help | motor (guided test) | status | scan | details | stop | face awake/happy/sleep");
   Serial.println("Type a command here, then press Enter. status = friendly report; scan = current address replies.");
   Serial.println("test N      : unloaded servo; center 500ms, +10us 500ms, then pulses off");
   Serial.println("cal N       : arm only channel N (0..3), neutral pulse, unloaded servo only");
@@ -135,6 +137,26 @@ void printHelp() {
   Serial.println("save N      : persist physically checked calibration; stops motion");
   Serial.println("demo        : all 4 saved + upright MPU required; small 10s gesture");
   Serial.println("No command automatically starts walking. stop disables pulses, not servo power.");
+}
+
+void printMotorGuide() {
+  stopMotion();
+  Serial.println("\n=== MOTOR LAB: one small movement ===");
+  if (!pcaOK) {
+    Serial.println("[X] Driver not ready. Type scan, then check lesson 5A. No test started.");
+    return;
+  }
+  motorGuideReady = true;
+  Serial.println("[OK] Driver initialized. We will use only connector 0.");
+  Serial.println("1. Find the printed number 0 beside a THREE-pin output group.");
+  Serial.println("   Match its GND / V+ / signal labels. Do not count individual pins.");
+  Serial.println("2. Follow lesson 5B's wiring and measured 5V power check with an adult.");
+  Serial.println("   One unloaded motor only; keep its shaft clear. No wiring changes while powered.");
+  Serial.println("3. When that check is complete, type go and press Enter.");
+  Serial.println("   Nothing moves just because you opened this guide.");
+  Serial.println("WHAT TO WATCH: center for half a second, tiny offset for half a second, then pulses off.");
+  Serial.println("The first move to center can be larger. The tiny offset may be hard to see.");
+  Serial.println("Type stop to cancel. The program cannot check your wiring or supply voltage.");
 }
 
 void loadCalibration() {
@@ -167,6 +189,14 @@ void command(char *line) {
   if (!strcmp(op, "status") && count == 1) { showStatus(); return; }
   if (!strcmp(op, "details") && count == 1) { showDetails(); return; }
   if (!strcmp(op, "scan") && count == 1) { scanBus(); return; }
+  if (!strcmp(op, "motor") && count == 1) { printMotorGuide(); return; }
+  if (!strcmp(op, "go") && count == 1) {
+    if (!motorGuideReady || benchTest) { Serial.println("First type motor and follow its preparation steps. No new test started."); return; }
+    motorGuideReady = false;
+    char testCommand[] = "test 0";
+    command(testCommand);
+    return;
+  }
   if (benchTest) { Serial.println("Timed test active; use stop or wait for completion."); return; }
   if (!strcmp(op, "face") && count == 2) {
     if (!strcmp(tokens[1], "awake")) mood = Mood::Awake;
@@ -204,6 +234,7 @@ void command(char *line) {
     if (sendPulse(ch, currentPulse)) {
       activeChannel = ch; benchStart = millis(); lastCommand = benchStart;
       benchOffsetSent = false; benchTest = true;
+      Serial.println("[1/2] Asking for center. Watch the unloaded shaft; stop cancels.");
       Serial.printf("Test channel %d: %dus for 500ms, then %dus for 500ms. Observe unloaded shaft.\n", ch, c.center, c.center + 10);
     }
   } else if (!strcmp(op, "cal") && count == 2) {
@@ -308,8 +339,13 @@ void loop() {
   if (benchTest) {
     const int phase = companion::benchPhase(now, benchStart);
     if (phase == 2) {
-      stopMotion(); Serial.println("Timed test ended; pulse-off requested. Confirm movement yourself; remove supply power.");
+      stopMotion(); Serial.println("[DONE] One-second sequence ended. Control pulses requested OFF.");
+      Serial.println("LOOK: did the shaft move? Record YES / NO / NOT SURE in your notebook.");
+      Serial.println("This message is not proof of movement. Remove the 5V supply power now.");
+      Serial.println("If unsure, do not increase travel. Review the plug, power and shared ground with an adult.");
+      Serial.println("For another prepared attempt type motor. For readings type status.");
     } else if (phase == 1 && !benchOffsetSent) {
+      Serial.println("[2/2] Asking for a tiny change in position...");
       benchOffsetSent = true;
       currentPulse = calibration[activeChannel].center + 10;
       sendPulse(activeChannel, currentPulse);

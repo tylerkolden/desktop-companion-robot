@@ -82,3 +82,8 @@ Owner supplied serial output after a successful Companion upload: scan returned 
 
 Added named device/address reports with ASCII [OK]/[X] markers, fresh scan replies, readiness explanations and details command retaining numeric diagnostics. Documentation links and EPUB structure passed. Compilation attempted twice but blocked by the existing robot command session lock; no process interrupted, no port opened, no upload performed. Firmware compilation and physical output verification remain pending.
 
+
+## 2026-09-20 — guided motor monitor and channel identification
+
+Added motor preparation guide and one-shot go command for channel 0, progress labels and observation prompt. Opening the guide requests stop; go requires preparation and consumes it. Updated channel identification using printed 0 and three-pin grouping, without claiming verified clone orientation. Companion compiled successfully: 362592 bytes flash, 13152 bytes globals, including existing timing assertions. This build also validates the previously pending beginner reports. Script guard checks, local documentation links and EPUB structure passed. No upload, serial connection or physical movement test performed.
+

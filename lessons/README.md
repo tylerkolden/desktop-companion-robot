@@ -275,7 +275,7 @@ For technical numbers, type `details` and press Enter. The four `low / center / 
 
 ![SERVO wiring: labelled endpoints and separate power paths](../docs/wiring/images/servo.png)
 
-**Identify the green two-screw block on the PCA9685:** its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Keep all four XIAO logic wires connected**, as shown in this complete diagram: 3V3/VCC, GND/GND, D4/SDA and D5/SCL. The shared-ground wire is one of these four wires, not an extra fifth wire. Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.
+**Identify the green two-screw block on the PCA9685:** its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Keep all four XIAO logic wires connected**, as shown in this complete diagram: 3V3/VCC, GND/GND, D4/SDA and D5/SCL. The shared-ground wire is one of these four wires, not an extra fifth wire. Channel 0 is the three-pin output group beside the printed 0 among groups 0 through 15. One plug spans GND, V+ and signal within that group, not three neighboring channel numbers. The green block is not channel 0. Verify actual markings; left/right orientation is not established by this diagram. Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.
 
 | From / pin | To / pin | Meaning |
 |---|---|---|
@@ -300,11 +300,13 @@ Probe-jack pinout is functional, not the physical socket position of every meter
 
 <!-- wiring:end -->
 
+**Start with the [guided motor lab](../docs/MOTOR-LAB.md): type `motor`, read the preparation steps, then type `go` only after the adult wiring/power check. The guide identifies channel 0 and explains what to observe.**
+
 **Why a separate supply?** A motor needs more current than the controller's logic connections are intended to deliver. The driver uses VCC for logic and V+ for motor power. Trace both paths in the diagrams before connecting anything.
 
 Follow [One servo, no leg attached](../docs/FIRST-POWER-ON.md#one-servo-no-leg-attached) in order. It contains the voltage check, connection sequence and first commands. Use only one unloaded motor on channel 0. Companion verified in checkpoint 5A remains installed; do not upload another sketch for this step.
 
-**Timed movement test:** follow the supply-check and power-on sequence in the linked guide, then enter `test 0` in the already-open monitor. The firmware requests the saved center for 500ms, then center +10 microseconds for 500ms, then requests pulse-off. Only channel 0 is used. With untouched defaults, the requests are 1500us and 1510us. This is a one-second test made of repeating 50Hz control pulses, not a one-second HIGH pulse.
+**Timed movement test:** follow the supply-check and power-on sequence in the linked guide, then type `motor` in the already-open monitor. Follow its instructions and type `go` when prepared. The firmware requests the saved center for 500ms, then center +10 microseconds for 500ms, then requests pulse-off. Only channel 0 is used. With untouched defaults, the requests are 1500us and 1510us. This is a one-second test made of repeating 50Hz control pulses, not a one-second HIGH pulse.
 
 Watch the unloaded shaft; do not hold or obstruct it. Starting from an unknown shaft position can cause a larger initial move to center. The +10us movement may be very small or hidden by the servo's deadband. If you cannot see it, record **inconclusive**, not passed. Do not increase travel automatically: inspect power and orientation, then use the adult-supervised calibration procedure to investigate. Do not attach a leg for visibility.
 
