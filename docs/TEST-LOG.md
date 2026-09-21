@@ -30,6 +30,13 @@ The owner encountered `arduino-cli` not found because the CLI used for the initi
 - `doctor` reported the pinned CLI, core, and six library versions. `ports` listed COM1 and a generic ESP32-family USB device at COM5. This identifies a candidate connection, not a verified XIAO model or installed program; unplug/replug confirmation remains necessary. No port was opened.
 - No upload, serial session, powered robot test, or physical print was performed. The user reports that the ESP32 may already be programmed; that remains unconfirmed.
 
+## 2026-09-20 — user-reported Hello upload attempt
+
+- User's Hello compilation passed: 283,516 bytes flash and 11,944 bytes global RAM.
+- Earlier COM5 status probe was denied access. A subsequent upload opened COM5 and identified ESP32-C3 revision v0.4 with native USB-Serial/JTAG, then started its stub flasher.
+- Transfer failed with `Packet content transfer stopped`; output includes a requested switch to 921600 baud. No successful flash verification or Hello greeting was shown. Cause remains unknown; no device identifiers beyond model/revision are recorded here.
+- Added selectable upload baud, default 115200, and documented cable/monitor checks plus manual BOOT recovery. This change has not yet been demonstrated to resolve the physical transfer failure. No firmware source changed.
+
 ## Physical session template
 
 Copy this template for each session:

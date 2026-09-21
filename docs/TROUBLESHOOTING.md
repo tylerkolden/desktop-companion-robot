@@ -1,5 +1,21 @@
 # Troubleshooting by evidence
 
+## Upload connects, then reports Packet content transfer stopped
+
+This means compilation and initial bootloader communication may have succeeded while the later transfer failed. It does not confirm that the requested program was installed, or prove a defective board. Our observed case identified ESP32-C3 on COM5, started the stub flasher, and failed around the switch to 921600 baud. Output from different streams can appear out of order, so that sequence alone does not establish the cause.
+
+Uploads now request 115200 baud by default. This is a diagnostic fallback, not a confirmed cure; native USB-Serial/JTAG does not behave exactly like a physical UART link. Keep other monitors closed, servo supply and battery disconnected, and use the bare XIAO over a reliable USB data cable directly to the computer. Retry once:
+
+```powershell
+.\robot.ps1 upload -Sketch Hello -Port COM5 -UploadBaud 115200 -ServoPowerDisconnected
+```
+
+Use COM5 only if it is still the identified board. If that fails, unplug USB, hold the XIAO's BOOT button, reconnect USB while holding it, then release BOOT. Run `./robot.ps1 ports` again because the port can change. Retry with that port. Change cable/USB port as a separate test if needed. Do not erase the whole flash as the first troubleshooting step.
+
+After successful upload, open the monitor on the current port and expect Hello's repeating greeting. If it remains in download mode, close the monitor, tap RESET once with servo power still off, then reopen on the detected port. Record actual results rather than marking an upload attempt as passed.
+
+Sources: [Espressif upload troubleshooting](https://docs.espressif.com/projects/esptool/en/latest/esp32c3/troubleshooting.html), [Seeed XIAO recovery instructions](https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/#troubleshooting).
+
 | Symptom | First useful check |
 |---|---|
 | Local tools missing / arduino-cli not recognized | Run `./robot.ps1 setup`; do not type bare arduino-cli or depend on PATH |

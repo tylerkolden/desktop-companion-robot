@@ -27,6 +27,8 @@ The bounded capture is saved in ignored `build/logs/`. Review useful observation
 
 ## Upload and monitor
 
+Uploads request **115200 baud** by default. `-UploadBaud` accepts 115200, 230400, 460800, or 921600. This affects the uploader's requested setting, not the firmware's Serial Monitor setting. On native USB, lowering it is only a troubleshooting experiment, not proof of a slower physical USB connection. See [transfer-failure recovery](TROUBLESHOOTING.md#upload-connects-then-reports-packet-content-transfer-stopped).
+
 Uploading replaces the current program. Choose the lesson deliberately. It does not guarantee erasure of previously stored calibration. Close monitor with Ctrl+C before another upload or status capture. In monitor, type a command and press Enter; Companion requires a newline. The automatic status probe always sends LF explicitly.
 
 For first tests use only `help`, `status`, `scan`, and face commands. Servo calibration follows the adult-supervised [first-power-on guide](FIRST-POWER-ON.md), not a generic sweep example. The provided console workflow deliberately requires servo power disconnected; use it for diagnostics and lessons. For a powered servo session, follow that guide with an already-open console, verified wiring, and the adult controlling when power is connected.

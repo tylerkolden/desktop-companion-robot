@@ -3,6 +3,7 @@ param(
     [ValidateSet('help','setup','doctor','build','ports','upload','status','monitor')][string]$Task = 'help',
     [ValidateSet('Companion','Hello','Scanner','Face','Motion')][string]$Sketch = 'Companion',
     [ValidatePattern('^COM[1-9][0-9]*$')][string]$Port,
+    [ValidateSet(115200,230400,460800,921600)][int]$UploadBaud = 115200,
     [switch]$ServoPowerDisconnected
 )
 $ErrorActionPreference = 'Stop'
@@ -24,6 +25,7 @@ first and replaces the installed program. Opening a port can reset the board.
 Monitor is interactive; Ctrl+C closes it. Start at docs/START-HERE.md.
 Available sketches: Hello, Scanner, Face, Motion, Companion.
 Tools download into ignored .tools/ inside this checkout.
+Uploads request 115200 baud by default; override with -UploadBaud 921600.
 '@
     return
 }
@@ -104,7 +106,8 @@ build_cache:
             $output = 'build/' + $Sketch
             Invoke-Arduino @('compile','--fqbn',$lock.Fqbn,'--warnings','all','--output-dir',$output,$sketchPath)
             if ($Task -eq 'upload') {
-                Invoke-Arduino @('upload','--fqbn',$lock.Fqbn,'--port',$Port,'--input-dir',$output,$sketchPath)
+                Write-Host "Uploading to $Port with requested baud $UploadBaud."
+                Invoke-Arduino @('upload','--fqbn',$lock.Fqbn,'--port',$Port,'--upload-property',"upload.speed=$UploadBaud",'--input-dir',$output,$sketchPath)
                 Write-Host 'Upload tool completed. Check serial output; physical behavior is not yet verified.'
             }
         }
