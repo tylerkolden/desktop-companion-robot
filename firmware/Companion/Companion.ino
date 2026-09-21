@@ -23,6 +23,9 @@ companion::TapDetector taps;
 uint8_t oledAddress = 0, imuAddress = 0;
 bool pcaOK = false, oledOK = false, imuOK = false, storageOK = false;
 bool upright = false, imuSampleValid = false, demo = false;
+bool huntReady = false, hunting = false;
+int huntChannel = -1, huntStage = 0;
+uint32_t huntStart = 0;
 bool motorGuideReady = false;
 bool benchTest = false;
 bool benchOffsetSent = false;
@@ -44,6 +47,7 @@ bool probe(uint8_t address) {
 
 void stopMotion() {
   demo = false;
+  hunting = false; huntReady = false; huntChannel = -1;
   benchTest = false;
   motorGuideReady = false;
   activeChannel = -1;
@@ -91,6 +95,53 @@ bool sendPulse(uint8_t channel, int pulse) {
   return true;
 }
 
+// Explicit channel discovery only: never used by normal calibration or gestures.
+bool huntAllOff() {
+  bool ok = pcaOK;
+  for (int ch = 0; ch < 16 && pcaOK; ++ch)
+    if (pwm.setPWM(ch, 0, 4096) != 0) ok = false;
+  if (!ok) {
+    stopMotion(); pcaOK = false;
+    Serial.println("[STOP] Could not confirm output-off writes. Unplug the motor supply.");
+  }
+  return ok;
+}
+
+bool huntPulse(int offset) {
+  const int center = huntChannel < 4 ? calibration[huntChannel].center : 1500;
+  const int high = huntChannel < 4 ? calibration[huntChannel].high : 1550;
+  if (center + 10 > high) {
+    stopMotion(); Serial.println("[STOP] Existing limits leave too little room. No automatic widening."); return false;
+  }
+  const int pulse = center + offset;
+  const uint16_t ticks = static_cast<uint16_t>((pulse * 4096L + 10000) / 20000);
+  if (pwm.setPWM(huntChannel, 0, ticks) != 0) {
+    stopMotion(); pcaOK = false; Serial.println("[STOP] Output write failed. Unplug the motor supply."); return false;
+  }
+  return true;
+}
+
+void advanceHunt(uint32_t now) {
+  if (!hunting) return;
+  const uint32_t age = companion::elapsed(now, huntStart);
+  if (huntStage < 2 && age >= 1000) {
+    if (!huntAllOff()) return;
+    huntStage = 2; huntStart = millis();
+    Serial.println("  Pulses OFF. One-second pause. Note any movement and its channel number.");
+  } else if (huntStage == 0 && age >= 500) {
+    if (!huntPulse(10)) return;
+    huntStage = 1;
+    Serial.println("  Tiny offset now.");
+  } else if (huntStage == 2 && age >= 1000) {
+    if (++huntChannel >= 16) {
+      stopMotion(); Serial.println("[DONE] Channels 0-15 checked. Unplug motor power; report the channel that moved, or NONE/UNSURE."); return;
+    }
+    Serial.printf("[CHANNEL %d of 0-15] Center, then tiny offset. Watch your ONE unloaded motor.\n", huntChannel);
+    if (!huntPulse(0)) return;
+    huntStage = 0; huntStart = millis();
+  }
+}
+
 void showDetails() {
   Serial.printf("timed_test=%d\n", benchTest);
   Serial.printf("OLED=%d MPU=%d PCA=%d storage=%d upright=%d sample=%d demo=%d cal_channel=%d\n",
@@ -110,6 +161,7 @@ void showDevice(const char *name, bool ready, uint8_t address, const char *expec
 }
 
 void showStatus() {
+  Serial.printf("Channel finder: %s | channel=%d\n", hunting ? "RUNNING" : "off", huntChannel);
   Serial.println("\n--- Andrew's robot check-in ---");
   Serial.println("[OK] ESP32: running Companion and answering your command.");
   showDevice("OLED screen", oledOK, oledAddress, "0x3C/0x3D");
@@ -128,6 +180,7 @@ void printHelp() {
   Serial.println("Companion bench firmware 0.1.0 | 115200 baud | newline commands");
   Serial.println("help | motor (guided test) | status | scan | details | stop | face awake/happy/sleep");
   Serial.println("Type a command here, then press Enter. status = friendly report; scan = current address replies.");
+  Serial.println("hunt        : instructions for checking all 16 channels, one at a time");
   Serial.println("test N      : unloaded servo; center 500ms, +10us 500ms, then pulses off");
   Serial.println("cal N       : arm only channel N (0..3), neutral pulse, unloaded servo only");
   Serial.println("jog N DELTA : move active channel by -10..10 microseconds; 15s timeout");
@@ -189,6 +242,28 @@ void command(char *line) {
   if (!strcmp(op, "status") && count == 1) { showStatus(); return; }
   if (!strcmp(op, "details") && count == 1) { showDetails(); return; }
   if (!strcmp(op, "scan") && count == 1) { scanBus(); return; }
+  if (!strcmp(op, "hunt") && count == 1) {
+    stopMotion();
+    if (!pcaOK) { Serial.println("[X] Driver unavailable. Check scan first."); return; }
+    huntReady = true;
+    Serial.println("CHANNEL FINDER: leave ONE unloaded servo in its current connector.");
+    Serial.println("With power off first, disconnect any other motors. Do not move plugs during the test.");
+    Serial.println("After lesson 5B's power check, type hunt start. It takes about 32 seconds.");
+    Serial.println("Each channel gets center 0.5s, tiny +10us offset 0.5s, then all outputs off for 1s.");
+    Serial.println("Note the channel number when the shaft moves. stop cancels. No movement may be inconclusive.");
+    return;
+  }
+  if (!strcmp(op, "hunt") && count == 2 && !strcmp(tokens[1], "start")) {
+    if (!huntReady || !pcaOK) { Serial.println("First type hunt and read the preparation steps."); return; }
+    stopMotion();
+    if (!huntAllOff()) return;
+    hunting = true; huntChannel = 0;
+    Serial.println("[CHANNEL 0 of 0-15] Center, then tiny offset. Watch your ONE unloaded motor.");
+    if (!huntPulse(0)) return;
+    huntStage = 0; huntStart = millis(); return;
+  }
+  if (hunting) { Serial.println("Channel finder running. Type stop to cancel, or status to see the channel."); return; }
+  huntReady = false;
   if (!strcmp(op, "motor") && count == 1) { printMotorGuide(); return; }
   if (!strcmp(op, "go") && count == 1) {
     if (!motorGuideReady || benchTest) { Serial.println("First type motor and follow its preparation steps. No new test started."); return; }
@@ -336,6 +411,7 @@ void loop() {
       Serial.println("I2C health check failed. Remove servo power and reboot after repair.");
     }
   }
+  advanceHunt(now);
   if (benchTest) {
     const int phase = companion::benchPhase(now, benchStart);
     if (phase == 2) {

@@ -51,3 +51,7 @@ Sensor sampling and animation use timers rather than long movement delays. Devic
 ## Beginner reports
 
 `status` names the ESP32, OLED, motion sensor and driver, with addresses and ASCII `[OK]` / `[X]` readiness markers. It does not probe the bus or start motion. `scan` requests motion stop and takes a fresh address snapshot; it labels only expected project addresses and identifies 0x70 as a possible all-call alias. Missing devices are explicitly normal when set aside. `details` retains numeric status and calibration fields. Readiness and an address acknowledgement are not physical function tests.
+
+## Channel finder
+
+`hunt` requests stop and prints preparation. `hunt start` requires that preparation and scans outputs 0–15 sequentially (500ms center, 500ms +10us, 1000ms all-off pause). Only one unloaded motor may be attached. Stop/scan cancel and all-off writes are checked before advancing. Other motion commands are rejected during the run. Existing 0–3 calibration limits are honored; 4–15 use 1500/1510us. No position feedback, automatic retries or saved calibration changes. See [Motor Lab](../docs/MOTOR-LAB.md).

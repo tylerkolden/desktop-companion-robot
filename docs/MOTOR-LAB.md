@@ -38,3 +38,15 @@ Match the actual board markings and servo connector before plugging in, with pow
 The [PCA9685 reference guide](https://learn.adafruit.com/16-channel-pwm-servo-driver/hooking-it-up) describes the three-pin servo connectors. It is a reference board, not verification of the physical orientation of the delivered Teyleten board. See the [complete pin tables](wiring/README.md).
 
 Updated firmware must be compiled and uploaded before `motor` and `go` are available. `test N` remains the direct advanced command; beginners use the guide above.
+
+## Find an unknown channel without moving the plug
+
+Use this when communication works but the motor has not visibly moved. Keep **one unloaded servo** in its current connector, wired as in the complete diagram above. With both supplies off first, disconnect any other motors. After the existing power check, leave the wiring untouched during the test.
+
+In the monitor, type `hunt` and press Enter. It prints the plan without moving a motor. When prepared, type `hunt start` and press Enter.
+
+The finder checks channels 0 through 15 automatically. For each channel it requests center for 500ms, center +10us for 500ms, then requests all outputs off for a one-second pause. Only one output is driven at a time. The complete run takes about 32 seconds. Type `stop` to cancel; `status` shows the current channel. No restart occurs automatically.
+
+Record the printed channel number if the shaft moves. A response on a different number supports a channel mismatch. No movement remains inconclusive: the offset may be below the servo's visible deadband, and this test does not measure signal voltage, output enable, motor power under load or motor health. Do not increase the range automatically. The first move to center may be larger than the offset. Software timing is not a hardware cutoff.
+
+Channels 0–3 use existing saved centers and require 10us headroom inside their limits; channels 4–15 use 1500us then 1510us. The test changes no saved settings. On a reported write failure, unplug the motor supply; pulse-off cannot be guaranteed over a failed connection. After completion, unplug motor power and report the observed channel or NONE / UNSURE.

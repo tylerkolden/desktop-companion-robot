@@ -87,3 +87,7 @@ Added named device/address reports with ASCII [OK]/[X] markers, fresh scan repli
 
 Added motor preparation guide and one-shot go command for channel 0, progress labels and observation prompt. Opening the guide requests stop; go requires preparation and consumes it. Updated channel identification using printed 0 and three-pin grouping, without claiming verified clone orientation. Companion compiled successfully: 362592 bytes flash, 13152 bytes globals, including existing timing assertions. This build also validates the previously pending beginner reports. Script guard checks, local documentation links and EPUB structure passed. No upload, serial connection or physical movement test performed.
 
+
+## 2026-09-20 — sequential channel finder
+
+Added hunt preparation and hunt start diagnostic: 16 outputs sequentially, center/offset/off pause, one active output, checked all-off writes and manual stop. Companion compiled: 364964 bytes flash, 13168 bytes globals. Existing compile-time assertions passed; new sequence has not been exercised on hardware. Documentation checks passed. No upload or movement performed by assistant.

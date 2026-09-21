@@ -314,6 +314,8 @@ After automatic completion, enter `status`: expect `Timed test: off` and `Calibr
 
 **Predict:** a small change in the command should produce a small shaft movement. **Pass:** controlled unloaded movement, correct connector orientation, known supply polarity, and an explained difference between stopping control pulses and removing electrical power. **If stuck:** unplug the now-introduced 5V supply and inspect the circuit with the adult. **Record:** channel, command, observed movement and measured supply voltage. End by unplugging the 5V supply, closing the monitor and unplugging USB.
 
+If the motor has not visibly moved and the output number is uncertain, use the [all-channel finder](../docs/MOTOR-LAB.md#find-an-unknown-channel-without-moving-the-plug): `hunt` explains the test; `hunt start` checks all 16 outputs in sequence with one unloaded motor. Record the result before proceeding.
+
 ## 5C. Combine the three verified modules
 
 <!-- wiring:start -->

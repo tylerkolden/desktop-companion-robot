@@ -714,6 +714,9 @@ stop
 
 ## 15. Calibration: teaching the robot what its body means
 
+**Channel detective:** if a single unloaded motor does not respond and its connector number is uncertain, the monitor command `hunt` explains a diagnostic. After the adult wiring/power check, `hunt start` tries outputs 0–15 one at a time: half a second at center, half a second at a tiny +10us offset, then one second with outputs off. Keep only one motor attached and do not move plugs during the test. Note the printed channel when it moves. `stop` cancels. No movement is inconclusive, not proof that the wiring or motor is faulty. Unplug motor power when finished. The full sequence takes about 32 seconds and does not save calibration.
+
+
 <!-- wiring:start -->
 **Parts for this power checkpoint:** a regulated 5V wall supply, its low-voltage connector and prepared wires, and a multimeter. For the motor connection, also identify the SG90 servo and PCA9685 driver. The supply powers the motor through the driver; the meter checks its output before connection. Identify these parts before following the diagram.
 
