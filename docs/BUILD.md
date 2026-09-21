@@ -1,6 +1,6 @@
 # Staged build instructions
 
-These instructions cover preparation and the planned sequence. **Bench firmware and fit gauges are now included; full robot CAD is not.** Start with [FIRST-POWER-ON.md](FIRST-POWER-ON.md). No physical tests have occurred. Do not flash the upstream sketch unchanged: it drives servos directly, whereas this robot uses a PCA9685.
+These instructions cover preparation and the planned sequence. **Bench firmware and fit gauges are included; full robot CAD is not.** New learners start with [START-HERE.md](START-HERE.md) and the standalone lessons before [FIRST-POWER-ON.md](FIRST-POWER-ON.md). No successful physical tests have been recorded. Do not flash the upstream sketch unchanged: it drives servos directly, whereas this robot uses a PCA9685.
 
 ## 1. Receive and inspect
 
@@ -18,7 +18,7 @@ Before connecting the driver, use the multimeter to establish adapter voltage an
 
 ## 3. Establish USB programming
 
-Use Arduino IDE and Espressif ESP32 board package **3.3.0**, selecting **XIAO_ESP32C3** with USB CDC enabled. Follow the [Seeed setup guide](https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/) if the board is not listed or needs bootloader recovery. Exact compiled dependency versions are in [firmware/README.md](../firmware/README.md); physical hardware validation remains pending.
+Use the repository's [setup](SETUP.md) and [commands](COMMANDS.md). `robot.ps1` installs the pinned ESP32 package and builds for XIAO_ESP32C3 with USB CDC enabled. Arduino IDE with board package **3.3.0** is an optional alternative. Follow the [Seeed setup guide](https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/) for board-specific recovery, checking the actual model. Exact dependency versions are in [firmware/README.md](../firmware/README.md); physical hardware validation remains pending.
 
 Firmware dependencies: Adafruit SSD1306, Adafruit GFX, Adafruit MPU6050, Adafruit Unified Sensor, Adafruit BusIO, and Adafruit PWM Servo Driver. Use the pinned versions in the firmware guide. `ESP32Servo` is not required for PCA9685 control.
 
@@ -40,7 +40,7 @@ Print the included [fit gauges](../cad/README.md) first, at 100% scale. Starting
 
 ## 7. Assemble and test V1
 
-Requires accepted fit samples and a BOM with final screw lengths. Mount electronics without loading the OLED glass or bending headers. Place the IMU rigidly and record which axis points upward. Fit calibrated legs, retaining USB/terminal access and cord strain relief. Start with stand/sit and small gestures. Test on the floor or inside a bounded tray; V1 has no desk-edge sensor. Cord drag may prevent reliable walking, so expressive movement is the first goal.
+This future stage requires accepted structural parts and a BOM with final screw lengths. Mount electronics without loading the OLED glass or bending headers. Place the IMU rigidly and record which axis points upward. Fit calibrated legs, retaining USB/terminal access and cord strain relief. The current firmware offers only the limited supported gesture; stand/sit and walking require further development and tests. Test on the floor or inside a bounded tray; V1 has no desk-edge sensor. Cord drag may prevent reliable walking, so expressive movement is the first goal.
 
 Run the acceptance checklist in PLAN.md. Record observations, voltage during movement and any resets in TEST-LOG.md. A basic multimeter may miss fast voltage dips; do not treat a steady display as proof that transients are absent.
 

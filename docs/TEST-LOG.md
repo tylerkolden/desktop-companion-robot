@@ -20,6 +20,16 @@ No physical hardware or print tests have been completed. The following checks we
 
 The owner encountered `arduino-cli` not found because the CLI used for the initial build was outside PATH. Added ignored local toolchain settings, automatic temporary short-path mapping, and a clearer missing-CLI error. Running `./scripts/build.ps1 -Install` from the real checkout succeeded using the existing pinned dependencies: 357,140 bytes flash and 13,144 bytes global RAM. No device was uploaded or powered by this check.
 
+## 2026-09-20 — repository-local training setup
+
+- Ran `robot.ps1 setup` with an initially empty `.tools/` directory. Downloaded CLI 1.5.1, checked its pinned SHA-256, and installed ESP32 3.3.0 plus all six pinned libraries. No prior author tool installation was used by the new workflow.
+- Parsed scripts and tested required-port and disconnected-servo-power guards for upload/status/monitor without opening any serial port. These checks passed in the current PowerShell and Windows PowerShell 5.1.
+- Verified that a competing command was rejected while a build held the checkout lock.
+- Local Markdown destination checks and both existing STL mesh checks passed. These do not validate external web links, anchors, prints, or electrical hardware.
+- All five sketches compiled successfully for XIAO ESP32C3 with USB CDC enabled. Flash / global RAM bytes: Hello 283,516 / 11,944; Scanner 309,786 / 12,648; Face 324,220 / 12,784; Motion 319,912 / 12,768; Companion 357,116 / 13,144. Companion compile-time assertions passed as part of its build.
+- `doctor` reported the pinned CLI, core, and six library versions. `ports` listed COM1 and a generic ESP32-family USB device at COM5. This identifies a candidate connection, not a verified XIAO model or installed program; unplug/replug confirmation remains necessary. No port was opened.
+- No upload, serial session, powered robot test, or physical print was performed. The user reports that the ESP32 may already be programmed; that remains unconfirmed.
+
 ## Physical session template
 
 Copy this template for each session:

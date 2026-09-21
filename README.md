@@ -6,7 +6,30 @@ A personal, solder-free desktop robot inspired by Nickson Kiprotich's TN-24: an 
 
 ## Learn together
 
-Start with [Andrew and the Tiny Robot with Big Ideas](docs/book/README.md), our illustrated family robotics book. It includes a Kindle EPUB, browser edition, twenty beginner chapters, experiments, and a parent workshop plan. Arduino IDE is the beginner path; the full bench firmware is the reference project. Powered lessons require an adult, and full-body CAD and physical validation remain pending.
+**New to robotics? Start with [the beginner guide](docs/START-HERE.md), then follow [the hands-on lessons](lessons/README.md).** No previous coding experience is assumed. Work with an adult, predict what will happen, test one thing, and record the result.
+
+Read [Andrew and the Tiny Robot with Big Ideas](docs/book/README.md) alongside the experiments. The book's first edition describes an Arduino IDE path; the current repository also provides a complete Windows terminal path. Codex and Arduino IDE are optional interfaces, not prerequisites for the terminal lessons.
+
+## Run from this repository
+
+From PowerShell in this folder, on Windows x64:
+
+```powershell
+.\robot.ps1 setup
+.\robot.ps1 build -Sketch Hello
+.\robot.ps1 ports
+```
+
+Setup downloads pinned tools into this checkout's ignored `.tools/` folder. No author-specific paths or global Arduino CLI installation are required. These three commands do not upload or move hardware. If your board may already be programmed, [inspect it first](docs/COMMANDS.md#check-an-existing-program).
+
+- [Setup and prerequisites](docs/SETUP.md)
+- [Command reference](docs/COMMANDS.md)
+- [Troubleshooting](docs/TROUBLESHOOTING.md)
+- [Codex teaching workflow](docs/CODEX-WORKFLOW.md)
+- [Experiment template](templates/EXPERIMENT.md) and [contribution process](CONTRIBUTING.md)
+- [Reproduce the book and CAD](docs/REPRODUCE.md)
+
+The repository is currently private; new users need GitHub access or an authorized copy. Tool binaries are downloaded, not committed. The final printable body and legs are still unfinished; this is a teaching project in development.
 
 ## Build something now
 
@@ -63,6 +86,9 @@ All modules share ground. The servo supply does not feed the XIAO's 5V or 3V3 pi
 - `firmware/`: bench diagnostics, calibration, animated face and a small gesture demo.
 - `cad/`: editable fit gauges and STL exports; full robot models are pending.
 - `scripts/`: repeatable firmware build and STL validation.
+- `lessons/`: standalone introductory sketches and guided experiments.
+- `robot.ps1` and `toolchain.psd1`: one command entry point and pinned dependencies.
+- `templates/`: experiment records; keep personal drafts in ignored `notes/`.
 
 ## Development approach
 

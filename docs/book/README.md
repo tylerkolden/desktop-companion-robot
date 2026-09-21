@@ -4,6 +4,8 @@ A personalized, approximately 10,600-word robotics adventure for Andrew, age ele
 
 ## Read it
 
+**Current learning path:** the book is the September 15 first-edition snapshot. For today's repository-local terminal setup and standalone lesson sketches, start at [the beginner guide](../START-HERE.md) and [lessons](../../lessons/README.md). These supersede the edition's older workflow descriptions; you do not need to rebuild the book to use the project.
+
 - **Kindle:** upload [the EPUB](Andrew-and-the-Tiny-Robot-with-Big-Ideas.epub) at [Amazon Send to Kindle](https://www.amazon.com/sendtokindle), using the Amazon account registered to your Kindle. Enable Add to your library if offered, send, then connect the Kindle to Wi-Fi and sync. Look under All or Documents if a Books filter hides it. Full instructions, an email alternative, and a child-profile caveat are in Appendix D.
 - **Computer:** open [the browser edition](Andrew-and-the-Tiny-Robot-with-Big-Ideas.html). Keep the `images` folder beside it.
 - **Edit:** change [manuscript.md](manuscript.md), then regenerate the reading files.

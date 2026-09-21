@@ -2,6 +2,11 @@
 
 ## Milestone 0: documented starting point
 
+- [x] Add repository-local pinned tool bootstrap and a documented Windows terminal workflow.
+- [x] Add standalone Hello, Scanner, Face, and Motion teaching sketches with staged lessons.
+- [x] Document beginner setup, command meanings, troubleshooting, experiment records, and contribution workflow.
+- [ ] Have a new learner follow the guide and record confusing steps.
+
 - [x] Study upstream code and missing model situation.
 - [x] Record owned hardware and Amazon-only selections.
 - [x] Choose solder-free assembly, corded V1 and cordless V2.

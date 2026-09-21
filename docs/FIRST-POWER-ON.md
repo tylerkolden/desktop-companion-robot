@@ -4,6 +4,8 @@ This is the next build step. The firmware is an early bench prototype, not a tes
 
 ## Upload
 
+For the repository terminal workflow, complete [setup](SETUP.md), identify the port with `./robot.ps1 ports`, then run `./robot.ps1 upload -Sketch Companion -Port COM7 -ServoPowerDisconnected` using your actual port. Open the console with `./robot.ps1 monitor -Port COM7 -ServoPowerDisconnected` while servo power is still off. The switch records your physical check; it cannot measure power. The following IDE steps are an optional alternative.
+
 1. Install Arduino IDE, ESP32 board package **3.3.0**, and the exact libraries listed in `firmware/README.md`.
 2. Open `firmware/Companion/Companion.ino`. Select **XIAO_ESP32C3** and the connected port. Set **USB CDC On Boot: Enabled** where that option appears.
 3. Leave the servo supply unplugged. Upload over the USB data cable.

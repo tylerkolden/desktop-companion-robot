@@ -19,30 +19,21 @@
 
 Board identifier: `esp32:esp32:XIAO_ESP32C3:CDCOnBoot=default`. USB CDC must be enabled for the serial console. The serial baud setting is 115200 with newline termination.
 
-## Build on Windows
+## Build from the repository
 
-Install Arduino CLI 1.5.1 from its official release, then from the repository root run:
-
-```powershell
-.\scripts\build.ps1 -Install
-```
-
-`-Install` downloads the exact board package and libraries. Omit it on subsequent builds. The script accepts `-ArduinoCli` and `-ConfigFile` to use a separate local toolchain. Build binaries go into ignored `build/Companion/`.
-
-### If `arduino-cli` is not recognized
-
-`-Install` installs board packages and libraries; it does not install Arduino CLI. Either put the CLI on PATH or pass its full executable path with `-ArduinoCli`.
-
-This computer has an ignored `build.local.psd1` file pointing to the existing CLI and dependency installation, so the normal `./scripts/build.ps1` command works without a PATH change. A new clone on another computer needs its own setup. The optional settings file has `ArduinoCli` and `ConfigFile` string entries, plus `ShortPathRoot` for a workspace containing the checkout and toolchain. When set, the script temporarily maps a free drive letter to that root to avoid Windows compiler path-length errors, generates a local configuration inside `build/`, and removes the mapping when finished. Do not run concurrent builds using this configuration. Explicit command arguments override local executable/config defaults.
+See [beginner setup](../docs/SETUP.md). From the repository root:
 
 ```powershell
-arduino-cli board list
-# Replace COM7 with the detected XIAO port. Disconnect servo power before upload.
-arduino-cli upload --fqbn esp32:esp32:XIAO_ESP32C3:CDCOnBoot=default --port COM7 --input-dir build/Companion firmware/Companion
-arduino-cli monitor --port COM7 --config baudrate=115200
+.\robot.ps1 setup
+.\robot.ps1 build
+.\robot.ps1 ports
 ```
 
-If using a custom CLI config, pass the same `--config-file` to every CLI command. On Windows keep the toolchain and checkout paths short: deeply nested paths can cause GCC to report missing `bits/c++config.h` even when the file exists. Arduino IDE users can install the listed versions manually and open the sketch normally.
+Tools and libraries live in ignored `.tools/` inside this checkout. `toolchain.psd1` pins versions. The script maps a temporary short path for Windows compilers and cleans it up afterward. No `build.local.psd1`, global PATH setup, or external author tool installation is used. The old `scripts/build.ps1 -Install` entry point forwards to the new setup and build commands.
+
+For upload and serial commands, use [the command reference](../docs/COMMANDS.md). These require an explicitly identified COM port and physical servo-power disconnection. Upload compiles fresh first. The project does not automatically upload during setup/build or select a port. Arduino IDE remains an optional manual path with the versions above.
+
+For standalone beginner examples, use [the lessons](../lessons/README.md) before this full reference firmware.
 
 ## Source structure and checks
 

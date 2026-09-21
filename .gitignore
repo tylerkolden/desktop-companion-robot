@@ -10,3 +10,6 @@ __pycache__/
 *.pyc
 *.log
 build.local.psd1
+.tools/
+.venv/
+notes/
