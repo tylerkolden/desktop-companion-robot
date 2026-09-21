@@ -67,6 +67,21 @@ Other sketch names: `Scanner`, `Face`, `Motion`, `Companion`. Default is Compani
 
 The bounded capture is saved in ignored `build/logs/`. Review useful observations before copying them into the test log. The script does not claim to identify arbitrary unknown firmware or back it up. Sending help/status is designed for this project's sketches.
 
+### Where to type the board commands
+
+After `Connecting to COM5. Press CTRL-C to exit.` (your port number may differ), the terminal is the **serial monitor**. Click in that same terminal, type one command, and press **Enter** to send it to the XIAO:
+
+```text
+help
+scan
+status
+```
+
+Send each line separately and read its response. Do not include backticks or type these at the `PS ...>` PowerShell prompt. Your typing may or may not be echoed. Companion waits for Enter before acting. Unlike Scanner, it does not repeat scans automatically.
+
+You may miss the beginning of the startup message while the monitor connects. Type `help` to print the command list again; no upload is needed. Press **Ctrl+C** when finished to return to PowerShell. Close the monitor before another upload or another program opens the same port.
+
+
 ## Upload and monitor
 
 Uploads request **115200 baud** by default. `-UploadBaud` accepts 115200, 230400, 460800, or 921600. This affects the uploader's requested setting, not the firmware's Serial Monitor setting. On native USB, lowering it is only a troubleshooting experiment, not proof of a slower physical USB connection. See [transfer-failure recovery](TROUBLESHOOTING.md#upload-connects-then-reports-packet-content-transfer-stopped).

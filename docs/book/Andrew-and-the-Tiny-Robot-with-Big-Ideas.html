@@ -666,6 +666,14 @@ if (now - lastBlink &gt;= 1000) {
 <p>Why not accept any two bumps? Because one bump at breakfast and another after school should not count as a double tap. Why not count every high reading? Because one physical tap can produce several samples.</p>
 <p>The idle timer has a different question: when did a person last interact? If every automatic blink resets that timer, the robot may never become idle. We track interaction separately from its own animation.</p>
 <p><strong>Mission: become the scheduler.</strong> Make cards labelled “read command,” “read sensor,” and “draw face.” Move a counter around them repeatedly. Add a “wait ten seconds” card and see which tasks get delayed. Remove it and replace it with “check whether ten seconds have passed.” Describe the difference.</p></section><section id="c14"><h1>14. First power-on: a ladder of small victories</h1>
+<h3>Where to type the board commands</h3>
+<p>After <code>Connecting to COM5. Press CTRL-C to exit.</code> (your port number may differ), the terminal is the <strong>serial monitor</strong>. Click in that same terminal, type one command, and press <strong>Enter</strong> to send it to the XIAO:</p>
+<pre><code class="language-text">help
+scan
+status
+</code></pre>
+<p>Send each line separately and read its response. Do not include backticks or type these at the <code>PS ...&gt;</code> PowerShell prompt. Your typing may or may not be echoed. Companion waits for Enter before acting. Unlike Scanner, it does not repeat scans automatically.</p>
+<p>You may miss the beginning of the startup message while the monitor connects. Type <code>help</code> to print the command list again; no upload is needed. Press <strong>Ctrl+C</strong> when finished to return to PowerShell. Close the monitor before another upload or another program opens the same port.</p>
 <!-- wiring:start -->
 <p><strong>Parts for this power checkpoint:</strong> a regulated 5V wall supply, its low-voltage connector and prepared wires, and a multimeter. For the motor connection, also identify the SG90 servo and PCA9685 driver. The supply powers the motor through the driver; the meter checks its output before connection. Identify these parts before following the diagram.</p>
 <h3>Wiring visuals and pinouts</h3>

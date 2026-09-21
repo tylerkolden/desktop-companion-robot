@@ -36,6 +36,21 @@ For the repository terminal workflow, complete [setup](SETUP.md), identify the p
 
 Command output is plain text; no application or Wi-Fi credentials are required. At this driver-only checkpoint, PCA should be available; missing OLED and IMU are expected. After the modules pass the next checkpoint, the screen blinks and looks around, goes to sleep after 30 seconds without interaction, and responds to a double tap with a happy face. Tap sensitivity and orientation thresholds still require real-hardware tuning.
 
+### Where to type the board commands
+
+After `Connecting to COM5. Press CTRL-C to exit.` (your port number may differ), the terminal is the **serial monitor**. Click in that same terminal, type one command, and press **Enter** to send it to the XIAO:
+
+```text
+help
+scan
+status
+```
+
+Send each line separately and read its response. Do not include backticks or type these at the `PS ...>` PowerShell prompt. Your typing may or may not be echoed. Companion waits for Enter before acting. Unlike Scanner, it does not repeat scans automatically.
+
+You may miss the beginning of the startup message while the monitor connects. Type `help` to print the command list again; no upload is needed. Press **Ctrl+C** when finished to return to PowerShell. Close the monitor before another upload or another program opens the same port.
+
+
 ## One servo, no leg attached
 
 <!-- wiring:start -->

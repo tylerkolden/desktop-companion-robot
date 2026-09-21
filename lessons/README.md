@@ -235,7 +235,33 @@ Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = com
 .\robot.ps1 monitor -Port COM7 -ServoPowerDisconnected
 ```
 
-5. Enter `scan` and `status`. Confirm PCA availability and no active channel. Missing OLED and IMU are expected because those parts are on the bench.
+5. Send `help`, `scan` and `status` using the monitor instructions below.
+
+### Where to type the board commands
+
+After `Connecting to COM5. Press CTRL-C to exit.` (your port number may differ), the terminal is the **serial monitor**. Click in that same terminal, type one command, and press **Enter** to send it to the XIAO:
+
+```text
+help
+scan
+status
+```
+
+Send each line separately and read its response. Do not include backticks or type these at the `PS ...>` PowerShell prompt. Your typing may or may not be echoed. Companion waits for Enter before acting. Unlike Scanner, it does not repeat scans automatically.
+
+You may miss the beginning of the startup message while the monitor connects. Type `help` to print the command list again; no upload is needed. Press **Ctrl+C** when finished to return to PowerShell. Close the monitor before another upload or another program opens the same port.
+
+**Expected for this driver-only checkpoint:**
+
+| Response | What it tells you |
+|---|---|
+| `scan` lists `0x40` | The PCA9685 acknowledges communication. `0x70` may also appear as its all-call address. |
+| `PCA=1` | Companion initialized the driver. |
+| `OLED=0 MPU=0` | Expected: those modules are set aside. |
+| `timed_test=0` and `cal_channel=-1` | No timed test or calibration channel is active. |
+
+The four `low / center / high` rows describe calibration settings; they are not detection results or proof of movement. `storage=1` means settings storage opened successfully. `upright=0 sample=0` is expected without the sensor.
+
 
 **Pass:** the driver responds on its own and Companion recognizes it. This verifies communication and initialization, not its output signals under load. **If stuck:** resolve the failure here before combining modules. **End state:** XIAO + PCA logic, running Companion; OLED and GY-521 set aside.
 

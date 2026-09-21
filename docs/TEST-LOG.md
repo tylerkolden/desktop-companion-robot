@@ -73,3 +73,7 @@ Removed unintroduced hardware from early-lesson prose and generated warnings. Sp
 ## 2026-09-20 — individual device validation and timed output test
 
 Added explicit `test N` command: 500ms center, 500ms center+10us, then pulse-off request; stopped-state and existing travel limits required. Stop/scan cancel, no boot activation, no saved calibration changes. Companion compiled for the pinned XIAO target (358062 bytes flash, 13152 bytes globals), including phase-boundary, overdue and rollover assertions. Documentation now tests ESP32 persistence/timing, OLED repeated rendering, sensor orientation, driver communication and observed unloaded output before combined validation. Documentation links and EPUB structure checked. No upload or physical movement test performed; cooperative timer and I2C stop limitations remain.
+
+## 2026-09-20 — owner-reported lesson 5A result
+
+Owner supplied serial output after a successful Companion upload: scan returned 0x40; status reported PCA=1, OLED=0, MPU=0, storage=1, timed_test=0 and cal_channel=-1. This supports driver communication and initialization at the driver-only checkpoint, not motor output or movement. Added explicit instructions distinguishing monitor input from PowerShell and explaining missed startup text. Documentation/book checks passed; no new upload or physical action performed by the assistant.
