@@ -198,7 +198,7 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 <h3>Wiring visuals and pinouts</h3>
 <p><strong>Before assembling these connections: close the monitor and unplug the XIAO USB cable. Keep the newly introduced 5V supply unplugged from the wall until the voltage-check step. On a repeat session, unplug it before changing wires.</strong> These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.</p>
 <p><img alt="SERVO wiring: labelled endpoints and separate power paths" src="images/wiring-servo.png" /></p>
-<p>Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
+<p><strong>Identify the green two-screw block on the PCA9685:</strong> its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
 <table>
 <thead>
 <tr>
@@ -210,12 +210,12 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 <tbody>
 <tr>
 <td>Adapter positive</td>
-<td>PCA V+ screw terminal</td>
+<td>PCA green block: + / V+</td>
 <td>Regulated 5V; direct power wire</td>
 </tr>
 <tr>
 <td>Adapter negative</td>
-<td>PCA GND screw terminal</td>
+<td>PCA green block: - / GND</td>
 <td>Direct power wire</td>
 </tr>
 <tr>
@@ -241,7 +241,7 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 </tbody>
 </table>
 <p><img alt="PCA wiring: labelled endpoints and separate power paths" src="images/wiring-pca.png" /></p>
-<p>Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.</p>
+<p>The green two-screw block is a separate power input: one terminal is + / V+, the other is - / GND. It stays empty during this communication-only test; the driver electronics receive power through VCC. Follow the board markings, not a guessed left/right position. Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.</p>
 <table>
 <thead>
 <tr>
@@ -290,7 +290,7 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 <h3>Wiring visuals and pinouts</h3>
 <p><strong>Before assembling these connections: close the monitor and unplug the XIAO USB cable. Keep the newly introduced 5V supply unplugged from the wall until the voltage-check step. On a repeat session, unplug it before changing wires.</strong> These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.</p>
 <p><img alt="PCA wiring: labelled endpoints and separate power paths" src="images/wiring-pca.png" /></p>
-<p>Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.</p>
+<p>The green two-screw block is a separate power input: one terminal is + / V+, the other is - / GND. It stays empty during this communication-only test; the driver electronics receive power through VCC. Follow the board markings, not a guessed left/right position. Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.</p>
 <table>
 <thead>
 <tr>
@@ -323,7 +323,7 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 </tbody>
 </table>
 <p><img alt="SERVO wiring: labelled endpoints and separate power paths" src="images/wiring-servo.png" /></p>
-<p>Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
+<p><strong>Identify the green two-screw block on the PCA9685:</strong> its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
 <table>
 <thead>
 <tr>
@@ -335,12 +335,12 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 <tbody>
 <tr>
 <td>Adapter positive</td>
-<td>PCA V+ screw terminal</td>
+<td>PCA green block: + / V+</td>
 <td>Regulated 5V; direct power wire</td>
 </tr>
 <tr>
 <td>Adapter negative</td>
-<td>PCA GND screw terminal</td>
+<td>PCA green block: - / GND</td>
 <td>Direct power wire</td>
 </tr>
 <tr>
@@ -458,7 +458,7 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 </tbody>
 </table>
 <p><img alt="PCA wiring: labelled endpoints and separate power paths" src="images/wiring-pca.png" /></p>
-<p>Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.</p>
+<p>The green two-screw block is a separate power input: one terminal is + / V+, the other is - / GND. It stays empty during this communication-only test; the driver electronics receive power through VCC. Follow the board markings, not a guessed left/right position. Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.</p>
 <table>
 <thead>
 <tr>
@@ -491,7 +491,7 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 </tbody>
 </table>
 <p><img alt="SERVO wiring: labelled endpoints and separate power paths" src="images/wiring-servo.png" /></p>
-<p>Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
+<p><strong>Identify the green two-screw block on the PCA9685:</strong> its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
 <table>
 <thead>
 <tr>
@@ -503,12 +503,12 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 <tbody>
 <tr>
 <td>Adapter positive</td>
-<td>PCA V+ screw terminal</td>
+<td>PCA green block: + / V+</td>
 <td>Regulated 5V; direct power wire</td>
 </tr>
 <tr>
 <td>Adapter negative</td>
-<td>PCA GND screw terminal</td>
+<td>PCA green block: - / GND</td>
 <td>Direct power wire</td>
 </tr>
 <tr>
@@ -666,15 +666,6 @@ if (now - lastBlink &gt;= 1000) {
 <p>Why not accept any two bumps? Because one bump at breakfast and another after school should not count as a double tap. Why not count every high reading? Because one physical tap can produce several samples.</p>
 <p>The idle timer has a different question: when did a person last interact? If every automatic blink resets that timer, the robot may never become idle. We track interaction separately from its own animation.</p>
 <p><strong>Mission: become the scheduler.</strong> Make cards labelled “read command,” “read sensor,” and “draw face.” Move a counter around them repeatedly. Add a “wait ten seconds” card and see which tasks get delayed. Remove it and replace it with “check whether ten seconds have passed.” Describe the difference.</p></section><section id="c14"><h1>14. First power-on: a ladder of small victories</h1>
-<h3>Where to type the board commands</h3>
-<p>After <code>Connecting to COM5. Press CTRL-C to exit.</code> (your port number may differ), the terminal is the <strong>serial monitor</strong>. Click in that same terminal, type one command, and press <strong>Enter</strong> to send it to the XIAO:</p>
-<pre><code class="language-text">help
-scan
-status
-</code></pre>
-<p>Send each line separately and read its response. Do not include backticks or type these at the <code>PS ...&gt;</code> PowerShell prompt. Your typing may or may not be echoed. Companion waits for Enter before acting. Unlike Scanner, it does not repeat scans automatically.</p>
-<p>Companion uses <code>[OK]</code> for initialized devices and <code>[X]</code> for devices not ready. A part set aside for the current lesson is expected to show <code>[X]</code>. <code>status</code> describes firmware readiness; <code>scan</code> checks current address replies. Neither replaces observing the device perform its task. Type <code>details</code> for the original technical numbers.</p>
-<p>You may miss the beginning of the startup message while the monitor connects. Type <code>help</code> to print the command list again; no upload is needed. Press <strong>Ctrl+C</strong> when finished to return to PowerShell. Close the monitor before another upload or another program opens the same port.</p>
 <!-- wiring:start -->
 <p><strong>Parts for this power checkpoint:</strong> a regulated 5V wall supply, its low-voltage connector and prepared wires, and a multimeter. For the motor connection, also identify the SG90 servo and PCA9685 driver. The supply powers the motor through the driver; the meter checks its output before connection. Identify these parts before following the diagram.</p>
 <h3>Wiring visuals and pinouts</h3>
@@ -764,7 +755,7 @@ status
 </tbody>
 </table>
 <p><img alt="PCA wiring: labelled endpoints and separate power paths" src="images/wiring-pca.png" /></p>
-<p>Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.</p>
+<p>The green two-screw block is a separate power input: one terminal is + / V+, the other is - / GND. It stays empty during this communication-only test; the driver electronics receive power through VCC. Follow the board markings, not a guessed left/right position. Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.</p>
 <table>
 <thead>
 <tr>
@@ -797,7 +788,7 @@ status
 </tbody>
 </table>
 <p><img alt="SERVO wiring: labelled endpoints and separate power paths" src="images/wiring-servo.png" /></p>
-<p>Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
+<p><strong>Identify the green two-screw block on the PCA9685:</strong> its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
 <table>
 <thead>
 <tr>
@@ -809,12 +800,12 @@ status
 <tbody>
 <tr>
 <td>Adapter positive</td>
-<td>PCA V+ screw terminal</td>
+<td>PCA green block: + / V+</td>
 <td>Regulated 5V; direct power wire</td>
 </tr>
 <tr>
 <td>Adapter negative</td>
-<td>PCA GND screw terminal</td>
+<td>PCA green block: - / GND</td>
 <td>Direct power wire</td>
 </tr>
 <tr>
@@ -841,6 +832,15 @@ status
 </table>
 <!-- wiring:end -->
 
+<h3>Where to type the board commands</h3>
+<p>After <code>Connecting to COM5. Press CTRL-C to exit.</code> (your port number may differ), the terminal is the <strong>serial monitor</strong>. Click in that same terminal, type one command, and press <strong>Enter</strong> to send it to the XIAO:</p>
+<pre><code class="language-text">help
+scan
+status
+</code></pre>
+<p>Send each line separately and read its response. Do not include backticks or type these at the <code>PS ...&gt;</code> PowerShell prompt. Your typing may or may not be echoed. Companion waits for Enter before acting. Unlike Scanner, it does not repeat scans automatically.</p>
+<p>Companion uses <code>[OK]</code> for initialized devices and <code>[X]</code> for devices not ready. A part set aside for the current lesson is expected to show <code>[X]</code>. <code>status</code> describes firmware readiness; <code>scan</code> checks current address replies. Neither replaces observing the device perform its task. Type <code>details</code> for the original technical numbers.</p>
+<p>You may miss the beginning of the startup message while the monitor connects. Type <code>help</code> to print the command list again; no upload is needed. Press <strong>Ctrl+C</strong> when finished to return to PowerShell. Close the monitor before another upload or another program opens the same port.</p>
 <p>Bring-up means introducing a new system to power and checking it in stages. It is less dramatic than plugging in every wire and shouting “IT LIVES,” but it produces much better explanations when something does not work.</p>
 <p><strong>Adult-led powered session.</strong> Work on a clear surface. Servo power remains disconnected through uploads, resets, and wiring changes. Turn off USB too before adding or removing modules. Keep the project’s current <code>docs/FIRST-POWER-ON.md</code> and <code>docs/WIRING.md</code> open beside this book.</p>
 <p><strong>Step one: the controller.</strong> Verify and upload Companion with only the XIAO connected by USB. Open Serial Monitor at 115200 with Newline endings. Enter <code>help</code>, then <code>status</code>. Missing peripherals are expected when they are not attached. Do not interpret that as a failed controller.</p>
@@ -862,7 +862,7 @@ stop
 <h3>Wiring visuals and pinouts</h3>
 <p><strong>Before assembling these connections: close the monitor and unplug the XIAO USB cable. Keep the newly introduced 5V supply unplugged from the wall until the voltage-check step. On a repeat session, unplug it before changing wires.</strong> These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.</p>
 <p><img alt="SERVO wiring: labelled endpoints and separate power paths" src="images/wiring-servo.png" /></p>
-<p>Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
+<p><strong>Identify the green two-screw block on the PCA9685:</strong> its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
 <table>
 <thead>
 <tr>
@@ -874,12 +874,12 @@ stop
 <tbody>
 <tr>
 <td>Adapter positive</td>
-<td>PCA V+ screw terminal</td>
+<td>PCA green block: + / V+</td>
 <td>Regulated 5V; direct power wire</td>
 </tr>
 <tr>
 <td>Adapter negative</td>
-<td>PCA GND screw terminal</td>
+<td>PCA green block: - / GND</td>
 <td>Direct power wire</td>
 </tr>
 <tr>
@@ -905,7 +905,7 @@ stop
 </tbody>
 </table>
 <p><img alt="PCA wiring: labelled endpoints and separate power paths" src="images/wiring-pca.png" /></p>
-<p>Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.</p>
+<p>The green two-screw block is a separate power input: one terminal is + / V+, the other is - / GND. It stays empty during this communication-only test; the driver electronics receive power through VCC. Follow the board markings, not a guessed left/right position. Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.</p>
 <table>
 <thead>
 <tr>
@@ -1050,7 +1050,7 @@ stop
 </tbody>
 </table>
 <p><img alt="PCA wiring: labelled endpoints and separate power paths" src="images/wiring-pca.png" /></p>
-<p>Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.</p>
+<p>The green two-screw block is a separate power input: one terminal is + / V+, the other is - / GND. It stays empty during this communication-only test; the driver electronics receive power through VCC. Follow the board markings, not a guessed left/right position. Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.</p>
 <table>
 <thead>
 <tr>
@@ -1083,7 +1083,7 @@ stop
 </tbody>
 </table>
 <p><img alt="SERVO wiring: labelled endpoints and separate power paths" src="images/wiring-servo.png" /></p>
-<p>Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
+<p><strong>Identify the green two-screw block on the PCA9685:</strong> its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
 <table>
 <thead>
 <tr>
@@ -1095,12 +1095,12 @@ stop
 <tbody>
 <tr>
 <td>Adapter positive</td>
-<td>PCA V+ screw terminal</td>
+<td>PCA green block: + / V+</td>
 <td>Regulated 5V; direct power wire</td>
 </tr>
 <tr>
 <td>Adapter negative</td>
-<td>PCA GND screw terminal</td>
+<td>PCA green block: - / GND</td>
 <td>Direct power wire</td>
 </tr>
 <tr>

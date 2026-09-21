@@ -73,6 +73,13 @@ save(im,'usb')
 im,d=canvas('Servo power: one unloaded SG90 on channel 0', 'Wire with BOTH supplies unplugged. Energize only at the adult-supervised first-power-on checkpoint.')
 board(d,(40,180,500,455),'Regulated 5V adapter','Low-voltage barrel terminal adapter')
 board(d,(1040,180,1560,625),'Teyleten PCA9685','V+ and VCC are different supplies')
+d.rounded_rectangle((1050,290,1540,455),12,fill='#72b64a',outline='#1d4426',width=3)
+d.text((1070,295),'GREEN TWO-SCREW BLOCK',font=font(23),fill='#102b40')
+for terminal_y,label in [(345,'+ / V+'),(415,'- / GND')]:
+    d.ellipse((1080,terminal_y-17,1114,terminal_y+17),fill='#d9dfe3',outline='#46515a',width=2)
+    d.line((1086,terminal_y,1108,terminal_y),fill='#46515a',width=3)
+    d.text((1135,terminal_y-16),label,font=font(28),fill='#102b40')
+d.text((1060,472),'Functional view: check printed + / -',font=font(23),fill='white')
 for y,label,color in [(330,'+5V  to  V+',COLORS[0]),(400,'negative  to  GND',COLORS[1])]:
     d.line([(500,y),(1040,y)],fill=color,width=9)
     d.text((545,y-37),label,font=font(26),fill=color)
@@ -103,15 +110,15 @@ save(im,'meter')
 TABLES={
  'usb':[('Computer USB port','XIAO USB-C socket','Data cable; all headers empty')],
  **{k:[('XIAO '+a,name+' '+b,['3.3V logic','Shared ground','I2C data','I2C clock'][i]) for i,(a,b) in enumerate(rows)] for k,(name,_) in MODULES.items()},
- 'servo':[('Adapter positive','PCA V+ screw terminal','Regulated 5V; direct power wire'),('Adapter negative','PCA GND screw terminal','Direct power wire'),('XIAO GND','PCA GND','Common reference'),('PCA channel 0 GND','SG90 ground','Usually brown/black; verify'),('PCA channel 0 V+','SG90 power','Usually red; verify'),('PCA channel 0 PWM','SG90 signal','Usually orange/yellow; verify')],
+ 'servo':[('Adapter positive','PCA green block: + / V+','Regulated 5V; direct power wire'),('Adapter negative','PCA green block: - / GND','Direct power wire'),('XIAO GND','PCA GND','Common reference'),('PCA channel 0 GND','SG90 ground','Usually brown/black; verify'),('PCA channel 0 V+','SG90 power','Usually red; verify'),('PCA channel 0 PWM','SG90 signal','Usually orange/yellow; verify')],
  'meter':[('Black probe / COM jack','Adapter negative output','Voltage check only'),('Red probe / V-ohm jack','Adapter positive output','DC volts; never current mode')]
 }
 NOTES={
  'usb':'The pinout for this stage is USB-C socket only: **all XIAO header pins are unused**.',
  'oled':'Functional pinout: VCC, GND, SDA, SCL. The supplied display photo has **GND / VCC / SCL / SDA** across its top header when viewed from the front. Our illustration groups wires by function, not that physical order.',
  'imu':'Functional pinout: VCC, GND, SCL, SDA, XDA, XCL, AD0, INT. Leave XDA/XCL/INT open; verify AD0 default through scanning. Exact delivered header order is unconfirmed. Check regulator/pull-ups at 3.3V; do not substitute 5V to fix detection.',
- 'pca':'Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.',
- 'servo':'Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Also complete the PCA logic diagram** (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.',
+ 'pca':'The green two-screw block is a separate power input: one terminal is + / V+, the other is - / GND. It stays empty during this communication-only test; the driver electronics receive power through VCC. Follow the board markings, not a guessed left/right position. Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.',
+ 'servo':'**Identify the green two-screw block on the PCA9685:** its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Also complete the PCA logic diagram** (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.',
  'meter':'Probe-jack pinout is functional, not the physical socket position of every meter variant. Select DC voltage before probing. Verify barrel size and polarity against the actual adapter; do not assume center-positive from a generic picture.'
 }
 def snippet(keys, parent, book=False, introduction=''):

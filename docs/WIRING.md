@@ -15,12 +15,12 @@ Status: proposed connection plan, not yet physically validated. Read board label
 
 ![SERVO wiring: labelled endpoints and separate power paths](wiring/images/servo.png)
 
-Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Also complete the PCA logic diagram** (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.
+**Identify the green two-screw block on the PCA9685:** its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Also complete the PCA logic diagram** (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.
 
 | From / pin | To / pin | Meaning |
 |---|---|---|
-| Adapter positive | PCA V+ screw terminal | Regulated 5V; direct power wire |
-| Adapter negative | PCA GND screw terminal | Direct power wire |
+| Adapter positive | PCA green block: + / V+ | Regulated 5V; direct power wire |
+| Adapter negative | PCA green block: - / GND | Direct power wire |
 | XIAO GND | PCA GND | Common reference |
 | PCA channel 0 GND | SG90 ground | Usually brown/black; verify |
 | PCA channel 0 V+ | SG90 power | Usually red; verify |
@@ -65,7 +65,7 @@ Functional pinout: VCC, GND, SCL, SDA, XDA, XCL, AD0, INT. Leave XDA/XCL/INT ope
 
 ![PCA wiring: labelled endpoints and separate power paths](wiring/images/pca.png)
 
-Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.
+The green two-screw block is a separate power input: one terminal is + / V+, the other is - / GND. It stays empty during this communication-only test; the driver electronics receive power through VCC. Follow the board markings, not a guessed left/right position. Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.
 
 | From / pin | To / pin | Meaning |
 |---|---|---|
