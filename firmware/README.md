@@ -47,3 +47,7 @@ Sensor sampling and animation use timers rather than long movement delays. Devic
 ## Timed bench output test
 
 `test N` (N=0..3) requires stopped motion, an available PCA and at least 10us of existing headroom above the saved center. It requests center for 500ms and center+10us for 500ms, then pulse-off. It never starts at boot or saves calibration. Use one unloaded servo through the [lesson 5B wiring and supply sequence](../lessons/README.md#5b-introduce-one-servo-and-its-power-supply). `stop` or `scan` cancels it; other motion commands are rejected while it runs. `status` reports `timed_test`. Timing is cooperative, not a hardware power cutoff. No automatic shaft-position feedback is available; observe and record physical movement. Compile-time assertions cover phase boundaries, overdue stopping and clock rollover.
+
+## Beginner reports
+
+`status` names the ESP32, OLED, motion sensor and driver, with addresses and ASCII `[OK]` / `[X]` readiness markers. It does not probe the bus or start motion. `scan` requests motion stop and takes a fresh address snapshot; it labels only expected project addresses and identifies 0x70 as a possible all-call alias. Missing devices are explicitly normal when set aside. `details` retains numeric status and calibration fields. Readiness and an address acknowledgement are not physical function tests.

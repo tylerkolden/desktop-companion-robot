@@ -91,3 +91,7 @@ Uploading replaces the current program. Choose the lesson deliberately. It does 
 For first tests use only `help`, `status`, `scan`, and face commands. Servo calibration follows the adult-supervised [first-power-on guide](FIRST-POWER-ON.md), not a generic sweep example. The provided console workflow deliberately requires servo power disconnected; use it for diagnostics and lessons. For a powered servo session, follow that guide with an already-open console, verified wiring, and the adult controlling when power is connected.
 
 Do not reconnect/reopen a console or upload during a powered servo session. Disconnect servo power before stopping/restarting tools. The PCA can retain pulses through a controller reset.
+
+## Reading Companion reports
+
+`status` prints a friendly device report with `[OK]` for initialized devices and `[X]` for devices not ready. `[X]` is expected when a lesson has set that part aside. These flags are not a fresh physical connection test. `scan` checks current I2C address replies and labels the expected project devices; an address cannot prove device identity or full function. `details` preserves the original numeric flags and calibration rows for troubleshooting. All three are typed inside the serial monitor, followed by Enter. Updated wording requires uploading the new Companion firmware.

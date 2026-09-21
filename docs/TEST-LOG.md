@@ -77,3 +77,8 @@ Added explicit `test N` command: 500ms center, 500ms center+10us, then pulse-off
 ## 2026-09-20 — owner-reported lesson 5A result
 
 Owner supplied serial output after a successful Companion upload: scan returned 0x40; status reported PCA=1, OLED=0, MPU=0, storage=1, timed_test=0 and cal_channel=-1. This supports driver communication and initialization at the driver-only checkpoint, not motor output or movement. Added explicit instructions distinguishing monitor input from PowerShell and explaining missed startup text. Documentation/book checks passed; no new upload or physical action performed by the assistant.
+
+## 2026-09-20 — beginner device reports
+
+Added named device/address reports with ASCII [OK]/[X] markers, fresh scan replies, readiness explanations and details command retaining numeric diagnostics. Documentation links and EPUB structure passed. Compilation attempted twice but blocked by the existing robot command session lock; no process interrupted, no port opened, no upload performed. Firmware compilation and physical output verification remain pending.
+

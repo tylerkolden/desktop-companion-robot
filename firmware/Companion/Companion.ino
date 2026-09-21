@@ -20,6 +20,7 @@ Adafruit_MPU6050 imu;
 Adafruit_PWMServoDriver pwm(PCA_ADDRESS, Wire);
 Preferences preferences;
 companion::TapDetector taps;
+uint8_t oledAddress = 0, imuAddress = 0;
 bool pcaOK = false, oledOK = false, imuOK = false, storageOK = false;
 bool upright = false, imuSampleValid = false, demo = false;
 bool benchTest = false;
@@ -52,11 +53,26 @@ void stopMotion() {
 
 void scanBus() {
   stopMotion();
-  Serial.println("I2C scan (motion stopped):");
-  for (uint8_t address = 1; address < 127; ++address) {
-    if (probe(address)) Serial.printf("  0x%02X\n", address);
+  bool found[127] = {};
+  Serial.println("\n--- Device roll call: who answers now? ---");
+  Serial.println("Control pulses were requested OFF before this scan.");
+  for (uint8_t address = 1; address < 127; ++address) found[address] = probe(address);
+  const uint8_t addresses[] = {0x3C, 0x3D, 0x68, 0x69, 0x40};
+  const char *names[] = {"OLED screen", "OLED screen (alternate)", "Motion sensor", "Motion sensor (alternate)", "Motor driver"};
+  for (int i = 0; i < 5; ++i) {
+    if (found[addresses[i]]) Serial.printf("[OK] %-26s 0x%02X - answered!\n", names[i], addresses[i]);
   }
-  Serial.println("Expected: OLED 3C/3D, MPU 68/69, PCA 40 (possibly also 70). Reboot after adding hardware.");
+  if (!found[0x3C] && !found[0x3D]) Serial.println("[X]  OLED screen    0x3C / 0x3D - no answer");
+  if (!found[0x68] && !found[0x69]) Serial.println("[X]  Motion sensor  0x68 / 0x69 - no answer");
+  if (!found[0x40]) Serial.println("[X]  Motor driver   0x40        - no answer");
+  for (uint8_t address = 1; address < 127; ++address) {
+    if (!found[address] || address == 0x3C || address == 0x3D || address == 0x68 || address == 0x69 || address == 0x40) continue;
+    if (address == 0x70) Serial.println("[i]  0x70 answered: often the driver's all-call address, not another board.");
+    else Serial.printf("[?]  0x%02X answered: an address this project does not label.\n", address);
+  }
+  Serial.println("Names assume our project's parts. An address reply is not a complete device test.");
+  Serial.println("[X] is expected for parts set aside in your lesson; check only the parts you connected.");
+  Serial.println("Next: type status and press Enter. After wiring changes, restart with output power off.");
 }
 
 bool sendPulse(uint8_t channel, int pulse) {
@@ -73,7 +89,7 @@ bool sendPulse(uint8_t channel, int pulse) {
   return true;
 }
 
-void showStatus() {
+void showDetails() {
   Serial.printf("timed_test=%d\n", benchTest);
   Serial.printf("OLED=%d MPU=%d PCA=%d storage=%d upright=%d sample=%d demo=%d cal_channel=%d\n",
                 oledOK, imuOK, pcaOK, storageOK, upright, imuSampleValid, demo, activeChannel);
@@ -84,9 +100,32 @@ void showStatus() {
   }
 }
 
+void showDevice(const char *name, bool ready, uint8_t address, const char *expected) {
+  Serial.printf("%s %-14s ", ready ? "[OK]" : "[X] ", name);
+  if (address) Serial.printf("0x%02X - ", address);
+  else Serial.printf("%s - ", expected);
+  Serial.println(ready ? "initialized; ready for its lesson test" : "not ready; may be absent, failed initialization, or lost communication");
+}
+
+void showStatus() {
+  Serial.println("\n--- Andrew's robot check-in ---");
+  Serial.println("[OK] ESP32: running Companion and answering your command.");
+  showDevice("OLED screen", oledOK, oledAddress, "0x3C/0x3D");
+  showDevice("Motion sensor", imuOK, imuAddress, "0x68/0x69");
+  showDevice("Motor driver", pcaOK, PCA_ADDRESS, "0x40");
+  Serial.println("These are firmware readiness flags, not a fresh connection scan. Type scan for current replies.");
+  Serial.println("A part set aside for this lesson is expected to show [X]. It does not mean you failed!");
+  Serial.printf("Timed test: %s | Gesture: %s\n", benchTest ? "RUNNING" : "off", demo ? "RUNNING" : "off");
+  if (activeChannel < 0) Serial.println("Calibration channel: none");
+  else Serial.printf("Active channel: %d | requested pulse: %d microseconds\n", activeChannel, currentPulse);
+  Serial.println("Readiness does not prove drawing, accurate readings, or movement: observe your lesson's result.");
+  Serial.println("Type help for commands, details for technical numbers. Press Enter after each command.");
+}
+
 void printHelp() {
   Serial.println("Companion bench firmware 0.1.0 | 115200 baud | newline commands");
-  Serial.println("help | status | scan | stop | face awake/happy/sleep");
+  Serial.println("help | status | scan | details | stop | face awake/happy/sleep");
+  Serial.println("Type a command here, then press Enter. status = friendly report; scan = current address replies.");
   Serial.println("test N      : unloaded servo; center 500ms, +10us 500ms, then pulses off");
   Serial.println("cal N       : arm only channel N (0..3), neutral pulse, unloaded servo only");
   Serial.println("jog N DELTA : move active channel by -10..10 microseconds; 15s timeout");
@@ -126,6 +165,7 @@ void command(char *line) {
   if (!strcmp(op, "stop") && count == 1) { stopMotion(); Serial.println("Stopped."); return; }
   if (!strcmp(op, "help") && count == 1) { printHelp(); return; }
   if (!strcmp(op, "status") && count == 1) { showStatus(); return; }
+  if (!strcmp(op, "details") && count == 1) { showDetails(); return; }
   if (!strcmp(op, "scan") && count == 1) { scanBus(); return; }
   if (benchTest) { Serial.println("Timed test active; use stop or wait for completion."); return; }
   if (!strcmp(op, "face") && count == 2) {
@@ -224,9 +264,9 @@ void setup() {
   pcaOK = probe(PCA_ADDRESS) && pwm.begin();
   if (pcaOK) { stopMotion(); pwm.setPWMFreq(50); stopMotion(); }
   loadCalibration();
-  uint8_t oledAddress = probe(0x3C) ? 0x3C : (probe(0x3D) ? 0x3D : 0);
+  oledAddress = probe(0x3C) ? 0x3C : (probe(0x3D) ? 0x3D : 0);
   if (oledAddress) oledOK = screen.begin(SSD1306_SWITCHCAPVCC, oledAddress, true, false);
-  uint8_t imuAddress = probe(0x68) ? 0x68 : (probe(0x69) ? 0x69 : 0);
+  imuAddress = probe(0x68) ? 0x68 : (probe(0x69) ? 0x69 : 0);
   if (imuAddress) imuOK = imu.begin(imuAddress, &Wire);
   if (imuOK) {
     imu.setAccelerometerRange(MPU6050_RANGE_8_G);

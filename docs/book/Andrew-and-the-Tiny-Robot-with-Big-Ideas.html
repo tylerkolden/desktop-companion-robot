@@ -673,6 +673,7 @@ scan
 status
 </code></pre>
 <p>Send each line separately and read its response. Do not include backticks or type these at the <code>PS ...&gt;</code> PowerShell prompt. Your typing may or may not be echoed. Companion waits for Enter before acting. Unlike Scanner, it does not repeat scans automatically.</p>
+<p>Companion uses <code>[OK]</code> for initialized devices and <code>[X]</code> for devices not ready. A part set aside for the current lesson is expected to show <code>[X]</code>. <code>status</code> describes firmware readiness; <code>scan</code> checks current address replies. Neither replaces observing the device perform its task. Type <code>details</code> for the original technical numbers.</p>
 <p>You may miss the beginning of the startup message while the monitor connects. Type <code>help</code> to print the command list again; no upload is needed. Press <strong>Ctrl+C</strong> when finished to return to PowerShell. Close the monitor before another upload or another program opens the same port.</p>
 <!-- wiring:start -->
 <p><strong>Parts for this power checkpoint:</strong> a regulated 5V wall supply, its low-voltage connector and prepared wires, and a multimeter. For the motor connection, also identify the SG90 servo and PCA9685 driver. The supply powers the motor through the driver; the meter checks its output before connection. Identify these parts before following the diagram.</p>

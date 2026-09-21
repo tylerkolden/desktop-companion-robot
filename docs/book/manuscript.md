@@ -604,6 +604,8 @@ status
 
 Send each line separately and read its response. Do not include backticks or type these at the `PS ...>` PowerShell prompt. Your typing may or may not be echoed. Companion waits for Enter before acting. Unlike Scanner, it does not repeat scans automatically.
 
+Companion uses `[OK]` for initialized devices and `[X]` for devices not ready. A part set aside for the current lesson is expected to show `[X]`. `status` describes firmware readiness; `scan` checks current address replies. Neither replaces observing the device perform its task. Type `details` for the original technical numbers.
+
 You may miss the beginning of the startup message while the monitor connects. Type `help` to print the command list again; no upload is needed. Press **Ctrl+C** when finished to return to PowerShell. Close the monitor before another upload or another program opens the same port.
 
 

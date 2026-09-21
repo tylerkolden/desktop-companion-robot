@@ -256,11 +256,11 @@ You may miss the beginning of the startup message while the monitor connects. Ty
 | Response | What it tells you |
 |---|---|
 | `scan` lists `0x40` | The PCA9685 acknowledges communication. `0x70` may also appear as its all-call address. |
-| `PCA=1` | Companion initialized the driver. |
-| `OLED=0 MPU=0` | Expected: those modules are set aside. |
-| `timed_test=0` and `cal_channel=-1` | No timed test or calibration channel is active. |
+| `[OK] Motor driver 0x40` | Companion initialized the driver; observe its output in the next test. |
+| `[X] OLED screen` and `[X] Motion sensor` | Expected: those modules are set aside. |
+| `Timed test: off` and `Calibration channel: none` | No timed test or calibration channel is active. |
 
-The four `low / center / high` rows describe calibration settings; they are not detection results or proof of movement. `storage=1` means settings storage opened successfully. `upright=0 sample=0` is expected without the sensor.
+For technical numbers, type `details` and press Enter. The four `low / center / high` rows describe calibration settings; they are not detection results or proof of movement. `storage=1` means settings storage opened successfully. `upright=0 sample=0` is expected without the sensor.
 
 
 **Pass:** the driver responds on its own and Companion recognizes it. This verifies communication and initialization, not its output signals under load. **If stuck:** resolve the failure here before combining modules. **End state:** XIAO + PCA logic, running Companion; OLED and GY-521 set aside.
@@ -306,7 +306,7 @@ Follow [One servo, no leg attached](../docs/FIRST-POWER-ON.md#one-servo-no-leg-a
 
 Watch the unloaded shaft; do not hold or obstruct it. Starting from an unknown shaft position can cause a larger initial move to center. The +10us movement may be very small or hidden by the servo's deadband. If you cannot see it, record **inconclusive**, not passed. Do not increase travel automatically: inspect power and orientation, then use the adult-supervised calibration procedure to investigate. Do not attach a leg for visibility.
 
-After automatic completion, enter `status`: expect `timed_test=0` and `cal_channel=-1`. These report software state, not measured shaft position. For a separate repeat, enter `test 0` then `stop` before it completes and verify the test does not resume. A PCA9685 can retain pulses if communication or the controller fails; unplug the 5V supply to remove motor power. The one-second duration is a software deadline checked by the loop, not a hardware cutoff.
+After automatic completion, enter `status`: expect `Timed test: off` and `Calibration channel: none`. These report software state, not measured shaft position. For a separate repeat, enter `test 0` then `stop` before it completes and verify the test does not resume. A PCA9685 can retain pulses if communication or the controller fails; unplug the 5V supply to remove motor power. The one-second duration is a software deadline checked by the loop, not a hardware cutoff.
 
 **Predict:** a small change in the command should produce a small shaft movement. **Pass:** controlled unloaded movement, correct connector orientation, known supply polarity, and an explained difference between stopping control pulses and removing electrical power. **If stuck:** unplug the now-introduced 5V supply and inspect the circuit with the adult. **Record:** channel, command, observed movement and measured supply voltage. End by unplugging the 5V supply, closing the monitor and unplugging USB.
 
