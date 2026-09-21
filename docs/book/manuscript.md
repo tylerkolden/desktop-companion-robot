@@ -112,6 +112,21 @@ The same chip can appear on several breakout boards. A breakout board exposes ti
 
 ## 4. XIAO: a computer with a very small desk
 
+<!-- wiring:start -->
+### Wiring visuals and pinouts
+
+**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+
+![USB wiring: labelled endpoints and separate power paths](images/wiring-usb.png)
+
+The pinout for this stage is USB-C socket only: **all XIAO header pins are unused**. No external modules or battery.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| Computer USB port | XIAO USB-C socket | Data cable; all headers empty |
+
+<!-- wiring:end -->
+
 The Seeed XIAO ESP32C3 is the controller in our project. Think of it as a worker with a notebook of instructions and a limited desk for temporary work. The flash memory keeps the program when power is removed. RAM holds temporary information while the program runs.
 
 The processor executes instructions. A clock provides timing. GPIO means general-purpose input/output: pins that can read or produce certain electrical signals. Some pins can perform special communication jobs. On our board, D4 corresponds to GPIO6 and D5 corresponds to GPIO7. Those are two naming systems for the same connections, rather like “Andrew” and “chief robot investigator.”
@@ -136,6 +151,24 @@ There is also a separation between capability and permission. The hardware might
 
 ## 5. The face made of 8,192 little decisions
 
+<!-- wiring:start -->
+### Wiring visuals and pinouts
+
+**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+
+![OLED wiring: labelled endpoints and separate power paths](images/wiring-oled.png)
+
+Functional pinout: VCC, GND, SDA, SCL. The supplied display photo has **GND / VCC / SCL / SDA** across its top header when viewed from the front. Our illustration groups wires by function, not that physical order.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| XIAO 3V3 | AITRIP SSD1306 OLED VCC | 3.3V logic |
+| XIAO GND | AITRIP SSD1306 OLED GND | Shared ground |
+| XIAO D4 / GPIO6 | AITRIP SSD1306 OLED SDA | I2C data |
+| XIAO D5 / GPIO7 | AITRIP SSD1306 OLED SCL | I2C clock |
+
+<!-- wiring:end -->
+
 ANDI requested a face with “at least seven eyebrows.” Andrew proposed starting with two eyes.
 
 Your AITRIP screen is a 0.96-inch, 128-by-64 monochrome OLED module using an SSD1306 controller. There are 128 × 64 = 8,192 pixel positions. For a simple monochrome image, each pixel is represented as on or off. A single bit can hold that choice; eight bits make a byte. A complete one-bit image therefore needs 1,024 bytes before other program data is counted.
@@ -157,6 +190,24 @@ The OLED library and graphics library have different jobs: one talks to this kin
 **Checkpoint:** an expressive face does not prove that a robot has feelings. It proves that humans are very good at interpreting shapes. You are designing a communication interface.
 
 ## 6. The sensor that notices a tilt
+
+<!-- wiring:start -->
+### Wiring visuals and pinouts
+
+**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+
+![IMU wiring: labelled endpoints and separate power paths](images/wiring-imu.png)
+
+Functional pinout: VCC, GND, SCL, SDA, XDA, XCL, AD0, INT. Leave XDA/XCL/INT open; verify AD0 default through scanning. Exact delivered header order is unconfirmed. Check regulator/pull-ups at 3.3V; do not substitute 5V to fix detection.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| XIAO 3V3 | GY-521 / MPU6050 VCC | 3.3V logic |
+| XIAO GND | GY-521 / MPU6050 GND | Shared ground |
+| XIAO D4 / GPIO6 | GY-521 / MPU6050 SDA | I2C data |
+| XIAO D5 / GPIO7 | GY-521 / MPU6050 SCL | I2C clock |
+
+<!-- wiring:end -->
 
 “How will I know if I am upside down?” ANDI asked.
 
@@ -184,6 +235,37 @@ Our upright test uses **hysteresis**: two thresholds instead of one. It takes a 
 
 ## 7. Servos: muscles with instructions
 
+<!-- wiring:start -->
+### Wiring visuals and pinouts
+
+**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+
+![SERVO wiring: labelled endpoints and separate power paths](images/wiring-servo.png)
+
+Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Also complete the PCA logic diagram** (3V3/VCC, GND, SDA, SCL). Start with only channel 0; later 0/1/2/3 map to front-left/front-right/rear-left/rear-right. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| Adapter positive | PCA V+ screw terminal | Regulated 5V; direct power wire |
+| Adapter negative | PCA GND screw terminal | Direct power wire |
+| XIAO GND | PCA GND | Common reference |
+| PCA channel 0 GND | SG90 ground | Usually brown/black; verify |
+| PCA channel 0 V+ | SG90 power | Usually red; verify |
+| PCA channel 0 PWM | SG90 signal | Usually orange/yellow; verify |
+
+![PCA wiring: labelled endpoints and separate power paths](images/wiring-pca.png)
+
+Functional pinout: VCC = logic 3.3V; V+ = separate servo power; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. V+ and servo plugs remain disconnected in this logic-only stage.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| XIAO 3V3 | Teyleten PCA9685 VCC | 3.3V logic |
+| XIAO GND | Teyleten PCA9685 GND | Shared ground |
+| XIAO D4 / GPIO6 | Teyleten PCA9685 SDA | I2C data |
+| XIAO D5 / GPIO7 | Teyleten PCA9685 SCL | I2C clock |
+
+<!-- wiring:end -->
+
 A hobby positional servo usually contains a small motor, gears, an internal position sensor, and control electronics. The controller inside the servo compares its measured position with the requested position and drives the motor to reduce the difference. That is **feedback control**.
 
 The SG90 servos in our plan are positional servos. A continuous-rotation servo behaves differently: its command generally controls direction and speed rather than a specific angle. A listing with a similar picture is not enough; the actual type matters.
@@ -205,6 +287,37 @@ Our initial calibration range is deliberately small: 1,450 to 1,550 microseconds
 **Checkpoint:** the controller does not read the SG90’s internal position sensor through this three-wire connection. Our program knows what it requested, not the exact measured shaft angle or whether a leg is jammed. Watch, listen, and test carefully with an adult.
 
 ## 8. The PCA9685: timekeeper, not power magician
+
+<!-- wiring:start -->
+### Wiring visuals and pinouts
+
+**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+
+![PCA wiring: labelled endpoints and separate power paths](images/wiring-pca.png)
+
+Functional pinout: VCC = logic 3.3V; V+ = separate servo power; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. V+ and servo plugs remain disconnected in this logic-only stage.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| XIAO 3V3 | Teyleten PCA9685 VCC | 3.3V logic |
+| XIAO GND | Teyleten PCA9685 GND | Shared ground |
+| XIAO D4 / GPIO6 | Teyleten PCA9685 SDA | I2C data |
+| XIAO D5 / GPIO7 | Teyleten PCA9685 SCL | I2C clock |
+
+![SERVO wiring: labelled endpoints and separate power paths](images/wiring-servo.png)
+
+Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Also complete the PCA logic diagram** (3V3/VCC, GND, SDA, SCL). Start with only channel 0; later 0/1/2/3 map to front-left/front-right/rear-left/rear-right. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| Adapter positive | PCA V+ screw terminal | Regulated 5V; direct power wire |
+| Adapter negative | PCA GND screw terminal | Direct power wire |
+| XIAO GND | PCA GND | Common reference |
+| PCA channel 0 GND | SG90 ground | Usually brown/black; verify |
+| PCA channel 0 V+ | SG90 power | Usually red; verify |
+| PCA channel 0 PWM | SG90 signal | Usually orange/yellow; verify |
+
+<!-- wiring:end -->
 
 The PCA9685 produces repeated pulses without requiring the XIAO to time every edge itself. It has sixteen output channels; our plan uses four. Its timing resolution is twelve bits, giving 4,096 steps per cycle. The frequency is shared across its channels, while pulse widths can differ. See the [NXP PCA9685 data sheet](https://www.nxp.com/docs/en/data-sheet/PCA9685.pdf).
 
@@ -250,6 +363,59 @@ Servo pulse control is yet another kind of signalling. It sends a timed position
 
 ## 10. Wiring: a map, not a guessing contest
 
+<!-- wiring:start -->
+### Wiring visuals and pinouts
+
+**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+
+![OLED wiring: labelled endpoints and separate power paths](images/wiring-oled.png)
+
+Functional pinout: VCC, GND, SDA, SCL. The supplied display photo has **GND / VCC / SCL / SDA** across its top header when viewed from the front. Our illustration groups wires by function, not that physical order.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| XIAO 3V3 | AITRIP SSD1306 OLED VCC | 3.3V logic |
+| XIAO GND | AITRIP SSD1306 OLED GND | Shared ground |
+| XIAO D4 / GPIO6 | AITRIP SSD1306 OLED SDA | I2C data |
+| XIAO D5 / GPIO7 | AITRIP SSD1306 OLED SCL | I2C clock |
+
+![IMU wiring: labelled endpoints and separate power paths](images/wiring-imu.png)
+
+Functional pinout: VCC, GND, SCL, SDA, XDA, XCL, AD0, INT. Leave XDA/XCL/INT open; verify AD0 default through scanning. Exact delivered header order is unconfirmed. Check regulator/pull-ups at 3.3V; do not substitute 5V to fix detection.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| XIAO 3V3 | GY-521 / MPU6050 VCC | 3.3V logic |
+| XIAO GND | GY-521 / MPU6050 GND | Shared ground |
+| XIAO D4 / GPIO6 | GY-521 / MPU6050 SDA | I2C data |
+| XIAO D5 / GPIO7 | GY-521 / MPU6050 SCL | I2C clock |
+
+![PCA wiring: labelled endpoints and separate power paths](images/wiring-pca.png)
+
+Functional pinout: VCC = logic 3.3V; V+ = separate servo power; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. V+ and servo plugs remain disconnected in this logic-only stage.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| XIAO 3V3 | Teyleten PCA9685 VCC | 3.3V logic |
+| XIAO GND | Teyleten PCA9685 GND | Shared ground |
+| XIAO D4 / GPIO6 | Teyleten PCA9685 SDA | I2C data |
+| XIAO D5 / GPIO7 | Teyleten PCA9685 SCL | I2C clock |
+
+![SERVO wiring: labelled endpoints and separate power paths](images/wiring-servo.png)
+
+Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Also complete the PCA logic diagram** (3V3/VCC, GND, SDA, SCL). Start with only channel 0; later 0/1/2/3 map to front-left/front-right/rear-left/rear-right. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| Adapter positive | PCA V+ screw terminal | Regulated 5V; direct power wire |
+| Adapter negative | PCA GND screw terminal | Direct power wire |
+| XIAO GND | PCA GND | Common reference |
+| PCA channel 0 GND | SG90 ground | Usually brown/black; verify |
+| PCA channel 0 V+ | SG90 power | Usually red; verify |
+| PCA channel 0 PWM | SG90 signal | Usually orange/yellow; verify |
+
+<!-- wiring:end -->
+
 “I connected the blue wire to the blue board,” said imaginary ANDI.
 
 Andrew put down his pencil. “We need better reasoning.”
@@ -286,6 +452,22 @@ The selected 20-AWG stranded wire is for short adapter-to-servo-board power conn
 
 ## 11. The meter is a question-asking machine
 
+<!-- wiring:start -->
+### Wiring visuals and pinouts
+
+**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+
+![METER wiring: labelled endpoints and separate power paths](images/wiring-meter.png)
+
+Probe-jack pinout is functional, not the physical socket position of every meter variant. Select DC voltage before probing. Verify barrel size and polarity against the actual adapter; do not assume center-positive from a generic picture.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| Black probe / COM jack | Adapter negative output | Voltage check only |
+| Red probe / V-ohm jack | Adapter positive output | DC volts; never current mode |
+
+<!-- wiring:end -->
+
 A multimeter does not merely “check electricity.” Its setting decides which question it asks. Wrong settings can create a wrong measurement or a short circuit.
 
 For the first voltage test, the adult puts the black lead in COM and the red lead in the voltage/resistance socket. Select DC volts, using the 20V range if the meter is manually ranged. Probe only the low-voltage adapter output. A correctly oriented measurement should be approximately positive five volts. A negative reading means the probes’ polarity is opposite to the measured polarity; stop and interpret it before connecting boards.
@@ -307,6 +489,21 @@ The number on a screen has uncertainty. Instruments have limits, and contact qua
 **Answer:** the second is more useful, but it does not prove the supply stays stable when four servos move. No-load and loaded tests answer different questions.
 
 ## 12. Arduino IDE: the workshop for instructions
+
+<!-- wiring:start -->
+### Wiring visuals and pinouts
+
+**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+
+![USB wiring: labelled endpoints and separate power paths](images/wiring-usb.png)
+
+The pinout for this stage is USB-C socket only: **all XIAO header pins are unused**. No external modules or battery.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| Computer USB port | XIAO USB-C socket | Data cable; all headers empty |
+
+<!-- wiring:end -->
 
 The IDE is where you write, check, and upload the program. IDE stands for integrated development environment. It combines several tools in one place, which is helpful when you are learning.
 
@@ -385,6 +582,67 @@ The idle timer has a different question: when did a person last interact? If eve
 
 ## 14. First power-on: a ladder of small victories
 
+<!-- wiring:start -->
+### Wiring visuals and pinouts
+
+**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+
+![USB wiring: labelled endpoints and separate power paths](images/wiring-usb.png)
+
+The pinout for this stage is USB-C socket only: **all XIAO header pins are unused**. No external modules or battery.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| Computer USB port | XIAO USB-C socket | Data cable; all headers empty |
+
+![OLED wiring: labelled endpoints and separate power paths](images/wiring-oled.png)
+
+Functional pinout: VCC, GND, SDA, SCL. The supplied display photo has **GND / VCC / SCL / SDA** across its top header when viewed from the front. Our illustration groups wires by function, not that physical order.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| XIAO 3V3 | AITRIP SSD1306 OLED VCC | 3.3V logic |
+| XIAO GND | AITRIP SSD1306 OLED GND | Shared ground |
+| XIAO D4 / GPIO6 | AITRIP SSD1306 OLED SDA | I2C data |
+| XIAO D5 / GPIO7 | AITRIP SSD1306 OLED SCL | I2C clock |
+
+![IMU wiring: labelled endpoints and separate power paths](images/wiring-imu.png)
+
+Functional pinout: VCC, GND, SCL, SDA, XDA, XCL, AD0, INT. Leave XDA/XCL/INT open; verify AD0 default through scanning. Exact delivered header order is unconfirmed. Check regulator/pull-ups at 3.3V; do not substitute 5V to fix detection.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| XIAO 3V3 | GY-521 / MPU6050 VCC | 3.3V logic |
+| XIAO GND | GY-521 / MPU6050 GND | Shared ground |
+| XIAO D4 / GPIO6 | GY-521 / MPU6050 SDA | I2C data |
+| XIAO D5 / GPIO7 | GY-521 / MPU6050 SCL | I2C clock |
+
+![PCA wiring: labelled endpoints and separate power paths](images/wiring-pca.png)
+
+Functional pinout: VCC = logic 3.3V; V+ = separate servo power; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. V+ and servo plugs remain disconnected in this logic-only stage.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| XIAO 3V3 | Teyleten PCA9685 VCC | 3.3V logic |
+| XIAO GND | Teyleten PCA9685 GND | Shared ground |
+| XIAO D4 / GPIO6 | Teyleten PCA9685 SDA | I2C data |
+| XIAO D5 / GPIO7 | Teyleten PCA9685 SCL | I2C clock |
+
+![SERVO wiring: labelled endpoints and separate power paths](images/wiring-servo.png)
+
+Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Also complete the PCA logic diagram** (3V3/VCC, GND, SDA, SCL). Start with only channel 0; later 0/1/2/3 map to front-left/front-right/rear-left/rear-right. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| Adapter positive | PCA V+ screw terminal | Regulated 5V; direct power wire |
+| Adapter negative | PCA GND screw terminal | Direct power wire |
+| XIAO GND | PCA GND | Common reference |
+| PCA channel 0 GND | SG90 ground | Usually brown/black; verify |
+| PCA channel 0 V+ | SG90 power | Usually red; verify |
+| PCA channel 0 PWM | SG90 signal | Usually orange/yellow; verify |
+
+<!-- wiring:end -->
+
 Bring-up means introducing a new system to power and checking it in stages. It is less dramatic than plugging in every wire and shouting “IT LIVES,” but it produces much better explanations when something does not work.
 
 **Adult-led powered session.** Work on a clear surface. Servo power remains disconnected through uploads, resets, and wiring changes. Turn off USB too before adding or removing modules. Keep the project’s current `docs/FIRST-POWER-ON.md` and `docs/WIRING.md` open beside this book.
@@ -415,6 +673,37 @@ stop
 **Mission: write the evidence.** Record which modules were connected, addresses found, commands sent, and what happened. Copy actual text output. “Display showed happy eyes after `face happy`” is more useful than “robot works.”
 
 ## 15. Calibration: teaching the robot what its body means
+
+<!-- wiring:start -->
+### Wiring visuals and pinouts
+
+**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+
+![SERVO wiring: labelled endpoints and separate power paths](images/wiring-servo.png)
+
+Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Also complete the PCA logic diagram** (3V3/VCC, GND, SDA, SCL). Start with only channel 0; later 0/1/2/3 map to front-left/front-right/rear-left/rear-right. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| Adapter positive | PCA V+ screw terminal | Regulated 5V; direct power wire |
+| Adapter negative | PCA GND screw terminal | Direct power wire |
+| XIAO GND | PCA GND | Common reference |
+| PCA channel 0 GND | SG90 ground | Usually brown/black; verify |
+| PCA channel 0 V+ | SG90 power | Usually red; verify |
+| PCA channel 0 PWM | SG90 signal | Usually orange/yellow; verify |
+
+![PCA wiring: labelled endpoints and separate power paths](images/wiring-pca.png)
+
+Functional pinout: VCC = logic 3.3V; V+ = separate servo power; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. V+ and servo plugs remain disconnected in this logic-only stage.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| XIAO 3V3 | Teyleten PCA9685 VCC | 3.3V logic |
+| XIAO GND | Teyleten PCA9685 GND | Shared ground |
+| XIAO D4 / GPIO6 | Teyleten PCA9685 SDA | I2C data |
+| XIAO D5 / GPIO7 | Teyleten PCA9685 SCL | I2C clock |
+
+<!-- wiring:end -->
 
 Two servos with the same model name are not automatically identical. Horns may sit at different angles. A left leg and right leg may be mirrored. A mechanical stop may be closer on one side. Calibration records useful relationships between our commands and the actual assembly.
 
@@ -463,6 +752,67 @@ The final shell needs space for connectors, wire bends, removable screws, the US
 **Checkpoint:** when a part does not fit, measure the mismatch and change one dimension. Scaling the entire robot can accidentally change screw holes, wall thickness, and servo spacing together.
 
 ## 17. Debugging: the mystery is the lesson
+
+<!-- wiring:start -->
+### Wiring visuals and pinouts
+
+**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+
+![USB wiring: labelled endpoints and separate power paths](images/wiring-usb.png)
+
+The pinout for this stage is USB-C socket only: **all XIAO header pins are unused**. No external modules or battery.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| Computer USB port | XIAO USB-C socket | Data cable; all headers empty |
+
+![OLED wiring: labelled endpoints and separate power paths](images/wiring-oled.png)
+
+Functional pinout: VCC, GND, SDA, SCL. The supplied display photo has **GND / VCC / SCL / SDA** across its top header when viewed from the front. Our illustration groups wires by function, not that physical order.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| XIAO 3V3 | AITRIP SSD1306 OLED VCC | 3.3V logic |
+| XIAO GND | AITRIP SSD1306 OLED GND | Shared ground |
+| XIAO D4 / GPIO6 | AITRIP SSD1306 OLED SDA | I2C data |
+| XIAO D5 / GPIO7 | AITRIP SSD1306 OLED SCL | I2C clock |
+
+![IMU wiring: labelled endpoints and separate power paths](images/wiring-imu.png)
+
+Functional pinout: VCC, GND, SCL, SDA, XDA, XCL, AD0, INT. Leave XDA/XCL/INT open; verify AD0 default through scanning. Exact delivered header order is unconfirmed. Check regulator/pull-ups at 3.3V; do not substitute 5V to fix detection.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| XIAO 3V3 | GY-521 / MPU6050 VCC | 3.3V logic |
+| XIAO GND | GY-521 / MPU6050 GND | Shared ground |
+| XIAO D4 / GPIO6 | GY-521 / MPU6050 SDA | I2C data |
+| XIAO D5 / GPIO7 | GY-521 / MPU6050 SCL | I2C clock |
+
+![PCA wiring: labelled endpoints and separate power paths](images/wiring-pca.png)
+
+Functional pinout: VCC = logic 3.3V; V+ = separate servo power; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. V+ and servo plugs remain disconnected in this logic-only stage.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| XIAO 3V3 | Teyleten PCA9685 VCC | 3.3V logic |
+| XIAO GND | Teyleten PCA9685 GND | Shared ground |
+| XIAO D4 / GPIO6 | Teyleten PCA9685 SDA | I2C data |
+| XIAO D5 / GPIO7 | Teyleten PCA9685 SCL | I2C clock |
+
+![SERVO wiring: labelled endpoints and separate power paths](images/wiring-servo.png)
+
+Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Also complete the PCA logic diagram** (3V3/VCC, GND, SDA, SCL). Start with only channel 0; later 0/1/2/3 map to front-left/front-right/rear-left/rear-right. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| Adapter positive | PCA V+ screw terminal | Regulated 5V; direct power wire |
+| Adapter negative | PCA GND screw terminal | Direct power wire |
+| XIAO GND | PCA GND | Common reference |
+| PCA channel 0 GND | SG90 ground | Usually brown/black; verify |
+| PCA channel 0 V+ | SG90 power | Usually red; verify |
+| PCA channel 0 PWM | SG90 signal | Usually orange/yellow; verify |
+
+<!-- wiring:end -->
 
 ANDI’s screen went blank. Andrew could have declared the robot broken forever. Instead, he asked, “Which facts do we have?”
 

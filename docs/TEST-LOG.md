@@ -58,3 +58,6 @@ Pass / fail / not tested:
 Photos or recordings:
 Next change:
 ```
+## 2026-09-20 — wiring documentation revision
+
+Added six reproducible functional wiring illustrations, component pinouts and endpoint tables across nine guides and eleven book chapters. Updated the self-contained EPUB and browser book. Local Markdown destinations and EPUB XML, image references and reading-order checks passed. Visually inspected the diagrams for readability. Physical pin positions on clone modules remain unverified; no hardware was connected, uploaded or tested for this documentation revision. These are custom illustrations, not actual Tinkercad simulations.

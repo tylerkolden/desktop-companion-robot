@@ -1,5 +1,7 @@
 # Use Codex as a teaching partner
 
+For every wiring step, include its [stage diagram and pinout table](wiring/README.md), identify the actual hardware, and explain any unverified physical layout. Follow the repository's wiring documentation rule in AGENTS.md. Never treat a functional illustration as a simulated or physically tested circuit.
+
 Codex is optional. It can read and edit this repository and invoke its scripts, but cannot physically verify wiring or replace a slicer or compiler. No paid AI service is required to use the lessons manually. Use a parent-managed account consistent with its terms.
 
 Start Codex in this repository from PowerShell (`codex` if installed), then paste:

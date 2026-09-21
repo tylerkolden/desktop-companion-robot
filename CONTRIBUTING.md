@@ -13,3 +13,6 @@ Keep changes small, reproducible, and understandable by a first-time learner. Di
 Bug reports should include expected/actual behavior, sketch and commit, exact commands, connected parts, and the first error. Feature ideas belong in the plan with dependencies and acceptance criteria. A new feature is not complete until its setup and use are documented.
 
 This is currently a private project without a project-wide redistribution license. Preserve upstream attribution. Do not import external CAD, images, or code without checking reuse terms. Publishing the repository is a separate owner decision.
+# Wiring documentation requirement
+
+Any wiring change needs a corresponding labelled diagram, pinout and connection table beside the instructions. Use the [wiring atlas](docs/wiring/README.md) and its reproducible generator. Identify exact hardware and distinguish functional maps from verified physical layouts. Regenerate the book when its wiring changes. Diagrams and compilation are not evidence of a physical test.

@@ -1,5 +1,7 @@
 # Project working instructions
 
+- Every wiring instruction must include a stage-specific visual diagram and pinout/connection table. Maintain `scripts/build_wiring.py` and the wiring atlas; regenerate affected guides and the book. Identify the exact model, viewing orientation and verification limits. Never invent physical pin positions, breadboard hole coordinates, or an actual Tinkercad simulation. Clearly label functional diagrams when physical layout is unverified. Preserve the learner's solder-free, adult-supervised staged sequence.
+
 - Preserve requirements: solder-free assembly, Amazon-only purchases, XIAO ESP32C3, corded V1 before cordless V2.
 - Read README.md and docs/PLAN.md before changing implementation.
 - Do not describe proposed hardware, generated meshes, or compiled code as physically tested.

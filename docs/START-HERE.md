@@ -1,5 +1,21 @@
 # Start here: your first robot
 
+Wiring reference: [full pinout atlas and verification limits](wiring/README.md). Use the stage matching your lesson; do not connect every pictured module at once.
+<!-- wiring:start -->
+### Wiring visuals and pinouts
+
+**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+
+![USB wiring: labelled endpoints and separate power paths](wiring/images/usb.png)
+
+The pinout for this stage is USB-C socket only: **all XIAO header pins are unused**. No external modules or battery.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| Computer USB port | XIAO USB-C socket | Data cable; all headers empty |
+
+<!-- wiring:end -->
+
 You do not need prior coding or electronics experience. Build with an adult, ask questions, and change one thing at a time. This is a developing training project, not a fully validated robot kit. Begin with a tiny working program and work toward an expressive desktop companion.
 
 ## What you need today

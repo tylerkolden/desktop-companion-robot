@@ -127,6 +127,8 @@ h1 { font-size: 1.75em; } h2 { font-size: 1.45em; } h3 { font-size: 1.15em; marg
 p { margin: 0.7em 0; } img { display:block; max-width:100%; height:auto; margin:1em auto; }
 pre { white-space:pre-wrap; overflow-wrap:break-word; padding:0.7em; border:1px solid #88959d; font-size:0.85em; }
 code { font-family:monospace; } a { color:#175a67; } li { margin:0.4em 0; }
+table { border-collapse:collapse; width:100%; font-size:0.85em; }
+th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:anywhere; }
 .cover img { max-height:90vh; width:auto; } .subtitle { font-style:italic; }
 @media screen { body { max-width:46em; margin:3em auto; padding:0 1em; } }
 '''
@@ -135,7 +137,7 @@ parts=re.split(r'^## ',raw,flags=re.M)[1:]
 chapters=[]
 for i,part in enumerate(parts):
     title,_,body=part.partition('\n')
-    content=markdown.markdown('## '+part,extensions=['fenced_code'],output_format='xhtml')
+    content=markdown.markdown('## '+part,extensions=['fenced_code','tables'],output_format='xhtml')
     # Promote each chapter heading, retaining section headings inside it.
     content=content.replace('<h2>','<h1>',1).replace('</h2>','</h1>',1)
     chapters.append((f'chapter-{i:02}.xhtml',title,content))
@@ -152,7 +154,7 @@ for i,p in enumerate(sorted(IMAGES.iterdir())):
     prop=' properties="cover-image"' if p.name=='cover.jpg' else ''
     manifest.append(f'<item id="img{i}" href="images/{p.name}" media-type="{typ}"{prop}/>')
 spine='<itemref idref="cover"/><itemref idref="nav"/>'+''.join(f'<itemref idref="c{i}"/>' for i in range(len(chapters)))
-opf=f'''<?xml version="1.0" encoding="utf-8"?><package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="uid" xml:lang="en"><metadata xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:identifier id="uid">{uid}</dc:identifier><dc:title>{TITLE}</dc:title><dc:language>en</dc:language><dc:creator>Andrew's Family Robotics Workshop</dc:creator><dc:description>A personal beginner robotics book written for Andrew with OpenAI Codex assistance.</dc:description><meta property="dcterms:modified">2026-09-15T12:00:00Z</meta></metadata><manifest>{''.join(manifest)}</manifest><spine toc="ncx">{spine}</spine></package>'''
+opf=f'''<?xml version="1.0" encoding="utf-8"?><package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="uid" xml:lang="en"><metadata xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:identifier id="uid">{uid}</dc:identifier><dc:title>{TITLE}</dc:title><dc:language>en</dc:language><dc:creator>Andrew's Family Robotics Workshop</dc:creator><dc:description>A personal beginner robotics book written for Andrew with OpenAI Codex assistance.</dc:description><meta property="dcterms:modified">2026-09-20T12:00:00Z</meta></metadata><manifest>{''.join(manifest)}</manifest><spine toc="ncx">{spine}</spine></package>'''
 ncx=f'''<?xml version="1.0" encoding="utf-8"?><ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1"><head><meta name="dtb:uid" content="{uid}"/></head><docTitle><text>{TITLE}</text></docTitle><navMap>'''+''.join(f'<navPoint id="n{i}" playOrder="{i+1}"><navLabel><text>{html.escape(t)}</text></navLabel><content src="{f}"/></navPoint>' for i,(f,t,c) in enumerate(chapters))+'</navMap></ncx>'
 container='<?xml version="1.0"?><container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container"><rootfiles><rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/></rootfiles></container>'
 epub=ROOT/(STEM+'.epub')

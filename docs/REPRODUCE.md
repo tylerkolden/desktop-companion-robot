@@ -10,6 +10,7 @@ Run from the repository root, using your installed Python 3 executable (`python`
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements-book.txt
 .\.venv\Scripts\python.exe scripts/validate_meshes.py
+.\.venv\Scripts\python.exe scripts/build_wiring.py
 .\.venv\Scripts\python.exe docs/book/build_book.py
 ```
 
