@@ -15,13 +15,16 @@ Status: proposed connection plan, not yet physically validated. Read board label
 
 ![SERVO wiring: labelled endpoints and separate power paths](wiring/images/servo.png)
 
-**Identify the green two-screw block on the PCA9685:** its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Also complete the PCA logic diagram** (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.
+**Identify the green two-screw block on the PCA9685:** its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Keep all four XIAO logic wires connected**, as shown in this complete diagram: 3V3/VCC, GND/GND, D4/SDA and D5/SCL. The shared-ground wire is one of these four wires, not an extra fifth wire. Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.
 
 | From / pin | To / pin | Meaning |
 |---|---|---|
 | Adapter positive | PCA green block: + / V+ | Regulated 5V; direct power wire |
 | Adapter negative | PCA green block: - / GND | Direct power wire |
+| XIAO 3V3 | PCA VCC | Logic power, separate from V+ |
 | XIAO GND | PCA GND | Common reference |
+| XIAO D4 / GPIO6 | PCA SDA | I2C data |
+| XIAO D5 / GPIO7 | PCA SCL | I2C clock |
 | PCA channel 0 GND | SG90 ground | Usually brown/black; verify |
 | PCA channel 0 V+ | SG90 power | Usually red; verify |
 | PCA channel 0 PWM | SG90 signal | Usually orange/yellow; verify |

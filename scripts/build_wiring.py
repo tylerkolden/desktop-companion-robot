@@ -70,30 +70,31 @@ d.text((80,735),'Use the USB data cable with the bare XIAO. Leave its header pin
 d.text((80,805),'Connecting USB can reset the board. A detected COM port does not prove which program is installed.',font=font(25),fill='#102b40')
 save(im,'usb')
 
-im,d=canvas('Servo power: one unloaded SG90 on channel 0', 'Wire with BOTH supplies unplugged. Energize only at the adult-supervised first-power-on checkpoint.')
-board(d,(40,180,500,455),'Regulated 5V adapter','Low-voltage barrel terminal adapter')
-board(d,(1040,180,1560,625),'Teyleten PCA9685','V+ and VCC are different supplies')
-d.rounded_rectangle((1050,290,1540,455),12,fill='#72b64a',outline='#1d4426',width=3)
-d.text((1070,295),'GREEN TWO-SCREW BLOCK',font=font(23),fill='#102b40')
-for terminal_y,label in [(345,'+ / V+'),(415,'- / GND')]:
-    d.ellipse((1080,terminal_y-17,1114,terminal_y+17),fill='#d9dfe3',outline='#46515a',width=2)
-    d.line((1086,terminal_y,1108,terminal_y),fill='#46515a',width=3)
-    d.text((1135,terminal_y-16),label,font=font(28),fill='#102b40')
-d.text((1060,472),'Functional view: check printed + / -',font=font(23),fill='white')
-for y,label,color in [(330,'+5V  to  V+',COLORS[0]),(400,'negative  to  GND',COLORS[1])]:
-    d.line([(500,y),(1040,y)],fill=color,width=9)
-    d.text((545,y-37),label,font=font(26),fill=color)
-board(d,(40,535,500,820),'XIAO on USB','Logic connections from PCA diagram')
-d.line([(500,660),(740,660),(740,535),(1040,535)],fill=COLORS[1],width=6)
-d.text((560,680),'GND shared',font=font(25),fill=COLORS[1])
-board(d,(1040,720,1560,890),'One SG90 servo','Unloaded shaft; no horn or leg')
-for x,label,col in [(1100,'GND',COLORS[1]),(1270,'V+',COLORS[0]),(1440,'PWM','#a05b00')]:
-    d.line([(x,625),(x,720)],fill=col,width=7)
-    d.text((x+12,655),label,font=font(23),fill=col)
-d.text((560,195),'Direct terminal path',font=font(26),fill='#102b40')
-d.text((550,245),'No breadboard servo power',font=font(23),fill='#a12832')
-d.text((560,750),'Never join adapter +5V',font=font(23),fill='#a12832')
-d.text((560,790),'to XIAO 5V or 3V3.',font=font(23),fill='#a12832')
+im,d=canvas('Complete circuit: XIAO + PCA9685 + one SG90', 'USB and the 5V supply must be unpowered while wiring. Read actual board labels, not pictured positions.')
+board(d,(40,150,490,410),'Regulated 5V supply','Low-voltage output only')
+board(d,(1000,150,1560,760),'Teyleten PCA9685','VCC = logic; V+ = motor power')
+d.rounded_rectangle((1020,270,1540,395),12,fill='#72b64a',outline='#1d4426',width=3)
+d.text((1050,275),'GREEN TWO-SCREW BLOCK',font=font(24),fill='#102b40')
+for y,label,col in [(325,'+ / V+',COLORS[0]),(375,'- / GND',COLORS[1])]:
+    d.line([(490,y),(1070,y)],fill=col,width=7)
+    d.ellipse((1060,y-10,1080,y+10),fill='#d9dfe3',outline='#102b40',width=2)
+    d.text((1100,y-17),label,font=font(27),fill='#102b40')
+d.text((545,280),'Positive +5V',font=font(25),fill=COLORS[0])
+d.text((545,397),'Negative / return',font=font(25),fill=COLORS[1])
+board(d,(40,450,490,810),'XIAO ESP32C3','Powered by computer USB')
+for i,(left,right) in enumerate(rows):
+    y=570+i*60
+    d.text((65,y-16),left,font=font(26),fill='white')
+    d.line([(460,y),(1050,y)],fill=COLORS[i],width=6)
+    d.text((1080,y-16),right,font=font(27),fill='white')
+d.text((535,510),'All FOUR logic wires stay connected',font=font(23),fill='#102b40')
+d.text((1190,625),'Shared board GND',font=font(23),fill='white')
+board(d,(1000,840,1560,910),'One SG90 on channel 0')
+for x,label,col in [(1090,'GND',COLORS[1]),(1280,'V+ (+5V)',COLORS[0]),(1480,'PWM','#a05b00')]:
+    d.line([(x,760),(x,840)],fill=col,width=6)
+    d.text((x-30,790),label,font=font(21),fill=col)
+d.text((45,845),'Keep XIAO 5V unused. Never connect supply +5V to XIAO 3V3.',font=font(23),fill='#a12832')
+d.text((45,886),'Green-block GND, header GND and output GND share the board ground.',font=font(22),fill='#102b40')
 save(im,'servo')
 
 im,d=canvas('Meter: measure voltage without making a short', 'Adult check of LOW-VOLTAGE adapter output only. Disconnect robot electronics for this check.')
@@ -110,7 +111,7 @@ save(im,'meter')
 TABLES={
  'usb':[('Computer USB port','XIAO USB-C socket','Data cable; all headers empty')],
  **{k:[('XIAO '+a,name+' '+b,['3.3V logic','Shared ground','I2C data','I2C clock'][i]) for i,(a,b) in enumerate(rows)] for k,(name,_) in MODULES.items()},
- 'servo':[('Adapter positive','PCA green block: + / V+','Regulated 5V; direct power wire'),('Adapter negative','PCA green block: - / GND','Direct power wire'),('XIAO GND','PCA GND','Common reference'),('PCA channel 0 GND','SG90 ground','Usually brown/black; verify'),('PCA channel 0 V+','SG90 power','Usually red; verify'),('PCA channel 0 PWM','SG90 signal','Usually orange/yellow; verify')],
+ 'servo':[('Adapter positive','PCA green block: + / V+','Regulated 5V; direct power wire'),('Adapter negative','PCA green block: - / GND','Direct power wire'),('XIAO 3V3','PCA VCC','Logic power, separate from V+'),('XIAO GND','PCA GND','Common reference'),('XIAO D4 / GPIO6','PCA SDA','I2C data'),('XIAO D5 / GPIO7','PCA SCL','I2C clock'),('PCA channel 0 GND','SG90 ground','Usually brown/black; verify'),('PCA channel 0 V+','SG90 power','Usually red; verify'),('PCA channel 0 PWM','SG90 signal','Usually orange/yellow; verify')],
  'meter':[('Black probe / COM jack','Adapter negative output','Voltage check only'),('Red probe / V-ohm jack','Adapter positive output','DC volts; never current mode')]
 }
 NOTES={
@@ -118,7 +119,7 @@ NOTES={
  'oled':'Functional pinout: VCC, GND, SDA, SCL. The supplied display photo has **GND / VCC / SCL / SDA** across its top header when viewed from the front. Our illustration groups wires by function, not that physical order.',
  'imu':'Functional pinout: VCC, GND, SCL, SDA, XDA, XCL, AD0, INT. Leave XDA/XCL/INT open; verify AD0 default through scanning. Exact delivered header order is unconfirmed. Check regulator/pull-ups at 3.3V; do not substitute 5V to fix detection.',
  'pca':'The green two-screw block is a separate power input: one terminal is + / V+, the other is - / GND. It stays empty during this communication-only test; the driver electronics receive power through VCC. Follow the board markings, not a guessed left/right position. Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.',
- 'servo':'**Identify the green two-screw block on the PCA9685:** its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Also complete the PCA logic diagram** (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.',
+ 'servo':'**Identify the green two-screw block on the PCA9685:** its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Keep all four XIAO logic wires connected**, as shown in this complete diagram: 3V3/VCC, GND/GND, D4/SDA and D5/SCL. The shared-ground wire is one of these four wires, not an extra fifth wire. Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.',
  'meter':'Probe-jack pinout is functional, not the physical socket position of every meter variant. Select DC voltage before probing. Verify barrel size and polarity against the actual adapter; do not assume center-positive from a generic picture.'
 }
 def snippet(keys, parent, book=False, introduction=''):
@@ -251,3 +252,4 @@ for number,keys in chapter_keys.items():
     text=re.sub(r'(^## '+str(number)+r'\. [^\n]+\n)',lambda m:m[1]+'\n'+snippet(keys,book,True)+'\n',text,count=1,flags=re.M)
 p.write_text(re.sub(r'\n{3,}', '\n\n', text),encoding='utf-8')
 print(f'Updated {len(coverage)} guides, {len(chapter_keys)} book chapters, atlas and {len(TABLES)} illustrations.')
+
