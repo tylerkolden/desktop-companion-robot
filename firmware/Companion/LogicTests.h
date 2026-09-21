@@ -2,6 +2,13 @@
 #include "Logic.h"
 // Build-time regression tests execute the same pure logic used by the firmware.
 namespace companion_tests {
+static_assert(companion::showPhase(2999, 0) == 0, "hello lasts three seconds");
+static_assert(companion::showPhase(3000, 0) == 1, "curious scene boundary");
+static_assert(companion::showPhase(6000, 0) == 2, "happy scene boundary");
+static_assert(companion::showPhase(9000, 0) == 3, "rest at center before stop");
+static_assert(companion::showPhase(12000, 0) == 4, "show deadline stops");
+static_assert(companion::showPhase(20000, 0) == 4, "late loop cannot restart show");
+static_assert(companion::showPhase(11744, 0xFFFFFF00u) == 4, "show rollover stop");
 constexpr bool tapSequence() {
   companion::TapDetector t;
   if (t.update(16, 1000)) return false;

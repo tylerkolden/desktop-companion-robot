@@ -170,6 +170,8 @@ def snippet(keys, parent, book=False, introduction=''):
         preparation = '**Before assembling these connections: close the monitor and unplug the XIAO USB cable. Keep the newly introduced 5V supply unplugged from the wall until the voltage-check step. On a repeat session, unplug it before changing wires.**'
     else:
         preparation = '**Before changing wires: close the serial monitor if it is open, then unplug the XIAO USB cable. USB is the power source for this experiment.**'
+    if introduction.startswith('**5D'):
+        preparation = '**Keep the three-module logic wiring from 5C. Unplug USB and the 5V wall supply before restoring the single channel-0 servo connection shown below. Open the monitor with motor power off.**'
     parts=['<!-- wiring:start -->']
     if introduction:
         parts += [introduction, '']
@@ -251,6 +253,7 @@ placements={
  'docs/FIRST-POWER-ON.md':{'Upload':['pca'],'Face and motion-sensor checks':['team-oled','team-all'],'One servo, no leg attached':['servo','meter']},
  'lessons/README.md':{'0. Identify before overwriting':['usb'],'1. Hello: a program lives on a board':['usb'],'2. Scanner: devices have addresses':['oled'],'3. Face: pixels make expressions':['oled'],'4. Motion: gravity is a clue':['imu'],'5A. Test the driver by itself':['pca'],'5C.1 Add the screen':['team-oled'],'5C.2 Add the motion sensor':['team-all'],'5B. Introduce one servo and its power supply':['servo','meter']},
 }
+placements['lessons/README.md']["5D. Andrew's tiny talent show"]=['servo']
 for relative,keys in coverage.items():
     p=ROOT/relative
     if not p.exists(): continue
@@ -266,6 +269,8 @@ for relative,keys in coverage.items():
             target='## '+heading+'\n'
             assert target in text,(relative,heading)
             intro = ''
+            if heading.startswith('5D.'):
+                intro = '**5D setup:** use the familiar SG90 and 5V supply from 5B. The screen and sensor remain connected as shown in 5C; this diagram highlights the motor connection.'
             if relative == 'lessons/README.md' and heading.startswith('5A.'):
                 intro = '**Starting state:** lesson 4 left XIAO + GY-521 running Motion. **New part:** the PCA9685 driver generates timed control signals. First test its logic communication alone, using the same four XIAO connections you already learned.'
             elif (relative == 'lessons/README.md' and heading.startswith('5B.')) or (relative == 'docs/FIRST-POWER-ON.md' and heading == 'One servo, no leg attached'):

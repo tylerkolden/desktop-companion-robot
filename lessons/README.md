@@ -429,6 +429,64 @@ Reconnect USB and run the same PowerShell monitor command from 5C.1. In the moni
 
 **Explain it to Andrew:** “Why do three boards share SDA and SCL without all having the same address?” Let him trace each of the four groups and explain its job.
 
+## 5D. Andrew's tiny talent show
+
+<!-- wiring:start -->
+**5D setup:** use the familiar SG90 and 5V supply from 5B. The screen and sensor remain connected as shown in 5C; this diagram highlights the motor connection.
+
+### Wiring visuals and pinouts
+
+**Keep the three-module logic wiring from 5C. Unplug USB and the 5V wall supply before restoring the single channel-0 servo connection shown below. Open the monitor with motor power off.** These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.
+
+![SERVO wiring: labelled endpoints and separate power paths](../docs/wiring/images/servo.png)
+
+**Identify the green two-screw block on the PCA9685:** its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Keep all four XIAO logic wires connected**, as shown in this complete diagram: 3V3/VCC, GND/GND, D4/SDA and D5/SCL. The shared-ground wire is one of these four wires, not an extra fifth wire. Channel 0 is the three-pin output group beside the printed 0 among groups 0 through 15. One plug spans GND, V+ and signal within that group, not three neighboring channel numbers. The green block is not channel 0. Verify actual markings; left/right orientation is not established by this diagram. Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| Adapter positive | PCA green block: + / V+ | Regulated 5V; direct power wire |
+| Adapter negative | PCA green block: - / GND | Direct power wire |
+| XIAO 3V3 | PCA VCC | Logic power, separate from V+ |
+| XIAO GND | PCA GND | Common reference |
+| XIAO D4 / GPIO6 | PCA SDA | I2C data |
+| XIAO D5 / GPIO7 | PCA SCL | I2C clock |
+| PCA channel 0 GND | SG90 ground | Usually brown/black; verify |
+| PCA channel 0 V+ | SG90 power | Usually red; verify |
+| PCA channel 0 PWM | SG90 signal | Usually orange/yellow; verify |
+
+<!-- wiring:end -->
+
+**Mission:** make a face and a motor tell the same story! Finish 5C first. This is a scripted personality performance, not real feelings or a walking robot.
+
+**Starting state:** the three logic modules passed together; motor power is unplugged and the single tested SG90 is set aside. Keep the combined logic wiring from 5C. Use the [complete servo diagram and pin table from 5B](#5b-introduce-one-servo-and-its-power-supply) to restore the one unloaded servo on channel 0 with both supplies unplugged. Keep any OE-to-GND jumper. No horn, leg or mechanism is attached. All other motor channels stay empty. Have an adult check the connection and keep the power plug accessible.
+
+Upload the updated Companion while motor power remains unplugged, then open the monitor. Opening the monitor can reset the controller: do this before powering the motor. Use your identified port in place of COM5:
+
+```powershell
+.\robot.ps1 upload -Sketch Companion -Port COM5 -ServoPowerDisconnected
+.\robot.ps1 monitor -Port COM5 -ServoPowerDisconnected
+```
+
+In the monitor, type `scan`, `status`, and `show`, pressing Enter after each. All three boards must be ready. `show` prints the guide and requests pulses off; it does not move the motor. Only use this performance after physically checking channel 0's center +/-50us range with the supervised calibration procedure in the motor lab. The owner's earlier 1450–1550us test showed movement, but other builders must check their own servo. Existing narrower limits reduce travel automatically; this show never widens limits.
+
+After the adult's 5B power check, reconnect the 5V supply without changing wiring. Type `show start` and press Enter once. Watch both the face and the shaft:
+
+| Time | Story | Motor request |
+|---|---|---|
+| 0–3 seconds | Hello, Andrew! Open eyes | One smooth sway |
+| 3–6 seconds | What's over there? Curious angled eyes | One smooth sway |
+| 6–9 seconds | Happy dance! Smiling eyes | Three quicker wiggles |
+| 9–12 seconds | Time for a nap. Sleepy eyes | Return to center and hold |
+| Finish | Curtain down | All pulses requested off |
+
+Only channel 0 moves. Travel is at most +/-50us from its configured center, within existing limits. This is more visible than the old +10us test, not a full-range sweep or continuous rotation. Initial centering may move farther from an unknown starting position.
+
+Type `stop` and Enter to cancel at any point. Sensor/driver communication failures stop the show; it also checks whether the screen still answers. These are software checks, not a hardware emergency stop: unplug the motor supply if the motor binds, buzzes continuously or behaves unexpectedly. Sensor tilt does not steer or cancel this unloaded bench show. Never use it with an assembled mechanism.
+
+**Verify:** observe the four expressions, synchronized shaft movement, and automatic finish. Then type `status` (show off, no active channel) and `diagnose` (all channels full-off=1). These reports verify software/register state, not physical position. Unplug motor power before restarting the monitor or changing connections. For a prepared repeat, type `show`, then `show start` again.
+
+**Teach it back:** the controller follows a timed sequence called a state machine. One scene selects both an expression and a motion pattern. Ask Andrew which scene looked happiest and why. Record what actually moved, not just what the program printed.
+
 ## 6. Measure, print, revise
 
 **Prerequisites:** actual parts available, printer supervision. **Book:** chapter 16. Use [measurement sheet](../docs/MEASUREMENTS.md) and [fit-gauge instructions](../cad/README.md).

@@ -96,3 +96,6 @@ Added hunt preparation and hunt start diagnostic: 16 outputs sequentially, cente
 
 Owner reported no visible motion on any channel. Root cause remains unconfirmed. Reviewed installed Adafruit library: setPWM success convention, 50Hz prescale setup and pulse conversion match firmware use. Added read-only diagnose command for MODE1/MODE2/PRESCALE and all channel registers, with explicit physical measurement limitations. Build passed: 366936 bytes flash, 13168 bytes globals. Script guards and documentation links passed. No upload or physical test performed by assistant.
 
+
+## 2026-09-20 — combined bench check and personality-show implementation
+Owner confirmed screen expression changes. Live serial showed OLED 0x3C, MPU 0x68 and PCA 0x40 together, with changing acceleration readings during handling. Earlier owner confirmed channel-0 movement in the 1450–1550us test; cause of the earlier no-motion result remains unproven. Added a 12-second, channel-0-only personality show with four face/motion scenes, capped travel, explicit preparation/start, cancellation and automatic pulse-off. New sequence is not yet physically tested. Display wording now distinguishes servo inactivity from sensor operation.

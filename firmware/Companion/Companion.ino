@@ -27,6 +27,9 @@ bool huntReady = false, hunting = false;
 int huntChannel = -1, huntStage = 0;
 uint32_t huntStart = 0;
 bool motorGuideReady = false;
+bool showRunning = false, showReady = false;
+uint32_t showStart = 0;
+int showScene = -1;
 bool benchTest = false;
 bool benchOffsetSent = false;
 uint32_t benchStart = 0;
@@ -46,6 +49,7 @@ bool probe(uint8_t address) {
 }
 
 void stopMotion() {
+  showRunning = false; showReady = false;
   demo = false;
   hunting = false; huntReady = false; huntChannel = -1;
   benchTest = false;
@@ -150,7 +154,7 @@ bool readPcaRegister(uint8_t reg, uint8_t &value) {
 }
 
 void diagnosePca() {
-  if (benchTest || hunting || demo) {
+  if (benchTest || hunting || demo || showRunning) {
     Serial.println("Type stop first, then diagnose. This check never starts movement."); return;
   }
   uint8_t mode1, mode2, prescale;
@@ -199,6 +203,7 @@ void showDevice(const char *name, bool ready, uint8_t address, const char *expec
 }
 
 void showStatus() {
+  Serial.printf("Personality show: %s\n", showRunning ? "RUNNING" : "off");
   Serial.printf("Channel finder: %s | channel=%d\n", hunting ? "RUNNING" : "off", huntChannel);
   Serial.println("\n--- Andrew's robot check-in ---");
   Serial.println("[OK] ESP32: running Companion and answering your command.");
@@ -215,6 +220,7 @@ void showStatus() {
 }
 
 void printHelp() {
+  Serial.println("show : personality-show guide | show start : prepared one-servo performance");
   Serial.println("Companion bench firmware 0.1.0 | 115200 baud | newline commands");
   Serial.println("help | motor | hunt | status | scan | diagnose | details | stop | face awake/happy/sleep");
   Serial.println("Type a command here, then press Enter. status = friendly report; scan = current address replies.");
@@ -281,6 +287,29 @@ void command(char *line) {
   if (!strcmp(op, "diagnose") && count == 1) { diagnosePca(); return; }
   if (!strcmp(op, "details") && count == 1) { showDetails(); return; }
   if (!strcmp(op, "scan") && count == 1) { scanBus(); return; }
+  if (!strcmp(op, "show") && count == 1) {
+    stopMotion(); showReady = true;
+    Serial.println("ANDREW'S TINY TALENT SHOW: 12 seconds, ONE unloaded servo on channel 0.");
+    Serial.println("Use lesson 5D preparation first. No legs or mechanism; shaft clear.");
+    Serial.println("Rehearse center +/-50us physically first. Existing limits are never widened.");
+    Serial.println("Wake up -> curious look -> happy wiggles -> sleepy finish. stop cancels.");
+    Serial.println("After the adult power check, type show start. This guide starts no movement.");
+    return;
+  }
+  if (!strcmp(op, "show") && count == 2 && !strcmp(tokens[1], "start")) {
+    if (!showReady || !pcaOK || !oledOK || !imuOK || !imuSampleValid) {
+      Serial.println("First type show. Screen, sensor and driver must all be ready."); return;
+    }
+    stopMotion();
+    if (!huntAllOff()) return;
+    currentPulse = calibration[0].center;
+    if (!sendPulse(0, currentPulse)) return;
+    showRunning = true; activeChannel = 0; showScene = -1;
+    showStart = lastCommand = lastInteraction = millis();
+    Serial.println("CURTAIN UP! Channel 0 only. Type stop to end early."); return;
+  }
+  if (showRunning) { Serial.println("Show running: stop cancels; status reports progress."); return; }
+  showReady = false;
   if (!strcmp(op, "hunt") && count == 1) {
     stopMotion();
     if (!pcaOK) { Serial.println("[X] Driver unavailable. Check scan first."); return; }
@@ -451,6 +480,31 @@ void loop() {
     }
   }
   advanceHunt(now);
+  if (showRunning) {
+    const uint32_t age = companion::elapsed(now, showStart);
+    if (companion::showPhase(now, showStart) == 4 || !oledOK || !imuOK || !imuSampleValid || !pcaOK || !probe(oledAddress)) {
+      stopMotion(); mood = Mood::Sleep; lastInteraction = now;
+      Serial.println("CURTAIN DOWN. Pulses requested OFF. Unplug motor power. Report what you saw.");
+    } else {
+      const int scene = companion::showPhase(now, showStart);
+      if (scene != showScene) {
+        showScene = scene;
+        const char *titles[] = {"1/4 HELLO, ANDREW!", "2/4 WHAT'S OVER THERE?", "3/4 HAPPY DANCE!", "4/4 TIME FOR A NAP"};
+        Serial.println(titles[scene]);
+      }
+      mood = scene == 0 ? Mood::Awake : scene == 1 ? Mood::Concerned : scene == 2 ? Mood::Happy : Mood::Sleep;
+      if (companion::elapsed(now, lastMotion) >= 40) {
+        lastMotion = now;
+        const Calibration &c = calibration[0];
+        const int amplitude = min(50, min(c.center-c.low, c.high-c.center));
+        const float t = (age % 3000) / 3000.0f;
+        // Each scene starts/ends at center. Finish with three seconds at center.
+        const float wave = scene == 3 ? 0 : sinf(t * 2 * PI * (scene == 2 ? 3 : 1));
+        currentPulse = c.center + c.direction * static_cast<int>(amplitude * wave);
+        sendPulse(0, currentPulse);
+      }
+    }
+  }
   if (benchTest) {
     const int phase = companion::benchPhase(now, benchStart);
     if (phase == 2) {

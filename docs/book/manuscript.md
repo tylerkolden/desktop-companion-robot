@@ -1271,3 +1271,8 @@ Useful primary references, also linked near the relevant chapters:
 Adult reminder: a chip data sheet, a reference breakout tutorial, a seller listing, and a measurement of your own part are different kinds of evidence. Good engineering keeps those distinctions visible.
 
 The most important future source will be Andrew’s notebook.
+
+## Bonus lab: Andrew's tiny talent show
+
+After lesson 5C, try the repository's lesson 5D before printing a body. The updated Companion command 'show' explains a twelve-second performance: open eyes and a sway, curious eyes and a look around, smiling eyes and three wiggles, then sleepy eyes and a return to center. The prepared 'show start' command runs it with one unloaded servo on channel 0. Follow lesson 5D's complete setup and range checks first; 'stop' cancels. This scripted sequence coordinates face and motor, but does not represent real feelings. The display now says SERVO RESTING when motor control is inactive; the motion sensor keeps reading. Physical performance must still be observed.
+

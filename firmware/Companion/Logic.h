@@ -3,6 +3,9 @@
 
 namespace companion {
 constexpr uint32_t elapsed(uint32_t now, uint32_t then) { return now - then; }
+constexpr int showPhase(uint32_t now, uint32_t start) {
+  return elapsed(now, start) >= 12000 ? 4 : elapsed(now, start) / 3000;
+}
 // 0=center, 1=small offset, 2=off. Unsigned elapsed handles millis rollover.
 constexpr int benchPhase(uint32_t now, uint32_t start) {
   return elapsed(now, start) >= 1000 ? 2 : (elapsed(now, start) >= 500 ? 1 : 0);

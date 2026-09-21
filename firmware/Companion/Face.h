@@ -23,7 +23,7 @@ inline void drawFace(Adafruit_SSD1306 &screen, Mood mood, uint32_t now,
   screen.setTextSize(1);
   screen.setTextColor(SSD1306_WHITE);
   screen.setCursor(2, 55);
-  screen.print(armed ? "MOTION ON" : "MOTION OFF");
+  screen.print(armed ? "SERVO ACTIVE" : "SERVO RESTING");
   if (!imuPresent) { screen.setCursor(105, 2); screen.print("IMU?"); }
   if (mood == Mood::Sleep) { screen.setCursor(108, 10); screen.print("z"); }
   screen.display();
