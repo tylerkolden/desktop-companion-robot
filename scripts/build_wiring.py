@@ -200,7 +200,7 @@ placements={
  'docs/WIRING.md':{'Power architecture':['servo'],'Logic connections':['oled','imu','pca'],'Meter setup for the first power check':['meter']},
  'docs/BUILD.md':{'2. Prepare the power connection':['servo','meter'],'3. Establish USB programming':['usb'],'4. Bring up low-current modules':['oled','imu','pca'],'5. Calibrate a single servo':['servo']},
  'docs/FIRST-POWER-ON.md':{'Upload':['pca'],'Face and motion-sensor checks':['oled','imu','pca'],'One servo, no leg attached':['servo','meter']},
- 'lessons/README.md':{'0. Identify before overwriting':['usb'],'1. Hello: a program lives on a board':['usb'],'2. Scanner: devices have addresses':['oled'],'3. Face: pixels make expressions':['oled'],'4. Motion: gravity is a clue':['imu'],'5A. Test the driver by itself':['pca'],'5B. Combine the three verified modules':['oled','imu','pca'],'5C. Introduce one servo and its power supply':['servo','meter']},
+ 'lessons/README.md':{'0. Identify before overwriting':['usb'],'1. Hello: a program lives on a board':['usb'],'2. Scanner: devices have addresses':['oled'],'3. Face: pixels make expressions':['oled'],'4. Motion: gravity is a clue':['imu'],'5A. Test the driver by itself':['pca'],'5C. Combine the three verified modules':['oled','imu','pca'],'5B. Introduce one servo and its power supply':['servo','meter']},
 }
 for relative,keys in coverage.items():
     p=ROOT/relative
@@ -219,8 +219,8 @@ for relative,keys in coverage.items():
             intro = ''
             if relative == 'lessons/README.md' and heading.startswith('5A.'):
                 intro = '**Starting state:** lesson 4 left XIAO + GY-521 running Motion. **New part:** the PCA9685 driver generates timed control signals. First test its logic communication alone, using the same four XIAO connections you already learned.'
-            elif (relative == 'lessons/README.md' and heading.startswith('5C.')) or (relative == 'docs/FIRST-POWER-ON.md' and heading == 'One servo, no leg attached'):
-                intro = '**Starting state:** the OLED, GY-521 and PCA9685 logic checks have passed. **New parts:** one SG90 servo motor, a regulated 5V wall power supply, its low-voltage barrel-to-screw-terminal connector, prepared power wires, and the multimeter. The servo turns its shaft in response to the driver signal. The separate supply provides motor power; USB continues powering the XIAO. Identify these parts first. The wall supply has not been connected yet.'
+            elif (relative == 'lessons/README.md' and heading.startswith('5B.')) or (relative == 'docs/FIRST-POWER-ON.md' and heading == 'One servo, no leg attached'):
+                intro = '**Starting state:** only the XIAO and independently tested PCA9685 logic are connected, with Companion running. The tested OLED and GY-521 are set aside. **New parts:** one SG90 servo motor, a regulated 5V wall power supply, its low-voltage barrel-to-screw-terminal connector, prepared power wires, and the multimeter. The servo turns its shaft in response to the driver signal. The separate supply provides motor power; USB continues powering the XIAO. Identify these parts first. The wall supply has not been connected yet.'
             text=text.replace(target,target+'\n'+snippet(subset,p.parent,introduction=intro)+'\n',1)
     else:
         text=first+'\n\n'+intro+snippet(keys,p.parent)+'\n'+rest.lstrip()

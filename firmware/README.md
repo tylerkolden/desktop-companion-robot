@@ -43,3 +43,7 @@ For standalone beginner examples, use [the lessons](../lessons/README.md) before
 - `LogicTests.h`: compile-time regression tests for double taps, held-high events, bounce, timeout, clock rollover, limit validation and orientation hysteresis. Every sketch build evaluates these assertions.
 
 Sensor sampling and animation use timers rather than long movement delays. Device initialization and I2C transfers are still synchronous. A full OLED frame takes roughly 25ms at 400kHz, so the nominal 25ms sensor / 20ms motion schedules are not hard real-time guarantees; display frames are limited to about 8fps. Software stop requires a responsive controller and bus; it does not cut servo power. A saved calibration is an operator decision, not a sensor-derived proof of safe travel.
+
+## Timed bench output test
+
+`test N` (N=0..3) requires stopped motion, an available PCA and at least 10us of existing headroom above the saved center. It requests center for 500ms and center+10us for 500ms, then pulse-off. It never starts at boot or saves calibration. Use one unloaded servo through the [lesson 5B wiring and supply sequence](../lessons/README.md#5b-introduce-one-servo-and-its-power-supply). `stop` or `scan` cancels it; other motion commands are rejected while it runs. `status` reports `timed_test`. Timing is cooperative, not a hardware power cutoff. No automatic shaft-position feedback is available; observe and record physical movement. Compile-time assertions cover phase boundaries, overdue stopping and clock rollover.

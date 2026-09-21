@@ -69,3 +69,7 @@ Checked Face and Motion sketch behavior against the teaching sequence. Made less
 ## 2026-09-20 — teaching-state review
 
 Removed unintroduced hardware from early-lesson prose and generated warnings. Split lesson 5 into a logic communication checkpoint and a motor/power checkpoint with an explicit parts introduction. Clarified first supply measurement versus subsequent disconnection. Checked lessons 0–4 for premature hardware references, regenerated diagrams and book, and checked local links and EPUB structure. No hardware test or firmware change.
+
+## 2026-09-20 — individual device validation and timed output test
+
+Added explicit `test N` command: 500ms center, 500ms center+10us, then pulse-off request; stopped-state and existing travel limits required. Stop/scan cancel, no boot activation, no saved calibration changes. Companion compiled for the pinned XIAO target (358062 bytes flash, 13152 bytes globals), including phase-boundary, overdue and rollover assertions. Documentation now tests ESP32 persistence/timing, OLED repeated rendering, sensor orientation, driver communication and observed unloaded output before combined validation. Documentation links and EPUB structure checked. No upload or physical movement test performed; cooperative timer and I2C stop limitations remain.

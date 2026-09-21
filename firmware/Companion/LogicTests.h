@@ -24,6 +24,12 @@ constexpr bool wrappedTap() {
   t.update(16, 0xFFFFFF00u); t.update(9, 0xFFFFFF20u);
   return t.update(16, 44);
 }
+static_assert(companion::benchPhase(499, 0) == 0, "bench center duration");
+static_assert(companion::benchPhase(500, 0) == 1, "bench offset boundary");
+static_assert(companion::benchPhase(999, 0) == 1, "bench offset duration");
+static_assert(companion::benchPhase(1000, 0) == 2, "bench automatic stop");
+static_assert(companion::benchPhase(2000, 0) == 2, "late loop must stop");
+static_assert(companion::benchPhase(744, 0xFFFFFF00u) == 2, "bench rollover stop");
 static_assert(tapSequence(), "double tap or edge detection regression");
 static_assert(expiredTap(), "expired tap accepted");
 static_assert(bounce(), "tap bounce accepted");

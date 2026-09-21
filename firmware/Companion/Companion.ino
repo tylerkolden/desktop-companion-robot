@@ -22,6 +22,9 @@ Preferences preferences;
 companion::TapDetector taps;
 bool pcaOK = false, oledOK = false, imuOK = false, storageOK = false;
 bool upright = false, imuSampleValid = false, demo = false;
+bool benchTest = false;
+bool benchOffsetSent = false;
+uint32_t benchStart = 0;
 int activeChannel = -1;
 int currentPulse = 1500;
 uint32_t lastCommand = 0, lastInteraction = 0, lastMotion = 0, demoStart = 0;
@@ -39,6 +42,7 @@ bool probe(uint8_t address) {
 
 void stopMotion() {
   demo = false;
+  benchTest = false;
   activeChannel = -1;
   taps = companion::TapDetector{};
   if (pcaOK) {
@@ -70,6 +74,7 @@ bool sendPulse(uint8_t channel, int pulse) {
 }
 
 void showStatus() {
+  Serial.printf("timed_test=%d\n", benchTest);
   Serial.printf("OLED=%d MPU=%d PCA=%d storage=%d upright=%d sample=%d demo=%d cal_channel=%d\n",
                 oledOK, imuOK, pcaOK, storageOK, upright, imuSampleValid, demo, activeChannel);
   for (int ch = 0; ch < 4; ++ch) {
@@ -82,6 +87,7 @@ void showStatus() {
 void printHelp() {
   Serial.println("Companion bench firmware 0.1.0 | 115200 baud | newline commands");
   Serial.println("help | status | scan | stop | face awake/happy/sleep");
+  Serial.println("test N      : unloaded servo; center 500ms, +10us 500ms, then pulses off");
   Serial.println("cal N       : arm only channel N (0..3), neutral pulse, unloaded servo only");
   Serial.println("jog N DELTA : move active channel by -10..10 microseconds; 15s timeout");
   Serial.println("center N    : set current pulse as center; requires center inside limits");
@@ -121,6 +127,7 @@ void command(char *line) {
   if (!strcmp(op, "help") && count == 1) { printHelp(); return; }
   if (!strcmp(op, "status") && count == 1) { showStatus(); return; }
   if (!strcmp(op, "scan") && count == 1) { scanBus(); return; }
+  if (benchTest) { Serial.println("Timed test active; use stop or wait for completion."); return; }
   if (!strcmp(op, "face") && count == 2) {
     if (!strcmp(tokens[1], "awake")) mood = Mood::Awake;
     else if (!strcmp(tokens[1], "happy")) mood = Mood::Happy;
@@ -148,7 +155,18 @@ void command(char *line) {
   int ch = numbers[0];
   if (ch < 0 || ch > 3) { Serial.println("Channel must be 0..3."); return; }
   Calibration &c = calibration[ch];
-  if (!strcmp(op, "cal") && count == 2) {
+  if (!strcmp(op, "test") && count == 2) {
+    if (activeChannel >= 0 || demo) { Serial.println("Use stop before test."); return; }
+    if (!pcaOK) { Serial.println("PCA unavailable."); return; }
+    if (c.center + 10 > c.high) { Serial.println("Test needs 10us above center inside existing limits; do not widen blindly."); return; }
+    stopMotion();
+    currentPulse = c.center;
+    if (sendPulse(ch, currentPulse)) {
+      activeChannel = ch; benchStart = millis(); lastCommand = benchStart;
+      benchOffsetSent = false; benchTest = true;
+      Serial.printf("Test channel %d: %dus for 500ms, then %dus for 500ms. Observe unloaded shaft.\n", ch, c.center, c.center + 10);
+    }
+  } else if (!strcmp(op, "cal") && count == 2) {
     stopMotion();
     if (!pcaOK) { Serial.println("PCA unavailable."); return; }
     currentPulse = c.center;
@@ -245,6 +263,16 @@ void loop() {
     if ((pcaOK && !probe(PCA_ADDRESS)) || (imuOK && !probe(0x68) && !probe(0x69))) {
       stopMotion(); pcaOK = false; imuOK = false; imuSampleValid = false;
       Serial.println("I2C health check failed. Remove servo power and reboot after repair.");
+    }
+  }
+  if (benchTest) {
+    const int phase = companion::benchPhase(now, benchStart);
+    if (phase == 2) {
+      stopMotion(); Serial.println("Timed test ended; pulse-off requested. Confirm movement yourself; remove supply power.");
+    } else if (phase == 1 && !benchOffsetSent) {
+      benchOffsetSent = true;
+      currentPulse = calibration[activeChannel].center + 10;
+      sendPulse(activeChannel, currentPulse);
     }
   }
   if (activeChannel >= 0 && companion::elapsed(now, lastCommand) >= CAL_TIMEOUT) {
