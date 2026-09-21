@@ -97,3 +97,41 @@ Do not reconnect/reopen a console or upload during a powered servo session. Disc
 ## Reading Companion reports
 
 `status` prints a friendly device report with `[OK]` for initialized devices and `[X]` for devices not ready. `[X]` is expected when a lesson has set that part aside. These flags are not a fresh physical connection test. `scan` checks current I2C address replies and labels the expected project devices; an address cannot prove device identity or full function. `details` preserves the original numeric flags and calibration rows for troubleshooting. All three are typed inside the serial monitor, followed by Enter. Updated wording requires uploading the new Companion firmware.
+
+## Two places to type: computer or robot?
+
+The same terminal window has two modes. **Check which mode you are in before typing.**
+
+| What you see | Who receives your typing? | What to type |
+|---|---|---|
+| `PS C:\...>` | Your computer (PowerShell) | Commands beginning with `.\robot.ps1` |
+| `Connecting to COM... Press CTRL-C to exit.` followed by robot messages | Your robot (serial monitor) | For Companion: `help`, `scan`, `status`, and the lesson's commands |
+
+**Enter sends a command. Ctrl+C closes the monitor and returns to PowerShell.** Click inside the terminal before typing. You might not see your typing echoed, and sensor messages may appear while you type. Finish the command and press Enter once. Do not type the backticks, the word `text`, or the `PS ...>` prompt shown in examples.
+
+Uploading puts the program on the board; **it does not open the monitor**. Run the lesson's separate monitor command afterward. Wait for `Connecting to...`, then send the robot commands one at a time. A monitor command such as `scan` is different from the PowerShell command `.\robot.ps1 status ...`, which opens the port for a brief report and closes it again.
+
+Hello, Scanner, Face and Motion are standalone teaching programs: watch their output as their lessons describe. The interactive commands below belong to **Companion**, introduced in 5A; they are not available in those earlier sketches.
+
+**If something seems wrong:**
+
+- `scan is not recognized` means you typed at PowerShell. Open the monitor first.
+- No response? Press Enter. In Companion, type `help` and Enter to redisplay the menu.
+- Port access denied? Close other serial monitors; only one program can use the port.
+- Need to upload again? Press Ctrl+C first and follow that lesson's power preparation.
+
+## Companion lesson command card
+
+Use these **inside the monitor**, one line at a time followed by Enter. PowerShell upload/monitor commands are listed above. Follow each lesson's physical preparation before motor commands.
+
+| Lesson | Commands | Evidence |
+|---|---|---|
+| 5A: driver alone | `scan`, `status` | Driver at 0x40; absent screen/sensor expected |
+| 5B: one unloaded servo | `motor`; after preparation, `go` | Observe movement; automatic pulse-off |
+| 5C.1: add OLED | `scan`, `status`, `face happy`, `face awake` | Two boards answer; expression changes |
+| 5C.2: add sensor | Same commands; gently tilt sensor | Three boards answer; acceleration changes |
+| 5D: personality show | `show`; after preparation, `show start` | Four scenes; coordinated face and servo |
+| After 5D | `status`, `diagnose` | Show off; all output full-off flags set |
+| Cancel movement | `stop` | Requests pulse-off; power remains connected |
+
+`show` alone is a guide, not a movement command. `show start` runs only one unloaded servo on channel 0. It is different from `demo`, which requires four saved calibrations and is not part of lesson 5D. See [the complete 5D lesson](../lessons/README.md#5d-andrews-tiny-talent-show).

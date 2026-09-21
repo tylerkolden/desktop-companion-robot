@@ -1276,3 +1276,28 @@ The most important future source will be Andrew’s notebook.
 
 After lesson 5C, try the repository's lesson 5D before printing a body. The updated Companion command 'show' explains a twelve-second performance: open eyes and a sway, curious eyes and a look around, smiling eyes and three wiggles, then sleepy eyes and a return to center. The prepared 'show start' command runs it with one unloaded servo on channel 0. Follow lesson 5D's complete setup and range checks first; 'stop' cancels. This scripted sequence coordinates face and motor, but does not represent real feelings. The display now says SERVO RESTING when motor control is inactive; the motion sensor keeps reading. Physical performance must still be observed.
 
+## Two places to type: computer or robot?
+
+The same terminal window has two modes. **Check which mode you are in before typing.**
+
+| What you see | Who receives your typing? | What to type |
+|---|---|---|
+| `PS C:\...>` | Your computer (PowerShell) | Commands beginning with `.\robot.ps1` |
+| `Connecting to COM... Press CTRL-C to exit.` followed by robot messages | Your robot (serial monitor) | For Companion: `help`, `scan`, `status`, and the lesson's commands |
+
+**Enter sends a command. Ctrl+C closes the monitor and returns to PowerShell.** Click inside the terminal before typing. You might not see your typing echoed, and sensor messages may appear while you type. Finish the command and press Enter once. Do not type the backticks, the word `text`, or the `PS ...>` prompt shown in examples.
+
+Uploading puts the program on the board; **it does not open the monitor**. Run the lesson's separate monitor command afterward. Wait for `Connecting to...`, then send the robot commands one at a time. A monitor command such as `scan` is different from the PowerShell command `.\robot.ps1 status ...`, which opens the port for a brief report and closes it again.
+
+Hello, Scanner, Face and Motion are standalone teaching programs: watch their output as their lessons describe. The interactive commands below belong to **Companion**, introduced in 5A; they are not available in those earlier sketches.
+
+**If something seems wrong:**
+
+- `scan is not recognized` means you typed at PowerShell. Open the monitor first.
+- No response? Press Enter. In Companion, type `help` and Enter to redisplay the menu.
+- Port access denied? Close other serial monitors; only one program can use the port.
+- Need to upload again? Press Ctrl+C first and follow that lesson's power preparation.
+
+### Talent-show monitor recipe
+
+Follow repository lesson 5D for hardware preparation and the upload. Open the monitor with motor power unplugged. Once `Connecting to...` appears, type `scan`, then `status`, then `show`, pressing Enter after each. Read the guide. After the adult power check and connection of motor power, type `show start` and Enter. Watch the four scenes. After `CURTAIN DOWN`, type `status` and then `diagnose`; look for show off and every output's full-off flag set. Type `stop` to cancel early. Unplug motor power before closing or reopening the monitor. The command `demo` is a different, four-servo experiment; it is not used here.

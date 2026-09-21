@@ -6,6 +6,29 @@ Use the [setup guide](../docs/SETUP.md) first. Run commands from the repository 
 
 Read [command meanings](../docs/COMMANDS.md) before uploading. Every upload replaces the previous program. `COM7` below is a placeholder for your identified XIAO. Before each session: have an adult present and identify the hardware listed in that lesson. Close the monitor and unplug USB before changing connections. These lessons start with a bare XIAO, not a previously assembled robot.
 
+## Two places to type: computer or robot?
+
+The same terminal window has two modes. **Check which mode you are in before typing.**
+
+| What you see | Who receives your typing? | What to type |
+|---|---|---|
+| `PS C:\...>` | Your computer (PowerShell) | Commands beginning with `.\robot.ps1` |
+| `Connecting to COM... Press CTRL-C to exit.` followed by robot messages | Your robot (serial monitor) | For Companion: `help`, `scan`, `status`, and the lesson's commands |
+
+**Enter sends a command. Ctrl+C closes the monitor and returns to PowerShell.** Click inside the terminal before typing. You might not see your typing echoed, and sensor messages may appear while you type. Finish the command and press Enter once. Do not type the backticks, the word `text`, or the `PS ...>` prompt shown in examples.
+
+Uploading puts the program on the board; **it does not open the monitor**. Run the lesson's separate monitor command afterward. Wait for `Connecting to...`, then send the robot commands one at a time. A monitor command such as `scan` is different from the PowerShell command `.\robot.ps1 status ...`, which opens the port for a brief report and closes it again.
+
+Hello, Scanner, Face and Motion are standalone teaching programs: watch their output as their lessons describe. The interactive commands below belong to **Companion**, introduced in 5A; they are not available in those earlier sketches.
+
+**If something seems wrong:**
+
+- `scan is not recognized` means you typed at PowerShell. Open the monitor first.
+- No response? Press Enter. In Companion, type `help` and Enter to redisplay the menu.
+- Port access denied? Close other serial monitors; only one program can use the port.
+- Need to upload again? Press Ctrl+C first and follow that lesson's power preparation.
+
+
 ## How to follow a lesson
 
 Start with the stated hardware, predict the result, perform one experiment, and record what you observed. Each transition tells you what to keep, remove or add. Book chapter numbers are reading references, not lesson numbers.
@@ -467,9 +490,25 @@ Upload the updated Companion while motor power remains unplugged, then open the 
 .\robot.ps1 monitor -Port COM5 -ServoPowerDisconnected
 ```
 
-In the monitor, type `scan`, `status`, and `show`, pressing Enter after each. All three boards must be ready. `show` prints the guide and requests pulses off; it does not move the motor. Only use this performance after physically checking channel 0's center +/-50us range with the supervised calibration procedure in the motor lab. The owner's earlier 1450–1550us test showed movement, but other builders must check their own servo. Existing narrower limits reduce travel automatically; this show never widens limits.
+### Your turn: talk to the robot
 
-After the adult's 5B power check, reconnect the 5V supply without changing wiring. Type `show start` and press Enter once. Watch both the face and the shaft:
+Wait until you see `Connecting to COM5. Press CTRL-C to exit.` The PowerShell prompt is now gone. **Stay in this same terminal.** Type these commands separately, pressing Enter and reading the reply after each:
+
+```text
+scan
+status
+show
+```
+
+Expect the three device addresses, three `[OK]` readiness results, and `ANDREW'S TINY TALENT SHOW`. Nothing should move yet. All three boards must be ready. `show` prints the guide and requests pulses off; it does not move the motor. Only use this performance after physically checking channel 0's center +/-50us range with the supervised calibration procedure in the motor lab. The owner's earlier 1450–1550us test showed movement, but other builders must check their own servo. Existing narrower limits reduce travel automatically; this show never widens limits.
+
+After the adult's 5B power check, reconnect the 5V supply without changing wiring. Keep the monitor open. In that same terminal, type this command and press Enter once:
+
+```text
+show start
+```
+
+Expect `CURTAIN UP!`, followed by four numbered scene announcements. Watch both the face and the shaft:
 
 | Time | Story | Motor request |
 |---|---|---|
@@ -483,7 +522,20 @@ Only channel 0 moves. Travel is at most +/-50us from its configured center, with
 
 Type `stop` and Enter to cancel at any point. Sensor/driver communication failures stop the show; it also checks whether the screen still answers. These are software checks, not a hardware emergency stop: unplug the motor supply if the motor binds, buzzes continuously or behaves unexpectedly. Sensor tilt does not steer or cancel this unloaded bench show. Never use it with an assembled mechanism.
 
-**Verify:** observe the four expressions, synchronized shaft movement, and automatic finish. Then type `status` (show off, no active channel) and `diagnose` (all channels full-off=1). These reports verify software/register state, not physical position. Unplug motor power before restarting the monitor or changing connections. For a prepared repeat, type `show`, then `show start` again.
+### Check the finish
+
+Wait for `CURTAIN DOWN`. In the still-open monitor, send each line separately:
+
+```text
+status
+diagnose
+```
+
+**Verify:** observe the four expressions, synchronized shaft movement, and automatic finish. Expect `Personality show: off`, `Calibration channel: none`, and `full-off=1` for every channel in the diagnostic report. These reports verify software/register state, not physical position. Unplug motor power before restarting the monitor or changing connections. For a prepared repeat, type `show`, then `show start` again.
+
+**Done for today?** Unplug the 5V motor supply, press Ctrl+C to close the monitor, then unplug USB. Ctrl+C closes the computer connection; it is not the robot's `stop` command and does not remove motor power.
+
+**Why did the eyes close?** After 30 seconds without a qualifying interaction, Companion shows sleepy eyes. The motion sensor still runs. `face awake` wakes the face. `SERVO RESTING` describes motor control, not sensor health.
 
 **Teach it back:** the controller follows a timed sequence called a state machine. One scene selects both an expression and a motion pattern. Ask Andrew which scene looked happiest and why. Record what actually moved, not just what the program printed.
 
