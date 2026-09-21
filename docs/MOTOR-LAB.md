@@ -1,5 +1,17 @@
 # Motor lab: one small movement
 
+## If every channel stays still
+
+An all-channel search with no visible movement does not identify the cause. The 10us offset can be too small to observe. Do not widen limits just to force a visible result.
+
+The `diagnose` command reads PCA9685 MODE1, MODE2, prescaler and all 16 output register sets. It does not start movement or rewrite configuration. It rejects a running timed test, hunt or gesture. Readback distinguishes configuration faults from an I2C address acknowledgement, but cannot prove a physical waveform or motor voltage.
+
+With motor supply unplugged, upload the diagnostic firmware and open the monitor. Send `stop`, then `diagnose`, pressing Enter after each. All output full-off flags should be 1 after stop. Copy the complete report. A subsequent `cal 0` followed promptly by `diagnose`, still with motor supply unplugged, checks that CH00's programmed pulse changes (about 307 ticks for default 1500us); finish with `stop`. This does not test shaft movement.
+
+**OE is a separate physical gate:** LOW enables outputs; HIGH disables them even if I2C communication succeeds. The reference design pulls it low, but the delivered clone must be checked. Do not infer its state from an empty pin or from the board's power LED. The firmware cannot read OE through I2C. Likewise, 5V at the input block does not establish voltage at the motor connector under load. Diagnose these separately before assigning blame to the software, driver or motor.
+
+Reference: [PCA9685 control-pin roles](https://learn.adafruit.com/16-channel-pwm-servo-driver/pinouts).
+
 Start with lesson 5B's completed wiring and measured power check. Keep the motor unloaded and its shaft clear. Open the serial monitor; type each command there and press Enter, not at the PowerShell prompt.
 
 1. Type `motor`. Companion requests pulse-off and shows preparation instructions. Opening this guide starts no movement.

@@ -142,6 +142,44 @@ void advanceHunt(uint32_t now) {
   }
 }
 
+bool readPcaRegister(uint8_t reg, uint8_t &value) {
+  Wire.beginTransmission(PCA_ADDRESS); Wire.write(reg);
+  if (Wire.endTransmission(false) != 0) return false;
+  if (Wire.requestFrom(PCA_ADDRESS, static_cast<uint8_t>(1)) != 1) return false;
+  value = Wire.read(); return true;
+}
+
+void diagnosePca() {
+  if (benchTest || hunting || demo) {
+    Serial.println("Type stop first, then diagnose. This check never starts movement."); return;
+  }
+  uint8_t mode1, mode2, prescale;
+  if (!readPcaRegister(0x00, mode1) || !readPcaRegister(0x01, mode2) || !readPcaRegister(0xFE, prescale)) {
+    Serial.println("[X] Register read failed. We cannot verify the driver settings."); return;
+  }
+  Serial.println("=== Driver detective: settings read back from the chip ===");
+  Serial.printf("MODE1=0x%02X MODE2=0x%02X PRESCALE=%u\n", mode1, mode2, prescale);
+  Serial.printf("%s Clock awake (SLEEP should be 0)\n", (mode1 & 0x10) ? "[X]" : "[OK]");
+  Serial.printf("%s Internal clock selected (EXTCLK should be 0)\n", (mode1 & 0x40) ? "[X]" : "[OK]");
+  Serial.printf("%s Multi-register writes enabled (AI should be 1)\n", (mode1 & 0x20) ? "[OK]" : "[X]");
+  Serial.printf("%s Non-inverted output (INVRT should be 0)\n", (mode2 & 0x10) ? "[X]" : "[OK]");
+  Serial.printf("%s Push-pull output (OUTDRV should be 1)\n", (mode2 & 0x04) ? "[OK]" : "[X]");
+  const int expected = static_cast<int>(pwm.getOscillatorFrequency() / (50.0f * 4096.0f) + 0.5f) - 1;
+  Serial.printf("%s 50Hz prescaler: read %u, expected %d. Frequency itself is not measured.\n", prescale == expected ? "[OK]" : "[X]", prescale, expected);
+  for (int ch = 0; ch < 16; ++ch) {
+    uint8_t r[4];
+    for (int i = 0; i < 4; ++i) {
+      if (!readPcaRegister(0x06 + ch*4 + i, r[i])) { Serial.println("[X] Channel register read failed."); return; }
+    }
+    const unsigned on = r[0] | ((r[1] & 15) << 8);
+    const unsigned off = r[2] | ((r[3] & 15) << 8);
+    Serial.printf("CH %02d: ON=%u OFF=%u full-on=%d full-off=%d\n", ch, on, off, !!(r[1]&16), !!(r[3]&16));
+  }
+  Serial.println("full-off=1 is normal after stop. During cal 0, CH00 should have full-off=0 and about 307 ticks at 1500us.");
+  Serial.println("These registers do NOT measure the output waveform, OE pin, motor voltage or motor health.");
+  Serial.println("Copy this report. OE must be LOW to enable outputs; that requires a separate physical measurement.");
+}
+
 void showDetails() {
   Serial.printf("timed_test=%d\n", benchTest);
   Serial.printf("OLED=%d MPU=%d PCA=%d storage=%d upright=%d sample=%d demo=%d cal_channel=%d\n",
@@ -178,7 +216,7 @@ void showStatus() {
 
 void printHelp() {
   Serial.println("Companion bench firmware 0.1.0 | 115200 baud | newline commands");
-  Serial.println("help | motor (guided test) | status | scan | details | stop | face awake/happy/sleep");
+  Serial.println("help | motor | hunt | status | scan | diagnose | details | stop | face awake/happy/sleep");
   Serial.println("Type a command here, then press Enter. status = friendly report; scan = current address replies.");
   Serial.println("hunt        : instructions for checking all 16 channels, one at a time");
   Serial.println("test N      : unloaded servo; center 500ms, +10us 500ms, then pulses off");
@@ -240,6 +278,7 @@ void command(char *line) {
   if (!strcmp(op, "stop") && count == 1) { stopMotion(); Serial.println("Stopped."); return; }
   if (!strcmp(op, "help") && count == 1) { printHelp(); return; }
   if (!strcmp(op, "status") && count == 1) { showStatus(); return; }
+  if (!strcmp(op, "diagnose") && count == 1) { diagnosePca(); return; }
   if (!strcmp(op, "details") && count == 1) { showDetails(); return; }
   if (!strcmp(op, "scan") && count == 1) { scanBus(); return; }
   if (!strcmp(op, "hunt") && count == 1) {

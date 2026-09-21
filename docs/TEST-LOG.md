@@ -91,3 +91,8 @@ Added motor preparation guide and one-shot go command for channel 0, progress la
 ## 2026-09-20 — sequential channel finder
 
 Added hunt preparation and hunt start diagnostic: 16 outputs sequentially, center/offset/off pause, one active output, checked all-off writes and manual stop. Companion compiled: 364964 bytes flash, 13168 bytes globals. Existing compile-time assertions passed; new sequence has not been exercised on hardware. Documentation checks passed. No upload or movement performed by assistant.
+
+## 2026-09-20 — no motion on channel search
+
+Owner reported no visible motion on any channel. Root cause remains unconfirmed. Reviewed installed Adafruit library: setPWM success convention, 50Hz prescale setup and pulse conversion match firmware use. Added read-only diagnose command for MODE1/MODE2/PRESCALE and all channel registers, with explicit physical measurement limitations. Build passed: 366936 bytes flash, 13168 bytes globals. Script guards and documentation links passed. No upload or physical test performed by assistant.
+
