@@ -917,7 +917,6 @@ stop
 <p><code>cal 0</code> arms that channel at its centre. A jog changes the requested pulse slightly. A fifteen-second calibration-command timeout disables pulses. Keep the servo unloaded and do not attach a leg for this first test. If it buzzes persistently or appears blocked, stop and disconnect servo power rather than repeatedly commanding it.</p>
 <p><strong>Important:</strong> software stop needs functioning software and communication. The PCA may retain pulses through an MCU reset or communication failure. Disconnect servo power before uploads, resets, horn installation, or repairs. Support a future chassis so pulse-off cannot make it collapse.</p>
 <p><strong>Mission: write the evidence.</strong> Record which modules were connected, addresses found, commands sent, and what happened. Copy actual text output. “Display showed happy eyes after <code>face happy</code>” is more useful than “robot works.”</p></section><section id="c15"><h1>15. Calibration: teaching the robot what its body means</h1>
-<p><strong>Channel detective:</strong> if a single unloaded motor does not respond and its connector number is uncertain, the monitor command <code>hunt</code> explains a diagnostic. After the adult wiring/power check, <code>hunt start</code> tries outputs 0–15 one at a time: half a second at center, half a second at a tiny +10us offset, then one second with outputs off. Keep only one motor attached and do not move plugs during the test. Note the printed channel when it moves. <code>stop</code> cancels. No movement is inconclusive, not proof that the wiring or motor is faulty. Unplug motor power when finished. The full sequence takes about 32 seconds and does not save calibration.</p>
 <!-- wiring:start -->
 <p><strong>Parts for this power checkpoint:</strong> a regulated 5V wall supply, its low-voltage connector and prepared wires, and a multimeter. For the motor connection, also identify the SG90 servo and PCA9685 driver. The supply powers the motor through the driver; the meter checks its output before connection. Identify these parts before following the diagram.</p>
 <h3>Wiring visuals and pinouts</h3>
@@ -1015,6 +1014,7 @@ stop
 </table>
 <!-- wiring:end -->
 
+<p><strong>Channel detective:</strong> if a single unloaded motor does not respond and its connector number is uncertain, the monitor command <code>hunt</code> explains a diagnostic. After the adult wiring/power check, <code>hunt start</code> tries outputs 0–15 one at a time: half a second at center, half a second at a tiny +10us offset, then one second with outputs off. Keep only one motor attached and do not move plugs during the test. Note the printed channel when it moves. <code>stop</code> cancels. No movement is inconclusive, not proof that the wiring or motor is faulty. Unplug motor power when finished. The full sequence takes about 32 seconds and does not save calibration.</p>
 <p>Two servos with the same model name are not automatically identical. Horns may sit at different angles. A left leg and right leg may be mirrored. A mechanical stop may be closer on one side. Calibration records useful relationships between our commands and the actual assembly.</p>
 <p>We need a centre, lower and upper travel limits, and a direction for each channel. Our planned map is channel 0 front left, 1 front right, 2 rear left, and 3 rear right. Agree on “front” from the robot’s perspective and label it in a drawing.</p>
 <p>A centre pulse is not a promise of exactly ninety degrees. First command the unloaded servo near neutral. Remove servo power before fitting a horn. Later, inspect the mounted geometry and test tiny changes with adult supervision. Move one variable at a time and keep the chassis supported.</p>
@@ -1276,6 +1276,171 @@ stop
 <p><strong>Session 3 — Faces and addresses.</strong> Read chapters 5, 9, and 10. Follow repository lessons 2 and 3: Scanner first, then Face, with the same XIAO and OLED. Success: find the display and show two expressions.</p>
 <p><strong>Session 4 — The world has three axes.</strong> Read chapter 6 and follow repository lesson 4. Use its power-off transition from the OLED experiment to the GY-521-only experiment, with the diagram and pin table in chapter 6. Upload Motion: it replaces Face and prints acceleration numbers. The sensor measures the movement you give it. Success: predict which orientation produces positive Z near gravity.</p>
 <p><strong>Session 5 — One small movement.</strong> Read chapters 7, 8, 11, and 14. Follow repository lesson 5 and its first-power-on guide: test PCA9685 logic by itself in 5A, test its output with one unloaded motor in 5B, then combine the three tested modules in 5C. For the guided monitor experience, type <code>motor</code> and press Enter, read the preparation steps, then type <code>go</code> only after the adult wiring/power check. The guide alone does not start movement. Channel 0 is the three-pin output group beside the printed 0; match GND, V+ and signal within that group. The test requests center for half a second, center +10us for half a second, and then pulse-off. This is repeating 50Hz control for about one second, not a one-second HIGH pulse. Record actual shaft movement; serial success is not physical proof. Scanner checks the driver address; Companion checks initialization and the combined behavior. An address response alone does not verify motor outputs. Adult checks the separate servo supply and conducts the unloaded test. Success: one controlled jog and a documented stop, without a leg attached.</p>
+<h3>5C. Combine the three verified modules</h3>
+<p><strong>Mission: make the parts work as a team!</strong> You already tested each part on its own. Now keep the driver connected, add the screen, test, then add the motion sensor and test again. No new program upload is needed: keep Companion installed.</p>
+<h4>Get ready: park the motor</h4>
+<p>At the end of 5B you had a XIAO, driver and one motor. Unplug the 5V wall supply, press <strong>Ctrl+C</strong> to close the monitor, and unplug USB. With both supplies off, remove the motor's three-wire plug and set the motor aside. Keep the four XIAO-to-driver logic connections. If you fitted an <strong>OE-to-GND</strong> jumper in 5B, keep it. The wall supply stays unplugged throughout 5C; its low-voltage leads may remain attached to the green block.</p>
+<h4>Four meeting places for wires</h4>
+<p>The boards share four connections. Think of them as four separate meeting places on the breadboard:</p>
+<ul>
+<li><strong>3V3 → VCC:</strong> power for each board's electronics.</li>
+<li><strong>GND → GND:</strong> their shared electrical reference.</li>
+<li><strong>D4 → SDA:</strong> the wire that carries messages.</li>
+<li><strong>D5 → SCL:</strong> the timing wire that keeps those messages in step.</li>
+</ul>
+<p>The last two together are <strong>I2C</strong> (say “eye-squared-see”). Each board has its own address, so the XIAO can choose who receives a message.</p>
+<p><strong>How do several wires fit on one XIAO pin?</strong> Run one wire from that pin to a connected breadboard group. The matching wire from each module joins another hole in that same group. Use a <em>different, electrically separate group</em> for each of the four connections. An adult should confirm the breadboard's connected holes with power off; do not assume a whole printed row or a split power rail is connected. Never squeeze several plugs onto one pin.</p>
+<p>If your driver currently connects directly to the XIAO, move those four connections onto the four groups, one at a time, following the table below; leave the screen disconnected for this small change. Reconnect USB, open the monitor, and check <code>scan</code> still finds <code>0x40</code>. Then close the monitor and unplug USB again. That gives you a checked starting point before adding anything.</p>
+<p><strong>Read the pictures:</strong> follow one colored line at a time. A dot means wires join. A crossing without a dot does not. Match the board's printed labels, not the position of a pin in the picture. These are functional illustrations, not exact breadboard-hole layouts or Tinkercad simulations.</p>
+<h3>5C.1 Add the screen</h3>
+<!-- wiring:start -->
+<h3>Wiring visuals and pinouts</h3>
+<p><strong>5C setup:</strong> keep the 5V wall supply unplugged and the motor plug removed. Close the monitor and unplug USB before each wiring change. Keep the tested PCA logic connections and any OE-to-GND jumper from 5B. These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.</p>
+<p><img alt="TEAM-OLED wiring: labelled endpoints and separate power paths" src="images/wiring-team-oled.png" /></p>
+<p>Models: Seeed XIAO ESP32C3, Teyleten PCA9685, AITRIP SSD1306 OLED. Read the printed pin labels on each board. Each colored line means one connected breadboard group, not a physical row or rail. The picture rearranges pins to make the four connections easy to follow; it is not a top-view placement guide. Colors are suggestions. Use the XIAO D4 pin for SDA and D5 for SCL.</p>
+<table>
+<thead>
+<tr>
+<th>From / pin</th>
+<th>To / pin</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3V3</td>
+<td>PCA + OLED VCC</td>
+<td>Power for the electronics</td>
+</tr>
+<tr>
+<td>GND</td>
+<td>PCA + OLED GND</td>
+<td>Shared ground</td>
+</tr>
+<tr>
+<td>D4 / GPIO6</td>
+<td>PCA + OLED SDA</td>
+<td>Messages</td>
+</tr>
+<tr>
+<td>D5 / GPIO7</td>
+<td>PCA + OLED SCL</td>
+<td>Timing</td>
+</tr>
+</tbody>
+</table>
+<!-- wiring:end -->
+
+<p><strong>Predict:</strong> we should find two devices now: the driver and the screen.</p>
+<p>With USB unplugged, keep the driver connected. Add the OLED's four wires using the diagram and table above. Connect one wire, trace it with your finger, then move to the next. The OLED's <strong>VCC joins the 3V3 group</strong>, not the 5V motor supply. Leave the motion sensor on the table for now.</p>
+<p>Reconnect USB. At the PowerShell prompt, run this command (replace COM5 if your board uses another port):</p>
+<pre><code class="language-powershell">.\robot.ps1 monitor -Port COM5 -ServoPowerDisconnected
+</code></pre>
+<p>After <strong>Connecting to COM5</strong>, you are inside the monitor. Type each line below and press <strong>Enter</strong> after each one. These are messages to the robot, not PowerShell commands:</p>
+<pre><code class="language-text">scan
+status
+face happy
+face awake
+</code></pre>
+<p>Pause between the face commands so you can see each expression.</p>
+<table>
+<thead>
+<tr>
+<th>Look for</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0x40</code> and <code>0x3C</code> (or <code>0x3D</code>) in the scan</td>
+<td>Driver and screen both answer</td>
+</tr>
+<tr>
+<td><code>[OK]</code> for driver and OLED</td>
+<td>Companion initialized both</td>
+</tr>
+<tr>
+<td><code>[X]</code> for motion sensor</td>
+<td>Correct for now: it is still on the table</td>
+</tr>
+<tr>
+<td>The face changes on the screen</td>
+<td>We checked real behavior, not just an address</td>
+</tr>
+</tbody>
+</table>
+<p>The driver may also answer at <code>0x70</code>; that is not another board. <strong>Checkpoint:</strong> record the two addresses and the expressions you saw. Continue only when both parts pass.</p>
+<h3>5C.2 Add the motion sensor</h3>
+<!-- wiring:start -->
+<h3>Wiring visuals and pinouts</h3>
+<p><strong>5C setup:</strong> keep the 5V wall supply unplugged and the motor plug removed. Close the monitor and unplug USB before each wiring change. Keep the tested PCA logic connections and any OE-to-GND jumper from 5B. These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.</p>
+<p><img alt="TEAM-ALL wiring: labelled endpoints and separate power paths" src="images/wiring-team-all.png" /></p>
+<p>Models: Seeed XIAO ESP32C3, Teyleten PCA9685, AITRIP SSD1306 OLED, and GY-521 / MPU6050. Read the printed pin labels on each board. Each colored line means one connected breadboard group, not a physical row or rail. The picture rearranges pins to make the four connections easy to follow; it is not a top-view placement guide. Colors are suggestions. Use the XIAO D4 pin for SDA and D5 for SCL.</p>
+<table>
+<thead>
+<tr>
+<th>From / pin</th>
+<th>To / pin</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3V3</td>
+<td>PCA + OLED + GY-521 VCC</td>
+<td>Power for the electronics</td>
+</tr>
+<tr>
+<td>GND</td>
+<td>PCA + OLED + GY-521 GND</td>
+<td>Shared ground</td>
+</tr>
+<tr>
+<td>D4 / GPIO6</td>
+<td>PCA + OLED + GY-521 SDA</td>
+<td>Messages</td>
+</tr>
+<tr>
+<td>D5 / GPIO7</td>
+<td>PCA + OLED + GY-521 SCL</td>
+<td>Timing</td>
+</tr>
+</tbody>
+</table>
+<!-- wiring:end -->
+
+<p><strong>Predict:</strong> the two working parts should keep working, and one new address should appear.</p>
+<p>Press <strong>Ctrl+C</strong>, then unplug USB. Keep the driver and screen wires exactly as they are. Add the GY-521's <strong>VCC, GND, SDA and SCL</strong> to the same four groups shown above. Keep its other pins as they were in lesson 4; do not add wires to XDA, XCL or INT.</p>
+<p>Reconnect USB and run the same PowerShell monitor command from 5C.1. In the monitor, type <code>scan</code>, then <code>status</code>, pressing Enter after each. Try <code>face happy</code> and <code>face awake</code> again. Gently tilt the sensor by its edges and watch the repeating <code>accel m/s2:</code> line: its three numbers should change as you tilt it. Set it down and let the numbers settle. Those numbers describe acceleration along three directions; gravity is part of what the sensor measures.</p>
+<table>
+<thead>
+<tr>
+<th>Team member</th>
+<th>Expected address</th>
+<th>Real-world check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PCA9685 driver</td>
+<td><code>0x40</code></td>
+<td>Still recognized; movement was tested in 5B</td>
+</tr>
+<tr>
+<td>OLED screen</td>
+<td><code>0x3C</code> or <code>0x3D</code></td>
+<td>Changes expression on command</td>
+</tr>
+<tr>
+<td>GY-521 motion sensor</td>
+<td><code>0x68</code> or <code>0x69</code></td>
+<td>Acceleration readings change when tilted</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Mission complete:</strong> all three show <code>[OK]</code>, the screen changes, and sensor readings respond to tilt. Write down the addresses and what you observed. We are checking the electronics together; the motor stays set aside and the 5V wall supply stays unplugged.</p>
+<p><strong>If a teammate disappears:</strong> close the monitor and unplug USB. Remove only the module you just added, then reconnect USB and repeat the last passing test. Inspect the new module's four connections with power off before trying again. This is why we added one part at a time: we know where to investigate!</p>
+<p><strong>Explain it to Andrew:</strong> “Why do three boards share SDA and SCL without all having the same address?” Let him trace each of the four groups and explain its job.</p>
 <p><strong>Session 6 — Shape meets reality.</strong> Read chapter 16. Inspect measurements and print fit gauges with an adult. Success: record fit without forcing a component. Final body design waits for these results.</p>
 <p><strong>Session 7 — A personality experiment.</strong> Read chapters 13 and 17. Choose a small display change and test it from a saved baseline. Success: explain the observed result and restore the original if needed.</p>
 <p><strong>Session 8 — The project review.</strong> Read chapters 18–20. Show a notebook, a bug report, and a future-feature card. Success: distinguish tested results, assumptions, and unfinished plans.</p>

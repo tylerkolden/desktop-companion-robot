@@ -119,3 +119,31 @@ Probe-jack pinout is functional, not the physical socket position of every meter
 | Red probe / V-ohm jack | Adapter positive output | DC volts; never current mode |
 
 <!-- wiring:end -->
+<!-- wiring:start -->
+### Wiring visuals and pinouts
+
+**5C setup:** keep the 5V wall supply unplugged and the motor plug removed. Close the monitor and unplug USB before each wiring change. Keep the tested PCA logic connections and any OE-to-GND jumper from 5B. These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.
+
+![TEAM-OLED wiring: labelled endpoints and separate power paths](images/team-oled.png)
+
+Models: Seeed XIAO ESP32C3, Teyleten PCA9685, AITRIP SSD1306 OLED. Read the printed pin labels on each board. Each colored line means one connected breadboard group, not a physical row or rail. The picture rearranges pins to make the four connections easy to follow; it is not a top-view placement guide. Colors are suggestions. Use the XIAO D4 pin for SDA and D5 for SCL.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| 3V3 | PCA + OLED VCC | Power for the electronics |
+| GND | PCA + OLED GND | Shared ground |
+| D4 / GPIO6 | PCA + OLED SDA | Messages |
+| D5 / GPIO7 | PCA + OLED SCL | Timing |
+
+![TEAM-ALL wiring: labelled endpoints and separate power paths](images/team-all.png)
+
+Models: Seeed XIAO ESP32C3, Teyleten PCA9685, AITRIP SSD1306 OLED, and GY-521 / MPU6050. Read the printed pin labels on each board. Each colored line means one connected breadboard group, not a physical row or rail. The picture rearranges pins to make the four connections easy to follow; it is not a top-view placement guide. Colors are suggestions. Use the XIAO D4 pin for SDA and D5 for SCL.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| 3V3 | PCA + OLED + GY-521 VCC | Power for the electronics |
+| GND | PCA + OLED + GY-521 GND | Shared ground |
+| D4 / GPIO6 | PCA + OLED + GY-521 SDA | Messages |
+| D5 / GPIO7 | PCA + OLED + GY-521 SCL | Timing |
+
+<!-- wiring:end -->

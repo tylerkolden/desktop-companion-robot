@@ -108,12 +108,49 @@ d.text((80,785),'Do not use the current jack or current mode across a supply. Do
 d.text((80,845),'Continuity is a DIFFERENT test: disconnect all power, then check breadboard contact groups.',font=font(25),fill='#102b40')
 save(im,'meter')
 
+# Integration diagrams: four separate meeting places, with one added device per stage.
+for stage, include_imu in [('team-oled', False), ('team-all', True)]:
+    im,d=canvas('5C: '+('Add the motion sensor' if include_imu else 'Add the screen'),
+                 'Change wires with USB unplugged. Keep the 5V wall supply unplugged and the motor set aside.')
+    names=['XIAO ESP32C3', 'PCA9685 driver', 'SSD1306 screen', 'MPU6050 sensor']
+    subtitles=['USB power', 'KEEP connected', 'KEEP connected' if include_imu else 'ADD four wires', 'ADD four wires']
+    xs=[80,470,860,1250]
+    for i in range(4 if include_imu else 3):
+        x=xs[i]
+        d.rounded_rectangle((x-35,160,x+280,345),18,fill='#126b69')
+        d.text((x-20,180),names[i],font=font(26),fill='white')
+        d.text((x-20,222),subtitles[i],font=font(22),fill='white')
+        for j,label in enumerate(['3V3','GND','SDA','SCL'] if i==0 else ['VCC','GND','SDA','SCL']):
+            px=x+j*70
+            d.text((px-20,292),label,font=font(18),fill='white')
+            y=445+j*100
+            # White halo: a crossing is NOT a connection; dots mark connections.
+            d.line([(px,340),(px,y)],fill='white',width=10)
+            d.line([(px,340),(px,y)],fill=COLORS[j],width=4)
+    for j,label in enumerate(['3.3V power: every VCC joins here', 'Ground: every GND joins here', 'SDA: shared messages (XIAO D4 / GPIO6)', 'SCL: shared timing (XIAO D5 / GPIO7)']):
+        y=445+j*100
+        d.line([(65,y),(1515,y)],fill=COLORS[j],width=5)
+        for i in range(4 if include_imu else 3):
+            px=xs[i]+j*70
+            d.ellipse((px-8,y-8,px+8,y+8),fill=COLORS[j],outline='white',width=2)
+        label_box=d.textbbox((75,y+15),label,font=font(25))
+        d.rectangle((label_box[0]-4,label_box[1]-4,label_box[2]+4,label_box[3]+4),fill='#f4f7fa')
+        d.text((75,y+15),label,font=font(25),fill=COLORS[j])
+    if not include_imu:
+        d.text((1220,195),'Sensor waits',font=font(26),fill='#334c60')
+        d.text((1220,235),'until the next test.',font=font(22),fill='#334c60')
+    d.text((55,845),'Dots = joined wires. Crossing without a dot = NOT joined. Four lines = four separate groups.',font=font(25),fill='#102b40')
+    d.text((55,890),'Keep any OE-to-GND jumper from 5B. XIAO 5V and PCA V+ do not join these groups.',font=font(24),fill='#a12832')
+    save(im,stage)
+
 TABLES={
  'usb':[('Computer USB port','XIAO USB-C socket','Data cable; all headers empty')],
  **{k:[('XIAO '+a,name+' '+b,['3.3V logic','Shared ground','I2C data','I2C clock'][i]) for i,(a,b) in enumerate(rows)] for k,(name,_) in MODULES.items()},
  'servo':[('Adapter positive','PCA green block: + / V+','Regulated 5V; direct power wire'),('Adapter negative','PCA green block: - / GND','Direct power wire'),('XIAO 3V3','PCA VCC','Logic power, separate from V+'),('XIAO GND','PCA GND','Common reference'),('XIAO D4 / GPIO6','PCA SDA','I2C data'),('XIAO D5 / GPIO7','PCA SCL','I2C clock'),('PCA channel 0 GND','SG90 ground','Usually brown/black; verify'),('PCA channel 0 V+','SG90 power','Usually red; verify'),('PCA channel 0 PWM','SG90 signal','Usually orange/yellow; verify')],
  'meter':[('Black probe / COM jack','Adapter negative output','Voltage check only'),('Red probe / V-ohm jack','Adapter positive output','DC volts; never current mode')]
 }
+for key, receivers in [('team-oled','PCA + OLED'),('team-all','PCA + OLED + GY-521')]:
+    TABLES[key]=[(a, receivers+' '+b, meaning) for (a,b),meaning in zip(rows,['Power for the electronics','Shared ground','Messages','Timing'])]
 NOTES={
  'usb':'The pinout for this stage is USB-C socket only: **all XIAO header pins are unused**.',
  'oled':'Functional pinout: VCC, GND, SDA, SCL. The supplied display photo has **GND / VCC / SCL / SDA** across its top header when viewed from the front. Our illustration groups wires by function, not that physical order.',
@@ -122,10 +159,14 @@ NOTES={
  'servo':'**Identify the green two-screw block on the PCA9685:** its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Keep all four XIAO logic wires connected**, as shown in this complete diagram: 3V3/VCC, GND/GND, D4/SDA and D5/SCL. The shared-ground wire is one of these four wires, not an extra fifth wire. Channel 0 is the three-pin output group beside the printed 0 among groups 0 through 15. One plug spans GND, V+ and signal within that group, not three neighboring channel numbers. The green block is not channel 0. Verify actual markings; left/right orientation is not established by this diagram. Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.',
  'meter':'Probe-jack pinout is functional, not the physical socket position of every meter variant. Select DC voltage before probing. Verify barrel size and polarity against the actual adapter; do not assume center-positive from a generic picture.'
 }
+for key in ['team-oled','team-all']:
+    NOTES[key]='Models: Seeed XIAO ESP32C3, Teyleten PCA9685, AITRIP SSD1306 OLED'+(', and GY-521 / MPU6050.' if key=='team-all' else '.')+' Read the printed pin labels on each board. Each colored line means one connected breadboard group, not a physical row or rail. The picture rearranges pins to make the four connections easy to follow; it is not a top-view placement guide. Colors are suggestions. Use the XIAO D4 pin for SDA and D5 for SCL.'
 def snippet(keys, parent, book=False, introduction=''):
     if not introduction and ('servo' in keys or 'meter' in keys):
         introduction = '**Parts for this power checkpoint:** a regulated 5V wall supply, its low-voltage connector and prepared wires, and a multimeter. For the motor connection, also identify the SG90 servo and PCA9685 driver. The supply powers the motor through the driver; the meter checks its output before connection. Identify these parts before following the diagram.'
-    if 'servo' in keys or 'meter' in keys:
+    if any(k.startswith('team-') for k in keys):
+        preparation = '**5C setup:** keep the 5V wall supply unplugged and the motor plug removed. Close the monitor and unplug USB before each wiring change. Keep the tested PCA logic connections and any OE-to-GND jumper from 5B.'
+    elif 'servo' in keys or 'meter' in keys:
         preparation = '**Before assembling these connections: close the monitor and unplug the XIAO USB cable. Keep the newly introduced 5V supply unplugged from the wall until the voltage-check step. On a repeat session, unplug it before changing wires.**'
     else:
         preparation = '**Before changing wires: close the serial monitor if it is open, then unplug the XIAO USB cable. USB is the power source for this experiment.**'
@@ -190,7 +231,7 @@ Battery pads and the JLJLUP JST1.25 battery are intentionally outside this V1 co
 From the repository root, install `requirements-book.txt`, then run `python scripts/build_wiring.py`. This regenerates PNGs, connection tables and marked documentation sections from this script. Run `python docs/book/build_book.py` afterwards to update HTML and EPUB. Do not hand-edit marked sections.
 
 '''
-(OUT/'README.md').write_text(atlas+snippet(['usb','oled','imu','pca','servo','meter'],OUT),encoding='utf-8')
+(OUT/'README.md').write_text(atlas+snippet(['usb','oled','imu','pca','servo','meter'],OUT)+snippet(['team-oled','team-all'],OUT),encoding='utf-8')
 
 # Explicit coverage: comprehensive guides plus small repeated instructions.
 coverage={
@@ -207,8 +248,8 @@ coverage={
 placements={
  'docs/WIRING.md':{'Power architecture':['servo'],'Logic connections':['oled','imu','pca'],'Meter setup for the first power check':['meter']},
  'docs/BUILD.md':{'2. Prepare the power connection':['servo','meter'],'3. Establish USB programming':['usb'],'4. Bring up low-current modules':['oled','imu','pca'],'5. Calibrate a single servo':['servo']},
- 'docs/FIRST-POWER-ON.md':{'Upload':['pca'],'Face and motion-sensor checks':['oled','imu','pca'],'One servo, no leg attached':['servo','meter']},
- 'lessons/README.md':{'0. Identify before overwriting':['usb'],'1. Hello: a program lives on a board':['usb'],'2. Scanner: devices have addresses':['oled'],'3. Face: pixels make expressions':['oled'],'4. Motion: gravity is a clue':['imu'],'5A. Test the driver by itself':['pca'],'5C. Combine the three verified modules':['oled','imu','pca'],'5B. Introduce one servo and its power supply':['servo','meter']},
+ 'docs/FIRST-POWER-ON.md':{'Upload':['pca'],'Face and motion-sensor checks':['team-oled','team-all'],'One servo, no leg attached':['servo','meter']},
+ 'lessons/README.md':{'0. Identify before overwriting':['usb'],'1. Hello: a program lives on a board':['usb'],'2. Scanner: devices have addresses':['oled'],'3. Face: pixels make expressions':['oled'],'4. Motion: gravity is a clue':['imu'],'5A. Test the driver by itself':['pca'],'5C.1 Add the screen':['team-oled'],'5C.2 Add the motion sensor':['team-all'],'5B. Introduce one servo and its power supply':['servo','meter']},
 }
 for relative,keys in coverage.items():
     p=ROOT/relative
@@ -250,6 +291,10 @@ text=re.sub(r'\n?<!-- wiring:start -->.*?<!-- wiring:end -->\n?', '',p.read_text
 chapter_keys={4:['usb'],5:['oled'],6:['imu'],7:['servo','pca'],8:['pca','servo'],10:['oled','imu','pca','servo'],11:['meter'],12:['usb'],14:['usb','oled','imu','pca','servo'],15:['servo','pca'],17:['usb','oled','imu','pca','servo']}
 for number,keys in chapter_keys.items():
     text=re.sub(r'(^## '+str(number)+r'\. [^\n]+\n)',lambda m:m[1]+'\n'+snippet(keys,book,True)+'\n',text,count=1,flags=re.M)
+for heading,key in [('5C.1 Add the screen','team-oled'),('5C.2 Add the motion sensor','team-all')]:
+    target='### '+heading+'\n'
+    assert target in text
+    text=text.replace(target,target+'\n'+snippet([key],book,True)+'\n',1)
 p.write_text(re.sub(r'\n{3,}', '\n\n', text),encoding='utf-8')
 print(f'Updated {len(coverage)} guides, {len(chapter_keys)} book chapters, atlas and {len(TABLES)} illustrations.')
 
