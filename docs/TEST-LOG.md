@@ -61,3 +61,7 @@ Next change:
 ## 2026-09-20 — wiring documentation revision
 
 Added six reproducible functional wiring illustrations, component pinouts and endpoint tables across nine guides and eleven book chapters. Updated the self-contained EPUB and browser book. Local Markdown destinations and EPUB XML, image references and reading-order checks passed. Visually inspected the diagrams for readability. Physical pin positions on clone modules remain unverified; no hardware was connected, uploaded or tested for this documentation revision. These are custom illustrations, not actual Tinkercad simulations.
+
+## 2026-09-20 — lesson transition review
+
+Checked Face and Motion sketch behavior against the teaching sequence. Made lessons 2–3 OLED-only, explicitly replaced OLED with GY-521 in lesson 4, and introduced the first servo only after lesson 5 logic checks. Aligned book workshop sessions and integration entry/exit states. Rebuilt wiring documentation and EPUB; local-link and book structural checks passed. Documentation-only change: no upload or physical hardware test performed.

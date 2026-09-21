@@ -180,6 +180,7 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 </table>
 <!-- wiring:end -->
 
+<p><strong>Repository lesson 4:</strong> Motion means sensing movement. The previous Face lesson used XIAO + OLED; this experiment uses XIAO + GY-521 only. Close the monitor and unplug USB before removing the OLED connections and wiring the sensor using this chapter's diagram/table. Reconnect USB after the adult wiring check, then upload Motion. Read acceleration in the serial monitor. No servo or PCA9685 is connected yet.</p>
 <p>“How will I know if I am upside down?” ANDI asked.</p>
 <p>“Your sensor can help,” said Andrew. “Your dramatic complaining is optional.”</p>
 <p>The GY-521 board carries an MPU6050, which combines a three-axis accelerometer and a three-axis gyroscope. Six measurement axes are sometimes described as six degrees of freedom. This does not mean the chip magically knows its exact location in the room.</p>
@@ -1165,9 +1166,9 @@ stop
 <p>Plan roughly 25–40 minutes per session, with permission to stop earlier. Finish by writing one observation and one next step. Do not rush a power or mechanical check to meet a timer.</p>
 <p><strong>Session 1 — Meet the team.</strong> Read chapters 1–3. Sort unplugged parts, sketch a board, and start the notebook. Success: Andrew can identify controller, sensor, actuator, and power source.</p>
 <p><strong>Session 2 — A message from a tiny computer.</strong> Read chapters 4 and 12. Try the separate Hello sketch with only the XIAO on USB. Success: Andrew changes the message and explains Verify versus Upload.</p>
-<p><strong>Session 3 — Faces and addresses.</strong> Read chapters 5, 9, and 10. Adult checks one-module OLED wiring. Upload Companion again. Success: find the display and show two expressions.</p>
-<p><strong>Session 4 — The world has three axes.</strong> Read chapter 6. Add the sensor with power off, then observe readings. Success: predict which orientation produces positive Z near gravity.</p>
-<p><strong>Session 5 — One small movement.</strong> Read chapters 7, 8, 11, and 14. Adult checks the separate servo supply and conducts the unloaded test. Success: one controlled jog and a documented stop, without a leg attached.</p>
+<p><strong>Session 3 — Faces and addresses.</strong> Read chapters 5, 9, and 10. Follow repository lessons 2 and 3: Scanner first, then Face, with the same XIAO and OLED. Success: find the display and show two expressions. No servo is connected.</p>
+<p><strong>Session 4 — The world has three axes.</strong> Read chapter 6 and follow repository lesson 4. Use its power-off transition from the OLED experiment to the GY-521-only experiment, with the diagram and pin table in chapter 6. Upload Motion: it replaces Face and prints acceleration numbers. The sensor measures motion; it does not drive a servo. Success: predict which orientation produces positive Z near gravity.</p>
+<p><strong>Session 5 — One small movement.</strong> Read chapters 7, 8, 11, and 14. Follow repository lesson 5 and its first-power-on guide: upload Companion, rebuild and verify the logic bus first, then introduce the first servo. Adult checks the separate servo supply and conducts the unloaded test. Success: one controlled jog and a documented stop, without a leg attached.</p>
 <p><strong>Session 6 — Shape meets reality.</strong> Read chapter 16. Inspect measurements and print fit gauges with an adult. Success: record fit without forcing a component. Final body design waits for these results.</p>
 <p><strong>Session 7 — A personality experiment.</strong> Read chapters 13 and 17. Choose a small display change and test it from a saved baseline. Success: explain the observed result and restore the original if needed.</p>
 <p><strong>Session 8 — The project review.</strong> Read chapters 18–20. Show a notebook, a bug report, and a future-feature card. Success: distinguish tested results, assumptions, and unfinished plans.</p>

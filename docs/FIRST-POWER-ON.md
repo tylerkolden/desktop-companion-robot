@@ -2,7 +2,7 @@
 
 Wiring reference: [full pinout atlas and verification limits](wiring/README.md). Use the stage matching your lesson; do not connect every pictured module at once.
 
-This is the next build step. The firmware is an early bench prototype, not a tested robot release. Use the [wiring table](WIRING.md), with servo power unplugged during wiring and uploads. No battery is used.
+This is the integration guide for lesson 5, after the standalone Hello, Scanner, Face and Motion lessons. It is not the starting point for lesson 1. The firmware is an early bench prototype, not a tested robot release. Use the [wiring table](WIRING.md), with servo power unplugged during wiring and uploads. No battery is used.
 
 ## Upload
 
@@ -21,6 +21,8 @@ The pinout for this stage is USB-C socket only: **all XIAO header pins are unuse
 
 <!-- wiring:end -->
 
+**Entry checkpoint:** close the monitor, unplug USB, and remove the lesson-4 GY-521 connections. Start with the bare XIAO shown above. Set the tested sensor and OLED aside for the next checkpoint; servo power and battery stay disconnected.
+
 For the repository terminal workflow, complete [setup](SETUP.md), identify the port with `./robot.ps1 ports`, then run `./robot.ps1 upload -Sketch Companion -Port COM7 -ServoPowerDisconnected` using your actual port. Open the console with `./robot.ps1 monitor -Port COM7 -ServoPowerDisconnected` while servo power is still off. The switch records your physical check; it cannot measure power. The following IDE steps are an optional alternative.
 
 1. Install Arduino IDE, ESP32 board package **3.3.0**, and the exact libraries listed in `firmware/README.md`.
@@ -29,7 +31,7 @@ For the repository terminal workflow, complete [setup](SETUP.md), identify the p
 4. Open Serial Monitor at **115200**, with **Newline** line endings. Enter `help`, then `status` and `scan`.
 5. Power off USB before adding each module. Reconnect and reboot after wiring changes. Confirm addresses and status before attaching servos.
 
-Command output is plain text; no application or Wi-Fi credentials are required. The screen blinks and looks around, goes to sleep after 30 seconds without interaction, and responds to a double tap with a happy face. Taps never arm motion. Tap sensitivity and orientation thresholds still require real-hardware tuning.
+Command output is plain text; no application or Wi-Fi credentials are required. At this bare-board checkpoint, missing OLED/IMU/PCA status and no I2C addresses are expected. After the modules pass the next checkpoint, the screen blinks and looks around, goes to sleep after 30 seconds without interaction, and responds to a double tap with a happy face. Taps never arm motion. Tap sensitivity and orientation thresholds still require real-hardware tuning.
 
 ## Face and motion-sensor checks
 
@@ -72,6 +74,14 @@ Functional pinout: VCC = logic 3.3V; V+ = separate servo power; GND = common gro
 | XIAO D5 / GPIO7 | Teyleten PCA9685 SCL | I2C clock |
 
 <!-- wiring:end -->
+
+**5A: rebuild the logic bus, one device at a time.** The three diagrams above are successive additions here, unlike the separate one-module lessons. Share the like-labelled 3V3, GND, SDA and SCL nets using checked low-current breadboard junctions.
+
+1. Close the monitor and unplug USB. Add the OLED using its diagram/table, reconnect USB, reopen the monitor, and confirm `scan` finds its recorded address. Try a face command.
+2. Close the monitor and unplug USB again. Keep the OLED and add the previously tested GY-521 using its diagram/table. Reconnect USB and reopen the monitor. Confirm both addresses and sensor readings.
+3. Repeat the power-off procedure to add PCA logic using its diagram/table. No servos or servo supply yet. Reconnect USB, reopen the monitor, and confirm `scan` and `status` recognize all three modules (PCA all-call 0x70 may also appear). Stop here if any previously working device disappears.
+
+Companion stays installed throughout these additions; do not re-upload Face or Motion. Each USB reconnection restarts Companion so it can initialize the newly added device.
 
 Try `face happy`, `face sleep`, and `face awake`. Check the acceleration messages; with the MPU's +Z axis up, Z should be near +9.8 m/s2 and `upright=1`. If the mounted sensor faces another direction, fix the mount or deliberately update the orientation transform before using demo mode. The present gesture mode stops when Z falls below its upright threshold; this is not fall prevention or a desk-edge detector.
 

@@ -191,7 +191,7 @@ placements={
  'docs/WIRING.md':{'Power architecture':['servo'],'Logic connections':['oled','imu','pca'],'Meter setup for the first power check':['meter']},
  'docs/BUILD.md':{'2. Prepare the power connection':['servo','meter'],'3. Establish USB programming':['usb'],'4. Bring up low-current modules':['oled','imu','pca'],'5. Calibrate a single servo':['servo']},
  'docs/FIRST-POWER-ON.md':{'Upload':['usb'],'Face and motion-sensor checks':['oled','imu','pca'],'One servo, no leg attached':['servo','meter']},
- 'lessons/README.md':{'0. Identify before overwriting':['usb'],'1. Hello: a program lives on a board':['usb'],'2. Scanner: devices have addresses':['oled','imu'],'3. Face: pixels make expressions':['oled'],'4. Motion: gravity is a clue':['imu'],'5. Integration and one unloaded servo':['pca','servo','meter']},
+ 'lessons/README.md':{'0. Identify before overwriting':['usb'],'1. Hello: a program lives on a board':['usb'],'2. Scanner: devices have addresses':['oled'],'3. Face: pixels make expressions':['oled'],'4. Motion: gravity is a clue':['imu'],'5. Integration and one unloaded servo':['pca','servo','meter']},
 }
 for relative,keys in coverage.items():
     p=ROOT/relative

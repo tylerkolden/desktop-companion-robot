@@ -6,6 +6,22 @@ Use the [setup guide](../docs/SETUP.md) first. Run commands from the repository 
 
 Read [command meanings](../docs/COMMANDS.md) before uploading. Every upload replaces the previous program. `COM7` below is a placeholder for your identified XIAO. Before each session: adult present, battery and servo supply disconnected, USB unplugged while changing wires. Introductory lessons use only the named modules and never the servo board. They do not shut down previously configured PCA outputs.
 
+## Lesson sequence at a glance
+
+Each lesson below states the hardware for that experiment. **Motion means measuring movement, not driving a motor. No servo or PCA9685 is connected in lessons 0–4.** Book chapter numbers are reading references, not lesson numbers.
+
+| Lesson | Program | Hardware during the experiment | Result |
+|---|---|---|---|
+| 0 | Inspect existing program | XIAO + USB only | Identify port and current behavior |
+| 1 | Hello | XIAO + USB only | Repeating serial message |
+| 2 | Scanner | XIAO + OLED | Find the OLED address |
+| 3 | Face | Same XIAO + OLED | Animated eyes |
+| 4 | Motion | XIAO + GY-521 sensor only | Acceleration numbers in the serial monitor |
+| 5A | Companion | XIAO + OLED + GY-521 + PCA logic | Confirm each device before motor power |
+| 5B | Companion | Same logic plus one unloaded SG90 on channel 0 | First controlled servo movement |
+
+Follow the transition steps and diagrams inside each lesson. Close the serial monitor before every upload. A new sketch replaces the previous sketch; it does not add a feature to it. `-ServoPowerDisconnected` confirms that servo power is absent, including when no servo has ever been connected; it is not an instruction to add a servo.
+
 ## 0. Identify before overwriting
 
 <!-- wiring:start -->
@@ -86,31 +102,22 @@ Functional pinout: VCC, GND, SDA, SCL. The supplied display photo has **GND / VC
 | XIAO D4 / GPIO6 | AITRIP SSD1306 OLED SDA | I2C data |
 | XIAO D5 / GPIO7 | AITRIP SSD1306 OLED SCL | I2C clock |
 
-![IMU wiring: labelled endpoints and separate power paths](../docs/wiring/images/imu.png)
-
-Functional pinout: VCC, GND, SCL, SDA, XDA, XCL, AD0, INT. Leave XDA/XCL/INT open; verify AD0 default through scanning. Exact delivered header order is unconfirmed. Check regulator/pull-ups at 3.3V; do not substitute 5V to fix detection.
-
-| From / pin | To / pin | Meaning |
-|---|---|---|
-| XIAO 3V3 | GY-521 / MPU6050 VCC | 3.3V logic |
-| XIAO GND | GY-521 / MPU6050 GND | Shared ground |
-| XIAO D4 / GPIO6 | GY-521 / MPU6050 SDA | I2C data |
-| XIAO D5 / GPIO7 | GY-521 / MPU6050 SCL | I2C clock |
-
 <!-- wiring:end -->
 
-**Parts:** XIAO + OLED only, then optionally repeat separately with GY-521. **Book:** chapters 9–10.
+**Parts:** XIAO + OLED only. **Book:** chapters 9–10.
 
-**Adult wiring check with USB off:** XIAO 3V3 → module VCC; GND → GND; D4/GPIO6 → SDA; D5/GPIO7 → SCL. Inspect labels, not the order in a picture. Use [the wiring specification](../docs/WIRING.md). Keep servos and PCA disconnected. GY-521 clone supply/pull-up checks still apply; do not increase bus voltage to solve a missing response.
+**Adult wiring check with USB off:** XIAO 3V3 → module VCC; GND → GND; D4/GPIO6 → SDA; D5/GPIO7 → SCL. Inspect labels, not the order in a picture. Use [the wiring specification](../docs/WIRING.md). Keep servos and PCA disconnected.
 
-**Predict:** OLED normally acknowledges at 0x3C or 0x3D; MPU normally at 0x68 or 0x69. These are addresses, not pin numbers.
+**Coming from lesson 1:** close the monitor, unplug USB, and add only the OLED using this lesson's diagram and pin table. Check the four wires, reconnect USB, then upload Scanner.
+
+**Predict:** the OLED normally acknowledges at 0x3C or 0x3D. These are addresses, not pin numbers. Save the motion sensor for lesson 4.
 
 ```powershell
 .\robot.ps1 upload -Sketch Scanner -Port COM7 -ServoPowerDisconnected
 .\robot.ps1 monitor -Port COM7 -ServoPowerDisconnected
 ```
 
-**Expected:** scan text repeats about every three seconds, including actual responding addresses. **Pass:** identify the address of one connected module. **Experiment:** unplug USB, remove that module, reconnect and observe the difference. Never remove jumpers while powered. **If stuck:** inspect crossed SDA/SCL, missing ground, and breadboard contact groups with power off. **Record:** module, observed address, and what a scan cannot prove (display function, sensor orientation, or servo power).
+**Expected:** scan text repeats about every three seconds, including actual responding addresses. **Pass:** identify the address of one connected module. **Experiment:** unplug USB, remove that module, reconnect and observe the difference. Never remove jumpers while powered. After that experiment, unplug USB again, restore the OLED using the diagram, and reconnect USB; leave the OLED installed for lesson 3. **If stuck:** inspect crossed SDA/SCL, missing ground, and breadboard contact groups with power off. **Record:** module, observed address, and what a scan cannot prove (display function, sensor orientation, or servo power).
 
 ## 3. Face: pixels make expressions
 
@@ -134,6 +141,8 @@ Functional pinout: VCC, GND, SDA, SCL. The supplied display photo has **GND / VC
 
 **Parts:** XIAO + OLED, same checked wiring. **Book:** chapters 5 and 13.
 
+**Coming from lesson 2:** keep the OLED wiring as shown above. No new hardware is needed. Close the monitor before uploading Face. Scanner is replaced by Face; the screen now draws eyes instead of merely answering an address scan.
+
 **Concept:** coordinates locate pixels, drawing changes a memory image, and sending that image changes the screen. A timer alternates expressions without a long delay in the main loop.
 
 **Predict:** inspect [Face.ino](sketches/Face/Face.ino). What changes when the height is 4 instead of 24?
@@ -143,7 +152,7 @@ Functional pinout: VCC, GND, SDA, SCL. The supplied display photo has **GND / VC
 .\robot.ps1 monitor -Port COM7 -ServoPowerDisconnected
 ```
 
-**Expected:** eyes alternate roughly every second; serial text says sleepy/awake. **Pass:** observe both distinct expressions. **Challenge:** change one eye's x coordinate slightly; predict the direction before uploading. Keep rectangles within the 128×64 display. **If stuck:** return to Scanner; address detection and drawing are separate checks. **Record:** code change and visual result, not just compile success.
+**Expected:** eyes alternate roughly every second; serial text says sleepy/awake. **Pass:** observe both distinct expressions. **Challenge:** change one eye's x coordinate slightly; predict the direction before uploading. Keep rectangles within the 128×64 display. **If stuck:** return to Scanner with the same OLED wiring; address detection and drawing are separate checks. Close the monitor and upload Face again afterwards to restore the eyes. **Record:** code change and visual result, not just compile success.
 
 ## 4. Motion: gravity is a clue
 
@@ -165,7 +174,17 @@ Functional pinout: VCC, GND, SCL, SDA, XDA, XCL, AD0, INT. Leave XDA/XCL/INT ope
 
 <!-- wiring:end -->
 
-**Parts:** XIAO + GY-521 only, with adult-checked 3.3V wiring. **Book:** chapter 6.
+**Parts:** XIAO + GY-521 / MPU6050 motion sensor only, with adult-checked 3.3V wiring. **Book:** chapter 6.
+
+**Coming from lesson 3 — change the experiment:**
+
+1. Close the serial monitor and unplug the XIAO USB cable. The servo, PCA9685 and battery have not been introduced yet; leave them aside.
+2. Remove all four OLED connections and set the display aside. Keep the XIAO and reuse the jumpers if convenient.
+3. Introduce the GY-521 sensor now. Follow this lesson's IMU diagram and pin table: identify each printed label instead of copying the OLED's header order.
+4. Have an adult check the four connections, then reconnect USB. Recheck the detected port if it changed.
+5. Upload Motion and open the monitor using the commands below. This replaces Face. **Expect numbers in the monitor, no animated OLED and no servo movement.**
+
+The GY-521 is a **sensor**: it reports how it is oriented and moving. The SG90 is a **servo motor**: it turns a shaft when commanded. The motor is first introduced in lesson 5, not here.
 
 **Concept:** accelerometer readings have axes and units. A stationary supported sensor can report gravity; it need not read zero. The gyroscope measures rotation rate, but this lesson prints only acceleration.
 
@@ -176,7 +195,7 @@ Functional pinout: VCC, GND, SCL, SDA, XDA, XCL, AD0, INT. Leave XDA/XCL/INT ope
 .\robot.ps1 monitor -Port COM7 -ServoPowerDisconnected
 ```
 
-**Expected:** three labelled acceleration values every half-second. Slowly rotate the secured board without stressing wires. **Pass:** describe a repeatable change in axes when orientation changes. **Challenge:** predict another orientation, then test. Do not shake, drop, or tug the assembly. **If stuck:** use Scanner and check physical axis markings. **Record:** orientation, readings, units, and noise/variation.
+**Expected:** three labelled acceleration values every half-second. Slowly rotate the secured board without stressing wires. **Pass:** describe a repeatable change in axes when orientation changes. **Challenge:** predict another orientation, then test. Do not shake, drop, or tug the assembly. **If stuck:** leave the sensor wiring unchanged and use Scanner to look for 0x68 or 0x69; check physical axis markings. Close the monitor and upload Motion again afterwards, or you will still see scan results instead of acceleration. **Record:** orientation, readings, units, and noise/variation.
 
 ## 5. Integration and one unloaded servo
 
@@ -221,6 +240,11 @@ Probe-jack pinout is functional, not the physical socket position of every meter
 <!-- wiring:end -->
 
 **Prerequisites:** earlier hardware checks recorded; adult has reviewed [power and meter instructions](../docs/WIRING.md). **Book:** chapters 7–8, 11, 14–15.
+
+**Coming from lesson 4 — two separate checkpoints:**
+
+- **5A, logic only:** set aside the tested GY-521 and OLED for reuse, and identify the new PCA9685 logic board. Follow [first power-on](../docs/FIRST-POWER-ON.md) from its bare-board upload step; it deliberately starts with all modules removed, then rebuilds the shared bus one checked module at a time. Its OLED, IMU and PCA diagrams/tables show every connection. Keep the servo and its supply disconnected throughout 5A.
+- **5B, first motor:** only after the logic checks pass, use that guide's “One servo, no leg attached” section. Introduce one SG90 on channel 0 with both supplies unplugged. The adult checks the separate supply before the powered test. A motor has not been connected in any earlier lesson.
 
 Use the existing [Companion](../firmware/Companion/Companion.ino) rather than a beginner full-range sweep. Power everything off before adding modules. Follow [first power-on](../docs/FIRST-POWER-ON.md) exactly. Upload with servo power off:
 

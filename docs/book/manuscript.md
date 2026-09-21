@@ -209,6 +209,8 @@ Functional pinout: VCC, GND, SCL, SDA, XDA, XCL, AD0, INT. Leave XDA/XCL/INT ope
 
 <!-- wiring:end -->
 
+**Repository lesson 4:** Motion means sensing movement. The previous Face lesson used XIAO + OLED; this experiment uses XIAO + GY-521 only. Close the monitor and unplug USB before removing the OLED connections and wiring the sensor using this chapter's diagram/table. Reconnect USB after the adult wiring check, then upload Motion. Read acceleration in the serial monitor. No servo or PCA9685 is connected yet.
+
 “How will I know if I am upside down?” ANDI asked.
 
 “Your sensor can help,” said Andrew. “Your dramatic complaining is optional.”
@@ -932,11 +934,11 @@ Plan roughly 25–40 minutes per session, with permission to stop earlier. Finis
 
 **Session 2 — A message from a tiny computer.** Read chapters 4 and 12. Try the separate Hello sketch with only the XIAO on USB. Success: Andrew changes the message and explains Verify versus Upload.
 
-**Session 3 — Faces and addresses.** Read chapters 5, 9, and 10. Adult checks one-module OLED wiring. Upload Companion again. Success: find the display and show two expressions.
+**Session 3 — Faces and addresses.** Read chapters 5, 9, and 10. Follow repository lessons 2 and 3: Scanner first, then Face, with the same XIAO and OLED. Success: find the display and show two expressions. No servo is connected.
 
-**Session 4 — The world has three axes.** Read chapter 6. Add the sensor with power off, then observe readings. Success: predict which orientation produces positive Z near gravity.
+**Session 4 — The world has three axes.** Read chapter 6 and follow repository lesson 4. Use its power-off transition from the OLED experiment to the GY-521-only experiment, with the diagram and pin table in chapter 6. Upload Motion: it replaces Face and prints acceleration numbers. The sensor measures motion; it does not drive a servo. Success: predict which orientation produces positive Z near gravity.
 
-**Session 5 — One small movement.** Read chapters 7, 8, 11, and 14. Adult checks the separate servo supply and conducts the unloaded test. Success: one controlled jog and a documented stop, without a leg attached.
+**Session 5 — One small movement.** Read chapters 7, 8, 11, and 14. Follow repository lesson 5 and its first-power-on guide: upload Companion, rebuild and verify the logic bus first, then introduce the first servo. Adult checks the separate servo supply and conducts the unloaded test. Success: one controlled jog and a documented stop, without a leg attached.
 
 **Session 6 — Shape meets reality.** Read chapter 16. Inspect measurements and print fit gauges with an adult. Success: record fit without forcing a component. Final body design waits for these results.
 
