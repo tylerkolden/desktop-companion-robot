@@ -1,5 +1,6 @@
 #include <Wire.h>
-// Connect only the lesson's OLED or IMU; change wiring with power off.
+// Connect only the module named by the current lesson; change wiring with power off.
+// The scan checks I2C acknowledgements, not a module's complete functionality.
 void setup() {
   Serial.begin(115200);
   Wire.begin(6, 7); // XIAO D4=SDA, D5=SCL. These numbers are GPIO numbers.

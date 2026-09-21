@@ -187,15 +187,55 @@ The GY-521 is a **sensor**: it measures motion rather than creating it. You gent
 
 **Expected:** three labelled acceleration values every half-second. Slowly rotate the secured board without stressing wires. **Pass:** describe a repeatable change in axes when orientation changes. **Challenge:** predict another orientation, then test. Do not shake, drop, or tug the assembly. **If stuck:** leave the sensor wiring unchanged and use Scanner to look for 0x68 or 0x69; check physical axis markings. Close the monitor and upload Motion again afterwards, or you will still see scan results instead of acceleration. **Record:** orientation, readings, units, and noise/variation.
 
-## 5. Bring the experiments together
+## 5. Verify individually, then combine
 
-Earlier experiments proved that each module works on its own. Now ask whether they can share the same communication wires. Finish checkpoint 5A before starting 5B. Keep your observations from lessons 2–4 nearby.
+The OLED has passed its address and drawing tests. The GY-521 has passed its acceleration test. Next, verify the new driver by itself. Only after that passes do we combine the three tested modules. Keep your recorded addresses and observations nearby.
 
-## 5A. Combine the tested modules and introduce the driver
+## 5A. Test the driver by itself
 
 <!-- wiring:start -->
-**Starting state:** lesson 4 left the XIAO connected to the GY-521 and running Motion. Retrieve the OLED tested in lesson 3. **New part:** the PCA9685 is a driver board that generates timed control signals. For this checkpoint we test only its communication with the XIAO, powered through the same 3.3V logic connections as the other modules.
+**Starting state:** lesson 4 left XIAO + GY-521 running Motion. **New part:** the PCA9685 driver generates timed control signals. First test its logic communication alone, using the same four XIAO connections you already learned.
 
+### Wiring visuals and pinouts
+
+**Before changing wires: close the serial monitor if it is open, then unplug the XIAO USB cable. USB is the power source for this experiment.** These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.
+
+![PCA wiring: labelled endpoints and separate power paths](../docs/wiring/images/pca.png)
+
+Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| XIAO 3V3 | Teyleten PCA9685 VCC | 3.3V logic |
+| XIAO GND | Teyleten PCA9685 GND | Shared ground |
+| XIAO D4 / GPIO6 | Teyleten PCA9685 SDA | I2C data |
+| XIAO D5 / GPIO7 | Teyleten PCA9685 SCL | I2C clock |
+
+<!-- wiring:end -->
+
+1. Close the monitor and unplug USB. Remove the GY-521 connections and set it beside the previously tested OLED.
+2. Connect only the PCA9685 logic pins to the XIAO, using the diagram and table. Leave its V+ terminal and numbered output connectors empty. Reconnect USB and confirm the port.
+3. Upload Scanner using the commands below. Expect the driver's default address `0x40`; `0x70` may also respond as its all-call address. Two responding addresses do not necessarily mean two boards.
+
+```powershell
+.\robot.ps1 upload -Sketch Scanner -Port COM7 -ServoPowerDisconnected
+.\robot.ps1 monitor -Port COM7 -ServoPowerDisconnected
+```
+
+4. Record the actual addresses, then close the monitor. With the wiring unchanged, upload Companion and open its console:
+
+```powershell
+.\robot.ps1 upload -Sketch Companion -Port COM7 -ServoPowerDisconnected
+.\robot.ps1 monitor -Port COM7 -ServoPowerDisconnected
+```
+
+5. Enter `scan` and `status`. Confirm PCA availability and no active channel. Missing OLED and IMU are expected because those parts are on the bench.
+
+**Pass:** the driver responds on its own and Companion recognizes it. This verifies communication and initialization, not its output signals under load. **If stuck:** resolve the failure here before combining modules. **End state:** XIAO + PCA logic, running Companion; OLED and GY-521 set aside.
+
+## 5B. Combine the three verified modules
+
+<!-- wiring:start -->
 ### Wiring visuals and pinouts
 
 **Before changing wires: close the serial monitor if it is open, then unplug the XIAO USB cable. USB is the power source for this experiment.** These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.
@@ -235,13 +275,16 @@ Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = com
 
 <!-- wiring:end -->
 
-1. Close the monitor and unplug USB. Set the GY-521 aside temporarily; start with the bare XIAO for the Companion upload in [first power-on](../docs/FIRST-POWER-ON.md#upload).
-2. Follow that guide's logic-bus checkpoint: restore the OLED, restore the GY-521, then add the PCA9685. Use the diagrams and pin tables here. Close the monitor and unplug USB before each addition; reconnect USB and reopen the monitor to check the result.
-3. Keep Companion installed throughout. Use `scan` and `status` after each addition. Compare OLED and sensor addresses with your earlier records; identify the new driver's response.
+**Predict:** the addresses recorded separately should still appear together. The modules share four electrical nets; they do not connect in a chain through one another.
 
-**Predict:** devices with different addresses can share SDA and SCL. **Pass:** all three modules are detected and the previously tested face and acceleration readings still work. **If stuck:** stop at the first failed addition; review that connection with power off. **Record:** addresses and observations for each addition.
+1. Keep the tested PCA wiring. Close the monitor and unplug USB. Add the OLED using its diagram/table, joining matching 3V3, GND, SDA and SCL nets through checked breadboard junctions.
+2. Reconnect USB and open the monitor. Companion restarts and initializes both modules. Run `scan` and `status`, then `face happy` and `face awake`. Confirm the driver still responds and the display still draws.
+3. Close the monitor and unplug USB again. Keep both tested modules and add the GY-521 using its diagram/table on the same four nets.
+4. Reconnect USB and open the monitor. Repeat `scan`, `status` and the face commands. Gently tilt the sensor and verify changing acceleration readings.
 
-## 5B. Introduce one servo and its power supply
+**Pass:** OLED, GY-521 and PCA are all recognized together; the face and sensor still perform their earlier functions. Compare against your individual records. **If stuck:** power off and remove only the most recent addition, restore the last passing setup, then inspect the new connections. **End state:** all three logic modules connected, Companion running. No additional upload is needed between additions.
+
+## 5C. Introduce one servo and its power supply
 
 <!-- wiring:start -->
 **Starting state:** the OLED, GY-521 and PCA9685 logic checks have passed. **New parts:** one SG90 servo motor, a regulated 5V wall power supply, its low-voltage barrel-to-screw-terminal connector, prepared power wires, and the multimeter. The servo turns its shaft in response to the driver signal. The separate supply provides motor power; USB continues powering the XIAO. Identify these parts first. The wall supply has not been connected yet.
@@ -276,7 +319,7 @@ Probe-jack pinout is functional, not the physical socket position of every meter
 
 **Why a separate supply?** A motor needs more current than the controller's logic connections are intended to deliver. The driver uses VCC for logic and V+ for motor power. Trace both paths in the diagrams before connecting anything.
 
-Follow [One servo, no leg attached](../docs/FIRST-POWER-ON.md#one-servo-no-leg-attached) in order. It contains the voltage check, connection sequence and first commands. Use only one unloaded motor on channel 0. Companion from checkpoint 5A remains installed; do not upload another sketch for this step.
+Follow [One servo, no leg attached](../docs/FIRST-POWER-ON.md#one-servo-no-leg-attached) in order. It contains the voltage check, connection sequence and first commands. Use only one unloaded motor on channel 0. Companion verified in checkpoint 5B remains installed; do not upload another sketch for this step.
 
 **Predict:** a small change in the command should produce a small shaft movement. **Pass:** controlled unloaded movement, correct connector orientation, known supply polarity, and an explained difference between stopping control pulses and removing electrical power. **If stuck:** unplug the now-introduced 5V supply and inspect the circuit with the adult. **Record:** channel, command, observed movement and measured supply voltage. End by unplugging the 5V supply, closing the monitor and unplugging USB.
 

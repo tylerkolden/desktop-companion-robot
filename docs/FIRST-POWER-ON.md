@@ -2,7 +2,7 @@
 
 Wiring reference: [full pinout atlas and verification limits](wiring/README.md). Use the stage matching your lesson; do not connect every pictured module at once.
 
-This is the integration guide for lesson 5, after the standalone Hello, Scanner, Face and Motion lessons. It is not the starting point for lesson 1. The firmware is an early bench prototype, not a tested robot release. Start with the USB-powered XIAO and the tested modules from earlier lessons. New parts are introduced at their own checkpoint. Use the accompanying diagrams and [wiring table](WIRING.md).
+This is the integration guide for lesson 5, after the standalone OLED and motion-sensor tests. Follow lesson 5A to verify PCA logic independently, then 5B to combine the modules, and 5C for the first motor test. It is not the starting point for lesson 1. The firmware is an early bench prototype, not a tested robot release. Start with the USB-powered XIAO and the tested modules from earlier lessons. New parts are introduced at their own checkpoint. Use the accompanying diagrams and [wiring table](WIRING.md).
 
 ## Upload
 
@@ -11,27 +11,30 @@ This is the integration guide for lesson 5, after the standalone Hello, Scanner,
 
 **Before changing wires: close the serial monitor if it is open, then unplug the XIAO USB cable. USB is the power source for this experiment.** These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.
 
-![USB wiring: labelled endpoints and separate power paths](wiring/images/usb.png)
+![PCA wiring: labelled endpoints and separate power paths](wiring/images/pca.png)
 
-The pinout for this stage is USB-C socket only: **all XIAO header pins are unused**.
+Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.
 
 | From / pin | To / pin | Meaning |
 |---|---|---|
-| Computer USB port | XIAO USB-C socket | Data cable; all headers empty |
+| XIAO 3V3 | Teyleten PCA9685 VCC | 3.3V logic |
+| XIAO GND | Teyleten PCA9685 GND | Shared ground |
+| XIAO D4 / GPIO6 | Teyleten PCA9685 SDA | I2C data |
+| XIAO D5 / GPIO7 | Teyleten PCA9685 SCL | I2C clock |
 
 <!-- wiring:end -->
 
-**Entry checkpoint:** close the monitor, unplug USB, and remove the lesson-4 GY-521 connections. Start with the bare XIAO shown above. Set the tested sensor and OLED aside for the next checkpoint. USB is the only power connection at this point.
+**Entry checkpoint:** complete lesson 5A with only XIAO + PCA logic connected as shown above. The individually tested OLED and GY-521 are set aside. USB is the only power connection. If Companion is already running from 5A, keep it; skip the upload and proceed to the combined checks.
 
 For the repository terminal workflow, complete [setup](SETUP.md), identify the port with `./robot.ps1 ports`, then run `./robot.ps1 upload -Sketch Companion -Port COM7 -ServoPowerDisconnected` using your actual port. Open the console with `./robot.ps1 monitor -Port COM7 -ServoPowerDisconnected` with USB as the only power connection. The switch records your physical check; it cannot measure power. The following IDE steps are an optional alternative.
 
 1. Install Arduino IDE, ESP32 board package **3.3.0**, and the exact libraries listed in `firmware/README.md`.
 2. Open `firmware/Companion/Companion.ino`. Select **XIAO_ESP32C3** and the connected port. Set **USB CDC On Boot: Enabled** where that option appears.
-3. With only the bare XIAO connected, upload over the USB data cable.
+3. With XIAO + PCA logic connected, upload over the USB data cable.
 4. Open Serial Monitor at **115200**, with **Newline** line endings. Enter `help`, then `status` and `scan`.
 5. Power off USB before adding each module. Reconnect and reboot after wiring changes. Confirm addresses and status after each addition.
 
-Command output is plain text; no application or Wi-Fi credentials are required. At this bare-board checkpoint, missing OLED/IMU/PCA status and no I2C addresses are expected. After the modules pass the next checkpoint, the screen blinks and looks around, goes to sleep after 30 seconds without interaction, and responds to a double tap with a happy face. Tap sensitivity and orientation thresholds still require real-hardware tuning.
+Command output is plain text; no application or Wi-Fi credentials are required. At this driver-only checkpoint, PCA should be available; missing OLED and IMU are expected. After the modules pass the next checkpoint, the screen blinks and looks around, goes to sleep after 30 seconds without interaction, and responds to a double tap with a happy face. Tap sensitivity and orientation thresholds still require real-hardware tuning.
 
 ## Face and motion-sensor checks
 
@@ -75,11 +78,11 @@ Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = com
 
 <!-- wiring:end -->
 
-**5A: rebuild the logic bus, one device at a time.** The three diagrams above are successive additions here, unlike the separate one-module lessons. Share the like-labelled 3V3, GND, SDA and SCL nets using checked low-current breadboard junctions.
+**5B: combine already verified modules.** Keep the driver that passed lesson 5A connected. The diagrams show shared connections: matching 3V3, GND, SDA and SCL nets join through checked low-current breadboard junctions.
 
-1. Close the monitor and unplug USB. Add the OLED using its diagram/table, reconnect USB, reopen the monitor, and confirm `scan` finds its recorded address. Try a face command.
-2. Close the monitor and unplug USB again. Keep the OLED and add the previously tested GY-521 using its diagram/table. Reconnect USB and reopen the monitor. Confirm both addresses and sensor readings.
-3. Repeat the power-off procedure to add PCA logic using its diagram/table. Reconnect USB, reopen the monitor, and confirm `scan` and `status` recognize all three modules (PCA all-call 0x70 may also appear). Stop here if any previously working device disappears.
+1. Close the monitor and unplug USB. Add the previously tested OLED, keeping PCA logic connected. Reconnect USB and reopen the monitor. Run `scan`, `status` and a face command. Confirm both modules still work.
+2. Close the monitor and unplug USB. Add the previously tested GY-521, keeping the other two modules. Reconnect USB and reopen the monitor. Confirm all recorded addresses (including optional PCA all-call 0x70), driver availability, face drawing and changing sensor readings.
+3. Stop at any failure. With power off, remove the most recent addition and verify the previous passing setup before trying again. Do not proceed until the combined checks pass.
 
 Companion stays installed throughout these additions; do not re-upload Face or Motion. Each USB reconnection restarts Companion so it can initialize the newly added device.
 
