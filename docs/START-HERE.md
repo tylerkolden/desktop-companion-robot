@@ -4,11 +4,11 @@ Wiring reference: [full pinout atlas and verification limits](wiring/README.md).
 <!-- wiring:start -->
 ### Wiring visuals and pinouts
 
-**Before changing wires: close the serial monitor and unplug the XIAO USB cable. This stage uses USB power only; no servo supply or battery is needed.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+**Before changing wires: close the serial monitor if it is open, then unplug the XIAO USB cable. USB is the power source for this experiment.** These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.
 
 ![USB wiring: labelled endpoints and separate power paths](wiring/images/usb.png)
 
-The pinout for this stage is USB-C socket only: **all XIAO header pins are unused**. No external modules or battery.
+The pinout for this stage is USB-C socket only: **all XIAO header pins are unused**.
 
 | From / pin | To / pin | Meaning |
 |---|---|---|

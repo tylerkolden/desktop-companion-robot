@@ -65,3 +65,7 @@ Added six reproducible functional wiring illustrations, component pinouts and en
 ## 2026-09-20 — lesson transition review
 
 Checked Face and Motion sketch behavior against the teaching sequence. Made lessons 2–3 OLED-only, explicitly replaced OLED with GY-521 in lesson 4, and introduced the first servo only after lesson 5 logic checks. Aligned book workshop sessions and integration entry/exit states. Rebuilt wiring documentation and EPUB; local-link and book structural checks passed. Documentation-only change: no upload or physical hardware test performed.
+
+## 2026-09-20 — teaching-state review
+
+Removed unintroduced hardware from early-lesson prose and generated warnings. Split lesson 5 into a logic communication checkpoint and a motor/power checkpoint with an explicit parts introduction. Clarified first supply measurement versus subsequent disconnection. Checked lessons 0–4 for premature hardware references, regenerated diagrams and book, and checked local links and EPUB structure. No hardware test or firmware change.

@@ -15,3 +15,5 @@
 - Downloads belong in ignored .tools/ and generated output in build/. Document prerequisites and reproduction commands for any added artifact.
 - Never guess a COM port or overwrite a potentially programmed board just to identify it. Opening serial can reset it. Obtain physical confirmation of disconnected servo power before serial/upload actions; compile and discovery do not need it.
 - Introductory sketches do not initialize PCA outputs. Follow each lesson's limited wiring; restore Companion explicitly for integration.
+
+- Teaching flow must track the learner's actual starting state. Introduce a part by name and purpose before any instruction involving it. State what to keep, remove or add and the expected ending state. Do not mention absent future hardware in warnings (including “battery stays disconnected” or “no servo yet”). Distinguish first assembly from repeat sessions; never tell a first-time learner to unplug a supply they have not introduced or connected.

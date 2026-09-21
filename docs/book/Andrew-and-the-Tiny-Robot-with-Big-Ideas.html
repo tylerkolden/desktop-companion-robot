@@ -62,9 +62,9 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 <p><strong>Checkpoint:</strong> why is a picture of a similar board not enough for wiring? Because connectors, pin order, regulators, and board revisions can differ even when the main chip has the same name.</p></section><section id="c4"><h1>4. XIAO: a computer with a very small desk</h1>
 <!-- wiring:start -->
 <h3>Wiring visuals and pinouts</h3>
-<p><strong>Before changing wires: close the serial monitor and unplug the XIAO USB cable. This stage uses USB power only; no servo supply or battery is needed.</strong> These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.</p>
+<p><strong>Before changing wires: close the serial monitor if it is open, then unplug the XIAO USB cable. USB is the power source for this experiment.</strong> These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.</p>
 <p><img alt="USB wiring: labelled endpoints and separate power paths" src="images/wiring-usb.png" /></p>
-<p>The pinout for this stage is USB-C socket only: <strong>all XIAO header pins are unused</strong>. No external modules or battery.</p>
+<p>The pinout for this stage is USB-C socket only: <strong>all XIAO header pins are unused</strong>.</p>
 <table>
 <thead>
 <tr>
@@ -96,7 +96,7 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 <p><strong>Checkpoint:</strong> the XIAO is a microcontroller board, not a Raspberry Pi running a desktop operating system. We upload firmware that starts when the board starts. Arduino IDE is the program on the family computer used to prepare that firmware.</p></section><section id="c5"><h1>5. The face made of 8,192 little decisions</h1>
 <!-- wiring:start -->
 <h3>Wiring visuals and pinouts</h3>
-<p><strong>Before changing wires: close the serial monitor and unplug the XIAO USB cable. This experiment uses the XIAO and OLED only. No servo or servo adapter is used.</strong> These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.</p>
+<p><strong>Before changing wires: close the serial monitor if it is open, then unplug the XIAO USB cable. USB is the power source for this experiment.</strong> These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.</p>
 <p><img alt="OLED wiring: labelled endpoints and separate power paths" src="images/wiring-oled.png" /></p>
 <p>Functional pinout: VCC, GND, SDA, SCL. The supplied display photo has <strong>GND / VCC / SCL / SDA</strong> across its top header when viewed from the front. Our illustration groups wires by function, not that physical order.</p>
 <table>
@@ -144,7 +144,7 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 <p><strong>Checkpoint:</strong> an expressive face does not prove that a robot has feelings. It proves that humans are very good at interpreting shapes. You are designing a communication interface.</p></section><section id="c6"><h1>6. The sensor that notices a tilt</h1>
 <!-- wiring:start -->
 <h3>Wiring visuals and pinouts</h3>
-<p><strong>Before changing wires: close the serial monitor and unplug the XIAO USB cable. This experiment uses the XIAO and GY-521 motion sensor only. No servo or servo adapter is used.</strong> These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.</p>
+<p><strong>Before changing wires: close the serial monitor if it is open, then unplug the XIAO USB cable. USB is the power source for this experiment.</strong> These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.</p>
 <p><img alt="IMU wiring: labelled endpoints and separate power paths" src="images/wiring-imu.png" /></p>
 <p>Functional pinout: VCC, GND, SCL, SDA, XDA, XCL, AD0, INT. Leave XDA/XCL/INT open; verify AD0 default through scanning. Exact delivered header order is unconfirmed. Check regulator/pull-ups at 3.3V; do not substitute 5V to fix detection.</p>
 <table>
@@ -180,7 +180,7 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 </table>
 <!-- wiring:end -->
 
-<p><strong>Repository lesson 4:</strong> Motion means sensing movement. The previous Face lesson used XIAO + OLED; this experiment uses XIAO + GY-521 only. Close the monitor and unplug USB before removing the OLED connections and wiring the sensor using this chapter's diagram/table. Reconnect USB after the adult wiring check, then upload Motion. Read acceleration in the serial monitor. No servo or PCA9685 is connected yet.</p>
+<p><strong>Repository lesson 4:</strong> Motion means sensing movement. The previous Face lesson used XIAO + OLED; this experiment uses XIAO + GY-521 only. Close the monitor and unplug USB before removing the OLED connections and wiring the sensor using this chapter's diagram/table. Reconnect USB after the adult wiring check, then upload Motion. Read acceleration in the serial monitor.</p>
 <p>“How will I know if I am upside down?” ANDI asked.</p>
 <p>“Your sensor can help,” said Andrew. “Your dramatic complaining is optional.”</p>
 <p>The GY-521 board carries an MPU6050, which combines a three-axis accelerometer and a three-axis gyroscope. Six measurement axes are sometimes described as six degrees of freedom. This does not mean the chip magically knows its exact location in the room.</p>
@@ -194,10 +194,11 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 <p><strong>Mission: act like a sensor.</strong> Draw x, y, and z arrows on a cardboard box. Slowly turn it. Name which arrow points upward each time. Predict what happens if the real sensor is mounted sideways but the program still assumes +Z is up.</p>
 <p><strong>Answer:</strong> the program may interpret the robot’s orientation incorrectly. We must mount it consistently or deliberately transform the measurements in software. The sensor cannot read our intentions.</p></section><section id="c7"><h1>7. Servos: muscles with instructions</h1>
 <!-- wiring:start -->
+<p><strong>Parts for this power checkpoint:</strong> a regulated 5V wall supply, its low-voltage connector and prepared wires, and a multimeter. For the motor connection, also identify the SG90 servo and PCA9685 driver. The supply powers the motor through the driver; the meter checks its output before connection. Identify these parts before following the diagram.</p>
 <h3>Wiring visuals and pinouts</h3>
-<p><strong>Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.</strong> These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.</p>
+<p><strong>Before assembling these connections: close the monitor and unplug the XIAO USB cable. Keep the newly introduced 5V supply unplugged from the wall until the voltage-check step. On a repeat session, unplug it before changing wires.</strong> These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.</p>
 <p><img alt="SERVO wiring: labelled endpoints and separate power paths" src="images/wiring-servo.png" /></p>
-<p>Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Start with only channel 0; later 0/1/2/3 map to front-left/front-right/rear-left/rear-right. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
+<p>Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
 <table>
 <thead>
 <tr>
@@ -240,7 +241,7 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 </tbody>
 </table>
 <p><img alt="PCA wiring: labelled endpoints and separate power paths" src="images/wiring-pca.png" /></p>
-<p>Functional pinout: VCC = logic 3.3V; V+ = separate servo power; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. V+ and servo plugs remain disconnected in this logic-only stage.</p>
+<p>Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.</p>
 <table>
 <thead>
 <tr>
@@ -285,10 +286,11 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 <p><strong>Mission: lever laboratory.</strong> On paper, sketch a short leg and a long leg lifting the same imaginary weight. Circle the joint that feels the turning effect. Why might making the entire robot bigger require more than scaling up its STL files?</p>
 <p><strong>Checkpoint:</strong> the controller does not read the SG90’s internal position sensor through this three-wire connection. Our program knows what it requested, not the exact measured shaft angle or whether a leg is jammed. Watch, listen, and test carefully with an adult.</p></section><section id="c8"><h1>8. The PCA9685: timekeeper, not power magician</h1>
 <!-- wiring:start -->
+<p><strong>Parts for this power checkpoint:</strong> a regulated 5V wall supply, its low-voltage connector and prepared wires, and a multimeter. For the motor connection, also identify the SG90 servo and PCA9685 driver. The supply powers the motor through the driver; the meter checks its output before connection. Identify these parts before following the diagram.</p>
 <h3>Wiring visuals and pinouts</h3>
-<p><strong>Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.</strong> These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.</p>
+<p><strong>Before assembling these connections: close the monitor and unplug the XIAO USB cable. Keep the newly introduced 5V supply unplugged from the wall until the voltage-check step. On a repeat session, unplug it before changing wires.</strong> These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.</p>
 <p><img alt="PCA wiring: labelled endpoints and separate power paths" src="images/wiring-pca.png" /></p>
-<p>Functional pinout: VCC = logic 3.3V; V+ = separate servo power; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. V+ and servo plugs remain disconnected in this logic-only stage.</p>
+<p>Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.</p>
 <table>
 <thead>
 <tr>
@@ -321,7 +323,7 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 </tbody>
 </table>
 <p><img alt="SERVO wiring: labelled endpoints and separate power paths" src="images/wiring-servo.png" /></p>
-<p>Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Start with only channel 0; later 0/1/2/3 map to front-left/front-right/rear-left/rear-right. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
+<p>Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
 <table>
 <thead>
 <tr>
@@ -386,8 +388,9 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 <p><strong>Mission: address game.</strong> Give three people or paper figures different numbered cards. Read “house 0x3C, show happy eyes.” Only the matching figure responds. Now give two figures the same address. Discuss why two identical-address devices sharing a bus can be troublesome.</p>
 <p><strong>Checkpoint:</strong> an I²C scan checks for acknowledgements. It does not prove the sensor is mounted correctly, the screen draws correctly, or the servo supply is adequate. Detection is one layer of evidence.</p></section><section id="c10"><h1>10. Wiring: a map, not a guessing contest</h1>
 <!-- wiring:start -->
+<p><strong>Parts for this power checkpoint:</strong> a regulated 5V wall supply, its low-voltage connector and prepared wires, and a multimeter. For the motor connection, also identify the SG90 servo and PCA9685 driver. The supply powers the motor through the driver; the meter checks its output before connection. Identify these parts before following the diagram.</p>
 <h3>Wiring visuals and pinouts</h3>
-<p><strong>Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.</strong> These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.</p>
+<p><strong>Before assembling these connections: close the monitor and unplug the XIAO USB cable. Keep the newly introduced 5V supply unplugged from the wall until the voltage-check step. On a repeat session, unplug it before changing wires.</strong> These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.</p>
 <p><img alt="OLED wiring: labelled endpoints and separate power paths" src="images/wiring-oled.png" /></p>
 <p>Functional pinout: VCC, GND, SDA, SCL. The supplied display photo has <strong>GND / VCC / SCL / SDA</strong> across its top header when viewed from the front. Our illustration groups wires by function, not that physical order.</p>
 <table>
@@ -455,7 +458,7 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 </tbody>
 </table>
 <p><img alt="PCA wiring: labelled endpoints and separate power paths" src="images/wiring-pca.png" /></p>
-<p>Functional pinout: VCC = logic 3.3V; V+ = separate servo power; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. V+ and servo plugs remain disconnected in this logic-only stage.</p>
+<p>Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.</p>
 <table>
 <thead>
 <tr>
@@ -488,7 +491,7 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 </tbody>
 </table>
 <p><img alt="SERVO wiring: labelled endpoints and separate power paths" src="images/wiring-servo.png" /></p>
-<p>Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Start with only channel 0; later 0/1/2/3 map to front-left/front-right/rear-left/rear-right. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
+<p>Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
 <table>
 <thead>
 <tr>
@@ -555,8 +558,9 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 <p>The selected 20-AWG stranded wire is for short adapter-to-servo-board power connections. AWG is a wire-size system in which a smaller gauge number generally means a thicker conductor. Thickness alone does not decide every current limit: length, insulation, connectors, and installation also matter.</p>
 <p><strong>Mission: trace one journey.</strong> On paper, trace the data path from XIAO SDA to the OLED. Then trace the servo power route. Explain why the servo’s operating current should not take a shortcut through a tiny logic jumper or breadboard contact.</p></section><section id="c11"><h1>11. The meter is a question-asking machine</h1>
 <!-- wiring:start -->
+<p><strong>Parts for this power checkpoint:</strong> a regulated 5V wall supply, its low-voltage connector and prepared wires, and a multimeter. For the motor connection, also identify the SG90 servo and PCA9685 driver. The supply powers the motor through the driver; the meter checks its output before connection. Identify these parts before following the diagram.</p>
 <h3>Wiring visuals and pinouts</h3>
-<p><strong>Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.</strong> These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.</p>
+<p><strong>Before assembling these connections: close the monitor and unplug the XIAO USB cable. Keep the newly introduced 5V supply unplugged from the wall until the voltage-check step. On a repeat session, unplug it before changing wires.</strong> These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.</p>
 <p><img alt="METER wiring: labelled endpoints and separate power paths" src="images/wiring-meter.png" /></p>
 <p>Probe-jack pinout is functional, not the physical socket position of every meter variant. Select DC voltage before probing. Verify barrel size and polarity against the actual adapter; do not assume center-positive from a generic picture.</p>
 <table>
@@ -594,9 +598,9 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 <p><strong>Answer:</strong> the second is more useful, but it does not prove the supply stays stable when four servos move. No-load and loaded tests answer different questions.</p></section><section id="c12"><h1>12. Arduino IDE: the workshop for instructions</h1>
 <!-- wiring:start -->
 <h3>Wiring visuals and pinouts</h3>
-<p><strong>Before changing wires: close the serial monitor and unplug the XIAO USB cable. This stage uses USB power only; no servo supply or battery is needed.</strong> These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.</p>
+<p><strong>Before changing wires: close the serial monitor if it is open, then unplug the XIAO USB cable. USB is the power source for this experiment.</strong> These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.</p>
 <p><img alt="USB wiring: labelled endpoints and separate power paths" src="images/wiring-usb.png" /></p>
-<p>The pinout for this stage is USB-C socket only: <strong>all XIAO header pins are unused</strong>. No external modules or battery.</p>
+<p>The pinout for this stage is USB-C socket only: <strong>all XIAO header pins are unused</strong>.</p>
 <table>
 <thead>
 <tr>
@@ -663,10 +667,11 @@ if (now - lastBlink &gt;= 1000) {
 <p>The idle timer has a different question: when did a person last interact? If every automatic blink resets that timer, the robot may never become idle. We track interaction separately from its own animation.</p>
 <p><strong>Mission: become the scheduler.</strong> Make cards labelled “read command,” “read sensor,” and “draw face.” Move a counter around them repeatedly. Add a “wait ten seconds” card and see which tasks get delayed. Remove it and replace it with “check whether ten seconds have passed.” Describe the difference.</p></section><section id="c14"><h1>14. First power-on: a ladder of small victories</h1>
 <!-- wiring:start -->
+<p><strong>Parts for this power checkpoint:</strong> a regulated 5V wall supply, its low-voltage connector and prepared wires, and a multimeter. For the motor connection, also identify the SG90 servo and PCA9685 driver. The supply powers the motor through the driver; the meter checks its output before connection. Identify these parts before following the diagram.</p>
 <h3>Wiring visuals and pinouts</h3>
-<p><strong>Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.</strong> These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.</p>
+<p><strong>Before assembling these connections: close the monitor and unplug the XIAO USB cable. Keep the newly introduced 5V supply unplugged from the wall until the voltage-check step. On a repeat session, unplug it before changing wires.</strong> These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.</p>
 <p><img alt="USB wiring: labelled endpoints and separate power paths" src="images/wiring-usb.png" /></p>
-<p>The pinout for this stage is USB-C socket only: <strong>all XIAO header pins are unused</strong>. No external modules or battery.</p>
+<p>The pinout for this stage is USB-C socket only: <strong>all XIAO header pins are unused</strong>.</p>
 <table>
 <thead>
 <tr>
@@ -750,7 +755,7 @@ if (now - lastBlink &gt;= 1000) {
 </tbody>
 </table>
 <p><img alt="PCA wiring: labelled endpoints and separate power paths" src="images/wiring-pca.png" /></p>
-<p>Functional pinout: VCC = logic 3.3V; V+ = separate servo power; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. V+ and servo plugs remain disconnected in this logic-only stage.</p>
+<p>Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.</p>
 <table>
 <thead>
 <tr>
@@ -783,7 +788,7 @@ if (now - lastBlink &gt;= 1000) {
 </tbody>
 </table>
 <p><img alt="SERVO wiring: labelled endpoints and separate power paths" src="images/wiring-servo.png" /></p>
-<p>Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Start with only channel 0; later 0/1/2/3 map to front-left/front-right/rear-left/rear-right. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
+<p>Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
 <table>
 <thead>
 <tr>
@@ -844,10 +849,11 @@ stop
 <p><strong>Important:</strong> software stop needs functioning software and communication. The PCA may retain pulses through an MCU reset or communication failure. Disconnect servo power before uploads, resets, horn installation, or repairs. Support a future chassis so pulse-off cannot make it collapse.</p>
 <p><strong>Mission: write the evidence.</strong> Record which modules were connected, addresses found, commands sent, and what happened. Copy actual text output. “Display showed happy eyes after <code>face happy</code>” is more useful than “robot works.”</p></section><section id="c15"><h1>15. Calibration: teaching the robot what its body means</h1>
 <!-- wiring:start -->
+<p><strong>Parts for this power checkpoint:</strong> a regulated 5V wall supply, its low-voltage connector and prepared wires, and a multimeter. For the motor connection, also identify the SG90 servo and PCA9685 driver. The supply powers the motor through the driver; the meter checks its output before connection. Identify these parts before following the diagram.</p>
 <h3>Wiring visuals and pinouts</h3>
-<p><strong>Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.</strong> These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.</p>
+<p><strong>Before assembling these connections: close the monitor and unplug the XIAO USB cable. Keep the newly introduced 5V supply unplugged from the wall until the voltage-check step. On a repeat session, unplug it before changing wires.</strong> These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.</p>
 <p><img alt="SERVO wiring: labelled endpoints and separate power paths" src="images/wiring-servo.png" /></p>
-<p>Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Start with only channel 0; later 0/1/2/3 map to front-left/front-right/rear-left/rear-right. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
+<p>Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
 <table>
 <thead>
 <tr>
@@ -890,7 +896,7 @@ stop
 </tbody>
 </table>
 <p><img alt="PCA wiring: labelled endpoints and separate power paths" src="images/wiring-pca.png" /></p>
-<p>Functional pinout: VCC = logic 3.3V; V+ = separate servo power; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. V+ and servo plugs remain disconnected in this logic-only stage.</p>
+<p>Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.</p>
 <table>
 <thead>
 <tr>
@@ -947,10 +953,11 @@ stop
 <p><strong>Mission: the cardboard enclosure.</strong> Make a loose paper or cardboard layout of the modules with their plugs attached while unpowered. Add space for fingers to remove connectors. Sketch where a cable exits. Do not power electronics inside a makeshift enclosure. This is a spatial planning exercise.</p>
 <p><strong>Checkpoint:</strong> when a part does not fit, measure the mismatch and change one dimension. Scaling the entire robot can accidentally change screw holes, wall thickness, and servo spacing together.</p></section><section id="c17"><h1>17. Debugging: the mystery is the lesson</h1>
 <!-- wiring:start -->
+<p><strong>Parts for this power checkpoint:</strong> a regulated 5V wall supply, its low-voltage connector and prepared wires, and a multimeter. For the motor connection, also identify the SG90 servo and PCA9685 driver. The supply powers the motor through the driver; the meter checks its output before connection. Identify these parts before following the diagram.</p>
 <h3>Wiring visuals and pinouts</h3>
-<p><strong>Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.</strong> These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.</p>
+<p><strong>Before assembling these connections: close the monitor and unplug the XIAO USB cable. Keep the newly introduced 5V supply unplugged from the wall until the voltage-check step. On a repeat session, unplug it before changing wires.</strong> These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.</p>
 <p><img alt="USB wiring: labelled endpoints and separate power paths" src="images/wiring-usb.png" /></p>
-<p>The pinout for this stage is USB-C socket only: <strong>all XIAO header pins are unused</strong>. No external modules or battery.</p>
+<p>The pinout for this stage is USB-C socket only: <strong>all XIAO header pins are unused</strong>.</p>
 <table>
 <thead>
 <tr>
@@ -1034,7 +1041,7 @@ stop
 </tbody>
 </table>
 <p><img alt="PCA wiring: labelled endpoints and separate power paths" src="images/wiring-pca.png" /></p>
-<p>Functional pinout: VCC = logic 3.3V; V+ = separate servo power; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. V+ and servo plugs remain disconnected in this logic-only stage.</p>
+<p>Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.</p>
 <table>
 <thead>
 <tr>
@@ -1067,7 +1074,7 @@ stop
 </tbody>
 </table>
 <p><img alt="SERVO wiring: labelled endpoints and separate power paths" src="images/wiring-servo.png" /></p>
-<p>Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Start with only channel 0; later 0/1/2/3 map to front-left/front-right/rear-left/rear-right. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
+<p>Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Also complete the PCA logic diagram</strong> (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
 <table>
 <thead>
 <tr>
@@ -1166,8 +1173,8 @@ stop
 <p>Plan roughly 25–40 minutes per session, with permission to stop earlier. Finish by writing one observation and one next step. Do not rush a power or mechanical check to meet a timer.</p>
 <p><strong>Session 1 — Meet the team.</strong> Read chapters 1–3. Sort unplugged parts, sketch a board, and start the notebook. Success: Andrew can identify controller, sensor, actuator, and power source.</p>
 <p><strong>Session 2 — A message from a tiny computer.</strong> Read chapters 4 and 12. Try the separate Hello sketch with only the XIAO on USB. Success: Andrew changes the message and explains Verify versus Upload.</p>
-<p><strong>Session 3 — Faces and addresses.</strong> Read chapters 5, 9, and 10. Follow repository lessons 2 and 3: Scanner first, then Face, with the same XIAO and OLED. Success: find the display and show two expressions. No servo is connected.</p>
-<p><strong>Session 4 — The world has three axes.</strong> Read chapter 6 and follow repository lesson 4. Use its power-off transition from the OLED experiment to the GY-521-only experiment, with the diagram and pin table in chapter 6. Upload Motion: it replaces Face and prints acceleration numbers. The sensor measures motion; it does not drive a servo. Success: predict which orientation produces positive Z near gravity.</p>
+<p><strong>Session 3 — Faces and addresses.</strong> Read chapters 5, 9, and 10. Follow repository lessons 2 and 3: Scanner first, then Face, with the same XIAO and OLED. Success: find the display and show two expressions.</p>
+<p><strong>Session 4 — The world has three axes.</strong> Read chapter 6 and follow repository lesson 4. Use its power-off transition from the OLED experiment to the GY-521-only experiment, with the diagram and pin table in chapter 6. Upload Motion: it replaces Face and prints acceleration numbers. The sensor measures the movement you give it. Success: predict which orientation produces positive Z near gravity.</p>
 <p><strong>Session 5 — One small movement.</strong> Read chapters 7, 8, 11, and 14. Follow repository lesson 5 and its first-power-on guide: upload Companion, rebuild and verify the logic bus first, then introduce the first servo. Adult checks the separate servo supply and conducts the unloaded test. Success: one controlled jog and a documented stop, without a leg attached.</p>
 <p><strong>Session 6 — Shape meets reality.</strong> Read chapter 16. Inspect measurements and print fit gauges with an adult. Success: record fit without forcing a component. Final body design waits for these results.</p>
 <p><strong>Session 7 — A personality experiment.</strong> Read chapters 13 and 17. Choose a small display change and test it from a saved baseline. Success: explain the observed result and restore the original if needed.</p>

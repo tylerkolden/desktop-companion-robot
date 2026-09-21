@@ -39,7 +39,7 @@ MODULES = {
 }
 rows = [('3V3','VCC'), ('GND','GND'), ('D4 / GPIO6','SDA'), ('D5 / GPIO7','SCL')]
 for key,(name,sub) in MODULES.items():
-    im,d=canvas(name+' - four-wire lesson', 'Unplug USB before changing wires. This stage uses USB power only; no servo or battery is needed.')
+    im,d=canvas(name+' - four-wire lesson', 'Unplug the XIAO USB cable before changing wires. USB is the power source for this experiment.')
     board(d,(50,165,520,735),'Seeed XIAO ESP32C3','B0DRNSV5CS | USB-C power + data')
     board(d,(1080,165,1550,735),name,sub)
     # Breadboard-inspired junctions show electrical groups, not hole coordinates.
@@ -56,7 +56,7 @@ for key,(name,sub) in MODULES.items():
     d.text((65,780),'Each drawn row is ONE net. Different rows must be isolated. Check your breadboard unpowered.',font=font(25),fill='#102b40')
     note={'oled':'Read OLED labels: the supplied front-view photo shows GND / VCC / SCL / SDA; this diagram rearranges them.',
           'imu':'Leave XDA, XCL and INT open. AD0 defaults low on typical modules: verify address 0x68 / 0x69.',
-          'pca':'VCC is 3.3V logic. V+ is the separate servo rail. OE: verify pull-down; ground only if floating.'}[key]
+          'pca':'VCC is 3.3V logic. Leave V+ and numbered outputs empty for this communication test. OE: verify pull-down; ground only if floating.'}[key]
     d.text((65,833),note,font=font(22),fill='#102b40')
     d.text((65,880),'XIAO 5V stays unused. Locate every terminal by its printed label, never by this drawing position.',font=font(24),fill='#a12832')
     save(im,key)
@@ -66,7 +66,7 @@ board(d,(70,240,535,650),'Computer USB','Data-capable cable')
 board(d,(1060,240,1530,650),'XIAO ESP32C3','USB-C socket; leave headers empty')
 d.line([(535,435),(1060,435)],fill='#346aab',width=20)
 d.text((590,370),'USB power + data',font=font(29),fill='#102b40')
-d.text((80,735),'No battery. No OLED, IMU or PCA9685. No servo supply. Do not hand-wire USB contacts.',font=font(28),fill='#102b40')
+d.text((80,735),'Use the USB data cable with the bare XIAO. Leave its header pins empty. Do not hand-wire USB contacts.',font=font(28),fill='#102b40')
 d.text((80,805),'Connecting USB can reset the board. A detected COM port does not prove which program is installed.',font=font(25),fill='#102b40')
 save(im,'usb')
 
@@ -107,24 +107,25 @@ TABLES={
  'meter':[('Black probe / COM jack','Adapter negative output','Voltage check only'),('Red probe / V-ohm jack','Adapter positive output','DC volts; never current mode')]
 }
 NOTES={
- 'usb':'The pinout for this stage is USB-C socket only: **all XIAO header pins are unused**. No external modules or battery.',
+ 'usb':'The pinout for this stage is USB-C socket only: **all XIAO header pins are unused**.',
  'oled':'Functional pinout: VCC, GND, SDA, SCL. The supplied display photo has **GND / VCC / SCL / SDA** across its top header when viewed from the front. Our illustration groups wires by function, not that physical order.',
  'imu':'Functional pinout: VCC, GND, SCL, SDA, XDA, XCL, AD0, INT. Leave XDA/XCL/INT open; verify AD0 default through scanning. Exact delivered header order is unconfirmed. Check regulator/pull-ups at 3.3V; do not substitute 5V to fix detection.',
- 'pca':'Functional pinout: VCC = logic 3.3V; V+ = separate servo power; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. V+ and servo plugs remain disconnected in this logic-only stage.',
- 'servo':'Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Also complete the PCA logic diagram** (3V3/VCC, GND, SDA, SCL). Start with only channel 0; later 0/1/2/3 map to front-left/front-right/rear-left/rear-right. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.',
+ 'pca':'Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.',
+ 'servo':'Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Also complete the PCA logic diagram** (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.',
  'meter':'Probe-jack pinout is functional, not the physical socket position of every meter variant. Select DC voltage before probing. Verify barrel size and polarity against the actual adapter; do not assume center-positive from a generic picture.'
 }
-def snippet(keys, parent, book=False):
+def snippet(keys, parent, book=False, introduction=''):
+    if not introduction and ('servo' in keys or 'meter' in keys):
+        introduction = '**Parts for this power checkpoint:** a regulated 5V wall supply, its low-voltage connector and prepared wires, and a multimeter. For the motor connection, also identify the SG90 servo and PCA9685 driver. The supply powers the motor through the driver; the meter checks its output before connection. Identify these parts before following the diagram.'
     if 'servo' in keys or 'meter' in keys:
-        preparation = '**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.**'
-    elif keys == ['imu']:
-        preparation = '**Before changing wires: close the serial monitor and unplug the XIAO USB cable. This experiment uses the XIAO and GY-521 motion sensor only. No servo or servo adapter is used.**'
-    elif keys == ['oled']:
-        preparation = '**Before changing wires: close the serial monitor and unplug the XIAO USB cable. This experiment uses the XIAO and OLED only. No servo or servo adapter is used.**'
+        preparation = '**Before assembling these connections: close the monitor and unplug the XIAO USB cable. Keep the newly introduced 5V supply unplugged from the wall until the voltage-check step. On a repeat session, unplug it before changing wires.**'
     else:
-        preparation = '**Before changing wires: close the serial monitor and unplug the XIAO USB cable. This stage uses USB power only; no servo supply or battery is needed.**'
-    parts=['<!-- wiring:start -->','### Wiring visuals and pinouts','',
-           preparation+' These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.','']
+        preparation = '**Before changing wires: close the serial monitor if it is open, then unplug the XIAO USB cable. USB is the power source for this experiment.**'
+    parts=['<!-- wiring:start -->']
+    if introduction:
+        parts += [introduction, '']
+    parts += ['### Wiring visuals and pinouts','',
+           preparation+' These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.','']
     for k in keys:
         image=('images/wiring-'+k+'.png') if book else Path(os.path.relpath(IMAGES/(k+'.png'),parent)).as_posix()
         parts += [f'![{k.upper()} wiring: labelled endpoints and separate power paths]({image})','',NOTES[k],'','| From / pin | To / pin | Meaning |','|---|---|---|']
@@ -199,7 +200,7 @@ placements={
  'docs/WIRING.md':{'Power architecture':['servo'],'Logic connections':['oled','imu','pca'],'Meter setup for the first power check':['meter']},
  'docs/BUILD.md':{'2. Prepare the power connection':['servo','meter'],'3. Establish USB programming':['usb'],'4. Bring up low-current modules':['oled','imu','pca'],'5. Calibrate a single servo':['servo']},
  'docs/FIRST-POWER-ON.md':{'Upload':['usb'],'Face and motion-sensor checks':['oled','imu','pca'],'One servo, no leg attached':['servo','meter']},
- 'lessons/README.md':{'0. Identify before overwriting':['usb'],'1. Hello: a program lives on a board':['usb'],'2. Scanner: devices have addresses':['oled'],'3. Face: pixels make expressions':['oled'],'4. Motion: gravity is a clue':['imu'],'5. Integration and one unloaded servo':['pca','servo','meter']},
+ 'lessons/README.md':{'0. Identify before overwriting':['usb'],'1. Hello: a program lives on a board':['usb'],'2. Scanner: devices have addresses':['oled'],'3. Face: pixels make expressions':['oled'],'4. Motion: gravity is a clue':['imu'],'5A. Combine the tested modules and introduce the driver':['oled','imu','pca'],'5B. Introduce one servo and its power supply':['servo','meter']},
 }
 for relative,keys in coverage.items():
     p=ROOT/relative
@@ -215,7 +216,12 @@ for relative,keys in coverage.items():
         for heading,subset in placements[relative].items():
             target='## '+heading+'\n'
             assert target in text,(relative,heading)
-            text=text.replace(target,target+'\n'+snippet(subset,p.parent)+'\n',1)
+            intro = ''
+            if relative == 'lessons/README.md' and heading.startswith('5A.'):
+                intro = '**Starting state:** lesson 4 left the XIAO connected to the GY-521 and running Motion. Retrieve the OLED tested in lesson 3. **New part:** the PCA9685 is a driver board that generates timed control signals. For this checkpoint we test only its communication with the XIAO, powered through the same 3.3V logic connections as the other modules.'
+            elif (relative == 'lessons/README.md' and heading.startswith('5B.')) or (relative == 'docs/FIRST-POWER-ON.md' and heading == 'One servo, no leg attached'):
+                intro = '**Starting state:** the OLED, GY-521 and PCA9685 logic checks have passed. **New parts:** one SG90 servo motor, a regulated 5V wall power supply, its low-voltage barrel-to-screw-terminal connector, prepared power wires, and the multimeter. The servo turns its shaft in response to the driver signal. The separate supply provides motor power; USB continues powering the XIAO. Identify these parts first. The wall supply has not been connected yet.'
+            text=text.replace(target,target+'\n'+snippet(subset,p.parent,introduction=intro)+'\n',1)
     else:
         text=first+'\n\n'+intro+snippet(keys,p.parent)+'\n'+rest.lstrip()
     # Avoid accumulating the index sentence on regeneration.

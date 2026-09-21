@@ -2,18 +2,18 @@
 
 Wiring reference: [full pinout atlas and verification limits](wiring/README.md). Use the stage matching your lesson; do not connect every pictured module at once.
 
-This is the integration guide for lesson 5, after the standalone Hello, Scanner, Face and Motion lessons. It is not the starting point for lesson 1. The firmware is an early bench prototype, not a tested robot release. Use the [wiring table](WIRING.md), with servo power unplugged during wiring and uploads. No battery is used.
+This is the integration guide for lesson 5, after the standalone Hello, Scanner, Face and Motion lessons. It is not the starting point for lesson 1. The firmware is an early bench prototype, not a tested robot release. Start with the USB-powered XIAO and the tested modules from earlier lessons. New parts are introduced at their own checkpoint. Use the accompanying diagrams and [wiring table](WIRING.md).
 
 ## Upload
 
 <!-- wiring:start -->
 ### Wiring visuals and pinouts
 
-**Before changing wires: close the serial monitor and unplug the XIAO USB cable. This stage uses USB power only; no servo supply or battery is needed.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+**Before changing wires: close the serial monitor if it is open, then unplug the XIAO USB cable. USB is the power source for this experiment.** These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.
 
 ![USB wiring: labelled endpoints and separate power paths](wiring/images/usb.png)
 
-The pinout for this stage is USB-C socket only: **all XIAO header pins are unused**. No external modules or battery.
+The pinout for this stage is USB-C socket only: **all XIAO header pins are unused**.
 
 | From / pin | To / pin | Meaning |
 |---|---|---|
@@ -21,24 +21,24 @@ The pinout for this stage is USB-C socket only: **all XIAO header pins are unuse
 
 <!-- wiring:end -->
 
-**Entry checkpoint:** close the monitor, unplug USB, and remove the lesson-4 GY-521 connections. Start with the bare XIAO shown above. Set the tested sensor and OLED aside for the next checkpoint; servo power and battery stay disconnected.
+**Entry checkpoint:** close the monitor, unplug USB, and remove the lesson-4 GY-521 connections. Start with the bare XIAO shown above. Set the tested sensor and OLED aside for the next checkpoint. USB is the only power connection at this point.
 
-For the repository terminal workflow, complete [setup](SETUP.md), identify the port with `./robot.ps1 ports`, then run `./robot.ps1 upload -Sketch Companion -Port COM7 -ServoPowerDisconnected` using your actual port. Open the console with `./robot.ps1 monitor -Port COM7 -ServoPowerDisconnected` while servo power is still off. The switch records your physical check; it cannot measure power. The following IDE steps are an optional alternative.
+For the repository terminal workflow, complete [setup](SETUP.md), identify the port with `./robot.ps1 ports`, then run `./robot.ps1 upload -Sketch Companion -Port COM7 -ServoPowerDisconnected` using your actual port. Open the console with `./robot.ps1 monitor -Port COM7 -ServoPowerDisconnected` with USB as the only power connection. The switch records your physical check; it cannot measure power. The following IDE steps are an optional alternative.
 
 1. Install Arduino IDE, ESP32 board package **3.3.0**, and the exact libraries listed in `firmware/README.md`.
 2. Open `firmware/Companion/Companion.ino`. Select **XIAO_ESP32C3** and the connected port. Set **USB CDC On Boot: Enabled** where that option appears.
-3. Leave the servo supply unplugged. Upload over the USB data cable.
+3. With only the bare XIAO connected, upload over the USB data cable.
 4. Open Serial Monitor at **115200**, with **Newline** line endings. Enter `help`, then `status` and `scan`.
-5. Power off USB before adding each module. Reconnect and reboot after wiring changes. Confirm addresses and status before attaching servos.
+5. Power off USB before adding each module. Reconnect and reboot after wiring changes. Confirm addresses and status after each addition.
 
-Command output is plain text; no application or Wi-Fi credentials are required. At this bare-board checkpoint, missing OLED/IMU/PCA status and no I2C addresses are expected. After the modules pass the next checkpoint, the screen blinks and looks around, goes to sleep after 30 seconds without interaction, and responds to a double tap with a happy face. Taps never arm motion. Tap sensitivity and orientation thresholds still require real-hardware tuning.
+Command output is plain text; no application or Wi-Fi credentials are required. At this bare-board checkpoint, missing OLED/IMU/PCA status and no I2C addresses are expected. After the modules pass the next checkpoint, the screen blinks and looks around, goes to sleep after 30 seconds without interaction, and responds to a double tap with a happy face. Tap sensitivity and orientation thresholds still require real-hardware tuning.
 
 ## Face and motion-sensor checks
 
 <!-- wiring:start -->
 ### Wiring visuals and pinouts
 
-**Before changing wires: close the serial monitor and unplug the XIAO USB cable. This stage uses USB power only; no servo supply or battery is needed.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+**Before changing wires: close the serial monitor if it is open, then unplug the XIAO USB cable. USB is the power source for this experiment.** These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.
 
 ![OLED wiring: labelled endpoints and separate power paths](wiring/images/oled.png)
 
@@ -64,7 +64,7 @@ Functional pinout: VCC, GND, SCL, SDA, XDA, XCL, AD0, INT. Leave XDA/XCL/INT ope
 
 ![PCA wiring: labelled endpoints and separate power paths](wiring/images/pca.png)
 
-Functional pinout: VCC = logic 3.3V; V+ = separate servo power; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. V+ and servo plugs remain disconnected in this logic-only stage.
+Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.
 
 | From / pin | To / pin | Meaning |
 |---|---|---|
@@ -79,22 +79,24 @@ Functional pinout: VCC = logic 3.3V; V+ = separate servo power; GND = common gro
 
 1. Close the monitor and unplug USB. Add the OLED using its diagram/table, reconnect USB, reopen the monitor, and confirm `scan` finds its recorded address. Try a face command.
 2. Close the monitor and unplug USB again. Keep the OLED and add the previously tested GY-521 using its diagram/table. Reconnect USB and reopen the monitor. Confirm both addresses and sensor readings.
-3. Repeat the power-off procedure to add PCA logic using its diagram/table. No servos or servo supply yet. Reconnect USB, reopen the monitor, and confirm `scan` and `status` recognize all three modules (PCA all-call 0x70 may also appear). Stop here if any previously working device disappears.
+3. Repeat the power-off procedure to add PCA logic using its diagram/table. Reconnect USB, reopen the monitor, and confirm `scan` and `status` recognize all three modules (PCA all-call 0x70 may also appear). Stop here if any previously working device disappears.
 
 Companion stays installed throughout these additions; do not re-upload Face or Motion. Each USB reconnection restarts Companion so it can initialize the newly added device.
 
-Try `face happy`, `face sleep`, and `face awake`. Check the acceleration messages; with the MPU's +Z axis up, Z should be near +9.8 m/s2 and `upright=1`. If the mounted sensor faces another direction, fix the mount or deliberately update the orientation transform before using demo mode. The present gesture mode stops when Z falls below its upright threshold; this is not fall prevention or a desk-edge detector.
+Try `face happy`, `face sleep`, and `face awake`. Check the acceleration messages; with the MPU's +Z axis up, Z should be near +9.8 m/s2 and `upright=1`. If the mounted sensor faces another direction, fix the mount or deliberately update the orientation transform before using demo mode. For this checkpoint, record the readings; do not start gesture mode.
 
 ## One servo, no leg attached
 
 <!-- wiring:start -->
+**Starting state:** the OLED, GY-521 and PCA9685 logic checks have passed. **New parts:** one SG90 servo motor, a regulated 5V wall power supply, its low-voltage barrel-to-screw-terminal connector, prepared power wires, and the multimeter. The servo turns its shaft in response to the driver signal. The separate supply provides motor power; USB continues powering the XIAO. Identify these parts first. The wall supply has not been connected yet.
+
 ### Wiring visuals and pinouts
 
-**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+**Before assembling these connections: close the monitor and unplug the XIAO USB cable. Keep the newly introduced 5V supply unplugged from the wall until the voltage-check step. On a repeat session, unplug it before changing wires.** These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.
 
 ![SERVO wiring: labelled endpoints and separate power paths](wiring/images/servo.png)
 
-Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Also complete the PCA logic diagram** (3V3/VCC, GND, SDA, SCL). Start with only channel 0; later 0/1/2/3 map to front-left/front-right/rear-left/rear-right. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.
+Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Also complete the PCA logic diagram** (3V3/VCC, GND, SDA, SCL). Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.
 
 | From / pin | To / pin | Meaning |
 |---|---|---|
@@ -116,9 +118,9 @@ Probe-jack pinout is functional, not the physical socket position of every meter
 
 <!-- wiring:end -->
 
-1. Disconnect both supplies. Attach one unloaded servo to channel 0.
+1. Close the monitor and unplug the XIAO USB cable. With the new 5V wall supply still unplugged, prepare its low-voltage connector and wires using the diagram. Keep the supply output disconnected from the driver while the adult checks its voltage and polarity with the meter. Follow the meter diagram: temporarily power the supply for that measurement, then unplug it again. Attach one unloaded servo to channel 0 and connect the verified output wires to PCA V+ and GND.
 2. Start controller USB with servo power still off. `status` should report PCA available and no active channel.
-3. Verify the wall supply is approximately +5V at the servo terminal, then connect servo power.
+3. After the adult checks the assembled terminal polarity against the measured output, plug the 5V supply into the wall. Keep the motor shaft clear. This is the first time the motor receives power.
 4. Enter `cal 0`. This sends a nominal 1500us neutral pulse to channel 0 only. Other channels are off.
 5. Enter `jog 0 10` or `jog 0 -10` for small adjustments. Default limits are 1450-1550us, intentionally narrow. A 15-second gap without a calibration command disables pulses.
 6. Enter `stop` to disable pulses. Unplug servo power before installing a horn. Pulse-off does not disconnect electrical power or guarantee the leg stays upright.
