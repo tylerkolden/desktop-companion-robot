@@ -9,7 +9,7 @@ This is the integration guide for lesson 5, after the standalone Hello, Scanner,
 <!-- wiring:start -->
 ### Wiring visuals and pinouts
 
-**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+**Before changing wires: close the serial monitor and unplug the XIAO USB cable. This stage uses USB power only; no servo supply or battery is needed.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
 
 ![USB wiring: labelled endpoints and separate power paths](wiring/images/usb.png)
 
@@ -38,7 +38,7 @@ Command output is plain text; no application or Wi-Fi credentials are required. 
 <!-- wiring:start -->
 ### Wiring visuals and pinouts
 
-**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+**Before changing wires: close the serial monitor and unplug the XIAO USB cable. This stage uses USB power only; no servo supply or battery is needed.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
 
 ![OLED wiring: labelled endpoints and separate power paths](wiring/images/oled.png)
 

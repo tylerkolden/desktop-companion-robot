@@ -62,7 +62,7 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 <p><strong>Checkpoint:</strong> why is a picture of a similar board not enough for wiring? Because connectors, pin order, regulators, and board revisions can differ even when the main chip has the same name.</p></section><section id="c4"><h1>4. XIAO: a computer with a very small desk</h1>
 <!-- wiring:start -->
 <h3>Wiring visuals and pinouts</h3>
-<p><strong>Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.</strong> These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.</p>
+<p><strong>Before changing wires: close the serial monitor and unplug the XIAO USB cable. This stage uses USB power only; no servo supply or battery is needed.</strong> These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.</p>
 <p><img alt="USB wiring: labelled endpoints and separate power paths" src="images/wiring-usb.png" /></p>
 <p>The pinout for this stage is USB-C socket only: <strong>all XIAO header pins are unused</strong>. No external modules or battery.</p>
 <table>
@@ -96,7 +96,7 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 <p><strong>Checkpoint:</strong> the XIAO is a microcontroller board, not a Raspberry Pi running a desktop operating system. We upload firmware that starts when the board starts. Arduino IDE is the program on the family computer used to prepare that firmware.</p></section><section id="c5"><h1>5. The face made of 8,192 little decisions</h1>
 <!-- wiring:start -->
 <h3>Wiring visuals and pinouts</h3>
-<p><strong>Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.</strong> These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.</p>
+<p><strong>Before changing wires: close the serial monitor and unplug the XIAO USB cable. This experiment uses the XIAO and OLED only. No servo or servo adapter is used.</strong> These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.</p>
 <p><img alt="OLED wiring: labelled endpoints and separate power paths" src="images/wiring-oled.png" /></p>
 <p>Functional pinout: VCC, GND, SDA, SCL. The supplied display photo has <strong>GND / VCC / SCL / SDA</strong> across its top header when viewed from the front. Our illustration groups wires by function, not that physical order.</p>
 <table>
@@ -144,7 +144,7 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 <p><strong>Checkpoint:</strong> an expressive face does not prove that a robot has feelings. It proves that humans are very good at interpreting shapes. You are designing a communication interface.</p></section><section id="c6"><h1>6. The sensor that notices a tilt</h1>
 <!-- wiring:start -->
 <h3>Wiring visuals and pinouts</h3>
-<p><strong>Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.</strong> These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.</p>
+<p><strong>Before changing wires: close the serial monitor and unplug the XIAO USB cable. This experiment uses the XIAO and GY-521 motion sensor only. No servo or servo adapter is used.</strong> These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.</p>
 <p><img alt="IMU wiring: labelled endpoints and separate power paths" src="images/wiring-imu.png" /></p>
 <p>Functional pinout: VCC, GND, SCL, SDA, XDA, XCL, AD0, INT. Leave XDA/XCL/INT open; verify AD0 default through scanning. Exact delivered header order is unconfirmed. Check regulator/pull-ups at 3.3V; do not substitute 5V to fix detection.</p>
 <table>
@@ -594,7 +594,7 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 <p><strong>Answer:</strong> the second is more useful, but it does not prove the supply stays stable when four servos move. No-load and loaded tests answer different questions.</p></section><section id="c12"><h1>12. Arduino IDE: the workshop for instructions</h1>
 <!-- wiring:start -->
 <h3>Wiring visuals and pinouts</h3>
-<p><strong>Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.</strong> These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.</p>
+<p><strong>Before changing wires: close the serial monitor and unplug the XIAO USB cable. This stage uses USB power only; no servo supply or battery is needed.</strong> These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.</p>
 <p><img alt="USB wiring: labelled endpoints and separate power paths" src="images/wiring-usb.png" /></p>
 <p>The pinout for this stage is USB-C socket only: <strong>all XIAO header pins are unused</strong>. No external modules or battery.</p>
 <table>

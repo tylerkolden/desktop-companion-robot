@@ -39,7 +39,7 @@ MODULES = {
 }
 rows = [('3V3','VCC'), ('GND','GND'), ('D4 / GPIO6','SDA'), ('D5 / GPIO7','SCL')]
 for key,(name,sub) in MODULES.items():
-    im,d=canvas(name+' - four-wire lesson', 'Unplug USB before wiring. Battery, servo supply and servos remain disconnected.')
+    im,d=canvas(name+' - four-wire lesson', 'Unplug USB before changing wires. This stage uses USB power only; no servo or battery is needed.')
     board(d,(50,165,520,735),'Seeed XIAO ESP32C3','B0DRNSV5CS | USB-C power + data')
     board(d,(1080,165,1550,735),name,sub)
     # Breadboard-inspired junctions show electrical groups, not hole coordinates.
@@ -115,8 +115,16 @@ NOTES={
  'meter':'Probe-jack pinout is functional, not the physical socket position of every meter variant. Select DC voltage before probing. Verify barrel size and polarity against the actual adapter; do not assume center-positive from a generic picture.'
 }
 def snippet(keys, parent, book=False):
+    if 'servo' in keys or 'meter' in keys:
+        preparation = '**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.**'
+    elif keys == ['imu']:
+        preparation = '**Before changing wires: close the serial monitor and unplug the XIAO USB cable. This experiment uses the XIAO and GY-521 motion sensor only. No servo or servo adapter is used.**'
+    elif keys == ['oled']:
+        preparation = '**Before changing wires: close the serial monitor and unplug the XIAO USB cable. This experiment uses the XIAO and OLED only. No servo or servo adapter is used.**'
+    else:
+        preparation = '**Before changing wires: close the serial monitor and unplug the XIAO USB cable. This stage uses USB power only; no servo supply or battery is needed.**'
     parts=['<!-- wiring:start -->','### Wiring visuals and pinouts','',
-           '**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.','']
+           preparation+' These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.','']
     for k in keys:
         image=('images/wiring-'+k+'.png') if book else Path(os.path.relpath(IMAGES/(k+'.png'),parent)).as_posix()
         parts += [f'![{k.upper()} wiring: labelled endpoints and separate power paths]({image})','',NOTES[k],'','| From / pin | To / pin | Meaning |','|---|---|---|']

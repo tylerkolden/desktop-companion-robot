@@ -52,7 +52,7 @@ Before connecting the driver, use the multimeter to establish adapter voltage an
 <!-- wiring:start -->
 ### Wiring visuals and pinouts
 
-**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+**Before changing wires: close the serial monitor and unplug the XIAO USB cable. This stage uses USB power only; no servo supply or battery is needed.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
 
 ![USB wiring: labelled endpoints and separate power paths](wiring/images/usb.png)
 
@@ -75,7 +75,7 @@ Open `firmware/Companion/Companion.ino`. Its `scan` and `status` commands cover 
 <!-- wiring:start -->
 ### Wiring visuals and pinouts
 
-**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+**Before changing wires: close the serial monitor and unplug the XIAO USB cable. This stage uses USB power only; no servo supply or battery is needed.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
 
 ![OLED wiring: labelled endpoints and separate power paths](wiring/images/oled.png)
 

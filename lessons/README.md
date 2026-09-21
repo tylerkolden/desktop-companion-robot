@@ -27,7 +27,7 @@ Follow the transition steps and diagrams inside each lesson. Close the serial mo
 <!-- wiring:start -->
 ### Wiring visuals and pinouts
 
-**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+**Before changing wires: close the serial monitor and unplug the XIAO USB cable. This stage uses USB power only; no servo supply or battery is needed.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
 
 ![USB wiring: labelled endpoints and separate power paths](../docs/wiring/images/usb.png)
 
@@ -56,7 +56,7 @@ Run `./robot.ps1 ports` before and after connecting the bare XIAO by data cable.
 <!-- wiring:start -->
 ### Wiring visuals and pinouts
 
-**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+**Before changing wires: close the serial monitor and unplug the XIAO USB cable. This stage uses USB power only; no servo supply or battery is needed.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
 
 ![USB wiring: labelled endpoints and separate power paths](../docs/wiring/images/usb.png)
 
@@ -89,7 +89,7 @@ The pinout for this stage is USB-C socket only: **all XIAO header pins are unuse
 <!-- wiring:start -->
 ### Wiring visuals and pinouts
 
-**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+**Before changing wires: close the serial monitor and unplug the XIAO USB cable. This experiment uses the XIAO and OLED only. No servo or servo adapter is used.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
 
 ![OLED wiring: labelled endpoints and separate power paths](../docs/wiring/images/oled.png)
 
@@ -124,7 +124,7 @@ Functional pinout: VCC, GND, SDA, SCL. The supplied display photo has **GND / VC
 <!-- wiring:start -->
 ### Wiring visuals and pinouts
 
-**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+**Before changing wires: close the serial monitor and unplug the XIAO USB cable. This experiment uses the XIAO and OLED only. No servo or servo adapter is used.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
 
 ![OLED wiring: labelled endpoints and separate power paths](../docs/wiring/images/oled.png)
 
@@ -159,7 +159,7 @@ Functional pinout: VCC, GND, SDA, SCL. The supplied display photo has **GND / VC
 <!-- wiring:start -->
 ### Wiring visuals and pinouts
 
-**Before changing wires: unplug USB and the servo adapter. Battery stays disconnected.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
+**Before changing wires: close the serial monitor and unplug the XIAO USB cable. This experiment uses the XIAO and GY-521 motion sensor only. No servo or servo adapter is used.** These custom Tinkercad-style illustrations are not a Tinkercad project or simulation. Board shapes are illustrative; terminal positions are functional, not verified physical placement. Read actual board labels.
 
 ![IMU wiring: labelled endpoints and separate power paths](../docs/wiring/images/imu.png)
 
