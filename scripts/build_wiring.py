@@ -172,6 +172,8 @@ def snippet(keys, parent, book=False, introduction=''):
         preparation = '**Before changing wires: close the serial monitor if it is open, then unplug the XIAO USB cable. USB is the power source for this experiment.**'
     if introduction.startswith('**5D'):
         preparation = '**Keep the three-module logic wiring from 5C. Unplug USB and the 5V wall supply before restoring the single channel-0 servo connection shown below. Open the monitor with motor power off.**'
+    if introduction.startswith('**Big wiggle'):
+        preparation = '**Keep the checked 5B circuit. Unplug USB and the 5V wall supply before changing any wiring. Keep motor power off while uploading and opening the monitor.**'
     parts=['<!-- wiring:start -->']
     if introduction:
         parts += [introduction, '']
@@ -254,6 +256,7 @@ placements={
  'lessons/README.md':{'0. Identify before overwriting':['usb'],'1. Hello: a program lives on a board':['usb'],'2. Scanner: devices have addresses':['oled'],'3. Face: pixels make expressions':['oled'],'4. Motion: gravity is a clue':['imu'],'5A. Test the driver by itself':['pca'],'5C.1 Add the screen':['team-oled'],'5C.2 Add the motion sensor':['team-all'],'5B. Introduce one servo and its power supply':['servo','meter']},
 }
 placements['lessons/README.md']["5D. Andrew's tiny talent show"]=['servo']
+placements['lessons/README.md']['5B.1 Big wiggle: make movement easier to see']=['servo']
 for relative,keys in coverage.items():
     p=ROOT/relative
     if not p.exists(): continue
@@ -269,6 +272,8 @@ for relative,keys in coverage.items():
             target='## '+heading+'\n'
             assert target in text,(relative,heading)
             intro = ''
+            if heading.startswith('5B.1'):
+                intro = '**Big wiggle setup:** the same XIAO, PCA9685, one unloaded channel-0 SG90 and verified 5V supply used in 5B. No new parts.'
             if heading.startswith('5D.'):
                 intro = '**5D setup:** use the familiar SG90 and 5V supply from 5B. The screen and sensor remain connected as shown in 5C; this diagram highlights the motor connection.'
             if relative == 'lessons/README.md' and heading.startswith('5A.'):
@@ -300,6 +305,9 @@ for heading,key in [('5C.1 Add the screen','team-oled'),('5C.2 Add the motion se
     target='### '+heading+'\n'
     assert target in text
     text=text.replace(target,target+'\n'+snippet([key],book,True)+'\n',1)
+target='## Bonus servo lab: 5B.1 Big wiggle: make movement easier to see\n'
+assert target in text
+text=text.replace(target,target+'\n'+snippet(['servo'],book,True,introduction='**Big wiggle setup:** same checked one-servo circuit as lesson 5B.')+'\n',1)
 p.write_text(re.sub(r'\n{3,}', '\n\n', text),encoding='utf-8')
 print(f'Updated {len(coverage)} guides, {len(chapter_keys)} book chapters, atlas and {len(TABLES)} illustrations.')
 

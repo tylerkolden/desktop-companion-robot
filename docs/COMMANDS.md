@@ -128,6 +128,7 @@ Use these **inside the monitor**, one line at a time followed by Enter. PowerShe
 |---|---|---|
 | 5A: driver alone | `scan`, `status` | Driver at 0x40; absent screen/sensor expected |
 | 5B: one unloaded servo | `motor`; after preparation, `go` | Observe movement; automatic pulse-off |
+| 5B.1: visible servo test | `wiggle`; after preparation, `wiggle start` | Three low/high pairs; automatic pulse-off after eight seconds |
 | 5C.1: add OLED | `scan`, `status`, `face happy`, `face awake` | Two boards answer; expression changes |
 | 5C.2: add sensor | Same commands; gently tilt sensor | Three boards answer; acceleration changes |
 | 5D: personality show | `show`; after preparation, `show start` | Four scenes; coordinated face and servo |

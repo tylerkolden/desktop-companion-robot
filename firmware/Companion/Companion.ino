@@ -7,6 +7,7 @@
 #include "Logic.h"
 #include "LogicTests.h"
 #include "Face.h"
+#include "Wiggle.h"
 
 constexpr uint8_t PCA_ADDRESS = 0x40;
 constexpr uint32_t CAL_TIMEOUT = 15000;
@@ -27,6 +28,9 @@ bool huntReady = false, hunting = false;
 int huntChannel = -1, huntStage = 0;
 uint32_t huntStart = 0;
 bool motorGuideReady = false;
+bool wiggleReady = false, wiggling = false;
+uint32_t wiggleStart = 0;
+int wiggleStage = -1;
 bool showRunning = false, showReady = false;
 uint32_t showStart = 0;
 int showScene = -1;
@@ -49,6 +53,7 @@ bool probe(uint8_t address) {
 }
 
 void stopMotion() {
+  wiggleReady = false; wiggling = false;
   showRunning = false; showReady = false;
   demo = false;
   hunting = false; huntReady = false; huntChannel = -1;
@@ -154,7 +159,7 @@ bool readPcaRegister(uint8_t reg, uint8_t &value) {
 }
 
 void diagnosePca() {
-  if (benchTest || hunting || demo || showRunning) {
+  if (benchTest || hunting || demo || showRunning || wiggling) {
     Serial.println("Type stop first, then diagnose. This check never starts movement."); return;
   }
   uint8_t mode1, mode2, prescale;
@@ -203,6 +208,7 @@ void showDevice(const char *name, bool ready, uint8_t address, const char *expec
 }
 
 void showStatus() {
+  Serial.printf("Servo wiggle: %s\n", wiggling ? "RUNNING" : "off");
   Serial.printf("Personality show: %s\n", showRunning ? "RUNNING" : "off");
   Serial.printf("Channel finder: %s | channel=%d\n", hunting ? "RUNNING" : "off", huntChannel);
   Serial.println("\n--- Andrew's robot check-in ---");
@@ -220,6 +226,7 @@ void showStatus() {
 }
 
 void printHelp() {
+  Serial.println("wiggle : servo-only guide | wiggle start : three visible low/high pairs, then stop");
   Serial.println("show : personality-show guide | show start : prepared one-servo performance");
   Serial.println("Companion bench firmware 0.1.0 | 115200 baud | newline commands");
   Serial.println("help | motor | hunt | status | scan | diagnose | details | stop | face awake/happy/sleep");
@@ -287,6 +294,32 @@ void command(char *line) {
   if (!strcmp(op, "diagnose") && count == 1) { diagnosePca(); return; }
   if (!strcmp(op, "details") && count == 1) { showDetails(); return; }
   if (!strcmp(op, "scan") && count == 1) { scanBus(); return; }
+  if (!strcmp(op, "wiggle") && count == 1) {
+    stopMotion();
+    if (!pcaOK) { Serial.println("Driver not ready. Check lesson 5A first."); return; }
+    wiggleReady = true;
+    const Calibration &c = calibration[0];
+    const int a = companion::wiggleAmplitude(c.low,c.center,c.high);
+    Serial.println("BIG WIGGLE LAB - lesson 5B.1. No movement yet.");
+    Serial.println("ONE unloaded servo on channel 0; shaft clear. No horn, leg or mechanism.");
+    Serial.printf("Requested range: %d to %dus; center %dus. Existing limits unchanged.\n", c.center-a,c.center+a,c.center);
+    Serial.println("8 seconds: center, three back-and-forth pairs, center, then pulses off.");
+    Serial.println("Only the driver is required. Screen/sensor may stay connected; no face choreography.");
+    Serial.println("After lesson 5B's adult wiring/power check, type wiggle start. stop cancels.");
+    return;
+  }
+  if (!strcmp(op, "wiggle") && count == 2 && !strcmp(tokens[1], "start")) {
+    if (!wiggleReady || !pcaOK) { Serial.println("First type wiggle and read the preparation steps."); return; }
+    stopMotion();
+    if (!huntAllOff()) return;
+    currentPulse = calibration[0].center;
+    if (!sendPulse(0,currentPulse)) return;
+    wiggling = true; activeChannel = 0; wiggleStage = -1;
+    wiggleStart = lastCommand = millis();
+    Serial.println("WATCH CHANNEL 0! stop + Enter cancels. Unplug motor power if it binds."); return;
+  }
+  if (wiggling) { Serial.println("Wiggle running. Use stop to cancel or status to check progress."); return; }
+  wiggleReady = false;
   if (!strcmp(op, "show") && count == 1) {
     stopMotion(); showReady = true;
     Serial.println("ANDREW'S TINY TALENT SHOW: 12 seconds, ONE unloaded servo on channel 0.");
@@ -480,6 +513,29 @@ void loop() {
     }
   }
   advanceHunt(now);
+  if (wiggling) {
+    const uint32_t age = companion::elapsed(now,wiggleStart);
+    if (age >= 8000) {
+      stopMotion();
+      Serial.println("[DONE] Wiggle finished. Pulses requested OFF. Unplug motor power.");
+      Serial.println("Did you see three back-and-forth pairs? YES / NO / NOT SURE.");
+    } else {
+      const int stage = age/1000;
+      if (stage != wiggleStage) {
+        wiggleStage = stage;
+        if (stage == 0) Serial.println("CENTER: watch the shaft.");
+        else if (stage == 7) Serial.println("FINISH: returning to center.");
+        else Serial.printf("PAIR %d/3: %s pulse position\n", (stage+1)/2,stage%2 ? "LOW" : "HIGH");
+      }
+      if (companion::elapsed(now,lastMotion) >= 20) {
+        lastMotion = now;
+        const Calibration &c = calibration[0];
+        const int a = companion::wiggleAmplitude(c.low,c.center,c.high);
+        currentPulse = c.center + c.direction * companion::wiggleOffset(age) * a / 50;
+        sendPulse(0,currentPulse);
+      }
+    }
+  }
   if (showRunning) {
     const uint32_t age = companion::elapsed(now, showStart);
     if (companion::showPhase(now, showStart) == 4 || !oledOK || !imuOK || !imuSampleValid || !pcaOK || !probe(oledAddress)) {
@@ -542,6 +598,6 @@ void loop() {
   }
   if (companion::elapsed(now, lastTelemetry) >= 2000) {
     lastTelemetry = now;
-    if (imuOK) Serial.printf("accel m/s2: %.2f %.2f %.2f | upright=%d\n", ax, ay, az, upright);
+    if (imuOK && !wiggling && !wiggleReady) Serial.printf("accel m/s2: %.2f %.2f %.2f | upright=%d\n", ax, ay, az, upright);
   }
 }

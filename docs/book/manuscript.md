@@ -1301,3 +1301,96 @@ Hello, Scanner, Face and Motion are standalone teaching programs: watch their ou
 ### Talent-show monitor recipe
 
 Follow repository lesson 5D for hardware preparation and the upload. Open the monitor with motor power unplugged. Once `Connecting to...` appears, type `scan`, then `status`, then `show`, pressing Enter after each. Read the guide. After the adult power check and connection of motor power, type `show start` and Enter. Watch the four scenes. After `CURTAIN DOWN`, type `status` and then `diagnose`; look for show off and every output's full-off flag set. Type `stop` to cancel early. Unplug motor power before closing or reopening the monitor. The command `demo` is a different, four-servo experiment; it is not used here.
+
+## Bonus servo lab: 5B.1 Big wiggle: make movement easier to see
+
+<!-- wiring:start -->
+**Big wiggle setup:** same checked one-servo circuit as lesson 5B.
+
+### Wiring visuals and pinouts
+
+**Keep the checked 5B circuit. Unplug USB and the 5V wall supply before changing any wiring. Keep motor power off while uploading and opening the monitor.** These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.
+
+![SERVO wiring: labelled endpoints and separate power paths](images/wiring-servo.png)
+
+**Identify the green two-screw block on the PCA9685:** its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Keep all four XIAO logic wires connected**, as shown in this complete diagram: 3V3/VCC, GND/GND, D4/SDA and D5/SCL. The shared-ground wire is one of these four wires, not an extra fifth wire. Channel 0 is the three-pin output group beside the printed 0 among groups 0 through 15. One plug spans GND, V+ and signal within that group, not three neighboring channel numbers. The green block is not channel 0. Verify actual markings; left/right orientation is not established by this diagram. Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| Adapter positive | PCA green block: + / V+ | Regulated 5V; direct power wire |
+| Adapter negative | PCA green block: - / GND | Direct power wire |
+| XIAO 3V3 | PCA VCC | Logic power, separate from V+ |
+| XIAO GND | PCA GND | Common reference |
+| XIAO D4 / GPIO6 | PCA SDA | I2C data |
+| XIAO D5 / GPIO7 | PCA SCL | I2C clock |
+| PCA channel 0 GND | SG90 ground | Usually brown/black; verify |
+| PCA channel 0 V+ | SG90 power | Usually red; verify |
+| PCA channel 0 PWM | SG90 signal | Usually orange/yellow; verify |
+
+<!-- wiring:end -->
+
+**Mission:** replace “not sure” with an observation. The first motor test changed the pulse by only 10 microseconds. This test requests up to 100 microseconds from one end to the other, repeats three times, and pauses briefly at each end. It takes eight seconds. It does not promise a particular angle or spin in circles.
+
+**Start where you are:** keep the checked XIAO + PCA9685 + one unloaded channel-0 SG90 setup from 5B. Keep the OE-to-GND jumper if fitted. Only the driver is required; if you already combined the screen and sensor, they may stay connected. This test does not choreograph expressions. Other motor connectors must be empty. Use the diagram and table above if you need to restore the setup, with both supplies unplugged. Leave the shaft free, without a horn, leg or mechanism.
+
+### A. Install the new command — PowerShell
+
+Unplug the 5V motor supply. Press Ctrl+C to close the monitor. Leave USB connected if you are not changing wiring. Run these separately; replace COM5 with your identified port if different:
+
+```powershell
+.\robot.ps1 upload -Sketch Companion -Port COM5 -ServoPowerDisconnected
+```
+
+```powershell
+.\robot.ps1 monitor -Port COM5 -ServoPowerDisconnected
+```
+
+### B. Read the plan — inside the monitor
+
+After `Connecting to COM5`, click in that same terminal. Type each line and press Enter:
+
+```text
+scan
+status
+wiggle
+```
+
+Expect driver `0x40` and `[OK]`. Screen/sensor `[X]` is normal when they are set aside. `wiggle` prints the planned range and starts no movement. Default range is **1450–1550us**, centered at 1500us. Existing narrower limits reduce the range; no limits are widened. If a different servo or mechanism has not been checked, perform the supervised calibration checks from 5B first. The owner's original unloaded servo previously moved within this range; that does not validate every servo.
+
+### C. Watch the big wiggle
+
+After the adult's 5B wiring and power check, plug the 5V supply into the wall. Keep the monitor open and the wiring untouched. Type:
+
+```text
+wiggle start
+```
+
+Press Enter once and watch the shaft. The monitor tells you where the sequence is:
+
+| Time | What to expect |
+|---|---|
+| 0–1 seconds | Center; the initial move depends on the starting position |
+| 1–3 seconds | First low/high pair |
+| 3–5 seconds | Second low/high pair |
+| 5–7 seconds | Third low/high pair |
+| 7–8 seconds | Return to center |
+| Finish | `[DONE]`; all pulses requested off |
+
+Each change ramps for half a second and holds for half a second. “Low/high” means pulse width, not a guaranteed left/right direction. Sensor chatter is hidden during the guide and test so you can read the progress; connected sensors continue being checked.
+
+**Cancel:** type `stop` and Enter. If the servo binds or buzzes continuously, unplug the 5V supply. Software pulse-off is not electrical power-off and cannot guarantee a stop if communication fails.
+
+### D. Check and record
+
+After `[DONE]`, unplug the 5V supply. In the monitor type these separately:
+
+```text
+status
+diagnose
+```
+
+Expect `Servo wiggle: off`, `Calibration channel: none`, and all 16 `full-off=1` flags. Record **YES / NO / NOT SURE** for actual movement. A register report cannot see the shaft. If still unsure, stop here and investigate; do not keep increasing travel. The new test must be observed before marking it passed.
+
+For another prepared run, type `wiggle` again, reconnect motor power after the check, and type `wiggle start`. Repeating `wiggle start` alone will not restart it. To end the session, unplug motor power before Ctrl+C and USB removal.
+
+**Teach it back:** why do repeating the motion and holding each position make a test easier to observe? What did the actual shaft do compared with our prediction?

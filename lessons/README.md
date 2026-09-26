@@ -28,7 +28,6 @@ Hello, Scanner, Face and Motion are standalone teaching programs: watch their ou
 - Port access denied? Close other serial monitors; only one program can use the port.
 - Need to upload again? Press Ctrl+C first and follow that lesson's power preparation.
 
-
 ## How to follow a lesson
 
 Start with the stated hardware, predict the result, perform one experiment, and record what you observed. Each transition tells you what to keep, remove or add. Book chapter numbers are reading references, not lesson numbers.
@@ -338,6 +337,99 @@ After automatic completion, enter `status`: expect `Timed test: off` and `Calibr
 **Predict:** a small change in the command should produce a small shaft movement. **Pass:** controlled unloaded movement, correct connector orientation, known supply polarity, and an explained difference between stopping control pulses and removing electrical power. **If stuck:** unplug the now-introduced 5V supply and inspect the circuit with the adult. **Record:** channel, command, observed movement and measured supply voltage. End by unplugging the 5V supply, closing the monitor and unplugging USB.
 
 If the motor has not visibly moved and the output number is uncertain, use the [all-channel finder](../docs/MOTOR-LAB.md#find-an-unknown-channel-without-moving-the-plug): `hunt` explains the test; `hunt start` checks all 16 outputs in sequence with one unloaded motor. Record the result before proceeding.
+
+## 5B.1 Big wiggle: make movement easier to see
+
+<!-- wiring:start -->
+**Starting state:** only the XIAO and independently tested PCA9685 logic are connected, with Companion running. The tested OLED and GY-521 are set aside. **New parts:** one SG90 servo motor, a regulated 5V wall power supply, its low-voltage barrel-to-screw-terminal connector, prepared power wires, and the multimeter. The servo turns its shaft in response to the driver signal. The separate supply provides motor power; USB continues powering the XIAO. Identify these parts first. The wall supply has not been connected yet.
+
+### Wiring visuals and pinouts
+
+**Before assembling these connections: close the monitor and unplug the XIAO USB cable. Keep the newly introduced 5V supply unplugged from the wall until the voltage-check step. On a repeat session, unplug it before changing wires.** These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.
+
+![SERVO wiring: labelled endpoints and separate power paths](../docs/wiring/images/servo.png)
+
+**Identify the green two-screw block on the PCA9685:** its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Keep all four XIAO logic wires connected**, as shown in this complete diagram: 3V3/VCC, GND/GND, D4/SDA and D5/SCL. The shared-ground wire is one of these four wires, not an extra fifth wire. Channel 0 is the three-pin output group beside the printed 0 among groups 0 through 15. One plug spans GND, V+ and signal within that group, not three neighboring channel numbers. The green block is not channel 0. Verify actual markings; left/right orientation is not established by this diagram. Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.
+
+| From / pin | To / pin | Meaning |
+|---|---|---|
+| Adapter positive | PCA green block: + / V+ | Regulated 5V; direct power wire |
+| Adapter negative | PCA green block: - / GND | Direct power wire |
+| XIAO 3V3 | PCA VCC | Logic power, separate from V+ |
+| XIAO GND | PCA GND | Common reference |
+| XIAO D4 / GPIO6 | PCA SDA | I2C data |
+| XIAO D5 / GPIO7 | PCA SCL | I2C clock |
+| PCA channel 0 GND | SG90 ground | Usually brown/black; verify |
+| PCA channel 0 V+ | SG90 power | Usually red; verify |
+| PCA channel 0 PWM | SG90 signal | Usually orange/yellow; verify |
+
+<!-- wiring:end -->
+
+**Mission:** replace “not sure” with an observation. The first motor test changed the pulse by only 10 microseconds. This test requests up to 100 microseconds from one end to the other, repeats three times, and pauses briefly at each end. It takes eight seconds. It does not promise a particular angle or spin in circles.
+
+**Start where you are:** keep the checked XIAO + PCA9685 + one unloaded channel-0 SG90 setup from 5B. Keep the OE-to-GND jumper if fitted. Only the driver is required; if you already combined the screen and sensor, they may stay connected. This test does not choreograph expressions. Other motor connectors must be empty. Use the diagram and table above if you need to restore the setup, with both supplies unplugged. Leave the shaft free, without a horn, leg or mechanism.
+
+### A. Install the new command — PowerShell
+
+Unplug the 5V motor supply. Press Ctrl+C to close the monitor. Leave USB connected if you are not changing wiring. Run these separately; replace COM5 with your identified port if different:
+
+```powershell
+.\robot.ps1 upload -Sketch Companion -Port COM5 -ServoPowerDisconnected
+```
+
+```powershell
+.\robot.ps1 monitor -Port COM5 -ServoPowerDisconnected
+```
+
+### B. Read the plan — inside the monitor
+
+After `Connecting to COM5`, click in that same terminal. Type each line and press Enter:
+
+```text
+scan
+status
+wiggle
+```
+
+Expect driver `0x40` and `[OK]`. Screen/sensor `[X]` is normal when they are set aside. `wiggle` prints the planned range and starts no movement. Default range is **1450–1550us**, centered at 1500us. Existing narrower limits reduce the range; no limits are widened. If a different servo or mechanism has not been checked, perform the supervised calibration checks from 5B first. The owner's original unloaded servo previously moved within this range; that does not validate every servo.
+
+### C. Watch the big wiggle
+
+After the adult's 5B wiring and power check, plug the 5V supply into the wall. Keep the monitor open and the wiring untouched. Type:
+
+```text
+wiggle start
+```
+
+Press Enter once and watch the shaft. The monitor tells you where the sequence is:
+
+| Time | What to expect |
+|---|---|
+| 0–1 seconds | Center; the initial move depends on the starting position |
+| 1–3 seconds | First low/high pair |
+| 3–5 seconds | Second low/high pair |
+| 5–7 seconds | Third low/high pair |
+| 7–8 seconds | Return to center |
+| Finish | `[DONE]`; all pulses requested off |
+
+Each change ramps for half a second and holds for half a second. “Low/high” means pulse width, not a guaranteed left/right direction. Sensor chatter is hidden during the guide and test so you can read the progress; connected sensors continue being checked.
+
+**Cancel:** type `stop` and Enter. If the servo binds or buzzes continuously, unplug the 5V supply. Software pulse-off is not electrical power-off and cannot guarantee a stop if communication fails.
+
+### D. Check and record
+
+After `[DONE]`, unplug the 5V supply. In the monitor type these separately:
+
+```text
+status
+diagnose
+```
+
+Expect `Servo wiggle: off`, `Calibration channel: none`, and all 16 `full-off=1` flags. Record **YES / NO / NOT SURE** for actual movement. A register report cannot see the shaft. If still unsure, stop here and investigate; do not keep increasing travel. The new test must be observed before marking it passed.
+
+For another prepared run, type `wiggle` again, reconnect motor power after the check, and type `wiggle start`. Repeating `wiggle start` alone will not restart it. To end the session, unplug motor power before Ctrl+C and USB removal.
+
+**Teach it back:** why do repeating the motion and holding each position make a test easier to observe? What did the actual shaft do compared with our prediction?
 
 ## 5C. Combine the three verified modules
 

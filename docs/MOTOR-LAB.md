@@ -1,5 +1,9 @@
 # Motor lab: one small movement
 
+## If the tiny movement is hard to see
+
+Follow [lesson 5B.1: Big wiggle](../lessons/README.md#5b1-big-wiggle-make-movement-easier-to-see). The updated Companion adds `wiggle` (guide, no movement) and `wiggle start` (one unloaded servo on channel 0, three repeated low/high pairs, automatic stop). It uses at most center +/-50us inside existing limits. Only the driver is required. Follow the lesson's upload, power preparation and observation steps before starting.
+
 ## If every channel stays still
 
 An all-channel search with no visible movement does not identify the cause. The 10us offset can be too small to observe. Do not widen limits just to force a visible result.

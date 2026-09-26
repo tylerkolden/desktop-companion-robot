@@ -8,7 +8,7 @@ table { border-collapse:collapse; width:100%; font-size:0.85em; }
 th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:anywhere; }
 .cover img { max-height:90vh; width:auto; } .subtitle { font-style:italic; }
 @media screen { body { max-width:46em; margin:3em auto; padding:0 1em; } }
- section{margin:4em 0}</style><body><img src="images/cover.jpg" alt="Book cover"><nav><h1>Contents</h1><ol><li><a href="#c0">A note from Mission Control</a></li><li><a href="#c1">1. The day the parts became a team</a></li><li><a href="#c2">2. Electricity without the mystery fog</a></li><li><a href="#c3">3. A guided tour of the tiny city</a></li><li><a href="#c4">4. XIAO: a computer with a very small desk</a></li><li><a href="#c5">5. The face made of 8,192 little decisions</a></li><li><a href="#c6">6. The sensor that notices a tilt</a></li><li><a href="#c7">7. Servos: muscles with instructions</a></li><li><a href="#c8">8. The PCA9685: timekeeper, not power magician</a></li><li><a href="#c9">9. Protocols: how rectangles hold a conversation</a></li><li><a href="#c10">10. Wiring: a map, not a guessing contest</a></li><li><a href="#c11">11. The meter is a question-asking machine</a></li><li><a href="#c12">12. Arduino IDE: the workshop for instructions</a></li><li><a href="#c13">13. Code that can pay attention</a></li><li><a href="#c14">14. First power-on: a ladder of small victories</a></li><li><a href="#c15">15. Calibration: teaching the robot what its body means</a></li><li><a href="#c16">16. Printing a body that actually fits</a></li><li><a href="#c17">17. Debugging: the mystery is the lesson</a></li><li><a href="#c18">18. Project management for people who would rather build robots</a></li><li><a href="#c19">19. V2 and the battery that did not get the job</a></li><li><a href="#c20">20. Andrew’s inventor badge</a></li><li><a href="#c21">Appendix A. Family workshop sessions</a></li><li><a href="#c22">Appendix B. The notebook that saves the day</a></li><li><a href="#c23">Appendix C. Quick-reference dictionary</a></li><li><a href="#c24">Appendix D. Send this adventure to Kindle</a></li><li><a href="#c25">Appendix E. Sources, credits, and the changing project</a></li><li><a href="#c26">Bonus lab: Andrew&#x27;s tiny talent show</a></li><li><a href="#c27">Two places to type: computer or robot?</a></li></ol></nav><section id="c0"><h1>A note from Mission Control</h1>
+ section{margin:4em 0}</style><body><img src="images/cover.jpg" alt="Book cover"><nav><h1>Contents</h1><ol><li><a href="#c0">A note from Mission Control</a></li><li><a href="#c1">1. The day the parts became a team</a></li><li><a href="#c2">2. Electricity without the mystery fog</a></li><li><a href="#c3">3. A guided tour of the tiny city</a></li><li><a href="#c4">4. XIAO: a computer with a very small desk</a></li><li><a href="#c5">5. The face made of 8,192 little decisions</a></li><li><a href="#c6">6. The sensor that notices a tilt</a></li><li><a href="#c7">7. Servos: muscles with instructions</a></li><li><a href="#c8">8. The PCA9685: timekeeper, not power magician</a></li><li><a href="#c9">9. Protocols: how rectangles hold a conversation</a></li><li><a href="#c10">10. Wiring: a map, not a guessing contest</a></li><li><a href="#c11">11. The meter is a question-asking machine</a></li><li><a href="#c12">12. Arduino IDE: the workshop for instructions</a></li><li><a href="#c13">13. Code that can pay attention</a></li><li><a href="#c14">14. First power-on: a ladder of small victories</a></li><li><a href="#c15">15. Calibration: teaching the robot what its body means</a></li><li><a href="#c16">16. Printing a body that actually fits</a></li><li><a href="#c17">17. Debugging: the mystery is the lesson</a></li><li><a href="#c18">18. Project management for people who would rather build robots</a></li><li><a href="#c19">19. V2 and the battery that did not get the job</a></li><li><a href="#c20">20. Andrew’s inventor badge</a></li><li><a href="#c21">Appendix A. Family workshop sessions</a></li><li><a href="#c22">Appendix B. The notebook that saves the day</a></li><li><a href="#c23">Appendix C. Quick-reference dictionary</a></li><li><a href="#c24">Appendix D. Send this adventure to Kindle</a></li><li><a href="#c25">Appendix E. Sources, credits, and the changing project</a></li><li><a href="#c26">Bonus lab: Andrew&#x27;s tiny talent show</a></li><li><a href="#c27">Two places to type: computer or robot?</a></li><li><a href="#c28">Bonus servo lab: 5B.1 Big wiggle: make movement easier to see</a></li></ol></nav><section id="c0"><h1>A note from Mission Control</h1>
 <p><strong>A family adventure in circuits, code, and creating a desktop companion.</strong></p>
 <p>Written especially for Andrew, age eleven, and the grown-up building beside him.</p>
 <p>First edition • September 2026</p>
@@ -1565,4 +1565,132 @@ face awake
 <li>Need to upload again? Press Ctrl+C first and follow that lesson's power preparation.</li>
 </ul>
 <h3>Talent-show monitor recipe</h3>
-<p>Follow repository lesson 5D for hardware preparation and the upload. Open the monitor with motor power unplugged. Once <code>Connecting to...</code> appears, type <code>scan</code>, then <code>status</code>, then <code>show</code>, pressing Enter after each. Read the guide. After the adult power check and connection of motor power, type <code>show start</code> and Enter. Watch the four scenes. After <code>CURTAIN DOWN</code>, type <code>status</code> and then <code>diagnose</code>; look for show off and every output's full-off flag set. Type <code>stop</code> to cancel early. Unplug motor power before closing or reopening the monitor. The command <code>demo</code> is a different, four-servo experiment; it is not used here.</p></section></body></html>
+<p>Follow repository lesson 5D for hardware preparation and the upload. Open the monitor with motor power unplugged. Once <code>Connecting to...</code> appears, type <code>scan</code>, then <code>status</code>, then <code>show</code>, pressing Enter after each. Read the guide. After the adult power check and connection of motor power, type <code>show start</code> and Enter. Watch the four scenes. After <code>CURTAIN DOWN</code>, type <code>status</code> and then <code>diagnose</code>; look for show off and every output's full-off flag set. Type <code>stop</code> to cancel early. Unplug motor power before closing or reopening the monitor. The command <code>demo</code> is a different, four-servo experiment; it is not used here.</p></section><section id="c28"><h1>Bonus servo lab: 5B.1 Big wiggle: make movement easier to see</h1>
+<!-- wiring:start -->
+<p><strong>Big wiggle setup:</strong> same checked one-servo circuit as lesson 5B.</p>
+<h3>Wiring visuals and pinouts</h3>
+<p><strong>Keep the checked 5B circuit. Unplug USB and the 5V wall supply before changing any wiring. Keep motor power off while uploading and opening the monitor.</strong> These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.</p>
+<p><img alt="SERVO wiring: labelled endpoints and separate power paths" src="images/wiring-servo.png" /></p>
+<p><strong>Identify the green two-screw block on the PCA9685:</strong> its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Keep all four XIAO logic wires connected</strong>, as shown in this complete diagram: 3V3/VCC, GND/GND, D4/SDA and D5/SCL. The shared-ground wire is one of these four wires, not an extra fifth wire. Channel 0 is the three-pin output group beside the printed 0 among groups 0 through 15. One plug spans GND, V+ and signal within that group, not three neighboring channel numbers. The green block is not channel 0. Verify actual markings; left/right orientation is not established by this diagram. Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
+<table>
+<thead>
+<tr>
+<th>From / pin</th>
+<th>To / pin</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Adapter positive</td>
+<td>PCA green block: + / V+</td>
+<td>Regulated 5V; direct power wire</td>
+</tr>
+<tr>
+<td>Adapter negative</td>
+<td>PCA green block: - / GND</td>
+<td>Direct power wire</td>
+</tr>
+<tr>
+<td>XIAO 3V3</td>
+<td>PCA VCC</td>
+<td>Logic power, separate from V+</td>
+</tr>
+<tr>
+<td>XIAO GND</td>
+<td>PCA GND</td>
+<td>Common reference</td>
+</tr>
+<tr>
+<td>XIAO D4 / GPIO6</td>
+<td>PCA SDA</td>
+<td>I2C data</td>
+</tr>
+<tr>
+<td>XIAO D5 / GPIO7</td>
+<td>PCA SCL</td>
+<td>I2C clock</td>
+</tr>
+<tr>
+<td>PCA channel 0 GND</td>
+<td>SG90 ground</td>
+<td>Usually brown/black; verify</td>
+</tr>
+<tr>
+<td>PCA channel 0 V+</td>
+<td>SG90 power</td>
+<td>Usually red; verify</td>
+</tr>
+<tr>
+<td>PCA channel 0 PWM</td>
+<td>SG90 signal</td>
+<td>Usually orange/yellow; verify</td>
+</tr>
+</tbody>
+</table>
+<!-- wiring:end -->
+
+<p><strong>Mission:</strong> replace “not sure” with an observation. The first motor test changed the pulse by only 10 microseconds. This test requests up to 100 microseconds from one end to the other, repeats three times, and pauses briefly at each end. It takes eight seconds. It does not promise a particular angle or spin in circles.</p>
+<p><strong>Start where you are:</strong> keep the checked XIAO + PCA9685 + one unloaded channel-0 SG90 setup from 5B. Keep the OE-to-GND jumper if fitted. Only the driver is required; if you already combined the screen and sensor, they may stay connected. This test does not choreograph expressions. Other motor connectors must be empty. Use the diagram and table above if you need to restore the setup, with both supplies unplugged. Leave the shaft free, without a horn, leg or mechanism.</p>
+<h3>A. Install the new command — PowerShell</h3>
+<p>Unplug the 5V motor supply. Press Ctrl+C to close the monitor. Leave USB connected if you are not changing wiring. Run these separately; replace COM5 with your identified port if different:</p>
+<pre><code class="language-powershell">.\robot.ps1 upload -Sketch Companion -Port COM5 -ServoPowerDisconnected
+</code></pre>
+<pre><code class="language-powershell">.\robot.ps1 monitor -Port COM5 -ServoPowerDisconnected
+</code></pre>
+<h3>B. Read the plan — inside the monitor</h3>
+<p>After <code>Connecting to COM5</code>, click in that same terminal. Type each line and press Enter:</p>
+<pre><code class="language-text">scan
+status
+wiggle
+</code></pre>
+<p>Expect driver <code>0x40</code> and <code>[OK]</code>. Screen/sensor <code>[X]</code> is normal when they are set aside. <code>wiggle</code> prints the planned range and starts no movement. Default range is <strong>1450–1550us</strong>, centered at 1500us. Existing narrower limits reduce the range; no limits are widened. If a different servo or mechanism has not been checked, perform the supervised calibration checks from 5B first. The owner's original unloaded servo previously moved within this range; that does not validate every servo.</p>
+<h3>C. Watch the big wiggle</h3>
+<p>After the adult's 5B wiring and power check, plug the 5V supply into the wall. Keep the monitor open and the wiring untouched. Type:</p>
+<pre><code class="language-text">wiggle start
+</code></pre>
+<p>Press Enter once and watch the shaft. The monitor tells you where the sequence is:</p>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>What to expect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0–1 seconds</td>
+<td>Center; the initial move depends on the starting position</td>
+</tr>
+<tr>
+<td>1–3 seconds</td>
+<td>First low/high pair</td>
+</tr>
+<tr>
+<td>3–5 seconds</td>
+<td>Second low/high pair</td>
+</tr>
+<tr>
+<td>5–7 seconds</td>
+<td>Third low/high pair</td>
+</tr>
+<tr>
+<td>7–8 seconds</td>
+<td>Return to center</td>
+</tr>
+<tr>
+<td>Finish</td>
+<td><code>[DONE]</code>; all pulses requested off</td>
+</tr>
+</tbody>
+</table>
+<p>Each change ramps for half a second and holds for half a second. “Low/high” means pulse width, not a guaranteed left/right direction. Sensor chatter is hidden during the guide and test so you can read the progress; connected sensors continue being checked.</p>
+<p><strong>Cancel:</strong> type <code>stop</code> and Enter. If the servo binds or buzzes continuously, unplug the 5V supply. Software pulse-off is not electrical power-off and cannot guarantee a stop if communication fails.</p>
+<h3>D. Check and record</h3>
+<p>After <code>[DONE]</code>, unplug the 5V supply. In the monitor type these separately:</p>
+<pre><code class="language-text">status
+diagnose
+</code></pre>
+<p>Expect <code>Servo wiggle: off</code>, <code>Calibration channel: none</code>, and all 16 <code>full-off=1</code> flags. Record <strong>YES / NO / NOT SURE</strong> for actual movement. A register report cannot see the shaft. If still unsure, stop here and investigate; do not keep increasing travel. The new test must be observed before marking it passed.</p>
+<p>For another prepared run, type <code>wiggle</code> again, reconnect motor power after the check, and type <code>wiggle start</code>. Repeating <code>wiggle start</code> alone will not restart it. To end the session, unplug motor power before Ctrl+C and USB removal.</p>
+<p><strong>Teach it back:</strong> why do repeating the motion and holding each position make a test easier to observe? What did the actual shaft do compared with our prediction?</p></section></body></html>
