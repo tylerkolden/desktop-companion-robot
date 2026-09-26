@@ -1,5 +1,9 @@
 # Development plan
 
+## Current teaching architecture
+
+Seven separate lesson pages and sketches replace the stacked Companion lesson flow. Test acceleration, rotation rate, die temperature, OLED and servo control independently, then integrate. Shared command handling keeps the interface consistent. Physical validation of the new sketches is pending; historical Companion success does not certify them.
+
 ## Milestone 0: documented starting point
 
 - [x] Add repository-local pinned tool bootstrap and a documented Windows terminal workflow.

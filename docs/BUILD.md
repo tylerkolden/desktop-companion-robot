@@ -2,6 +2,8 @@
 
 Wiring reference: [full pinout atlas and verification limits](wiring/README.md). Use the stage matching your lesson; do not connect every pictured module at once.
 
+**Legacy Companion reference.** New learners should use [the current standalone course](../lessons/README.md). Commands in this document describe the older application, not the new Servo/Integration sketches.
+
 These instructions cover preparation and the planned sequence. **Bench firmware and fit gauges are included; full robot CAD is not.** New learners start with [START-HERE.md](START-HERE.md) and the standalone lessons before [FIRST-POWER-ON.md](FIRST-POWER-ON.md). No successful physical tests have been recorded. Do not flash the upstream sketch unchanged: it drives servos directly, whereas this robot uses a PCA9685.
 
 ## 1. Receive and inspect

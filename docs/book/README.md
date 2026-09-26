@@ -25,3 +25,5 @@ Requires Python 3 with `Pillow` and `Markdown`. Run `python build_book.py` from 
 Validation includes XML parsing, EPUB packaging, navigation/local resource targets, image alternative text, and manifest/spine consistency. All six original images were visually inspected. A 600-pixel browser reading preview was inspected and showed no horizontal overflow. These checks are not a substitute for Amazon conversion or physical Kindle testing.
 
 Original educational text and diagrams created for the family with OpenAI Codex assistance. ANDI dialogue is fictional. Technical sources are linked inside the book. First edition: September 15, 2026.
+
+The current Appendix A is the seven-lesson standalone course: Basics, Accelerometer, Gyroscope, Temperature, Display, Servo and Integration. Regenerate with `python scripts/build_wiring.py` then `python docs/book/build_book.py`. The lesson plans and code replace the old stacked Companion exercises.

@@ -1,71 +1,8 @@
 # Desktop Companion Robot
 
 Wiring reference: [full pinout atlas and verification limits](docs/wiring/README.md). Use the stage matching your lesson; do not connect every pictured module at once.
-<!-- wiring:start -->
-**Parts for this power checkpoint:** a regulated 5V wall supply, its low-voltage connector and prepared wires, and a multimeter. For the motor connection, also identify the SG90 servo and PCA9685 driver. The supply powers the motor through the driver; the meter checks its output before connection. Identify these parts before following the diagram.
 
-### Wiring visuals and pinouts
-
-**Before assembling these connections: close the monitor and unplug the XIAO USB cable. Keep the newly introduced 5V supply unplugged from the wall until the voltage-check step. On a repeat session, unplug it before changing wires.** These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.
-
-![USB wiring: labelled endpoints and separate power paths](docs/wiring/images/usb.png)
-
-The pinout for this stage is USB-C socket only: **all XIAO header pins are unused**.
-
-| From / pin | To / pin | Meaning |
-|---|---|---|
-| Computer USB port | XIAO USB-C socket | Data cable; all headers empty |
-
-![OLED wiring: labelled endpoints and separate power paths](docs/wiring/images/oled.png)
-
-Functional pinout: VCC, GND, SDA, SCL. The supplied display photo has **GND / VCC / SCL / SDA** across its top header when viewed from the front. Our illustration groups wires by function, not that physical order.
-
-| From / pin | To / pin | Meaning |
-|---|---|---|
-| XIAO 3V3 | AITRIP SSD1306 OLED VCC | 3.3V logic |
-| XIAO GND | AITRIP SSD1306 OLED GND | Shared ground |
-| XIAO D4 / GPIO6 | AITRIP SSD1306 OLED SDA | I2C data |
-| XIAO D5 / GPIO7 | AITRIP SSD1306 OLED SCL | I2C clock |
-
-![IMU wiring: labelled endpoints and separate power paths](docs/wiring/images/imu.png)
-
-Functional pinout: VCC, GND, SCL, SDA, XDA, XCL, AD0, INT. Leave XDA/XCL/INT open; verify AD0 default through scanning. Exact delivered header order is unconfirmed. Check regulator/pull-ups at 3.3V; do not substitute 5V to fix detection.
-
-| From / pin | To / pin | Meaning |
-|---|---|---|
-| XIAO 3V3 | GY-521 / MPU6050 VCC | 3.3V logic |
-| XIAO GND | GY-521 / MPU6050 GND | Shared ground |
-| XIAO D4 / GPIO6 | GY-521 / MPU6050 SDA | I2C data |
-| XIAO D5 / GPIO7 | GY-521 / MPU6050 SCL | I2C clock |
-
-![PCA wiring: labelled endpoints and separate power paths](docs/wiring/images/pca.png)
-
-The green two-screw block is a separate power input: one terminal is + / V+, the other is - / GND. It stays empty during this communication-only test; the driver electronics receive power through VCC. Follow the board markings, not a guessed left/right position. Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.
-
-| From / pin | To / pin | Meaning |
-|---|---|---|
-| XIAO 3V3 | Teyleten PCA9685 VCC | 3.3V logic |
-| XIAO GND | Teyleten PCA9685 GND | Shared ground |
-| XIAO D4 / GPIO6 | Teyleten PCA9685 SDA | I2C data |
-| XIAO D5 / GPIO7 | Teyleten PCA9685 SCL | I2C clock |
-
-![SERVO wiring: labelled endpoints and separate power paths](docs/wiring/images/servo.png)
-
-**Identify the green two-screw block on the PCA9685:** its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Keep all four XIAO logic wires connected**, as shown in this complete diagram: 3V3/VCC, GND/GND, D4/SDA and D5/SCL. The shared-ground wire is one of these four wires, not an extra fifth wire. Channel 0 is the three-pin output group beside the printed 0 among groups 0 through 15. One plug spans GND, V+ and signal within that group, not three neighboring channel numbers. The green block is not channel 0. Verify actual markings; left/right orientation is not established by this diagram. Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.
-
-| From / pin | To / pin | Meaning |
-|---|---|---|
-| Adapter positive | PCA green block: + / V+ | Regulated 5V; direct power wire |
-| Adapter negative | PCA green block: - / GND | Direct power wire |
-| XIAO 3V3 | PCA VCC | Logic power, separate from V+ |
-| XIAO GND | PCA GND | Common reference |
-| XIAO D4 / GPIO6 | PCA SDA | I2C data |
-| XIAO D5 / GPIO7 | PCA SCL | I2C clock |
-| PCA channel 0 GND | SG90 ground | Usually brown/black; verify |
-| PCA channel 0 V+ | SG90 power | Usually red; verify |
-| PCA channel 0 PWM | SG90 signal | Usually orange/yellow; verify |
-
-<!-- wiring:end -->
+**Current learning path:** [seven standalone lessons](lessons/README.md), each with its own program and page. Test acceleration, rotation rate, chip temperature, OLED and servo control separately; use Integration for the team test.
 
 A personal, solder-free desktop robot inspired by Nickson Kiprotich's TN-24: an OLED face, four expressive legs, and motion sensing. Build a corded V1 first, then develop a cordless V2.
 
@@ -83,7 +20,7 @@ From PowerShell in this folder, on Windows x64:
 
 ```powershell
 .\robot.ps1 setup
-.\robot.ps1 build -Sketch Hello
+.\robot.ps1 build -Sketch Basics
 .\robot.ps1 ports
 ```
 

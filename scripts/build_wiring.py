@@ -110,7 +110,7 @@ save(im,'meter')
 
 # Integration diagrams: four separate meeting places, with one added device per stage.
 for stage, include_imu in [('team-oled', False), ('team-all', True)]:
-    im,d=canvas('5C: '+('Add the motion sensor' if include_imu else 'Add the screen'),
+    im,d=canvas('Team test: '+('Add the motion sensor' if include_imu else 'Add the screen'),
                  'Change wires with USB unplugged. Keep the 5V wall supply unplugged and the motor set aside.')
     names=['XIAO ESP32C3', 'PCA9685 driver', 'SSD1306 screen', 'MPU6050 sensor']
     subtitles=['USB power', 'KEEP connected', 'KEEP connected' if include_imu else 'ADD four wires', 'ADD four wires']
@@ -140,7 +140,7 @@ for stage, include_imu in [('team-oled', False), ('team-all', True)]:
         d.text((1220,195),'Sensor waits',font=font(26),fill='#334c60')
         d.text((1220,235),'until the next test.',font=font(22),fill='#334c60')
     d.text((55,845),'Dots = joined wires. Crossing without a dot = NOT joined. Four lines = four separate groups.',font=font(25),fill='#102b40')
-    d.text((55,890),'Keep any OE-to-GND jumper from 5B. XIAO 5V and PCA V+ do not join these groups.',font=font(24),fill='#a12832')
+    d.text((55,890),'Keep the verified OE-to-GND jumper if fitted. XIAO 5V and PCA V+ stay separate.',font=font(24),fill='#a12832')
     save(im,stage)
 
 TABLES={
@@ -239,24 +239,17 @@ From the repository root, install `requirements-book.txt`, then run `python scri
 
 # Explicit coverage: comprehensive guides plus small repeated instructions.
 coverage={
- 'README.md':['usb','oled','imu','pca','servo'],
  'docs/WIRING.md':['oled','imu','pca','servo','meter'],
  'docs/BUILD.md':['usb','oled','imu','pca','servo','meter'],
  'docs/FIRST-POWER-ON.md':['usb','oled','imu','pca','servo','meter'],
- 'lessons/README.md':['usb','oled','imu','pca','servo','meter'],
- 'docs/COMMANDS.md':['usb','servo','pca'],
  'docs/TROUBLESHOOTING.md':['usb','oled','imu','pca','servo'],
- 'docs/START-HERE.md':['usb'],
  'docs/SHOPPING-LIST.md':['servo','pca','meter'],
 }
 placements={
  'docs/WIRING.md':{'Power architecture':['servo'],'Logic connections':['oled','imu','pca'],'Meter setup for the first power check':['meter']},
  'docs/BUILD.md':{'2. Prepare the power connection':['servo','meter'],'3. Establish USB programming':['usb'],'4. Bring up low-current modules':['oled','imu','pca'],'5. Calibrate a single servo':['servo']},
  'docs/FIRST-POWER-ON.md':{'Upload':['pca'],'Face and motion-sensor checks':['team-oled','team-all'],'One servo, no leg attached':['servo','meter']},
- 'lessons/README.md':{'0. Identify before overwriting':['usb'],'1. Hello: a program lives on a board':['usb'],'2. Scanner: devices have addresses':['oled'],'3. Face: pixels make expressions':['oled'],'4. Motion: gravity is a clue':['imu'],'5A. Test the driver by itself':['pca'],'5C.1 Add the screen':['team-oled'],'5C.2 Add the motion sensor':['team-all'],'5B. Introduce one servo and its power supply':['servo','meter']},
 }
-placements['lessons/README.md']["5D. Andrew's tiny talent show"]=['servo']
-placements['lessons/README.md']['5B.1 Big wiggle: make movement easier to see']=['servo']
 for relative,keys in coverage.items():
     p=ROOT/relative
     if not p.exists(): continue
@@ -272,13 +265,7 @@ for relative,keys in coverage.items():
             target='## '+heading+'\n'
             assert target in text,(relative,heading)
             intro = ''
-            if heading.startswith('5B.1'):
-                intro = '**Big wiggle setup:** the same XIAO, PCA9685, one unloaded channel-0 SG90 and verified 5V supply used in 5B. No new parts.'
-            if heading.startswith('5D.'):
-                intro = '**5D setup:** use the familiar SG90 and 5V supply from 5B. The screen and sensor remain connected as shown in 5C; this diagram highlights the motor connection.'
-            if relative == 'lessons/README.md' and heading.startswith('5A.'):
-                intro = '**Starting state:** lesson 4 left XIAO + GY-521 running Motion. **New part:** the PCA9685 driver generates timed control signals. First test its logic communication alone, using the same four XIAO connections you already learned.'
-            elif (relative == 'lessons/README.md' and heading.startswith('5B.')) or (relative == 'docs/FIRST-POWER-ON.md' and heading == 'One servo, no leg attached'):
+            if relative == 'docs/FIRST-POWER-ON.md' and heading == 'One servo, no leg attached':
                 intro = '**Starting state:** only the XIAO and independently tested PCA9685 logic are connected, with Companion running. The tested OLED and GY-521 are set aside. **New parts:** one SG90 servo motor, a regulated 5V wall power supply, its low-voltage barrel-to-screw-terminal connector, prepared power wires, and the multimeter. The servo turns its shaft in response to the driver signal. The separate supply provides motor power; USB continues powering the XIAO. Identify these parts first. The wall supply has not been connected yet.'
             text=text.replace(target,target+'\n'+snippet(subset,p.parent,introduction=intro)+'\n',1)
     else:
@@ -301,13 +288,9 @@ text=re.sub(r'\n?<!-- wiring:start -->.*?<!-- wiring:end -->\n?', '',p.read_text
 chapter_keys={4:['usb'],5:['oled'],6:['imu'],7:['servo','pca'],8:['pca','servo'],10:['oled','imu','pca','servo'],11:['meter'],12:['usb'],14:['usb','oled','imu','pca','servo'],15:['servo','pca'],17:['usb','oled','imu','pca','servo']}
 for number,keys in chapter_keys.items():
     text=re.sub(r'(^## '+str(number)+r'\. [^\n]+\n)',lambda m:m[1]+'\n'+snippet(keys,book,True)+'\n',text,count=1,flags=re.M)
-for heading,key in [('5C.1 Add the screen','team-oled'),('5C.2 Add the motion sensor','team-all')]:
-    target='### '+heading+'\n'
-    assert target in text
-    text=text.replace(target,target+'\n'+snippet([key],book,True)+'\n',1)
-target='## Bonus servo lab: 5B.1 Big wiggle: make movement easier to see\n'
-assert target in text
-text=text.replace(target,target+'\n'+snippet(['servo'],book,True,introduction='**Big wiggle setup:** same checked one-servo circuit as lesson 5B.')+'\n',1)
 p.write_text(re.sub(r'\n{3,}', '\n\n', text),encoding='utf-8')
 print(f'Updated {len(coverage)} guides, {len(chapter_keys)} book chapters, atlas and {len(TABLES)} illustrations.')
 
+
+from build_lessons import main as build_lessons
+build_lessons()

@@ -20,10 +20,10 @@ from physical tests. Tell us what to do by hand and wait for the result.
 
 Useful follow-ups:
 
-- “Run `./robot.ps1 setup`, then compile Hello. Explain both steps.”
+- “Run `./robot.ps1 setup`, then compile Basics. Explain both steps.”
 - “Run `./robot.ps1 ports`. Help me identify the XIAO by unplug/replug.”
 - “Servo power is physically disconnected. Probe help/status on the port we identified; do not upload.”
-- “Guide lesson 3. Ask me to predict the effect before changing code.”
+- “Guide the standalone Gyroscope lesson 3. Ask me to predict the effect before testing. Use its sketch and commands, not Companion.”
 - “Review my experiment record and add only confirmed results to the test log.”
 
 PowerShell commands go in the terminal; natural-language requests go in Codex's conversation. A fresh Codex session should read repository instructions instead of relying on chat history. Background monitors must be closed before another serial command. Do not give an agent an unrestricted mandate to move the robot unattended.

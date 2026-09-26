@@ -16,7 +16,7 @@ try { & $entry upload -ServoPowerDisconnected; throw 'Guard failed to reject mis
 catch { if ($_.Exception.Message -notlike 'Specify the identified*') { throw } }
 Write-Host 'PASS syntax and pre-serial/pre-upload argument guards. No ports opened.'
 if (!$SkipBuild) {
-    foreach ($sketchName in @('Hello','Scanner','Face','Motion','Companion')) {
+    foreach ($sketchName in @('Basics','Accelerometer','Gyroscope','Temperature','Display','Servo','Integration','Hello','Scanner','Face','Motion','Companion')) {
         Write-Host "Building $sketchName"
         & $entry build -Sketch $sketchName
     }

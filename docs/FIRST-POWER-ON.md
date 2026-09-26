@@ -2,6 +2,8 @@
 
 Wiring reference: [full pinout atlas and verification limits](wiring/README.md). Use the stage matching your lesson; do not connect every pictured module at once.
 
+**Legacy Companion reference.** New learners should use [the current standalone course](../lessons/README.md). Commands in this document describe the older application, not the new Servo/Integration sketches.
+
 This is the integration guide for lesson 5, after the standalone OLED and motion-sensor tests. Follow lesson 5A to verify PCA logic independently, then 5B for the driver output test with one motor, and 5C to combine the tested modules. It is not the starting point for lesson 1. The firmware is an early bench prototype, not a tested robot release. Start with the USB-powered XIAO and the tested modules from earlier lessons. New parts are introduced at their own checkpoint. Use the accompanying diagrams and [wiring table](WIRING.md).
 
 ## Upload
@@ -130,7 +132,7 @@ Models: Seeed XIAO ESP32C3, Teyleten PCA9685, AITRIP SSD1306 OLED, and GY-521 / 
 
 <!-- wiring:end -->
 
-**Follow the [kid-friendly 5C walkthrough](../lessons/README.md#5c-combine-the-three-verified-modules)** for the four breadboard meeting places, one-wire-at-a-time steps, monitor commands and checkpoints. The first picture adds the screen; the second adds the sensor. Keep any OE-to-GND jumper fitted in 5B.
+**Follow the [kid-friendly 5C walkthrough](../lessons/legacy.md#5c-combine-the-three-verified-modules)** for the four breadboard meeting places, one-wire-at-a-time steps, monitor commands and checkpoints. The first picture adds the screen; the second adds the sensor. Keep any OE-to-GND jumper fitted in 5B.
 
 **5C: combine already verified modules.** Close the monitor, unplug USB and the 5V wall supply introduced in 5B, and remove the motor plug before adding logic modules. Keep the driver that passed lesson 5A connected. The diagrams show shared connections: matching 3V3, GND, SDA and SCL nets join through checked low-current breadboard junctions.
 

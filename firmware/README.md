@@ -1,5 +1,7 @@
 # Firmware workspace
 
+This folder documents the optional legacy Companion application. The current teaching course uses [seven standalone sketches and lessons](../lessons/README.md), including a separate Integration program.
+
 `Companion/Companion.ino` is the first bench firmware. It provides serial diagnostics, I2C scanning, animated eyes, motion sensing, single-servo calibration saved in flash, and a deliberately small, manually armed 10-second gesture. No walking gait or browser control is included yet.
 
 **Read [First power-on](../docs/FIRST-POWER-ON.md) before connecting servo power.** Firmware is not hardware-tested. Physical fit and calibration remain required.
@@ -46,7 +48,7 @@ Sensor sampling and animation use timers rather than long movement delays. Devic
 
 ## Timed bench output test
 
-`test N` (N=0..3) requires stopped motion, an available PCA and at least 10us of existing headroom above the saved center. It requests center for 500ms and center+10us for 500ms, then pulse-off. It never starts at boot or saves calibration. Use one unloaded servo through the [lesson 5B wiring and supply sequence](../lessons/README.md#5b-introduce-one-servo-and-its-power-supply). `stop` or `scan` cancels it; other motion commands are rejected while it runs. `status` reports `timed_test`. Timing is cooperative, not a hardware power cutoff. No automatic shaft-position feedback is available; observe and record physical movement. Compile-time assertions cover phase boundaries, overdue stopping and clock rollover.
+`test N` (N=0..3) requires stopped motion, an available PCA and at least 10us of existing headroom above the saved center. It requests center for 500ms and center+10us for 500ms, then pulse-off. It never starts at boot or saves calibration. Use one unloaded servo through the [lesson 5B wiring and supply sequence](../lessons/legacy.md#5b-introduce-one-servo-and-its-power-supply). `stop` or `scan` cancels it; other motion commands are rejected while it runs. `status` reports `timed_test`. Timing is cooperative, not a hardware power cutoff. No automatic shaft-position feedback is available; observe and record physical movement. Compile-time assertions cover phase boundaries, overdue stopping and clock rollover.
 
 ## Beginner reports
 

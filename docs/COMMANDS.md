@@ -1,138 +1,58 @@
-# Commands and what they prove
+# Workshop command reference
 
 Wiring reference: [full pinout atlas and verification limits](wiring/README.md). Use the stage matching your lesson; do not connect every pictured module at once.
-<!-- wiring:start -->
-**Parts for this power checkpoint:** a regulated 5V wall supply, its low-voltage connector and prepared wires, and a multimeter. For the motor connection, also identify the SG90 servo and PCA9685 driver. The supply powers the motor through the driver; the meter checks its output before connection. Identify these parts before following the diagram.
 
-### Wiring visuals and pinouts
+Follow [one lesson at a time](../lessons/README.md). Commands below are for the new standalone course, not the archived Companion application.
 
-**Before assembling these connections: close the monitor and unplug the XIAO USB cable. Keep the newly introduced 5V supply unplugged from the wall until the voltage-check step. On a repeat session, unplug it before changing wires.** These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.
+## PowerShell: talk to the computer
 
-![USB wiring: labelled endpoints and separate power paths](wiring/images/usb.png)
+At the `PS ...>` prompt, from the repository root:
 
-The pinout for this stage is USB-C socket only: **all XIAO header pins are unused**.
+```powershell
+.\robot.ps1 setup
+.\robot.ps1 ports
+.\robot.ps1 build -Sketch Accelerometer
+.\robot.ps1 upload -Sketch Accelerometer -Port COM5 -ServoPowerDisconnected
+.\robot.ps1 monitor -Port COM5 -ServoPowerDisconnected
+```
 
-| From / pin | To / pin | Meaning |
-|---|---|---|
-| Computer USB port | XIAO USB-C socket | Data cable; all headers empty |
+Setup is needed once (and after intentional dependency changes); build does not open a port. Upload also builds, replaces the board's program and requires motor power physically disconnected. Replace COM5 with the detected XIAO port. Run each line separately. Close any monitor with Ctrl+C before upload or another port-opening command. The default build sketch is Basics.
 
-![SERVO wiring: labelled endpoints and separate power paths](wiring/images/servo.png)
+| Sketch | Standalone purpose |
+|---|---|
+| Basics | USB and controller |
+| Accelerometer | Acceleration, m/s² |
+| Gyroscope | Rotation rate, deg/s |
+| Temperature | MPU6050 chip temperature, °C |
+| Display | OLED expressions |
+| Servo | Driver + one unloaded channel-0 motor |
+| Integration | All verified functions together |
 
-**Identify the green two-screw block on the PCA9685:** its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. **Keep all four XIAO logic wires connected**, as shown in this complete diagram: 3V3/VCC, GND/GND, D4/SDA and D5/SCL. The shared-ground wire is one of these four wires, not an extra fifth wire. Channel 0 is the three-pin output group beside the printed 0 among groups 0 through 15. One plug spans GND, V+ and signal within that group, not three neighboring channel numbers. The green block is not channel 0. Verify actual markings; left/right orientation is not established by this diagram. Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.
+## Serial monitor: talk to the robot
 
-| From / pin | To / pin | Meaning |
-|---|---|---|
-| Adapter positive | PCA green block: + / V+ | Regulated 5V; direct power wire |
-| Adapter negative | PCA green block: - / GND | Direct power wire |
-| XIAO 3V3 | PCA VCC | Logic power, separate from V+ |
-| XIAO GND | PCA GND | Common reference |
-| XIAO D4 / GPIO6 | PCA SDA | I2C data |
-| XIAO D5 / GPIO7 | PCA SCL | I2C clock |
-| PCA channel 0 GND | SG90 ground | Usually brown/black; verify |
-| PCA channel 0 V+ | SG90 power | Usually red; verify |
-| PCA channel 0 PWM | SG90 signal | Usually orange/yellow; verify |
+After `Connecting to COM...`, stay in the same terminal and type one command followed by Enter. No `PS` prefix, no backticks. Startup messages can be missed: type help. Input is case-sensitive lowercase. No program starts a motor automatically.
 
-![PCA wiring: labelled endpoints and separate power paths](wiring/images/pca.png)
+| Command | All new lesson sketches |
+|---|---|
+| `help` | Redisplay this lesson's menu |
+| `status` | Only this lesson's required devices and activity state |
+| `scan` | Stop current activity, then list fresh I2C replies |
+| `read` | One measurement/report; no motor start |
+| `start` | Repeat measurements/reports every 500ms; no motor start |
+| `stop` | End streaming/test; motor sketches request outputs off |
+| `test` | Ten-second observation in lessons 1–5; preparation only in lessons 6–7 |
+| `run` | Lessons 6–7 only: after test and adult preparation, one eight-second motor sequence |
+| `outputs` | Lessons 6–7 only: stopped driver output-register check |
+| `awake`, `happy`, `sleep`, `clear` | Display and Integration only |
 
-The green two-screw block is a separate power input: one terminal is + / V+, the other is - / GND. It stays empty during this communication-only test; the driver electronics receive power through VCC. Follow the board markings, not a guessed left/right position. Functional pinout: VCC = logic 3.3V; V+ = separate output-power input; GND = common ground; SDA/SCL = I2C; OE = active-low output enable. Exact clone header order is unconfirmed. Verify OE pull-down; ground OE only if floating. Use only VCC, GND, SDA and SCL for this communication test. Leave V+ and the numbered output connectors empty.
+Motor preparation expires after 60 seconds; repeat test to prepare again. A run consumes preparation. stop/scan cancel it. Long/invalid commands never arm motion. The servo course uses fixed 1450–1550µs limits and does not load Companion calibration. Read the exact lesson before powering any motor.
 
-| From / pin | To / pin | Meaning |
-|---|---|---|
-| XIAO 3V3 | Teyleten PCA9685 VCC | 3.3V logic |
-| XIAO GND | Teyleten PCA9685 GND | Shared ground |
-| XIAO D4 / GPIO6 | Teyleten PCA9685 SDA | I2C data |
-| XIAO D5 / GPIO7 | Teyleten PCA9685 SCL | I2C clock |
-
-<!-- wiring:end -->
-
-These are **PowerShell commands**, executed from the repository root. In a Codex conversation, ask Codex to run the exact command; plain English prompts are not shell syntax. `COM7` below is an example, never a detected port.
-
-| Command | Purpose | Changes board firmware? |
-|---|---|---|
-| `.\robot.ps1` | Show help | No |
-| `.\robot.ps1 setup` | Install pinned tools locally | No |
-| `.\robot.ps1 doctor` | List installed versions | No |
-| `.\robot.ps1 ports` | Discover serial ports | No |
-| `.\robot.ps1 build` | Compile Companion | No |
-| `.\robot.ps1 build -Sketch Hello` | Compile a lesson | No |
-| `.\robot.ps1 status -Port COM7 -ServoPowerDisconnected` | Send only help/status; read for six seconds after a two-second startup wait | No, but opening a port may reset it |
-| `.\robot.ps1 upload -Sketch Hello -Port COM7 -ServoPowerDisconnected` | Compile fresh and upload selected sketch | Yes |
-| `.\robot.ps1 monitor -Port COM7 -ServoPowerDisconnected` | Interactive serial console at 115200 | No, but user commands can change behavior |
-
-Other sketch names: `Scanner`, `Face`, `Motion`, `Companion`. Default is Companion. Upload never guesses a port. `-ServoPowerDisconnected` is a human declaration, not an electrical measurement. Use it only after physically removing servo power. Keep the battery disconnected too.
+**What closes what?** stop is sent to the board. Ctrl+C closes the computer monitor and does not remove electrical power. Unplug motor power before closing/reopening a motor session, resets or wiring changes.
 
 ## Check an existing program
 
-1. Unplug servo power. Disconnect USB before changing any other wiring.
-2. Run `ports` with the XIAO unplugged, then with it connected by USB data cable. Identify the new port; COM1 alone is not identification. An unknown board name can still be a serial device—confirm by unplug/replug.
-3. Run `status` on that identified port. Close Arduino Serial Monitor or other programs using it first.
-4. Companion should respond with command help and flags such as `OLED=`, `MPU=`, `PCA=`. Missing modules are expected on a bare board. Hello instead repeats its greeting. No output is inconclusive; consult [troubleshooting](TROUBLESHOOTING.md).
+Do not upload merely to identify a board. With motor power disconnected and the port identified, `.\robot.ps1 status -Port COM5 -ServoPowerDisconnected` opens a short connection, sends help/status and saves a log in build/logs. Opening serial may reset the board. Silence does not prove it is blank. Do not run this while another monitor owns the port.
 
-The bounded capture is saved in ignored `build/logs/`. Review useful observations before copying them into the test log. The script does not claim to identify arbitrary unknown firmware or back it up. Sending help/status is designed for this project's sketches.
+## Legacy commands
 
-### Where to type the board commands
-
-After `Connecting to COM5. Press CTRL-C to exit.` (your port number may differ), the terminal is the **serial monitor**. Click in that same terminal, type one command, and press **Enter** to send it to the XIAO:
-
-```text
-help
-scan
-status
-```
-
-Send each line separately and read its response. Do not include backticks or type these at the `PS ...>` PowerShell prompt. Your typing may or may not be echoed. Companion waits for Enter before acting. Unlike Scanner, it does not repeat scans automatically.
-
-You may miss the beginning of the startup message while the monitor connects. Type `help` to print the command list again; no upload is needed. Press **Ctrl+C** when finished to return to PowerShell. Close the monitor before another upload or another program opens the same port.
-
-## Upload and monitor
-
-Uploads request **115200 baud** by default. `-UploadBaud` accepts 115200, 230400, 460800, or 921600. This affects the uploader's requested setting, not the firmware's Serial Monitor setting. On native USB, lowering it is only a troubleshooting experiment, not proof of a slower physical USB connection. See [transfer-failure recovery](TROUBLESHOOTING.md#upload-connects-then-reports-packet-content-transfer-stopped).
-
-Uploading replaces the current program. Choose the lesson deliberately. It does not guarantee erasure of previously stored calibration. Close monitor with Ctrl+C before another upload or status capture. In monitor, type a command and press Enter; Companion requires a newline. The automatic status probe always sends LF explicitly.
-
-For first tests use only `help`, `status`, `scan`, and face commands. Servo calibration follows the adult-supervised [first-power-on guide](FIRST-POWER-ON.md), not a generic sweep example. The provided console workflow deliberately requires servo power disconnected; use it for diagnostics and lessons. For a powered servo session, follow that guide with an already-open console, verified wiring, and the adult controlling when power is connected.
-
-Do not reconnect/reopen a console or upload during a powered servo session. Disconnect servo power before stopping/restarting tools. The PCA can retain pulses through a controller reset.
-
-## Reading Companion reports
-
-`status` prints a friendly device report with `[OK]` for initialized devices and `[X]` for devices not ready. `[X]` is expected when a lesson has set that part aside. These flags are not a fresh physical connection test. `scan` checks current I2C address replies and labels the expected project devices; an address cannot prove device identity or full function. `details` preserves the original numeric flags and calibration rows for troubleshooting. All three are typed inside the serial monitor, followed by Enter. Updated wording requires uploading the new Companion firmware.
-
-## Two places to type: computer or robot?
-
-The same terminal window has two modes. **Check which mode you are in before typing.**
-
-| What you see | Who receives your typing? | What to type |
-|---|---|---|
-| `PS C:\...>` | Your computer (PowerShell) | Commands beginning with `.\robot.ps1` |
-| `Connecting to COM... Press CTRL-C to exit.` followed by robot messages | Your robot (serial monitor) | For Companion: `help`, `scan`, `status`, and the lesson's commands |
-
-**Enter sends a command. Ctrl+C closes the monitor and returns to PowerShell.** Click inside the terminal before typing. You might not see your typing echoed, and sensor messages may appear while you type. Finish the command and press Enter once. Do not type the backticks, the word `text`, or the `PS ...>` prompt shown in examples.
-
-Uploading puts the program on the board; **it does not open the monitor**. Run the lesson's separate monitor command afterward. Wait for `Connecting to...`, then send the robot commands one at a time. A monitor command such as `scan` is different from the PowerShell command `.\robot.ps1 status ...`, which opens the port for a brief report and closes it again.
-
-Hello, Scanner, Face and Motion are standalone teaching programs: watch their output as their lessons describe. The interactive commands below belong to **Companion**, introduced in 5A; they are not available in those earlier sketches.
-
-**If something seems wrong:**
-
-- `scan is not recognized` means you typed at PowerShell. Open the monitor first.
-- No response? Press Enter. In Companion, type `help` and Enter to redisplay the menu.
-- Port access denied? Close other serial monitors; only one program can use the port.
-- Need to upload again? Press Ctrl+C first and follow that lesson's power preparation.
-
-## Companion lesson command card
-
-Use these **inside the monitor**, one line at a time followed by Enter. PowerShell upload/monitor commands are listed above. Follow each lesson's physical preparation before motor commands.
-
-| Lesson | Commands | Evidence |
-|---|---|---|
-| 5A: driver alone | `scan`, `status` | Driver at 0x40; absent screen/sensor expected |
-| 5B: one unloaded servo | `motor`; after preparation, `go` | Observe movement; automatic pulse-off |
-| 5B.1: visible servo test | `wiggle`; after preparation, `wiggle start` | Three low/high pairs; automatic pulse-off after eight seconds |
-| 5C.1: add OLED | `scan`, `status`, `face happy`, `face awake` | Two boards answer; expression changes |
-| 5C.2: add sensor | Same commands; gently tilt sensor | Three boards answer; acceleration changes |
-| 5D: personality show | `show`; after preparation, `show start` | Four scenes; coordinated face and servo |
-| After 5D | `status`, `diagnose` | Show off; all output full-off flags set |
-| Cancel movement | `stop` | Requests pulse-off; power remains connected |
-
-`show` alone is a guide, not a movement command. `show start` runs only one unloaded servo on channel 0. It is different from `demo`, which requires four saved calibrations and is not part of lesson 5D. See [the complete 5D lesson](../lessons/README.md#5d-andrews-tiny-talent-show).
+Hello, Scanner, Face, Motion and Companion remain available for historical work. Their interfaces differ. Commands such as motor/go, wiggle/wiggle start, show/show start, cal and demo belong to Companion; they are not used in the current course. See [archived lessons](../lessons/legacy.md) only if intentionally running that firmware.

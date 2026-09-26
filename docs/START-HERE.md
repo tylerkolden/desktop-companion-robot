@@ -1,20 +1,6 @@
 # Start here: your first robot
 
 Wiring reference: [full pinout atlas and verification limits](wiring/README.md). Use the stage matching your lesson; do not connect every pictured module at once.
-<!-- wiring:start -->
-### Wiring visuals and pinouts
-
-**Before changing wires: close the serial monitor if it is open, then unplug the XIAO USB cable. USB is the power source for this experiment.** These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.
-
-![USB wiring: labelled endpoints and separate power paths](wiring/images/usb.png)
-
-The pinout for this stage is USB-C socket only: **all XIAO header pins are unused**.
-
-| From / pin | To / pin | Meaning |
-|---|---|---|
-| Computer USB port | XIAO USB-C socket | Data cable; all headers empty |
-
-<!-- wiring:end -->
 
 You do not need prior coding or electronics experience. Build with an adult, ask questions, and change one thing at a time. This is a developing training project, not a fully validated robot kit. Begin with a tiny working program and work toward an expressive desktop companion.
 
@@ -47,7 +33,7 @@ You can complete setup and compile every sketch without connecting hardware. Ard
 | Mechanics | Measured parts and printed gauge-fit observations |
 | Integration | Repeated checks with saved calibration and supported chassis |
 
-The four introductory sketches are learning programs. Each upload replaces the currently installed sketch. Upload Companion when returning to full-project commands. No introductory sketch initializes the PCA9685: keep servo power off and use only the modules specified in that lesson.
+The current course uses Basics, Accelerometer, Gyroscope, Temperature, Display, Servo and Integration. Each has its own lesson page and source file. All use the same monitor commands. The first five never initialize motor outputs. Servo and Integration require explicit preparation and a run command, with motor power off before uploads or monitor opening. Companion and the older sketches are historical options, not course prerequisites.
 
 ## Keep the record honest
 

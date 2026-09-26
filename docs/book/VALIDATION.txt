@@ -1,7 +1,7 @@
 Book QA report
-Words (including references/code): 18390
-Reading sections: 29 (20 numbered chapters plus front matter and 5 appendices)
-EPUB bytes: 1155772
+Words (including references/code): 19769
+Reading sections: 26 (20 numbered chapters plus front matter and 5 appendices)
+EPUB bytes: 1149369
 PASS: mimetype first and uncompressed
 PASS: all XML/XHTML parses
 PASS: all local links and image targets resolve

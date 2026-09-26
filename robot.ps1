@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [ValidateSet('help','setup','doctor','build','ports','upload','status','monitor')][string]$Task = 'help',
-    [ValidateSet('Companion','Hello','Scanner','Face','Motion')][string]$Sketch = 'Companion',
+    [ValidateSet('Basics','Accelerometer','Gyroscope','Temperature','Display','Servo','Integration','Companion','Hello','Scanner','Face','Motion')][string]$Sketch = 'Basics',
     [ValidatePattern('^COM[1-9][0-9]*$')][string]$Port,
     [ValidateSet(115200,230400,460800,921600)][int]$UploadBaud = 115200,
     [switch]$ServoPowerDisconnected
@@ -13,17 +13,18 @@ if ($Task -eq 'help') {
 Run from PowerShell in this repository:
   .\robot.ps1 setup                  Download pinned local tools and libraries
   .\robot.ps1 doctor                 Show toolchain and installed versions
-  .\robot.ps1 build -Sketch Hello    Compile a lesson (no upload)
-  .\robot.ps1 build                  Compile Companion (no upload)
+  .\robot.ps1 build -Sketch Basics    Compile a lesson (no upload)
+  .\robot.ps1 build                  Compile Basics (no upload)
   .\robot.ps1 ports                  List ports; never selects one automatically
   .\robot.ps1 status -Port COM7 -ServoPowerDisconnected
-  .\robot.ps1 upload -Sketch Hello -Port COM7 -ServoPowerDisconnected
+  .\robot.ps1 upload -Sketch Basics -Port COM7 -ServoPowerDisconnected
   .\robot.ps1 monitor -Port COM7 -ServoPowerDisconnected
 Replace COM7 with your identified XIAO port. The switch confirms that servo
 power is physically disconnected; software cannot verify it. Upload compiles
 first and replaces the installed program. Opening a port can reset the board.
 Monitor is interactive; Ctrl+C closes it. Start at docs/START-HERE.md.
-Available sketches: Hello, Scanner, Face, Motion, Companion.
+Course sketches: Basics, Accelerometer, Gyroscope, Temperature, Display, Servo, Integration.
+Legacy sketches: Hello, Scanner, Face, Motion, Companion.
 Tools download into ignored .tools/ inside this checkout.
 Uploads request 115200 baud by default; override with -UploadBaud 921600.
 '@
@@ -92,7 +93,7 @@ build_cache:
             Invoke-Arduino @('core','install',$lock.Core)
             Invoke-Arduino @('lib','update-index')
             Invoke-Arduino (@('lib','install','--no-deps') + $lock.Libraries)
-            Write-Host 'Setup finished. Next: .\robot.ps1 build -Sketch Hello'
+            Write-Host 'Setup finished. Next: .\robot.ps1 build -Sketch Basics'
         }
         'doctor' {
             Write-Output $versionText
@@ -104,7 +105,7 @@ build_cache:
         { $_ -in @('build','upload') } {
             $sketchPath = if ($Sketch -eq 'Companion') { 'firmware/Companion' } else { 'lessons/sketches/' + $Sketch }
             $output = 'build/' + $Sketch
-            Invoke-Arduino @('compile','--fqbn',$lock.Fqbn,'--warnings','all','--output-dir',$output,$sketchPath)
+            Invoke-Arduino @('compile','--fqbn',$lock.Fqbn,'--warnings','all','--library','lessons/lib/RobotLessons','--output-dir',$output,$sketchPath)
             if ($Task -eq 'upload') {
                 Write-Host "Uploading to $Port with requested baud $UploadBaud."
                 Invoke-Arduino @('upload','--fqbn',$lock.Fqbn,'--port',$Port,'--upload-property',"upload.speed=$UploadBaud",'--input-dir',$output,$sketchPath)

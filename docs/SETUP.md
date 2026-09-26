@@ -22,7 +22,7 @@ To update an existing Git clone later, run `git status` first and preserve any l
 ```powershell
 .\robot.ps1 setup
 .\robot.ps1 doctor
-.\robot.ps1 build -Sketch Hello
+.\robot.ps1 build -Sketch Basics
 ```
 
 Setup downloads Arduino CLI 1.5.1 from its official GitHub release, verifies its SHA-256 against the checked-in release checksum, and installs the ESP32 core and libraries pinned in `toolchain.psd1`. Arduino performs its package checks. Initial setup can take several minutes and downloads large compiler packages. Let it finish; rerunning after a connection failure reuses cached downloads where possible.
@@ -39,7 +39,7 @@ The compile report gives flash and RAM use. Success means the program was built 
 
 ## Other tools and operating systems
 
-- **Arduino IDE:** optional. Open any sketch in its own folder and install the versions in `toolchain.psd1` through its managers. Select XIAO_ESP32C3 and USB CDC On Boot enabled. IDE installs are separate from `.tools/`.
+- **Arduino IDE:** optional. Open the named lesson sketch in its own folder and install the versions in `toolchain.psd1` through its managers. Also copy the repository's `lessons/lib/RobotLessons` folder into your configured Arduino sketchbook's `libraries` folder, then restart the IDE. Select XIAO_ESP32C3 and USB CDC On Boot enabled. IDE installs are separate from `.tools/`; robot.ps1 supplies the custom library automatically.
 - **Codex/VS Code:** optional. They can edit these files and run the same commands. See [Codex learning prompt](CODEX-WORKFLOW.md).
 - **3D printing:** pre-exported fit STLs are included. Bambu Studio is still needed for the documented A1 slicing/print workflow. OpenSCAD 2021.01 is needed only to regenerate or change CAD. [CAD instructions](../cad/README.md) include commands from the repository root.
 - **Book editing / mesh checks:** Python 3 is optional; [reproduction instructions](REPRODUCE.md) describe repository-local commands and a virtual environment.

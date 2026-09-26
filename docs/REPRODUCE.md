@@ -22,6 +22,8 @@ Use OpenSCAD 2021.01 and the repository-root commands in [cad/README.md](../cad/
 
 ## Validation scope
 
-Run `./scripts/check.ps1` after setup to parse scripts, check upload/serial argument guards without opening a port, and compile all five sketches. `-SkipBuild` runs only syntax/guard checks. Run `python scripts/check_docs.py` to check local Markdown destinations (not web links or anchors).
+Run `./scripts/check.ps1` after setup to parse scripts, check upload/serial argument guards without opening a port, and compile the seven current course sketches plus five legacy sketches. `-SkipBuild` runs only syntax/guard checks. Run `python scripts/check_docs.py` to check local Markdown destinations (not web links or anchors), and `python scripts/check_lessons.py` to check course profiles, source entry points and lesson structure.
+
+`scripts/build_wiring.py` also runs `scripts/build_lessons.py`, generating the seven separate lesson pages and the book's current workshop appendix. Edit the course data in build_lessons.py rather than its generated pages. The local RobotLessons Arduino library is supplied by robot.ps1's compile command; no global installation is required for that workflow.
 
 Firmware build assertions verify selected control logic. Lesson compilation checks syntax/library compatibility. Mesh checks inspect digital surfaces. Book checks inspect EPUB packaging and links. None proves physical operation. Record tool versions and physical outcomes separately in [the test log](TEST-LOG.md).

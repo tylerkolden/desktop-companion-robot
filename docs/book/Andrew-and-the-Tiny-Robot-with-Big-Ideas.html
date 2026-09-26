@@ -8,7 +8,7 @@ table { border-collapse:collapse; width:100%; font-size:0.85em; }
 th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:anywhere; }
 .cover img { max-height:90vh; width:auto; } .subtitle { font-style:italic; }
 @media screen { body { max-width:46em; margin:3em auto; padding:0 1em; } }
- section{margin:4em 0}</style><body><img src="images/cover.jpg" alt="Book cover"><nav><h1>Contents</h1><ol><li><a href="#c0">A note from Mission Control</a></li><li><a href="#c1">1. The day the parts became a team</a></li><li><a href="#c2">2. Electricity without the mystery fog</a></li><li><a href="#c3">3. A guided tour of the tiny city</a></li><li><a href="#c4">4. XIAO: a computer with a very small desk</a></li><li><a href="#c5">5. The face made of 8,192 little decisions</a></li><li><a href="#c6">6. The sensor that notices a tilt</a></li><li><a href="#c7">7. Servos: muscles with instructions</a></li><li><a href="#c8">8. The PCA9685: timekeeper, not power magician</a></li><li><a href="#c9">9. Protocols: how rectangles hold a conversation</a></li><li><a href="#c10">10. Wiring: a map, not a guessing contest</a></li><li><a href="#c11">11. The meter is a question-asking machine</a></li><li><a href="#c12">12. Arduino IDE: the workshop for instructions</a></li><li><a href="#c13">13. Code that can pay attention</a></li><li><a href="#c14">14. First power-on: a ladder of small victories</a></li><li><a href="#c15">15. Calibration: teaching the robot what its body means</a></li><li><a href="#c16">16. Printing a body that actually fits</a></li><li><a href="#c17">17. Debugging: the mystery is the lesson</a></li><li><a href="#c18">18. Project management for people who would rather build robots</a></li><li><a href="#c19">19. V2 and the battery that did not get the job</a></li><li><a href="#c20">20. Andrew’s inventor badge</a></li><li><a href="#c21">Appendix A. Family workshop sessions</a></li><li><a href="#c22">Appendix B. The notebook that saves the day</a></li><li><a href="#c23">Appendix C. Quick-reference dictionary</a></li><li><a href="#c24">Appendix D. Send this adventure to Kindle</a></li><li><a href="#c25">Appendix E. Sources, credits, and the changing project</a></li><li><a href="#c26">Bonus lab: Andrew&#x27;s tiny talent show</a></li><li><a href="#c27">Two places to type: computer or robot?</a></li><li><a href="#c28">Bonus servo lab: 5B.1 Big wiggle: make movement easier to see</a></li></ol></nav><section id="c0"><h1>A note from Mission Control</h1>
+ section{margin:4em 0}</style><body><img src="images/cover.jpg" alt="Book cover"><nav><h1>Contents</h1><ol><li><a href="#c0">A note from Mission Control</a></li><li><a href="#c1">1. The day the parts became a team</a></li><li><a href="#c2">2. Electricity without the mystery fog</a></li><li><a href="#c3">3. A guided tour of the tiny city</a></li><li><a href="#c4">4. XIAO: a computer with a very small desk</a></li><li><a href="#c5">5. The face made of 8,192 little decisions</a></li><li><a href="#c6">6. The sensor that notices a tilt</a></li><li><a href="#c7">7. Servos: muscles with instructions</a></li><li><a href="#c8">8. The PCA9685: timekeeper, not power magician</a></li><li><a href="#c9">9. Protocols: how rectangles hold a conversation</a></li><li><a href="#c10">10. Wiring: a map, not a guessing contest</a></li><li><a href="#c11">11. The meter is a question-asking machine</a></li><li><a href="#c12">12. Arduino IDE: the workshop for instructions</a></li><li><a href="#c13">13. Code that can pay attention</a></li><li><a href="#c14">14. First power-on: a ladder of small victories</a></li><li><a href="#c15">15. Calibration: teaching the robot what its body means</a></li><li><a href="#c16">16. Printing a body that actually fits</a></li><li><a href="#c17">17. Debugging: the mystery is the lesson</a></li><li><a href="#c18">18. Project management for people who would rather build robots</a></li><li><a href="#c19">19. V2 and the battery that did not get the job</a></li><li><a href="#c20">20. Andrew’s inventor badge</a></li><li><a href="#c21">Appendix A. The seven-lesson workshop</a></li><li><a href="#c22">Appendix B. The notebook that saves the day</a></li><li><a href="#c23">Appendix C. Quick-reference dictionary</a></li><li><a href="#c24">Appendix D. Send this adventure to Kindle</a></li><li><a href="#c25">Appendix E. Sources, credits, and the changing project</a></li></ol></nav><section id="c0"><h1>A note from Mission Control</h1>
 <p><strong>A family adventure in circuits, code, and creating a desktop companion.</strong></p>
 <p>Written especially for Andrew, age eleven, and the grown-up building beside him.</p>
 <p>First edition • September 2026</p>
@@ -180,7 +180,7 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 </table>
 <!-- wiring:end -->
 
-<p><strong>Repository lesson 4:</strong> Motion means sensing movement. The previous Face lesson used XIAO + OLED; this experiment uses XIAO + GY-521 only. Close the monitor and unplug USB before removing the OLED connections and wiring the sensor using this chapter's diagram/table. Reconnect USB after the adult wiring check, then upload Motion. Read acceleration in the serial monitor.</p>
+<p><strong>Current course lessons 2–4:</strong> the GY-521 contains acceleration, rotation-rate and die-temperature sensing. Test each with its own named sketch on the same four-wire circuit. Appendix A gives the complete sequence, units and observations.</p>
 <p>“How will I know if I am upside down?” ANDI asked.</p>
 <p>“Your sensor can help,” said Andrew. “Your dramatic complaining is optional.”</p>
 <p>The GY-521 board carries an MPU6050, which combines a three-axis accelerometer and a three-axis gyroscope. Six measurement axes are sometimes described as six degrees of freedom. This does not mean the chip magically knows its exact location in the room.</p>
@@ -678,7 +678,7 @@ th,td { border:1px solid #88959d; padding:0.4em; text-align:left; overflow-wrap:
 <li>Adafruit PWM Servo Driver Library <strong>3.0.2</strong>.</li>
 </ul>
 <p>Use Tools → Manage Libraries to install them, choosing the recorded version. The ESP32 package supplies <code>Wire</code> and <code>Preferences</code>; those are not extra shopping items. The live firmware README is the authority if project versions change after this edition.</p>
-<p>Open <code>firmware/Companion/Companion.ino</code> without separating it from its accompanying header files. Select the correct board. Click Verify before connecting anything. Arduino’s <a href="https://support.arduino.cc/hc/en-us/articles/5145457742236-Install-libraries-in-the-Arduino-IDE">library installation instructions</a> and <a href="https://support.arduino.cc/hc/en-us/articles/360016119519-Add-boards-to-Arduino-IDE">board installation instructions</a> provide the interface details.</p>
+<p>For the current course, open the named sketch under <code>lessons/sketches/</code>. Install the repository custom library from <code>lessons/lib/RobotLessons</code> in Arduino IDE, or use robot.ps1, which supplies it automatically. Select the XIAO ESP32C3 and click Verify before connecting anything. Arduino’s <a href="https://support.arduino.cc/hc/en-us/articles/5145457742236-Install-libraries-in-the-Arduino-IDE">library installation instructions</a> and <a href="https://support.arduino.cc/hc/en-us/articles/360016119519-Add-boards-to-Arduino-IDE">board installation instructions</a> provide the interface details.</p>
 <h3>First tiny program: Andrew says hello</h3>
 <p>This is a complete <strong>separate learning sketch</strong>, not text to paste into the middle of Companion. Save it as <code>AndrewHello</code>. With an adult, connect only the bare XIAO by USB; disconnect other modules and servo power before this lesson.</p>
 <pre><code class="language-cpp">void setup() {
@@ -691,7 +691,7 @@ void loop() {
 }
 </code></pre>
 <p><code>setup()</code> runs once after startup. <code>loop()</code> runs repeatedly. The message is a string: text inside quotation marks. <code>delay(1000)</code> waits about one second. Here that is acceptable because the sketch has no motion or sensor responsibilities. We will not carry long blocking waits into the full robot.</p>
-<p>After selecting the XIAO’s port and uploading, open Serial Monitor at 115200. A repeating greeting is evidence that the program, upload route, and text connection work together. Upload Companion again before returning to its commands.</p>
+<p>After selecting the XIAO’s port and uploading, open Serial Monitor at 115200. A repeating greeting is evidence that the program, upload route, and text connection work together. Return to the named sketch for your current lesson afterward; the current course does not depend on Companion.</p>
 <p><strong>Mission: one edit.</strong> Predict what changing 1000 to 2000 will do. Change only that number, upload, and observe. Then change the greeting. Explain the difference between changing source code and changing what is already stored on the board.</p></section><section id="c13"><h1>13. Code that can pay attention</h1>
 <p>ANDI wanted to blink dramatically for three seconds. Andrew asked what would happen to a stop command during those three seconds.</p>
 <p>That question leads to <strong>non-blocking design</strong>. Instead of waiting in one long pause, the main loop repeatedly checks whether it is time to do a short piece of work. It resembles looking at a clock while cooking several dishes, rather than staring at one boiling potato until dinner is over.</p>
@@ -892,31 +892,9 @@ if (now - lastBlink &gt;= 1000) {
 </table>
 <!-- wiring:end -->
 
-<h3>Where to type the board commands</h3>
-<p>After <code>Connecting to COM5. Press CTRL-C to exit.</code> (your port number may differ), the terminal is the <strong>serial monitor</strong>. Click in that same terminal, type one command, and press <strong>Enter</strong> to send it to the XIAO:</p>
-<pre><code class="language-text">help
-scan
-status
-</code></pre>
-<p>Send each line separately and read its response. Do not include backticks or type these at the <code>PS ...&gt;</code> PowerShell prompt. Your typing may or may not be echoed. Companion waits for Enter before acting. Unlike Scanner, it does not repeat scans automatically.</p>
-<p>Companion uses <code>[OK]</code> for initialized devices and <code>[X]</code> for devices not ready. A part set aside for the current lesson is expected to show <code>[X]</code>. <code>status</code> describes firmware readiness; <code>scan</code> checks current address replies. Neither replaces observing the device perform its task. Type <code>details</code> for the original technical numbers.</p>
-<p>You may miss the beginning of the startup message while the monitor connects. Type <code>help</code> to print the command list again; no upload is needed. Press <strong>Ctrl+C</strong> when finished to return to PowerShell. Close the monitor before another upload or another program opens the same port.</p>
-<p>Bring-up means introducing a new system to power and checking it in stages. It is less dramatic than plugging in every wire and shouting “IT LIVES,” but it produces much better explanations when something does not work.</p>
-<p><strong>Adult-led powered session.</strong> Work on a clear surface. Servo power remains disconnected through uploads, resets, and wiring changes. Turn off USB too before adding or removing modules. Keep the project’s current <code>docs/FIRST-POWER-ON.md</code> and <code>docs/WIRING.md</code> open beside this book.</p>
-<p><strong>Step one: the controller.</strong> Verify and upload Companion with only the XIAO connected by USB. Open Serial Monitor at 115200 with Newline endings. Enter <code>help</code>, then <code>status</code>. Missing peripherals are expected when they are not attached. Do not interpret that as a failed controller.</p>
-<p><strong>Step two: one I²C device.</strong> Unplug USB. Connect the OLED using the labelled logic nets. Reconnect USB and allow startup. Try <code>scan</code> and <code>status</code>. Look for an expected OLED address and test <code>face happy</code>, <code>face awake</code>, and <code>face sleep</code>.</p>
-<p><strong>Step three: the motion sensor.</strong> Power off, add the GY-521, and restart. Check its expected address. With +Z upward, look for a positive Z reading around gravity’s value. Slowly change orientation without tugging wires. Observe the numbers rather than just the animated face.</p>
-<p><strong>Step four: servo board logic.</strong> Power off, connect PCA9685 logic, and restart. Keep its servo supply off. Confirm detection before attaching a servo. A successful scan does not energize or validate the motor supply.</p>
-<p><strong>Step five: one unloaded servo.</strong> Disconnect both supplies before plugging it into channel 0. The adult checks connector orientation and adapter polarity. Start controller USB while servo power remains off. Confirm PCA available and no active channel. Only then connect the checked servo supply.</p>
-<p>Enter these commands one at a time, observing between them:</p>
-<pre><code class="language-text">cal 0
-jog 0 10
-jog 0 -10
-stop
-</code></pre>
-<p><code>cal 0</code> arms that channel at its centre. A jog changes the requested pulse slightly. A fifteen-second calibration-command timeout disables pulses. Keep the servo unloaded and do not attach a leg for this first test. If it buzzes persistently or appears blocked, stop and disconnect servo power rather than repeatedly commanding it.</p>
-<p><strong>Important:</strong> software stop needs functioning software and communication. The PCA may retain pulses through an MCU reset or communication failure. Disconnect servo power before uploads, resets, horn installation, or repairs. Support a future chassis so pulse-off cannot make it collapse.</p>
-<p><strong>Mission: write the evidence.</strong> Record which modules were connected, addresses found, commands sent, and what happened. Copy actual text output. “Display showed happy eyes after <code>face happy</code>” is more useful than “robot works.”</p></section><section id="c15"><h1>15. Calibration: teaching the robot what its body means</h1>
+<p>Andrew does not connect everything and hope. He collects evidence one function at a time. First the controller answers. Then three programs explore the same GY-521: acceleration, rotation rate and chip temperature. Next the screen draws. Then one unloaded servo moves. Finally the Integration sketch brings the checked parts together.</p>
+<p>Each lesson has the same rhythm: predict, connect with power off, upload its named program, open the monitor, read the help, run one experiment, record what happened, explain it to a teammate. Commands do not change their meaning between lessons: read is one observation, start repeats readings, stop ends activity. For motor lessons test is preparation only, and run is the separate start.</p>
+<p>The complete current workshop is Appendix A and the repository's lessons index. Each lesson has its own page, diagram, pin table, commands and exit ticket. Companion is an optional older application; it is not required for these experiments. A printed [OK] is a clue, never a substitute for seeing the display or motor work.</p></section><section id="c15"><h1>15. Calibration: teaching the robot what its body means</h1>
 <!-- wiring:start -->
 <p><strong>Parts for this power checkpoint:</strong> a regulated 5V wall supply, its low-voltage connector and prepared wires, and a multimeter. For the motor connection, also identify the SG90 servo and PCA9685 driver. The supply powers the motor through the driver; the meter checks its output before connection. Identify these parts before following the diagram.</p>
 <h3>Wiring visuals and pinouts</h3>
@@ -1222,7 +1200,7 @@ stop
 <p>Debugging begins by describing the symptom without jumping to a cause. “The OLED is blank after startup” is an observation. “The display is defective” is a hypothesis. A hypothesis needs a test.</p>
 <p>Use this loop: reproduce, isolate, predict, change one thing, test, record. If you change three wires, two libraries, and the power supply at once, success becomes difficult to explain. You may have fixed one problem and introduced another.</p>
 <h3>Case file: the invisible message</h3>
-<p><strong>Symptom:</strong> Serial Monitor shows nothing. Check the selected board and port, USB CDC setting, cable data capability, and whether the correct sketch was uploaded. The first text may have been printed before the monitor opened. With Companion, sending <code>help</code> gives it a new reason to reply. Servo power stays off during reset or upload attempts.</p>
+<p><strong>Symptom:</strong> Serial Monitor shows nothing. Check the selected board and port, USB CDC setting, cable data capability, and whether the correct sketch was uploaded. The first text may have been printed before the monitor opened. With any current lesson sketch, sending <code>help</code> gives it a new reason to reply. Servo power stays off during reset or upload attempts.</p>
 <h3>Case file: the missing face</h3>
 <p><strong>Symptom:</strong> OLED is blank. With power off, inspect VCC/GND and SDA/SCL labels and contacts. After reconnecting, scan for an address. If a device acknowledges, test the display command and correct driver/size assumptions. An address alone does not prove every display function works. Do not randomly raise its supply voltage.</p>
 <h3>Case file: the robot forgets itself when it moves</h3>
@@ -1269,34 +1247,429 @@ stop
 <p>“You are a project,” Andrew said. “Some parts are finished. Some are tested. Some are ideas.”</p>
 <p>“That sounds complicated.”</p>
 <p>“It is,” Andrew said. “But now we know how to make the next part smaller.”</p>
-<p>That is the inventor badge: not knowing everything, but knowing how to investigate the next thing.</p></section><section id="c21"><h1>Appendix A. Family workshop sessions</h1>
-<p>Plan roughly 25–40 minutes per session, with permission to stop earlier. Finish by writing one observation and one next step. Do not rush a power or mechanical check to meet a timer.</p>
-<p><strong>Session 1 — Meet the team.</strong> Read chapters 1–3. Sort unplugged parts, sketch a board, and start the notebook. Success: Andrew can identify controller, sensor, actuator, and power source.</p>
-<p><strong>Session 2 — A message from a tiny computer.</strong> Read chapters 4 and 12. Try the separate Hello sketch with only the XIAO on USB. Success: Andrew changes the message and explains Verify versus Upload.</p>
-<p><strong>Session 3 — Faces and addresses.</strong> Read chapters 5, 9, and 10. Follow repository lessons 2 and 3: Scanner first, then Face, with the same XIAO and OLED. Success: find the display and show two expressions.</p>
-<p><strong>Session 4 — The world has three axes.</strong> Read chapter 6 and follow repository lesson 4. Use its power-off transition from the OLED experiment to the GY-521-only experiment, with the diagram and pin table in chapter 6. Upload Motion: it replaces Face and prints acceleration numbers. The sensor measures the movement you give it. Success: predict which orientation produces positive Z near gravity.</p>
-<p><strong>Session 5 — One small movement.</strong> Read chapters 7, 8, 11, and 14. Follow repository lesson 5 and its first-power-on guide: test PCA9685 logic by itself in 5A, test its output with one unloaded motor in 5B, then combine the three tested modules in 5C. For the guided monitor experience, type <code>motor</code> and press Enter, read the preparation steps, then type <code>go</code> only after the adult wiring/power check. The guide alone does not start movement. Channel 0 is the three-pin output group beside the printed 0; match GND, V+ and signal within that group. The test requests center for half a second, center +10us for half a second, and then pulse-off. This is repeating 50Hz control for about one second, not a one-second HIGH pulse. Record actual shaft movement; serial success is not physical proof. Scanner checks the driver address; Companion checks initialization and the combined behavior. An address response alone does not verify motor outputs. Adult checks the separate servo supply and conducts the unloaded test. Success: one controlled jog and a documented stop, without a leg attached.</p>
-<h3>5C. Combine the three verified modules</h3>
-<p><strong>Mission: make the parts work as a team!</strong> You already tested each part on its own. Now keep the driver connected, add the screen, test, then add the motion sensor and test again. No new program upload is needed: keep Companion installed.</p>
-<h4>Get ready: park the motor</h4>
-<p>At the end of 5B you had a XIAO, driver and one motor. Unplug the 5V wall supply, press <strong>Ctrl+C</strong> to close the monitor, and unplug USB. With both supplies off, remove the motor's three-wire plug and set the motor aside. Keep the four XIAO-to-driver logic connections. If you fitted an <strong>OE-to-GND</strong> jumper in 5B, keep it. The wall supply stays unplugged throughout 5C; its low-voltage leads may remain attached to the green block.</p>
-<h4>Four meeting places for wires</h4>
-<p>The boards share four connections. Think of them as four separate meeting places on the breadboard:</p>
-<ul>
-<li><strong>3V3 → VCC:</strong> power for each board's electronics.</li>
-<li><strong>GND → GND:</strong> their shared electrical reference.</li>
-<li><strong>D4 → SDA:</strong> the wire that carries messages.</li>
-<li><strong>D5 → SCL:</strong> the timing wire that keeps those messages in step.</li>
-</ul>
-<p>The last two together are <strong>I2C</strong> (say “eye-squared-see”). Each board has its own address, so the XIAO can choose who receives a message.</p>
-<p><strong>How do several wires fit on one XIAO pin?</strong> Run one wire from that pin to a connected breadboard group. The matching wire from each module joins another hole in that same group. Use a <em>different, electrically separate group</em> for each of the four connections. An adult should confirm the breadboard's connected holes with power off; do not assume a whole printed row or a split power rail is connected. Never squeeze several plugs onto one pin.</p>
-<p>If your driver currently connects directly to the XIAO, move those four connections onto the four groups, one at a time, following the table below; leave the screen disconnected for this small change. Reconnect USB, open the monitor, and check <code>scan</code> still finds <code>0x40</code>. Then close the monitor and unplug USB again. That gives you a checked starting point before adding anything.</p>
-<p><strong>Read the pictures:</strong> follow one colored line at a time. A dot means wires join. A crossing without a dot does not. Match the board's printed labels, not the position of a pin in the picture. These are functional illustrations, not exact breadboard-hole layouts or Tinkercad simulations.</p>
-<h3>5C.1 Add the screen</h3>
-<!-- wiring:start -->
-<h3>Wiring visuals and pinouts</h3>
-<p><strong>5C setup:</strong> keep the 5V wall supply unplugged and the motor plug removed. Close the monitor and unplug USB before each wiring change. Keep the tested PCA logic connections and any OE-to-GND jumper from 5B. These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.</p>
-<p><img alt="TEAM-OLED wiring: labelled endpoints and separate power paths" src="images/wiring-team-oled.png" /></p>
+<p>That is the inventor badge: not knowing everything, but knowing how to investigate the next thing.</p></section><section id="c21"><h1>Appendix A. The seven-lesson workshop</h1>
+<p>Use one program per lesson. The repository lesson index has one page per experiment. PowerShell commands assume the repository root; COM5 is an example.</p>
+<h3>01. Meet the controller</h3>
+<p><strong>Program:</strong> <code>Basics</code> · <strong>Time:</strong> 20–30 minutes · <strong>Partners:</strong> learner operates and explains; adult checks connections and power. Swap the observer/operator roles after the first experiment.</p>
+<h4>1. Mission and success</h4>
+<p>Explain the difference between building, uploading and running a program. Success requires the observations below, not just compilation or <code>[OK]</code>.</p>
+<h4>2. Starting setup</h4>
+<p>Start with a bare XIAO ESP32C3 and USB data cable. All header pins are unused. If returning with an assembled robot, unplug its motor supply and USB before disconnecting external modules.</p>
+<h4>3. Wiring and pinout</h4>
+<p>These custom functional illustrations identify the purchased hardware. They are not exact hole-placement diagrams or Tinkercad simulations. Read printed labels; colors are suggestions. Change wiring only with power unplugged.</p>
+<p><img alt="usb: functional connections; follow actual board labels" src="images/wiring-usb.png" /></p>
+<p>The pinout for this stage is USB-C socket only: <strong>all XIAO header pins are unused</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>From / pin</th>
+<th>To / pin</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Computer USB port</td>
+<td>XIAO USB-C socket</td>
+<td>Data cable; all headers empty</td>
+</tr>
+</tbody>
+</table>
+<h4>4. Predict before you run</h4>
+<p>Will the board remember its program after USB is unplugged? Write one prediction before pressing Enter. Discuss what would count as evidence against it.</p>
+<h4>5. Upload from PowerShell</h4>
+<p>Close any monitor with Ctrl+C. USB powers this lesson. If returning from an assembled robot, disconnect motor power first. From the repository root, run ports and identify the XIAO. COM5 is an example, not automatic selection. Replace it in both commands if different.</p>
+<pre><code class="language-powershell">.\robot.ps1 ports
+.\robot.ps1 upload -Sketch Basics -Port COM5 -ServoPowerDisconnected
+.\robot.ps1 monitor -Port COM5 -ServoPowerDisconnected
+</code></pre>
+<p>Run each line separately. Upload replaces the previous program. This lesson does not require Companion. The shared repository library is included automatically by robot.ps1.</p>
+<h4>6. Commands inside the monitor</h4>
+<p>After <code>Connecting to COM...</code>, stay in that terminal. You are now talking to the board, not PowerShell. Type <strong>one command and press Enter</strong> each time. Nothing streams or moves automatically at startup. If you missed the greeting, <code>help</code> repeats it.</p>
+<pre><code class="language-text">help
+status
+scan
+read
+</code></pre>
+<p><code>start</code> repeats readings every half-second; <code>stop</code> ends them. <code>scan</code> also stops tests. <code>test</code> starts a ten-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send <code>stop</code>.</p>
+<h4>7. Investigate</h4>
+<p>Type <code>read</code> to receive one greeting. Type <code>test</code> and count the greetings during the ten-second test. After it ends, close the monitor, unplug/reconnect USB, reopen the monitor and type <code>read</code> without uploading again.</p>
+<h4>8. Evidence and exit ticket</h4>
+<p>The greeting returns after reconnecting. During test, messages arrive about twice a second. Explain that flash stores the program while power lets it run.</p>
+<p>Write: <strong>prediction → command → actual observation → explanation → next question</strong>. Repeat the observation once. Ask your teammate to explain the result in their own words; if either person is unsure, record NOT SURE and repeat or troubleshoot instead of declaring a pass.</p>
+<h4>9. Troubleshoot one change at a time</h4>
+<p>A successful build is not proof the board ran. Check the current port and USB data cable if no replies arrive.</p>
+<h4>10. Finish and hand off</h4>
+<p>Keep the bare XIAO. Next, add the GY-521 for acceleration.</p>
+<h3>02. Gravity detective</h3>
+<p><strong>Program:</strong> <code>Accelerometer</code> · <strong>Time:</strong> 20–30 minutes · <strong>Partners:</strong> learner operates and explains; adult checks connections and power. Swap the observer/operator roles after the first experiment.</p>
+<h4>1. Mission and success</h4>
+<p>Identify acceleration along X, Y and Z, including gravity, in m/s². Success requires the observations below, not just compilation or <code>[OK]</code>.</p>
+<h4>2. Starting setup</h4>
+<p>From lesson 1, close the monitor and unplug USB. Add only the GY-521 / MPU6050 using the pin table. Reconnect USB after checking labels. Leave XDA, XCL, INT and AD0 unconnected on the checked module; scan verifies its default address.</p>
+<h4>3. Wiring and pinout</h4>
+<p>These custom functional illustrations identify the purchased hardware. They are not exact hole-placement diagrams or Tinkercad simulations. Read printed labels; colors are suggestions. Change wiring only with power unplugged.</p>
+<p><img alt="imu: functional connections; follow actual board labels" src="images/wiring-imu.png" /></p>
+<p>Functional pinout: VCC, GND, SCL, SDA, XDA, XCL, AD0, INT. Leave XDA/XCL/INT open; verify AD0 default through scanning. Exact delivered header order is unconfirmed. Check regulator/pull-ups at 3.3V; do not substitute 5V to fix detection.</p>
+<table>
+<thead>
+<tr>
+<th>From / pin</th>
+<th>To / pin</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>XIAO 3V3</td>
+<td>GY-521 / MPU6050 VCC</td>
+<td>3.3V logic</td>
+</tr>
+<tr>
+<td>XIAO GND</td>
+<td>GY-521 / MPU6050 GND</td>
+<td>Shared ground</td>
+</tr>
+<tr>
+<td>XIAO D4 / GPIO6</td>
+<td>GY-521 / MPU6050 SDA</td>
+<td>I2C data</td>
+</tr>
+<tr>
+<td>XIAO D5 / GPIO7</td>
+<td>GY-521 / MPU6050 SCL</td>
+<td>I2C clock</td>
+</tr>
+</tbody>
+</table>
+<h4>4. Predict before you run</h4>
+<p>With +Z pointing upward, which reading will be near +9.8? What happens upside down? Write one prediction before pressing Enter. Discuss what would count as evidence against it.</p>
+<h4>5. Upload from PowerShell</h4>
+<p>Close any monitor with Ctrl+C. USB powers this lesson. If returning from an assembled robot, disconnect motor power first. From the repository root, run ports and identify the XIAO. COM5 is an example, not automatic selection. Replace it in both commands if different.</p>
+<pre><code class="language-powershell">.\robot.ps1 ports
+.\robot.ps1 upload -Sketch Accelerometer -Port COM5 -ServoPowerDisconnected
+.\robot.ps1 monitor -Port COM5 -ServoPowerDisconnected
+</code></pre>
+<p>Run each line separately. Upload replaces the previous program. This lesson does not require Companion. The shared repository library is included automatically by robot.ps1.</p>
+<h4>6. Commands inside the monitor</h4>
+<p>After <code>Connecting to COM...</code>, stay in that terminal. You are now talking to the board, not PowerShell. Type <strong>one command and press Enter</strong> each time. Nothing streams or moves automatically at startup. If you missed the greeting, <code>help</code> repeats it.</p>
+<pre><code class="language-text">help
+status
+scan
+read
+</code></pre>
+<p><code>start</code> repeats readings every half-second; <code>stop</code> ends them. <code>scan</code> also stops tests. <code>test</code> starts a ten-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send <code>stop</code>.</p>
+<h4>7. Investigate</h4>
+<p>Type <code>read</code> while still. Type <code>test</code>, slowly tilt the board by its edges, and return it to the original position. For a longer experiment use <code>start</code>, then <code>stop</code>. Repeat with +Z up and down; try +X and +Y up.</p>
+<h4>8. Evidence and exit ticket</h4>
+<p>Record three readings per orientation. The upward axis is roughly +9.8 m/s² and reverses sign when turned over; small offsets/noise are normal. Do not call this precision calibration.</p>
+<p>Write: <strong>prediction → command → actual observation → explanation → next question</strong>. Repeat the observation once. Ask your teammate to explain the result in their own words; if either person is unsure, record NOT SURE and repeat or troubleshoot instead of declaring a pass.</p>
+<h4>9. Troubleshoot one change at a time</h4>
+<p>A stationary supported sensor need not read zero. If absent, check 0x68/0x69 with scan and inspect the four connections with USB off.</p>
+<h4>10. Finish and hand off</h4>
+<p>Keep the exact same GY-521 wiring for the gyroscope lesson; change only the program.</p>
+<h3>03. Turn detective</h3>
+<p><strong>Program:</strong> <code>Gyroscope</code> · <strong>Time:</strong> 20–30 minutes · <strong>Partners:</strong> learner operates and explains; adult checks connections and power. Swap the observer/operator roles after the first experiment.</p>
+<h4>1. Mission and success</h4>
+<p>Distinguish rotation rate (degrees per second) from tilt angle. Success requires the observations below, not just compilation or <code>[OK]</code>.</p>
+<h4>2. Starting setup</h4>
+<p>Keep the XIAO + GY-521 wiring from lesson 2. No wiring change. Close the monitor before uploading the Gyroscope sketch.</p>
+<h4>3. Wiring and pinout</h4>
+<p>These custom functional illustrations identify the purchased hardware. They are not exact hole-placement diagrams or Tinkercad simulations. Read printed labels; colors are suggestions. Change wiring only with power unplugged.</p>
+<p><img alt="imu: functional connections; follow actual board labels" src="images/wiring-imu.png" /></p>
+<p>Functional pinout: VCC, GND, SCL, SDA, XDA, XCL, AD0, INT. Leave XDA/XCL/INT open; verify AD0 default through scanning. Exact delivered header order is unconfirmed. Check regulator/pull-ups at 3.3V; do not substitute 5V to fix detection.</p>
+<table>
+<thead>
+<tr>
+<th>From / pin</th>
+<th>To / pin</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>XIAO 3V3</td>
+<td>GY-521 / MPU6050 VCC</td>
+<td>3.3V logic</td>
+</tr>
+<tr>
+<td>XIAO GND</td>
+<td>GY-521 / MPU6050 GND</td>
+<td>Shared ground</td>
+</tr>
+<tr>
+<td>XIAO D4 / GPIO6</td>
+<td>GY-521 / MPU6050 SDA</td>
+<td>I2C data</td>
+</tr>
+<tr>
+<td>XIAO D5 / GPIO7</td>
+<td>GY-521 / MPU6050 SCL</td>
+<td>I2C clock</td>
+</tr>
+</tbody>
+</table>
+<h4>4. Predict before you run</h4>
+<p>Will a tilted but motionless board keep reporting a large rotation rate? Write one prediction before pressing Enter. Discuss what would count as evidence against it.</p>
+<h4>5. Upload from PowerShell</h4>
+<p>Close any monitor with Ctrl+C. USB powers this lesson. If returning from an assembled robot, disconnect motor power first. From the repository root, run ports and identify the XIAO. COM5 is an example, not automatic selection. Replace it in both commands if different.</p>
+<pre><code class="language-powershell">.\robot.ps1 ports
+.\robot.ps1 upload -Sketch Gyroscope -Port COM5 -ServoPowerDisconnected
+.\robot.ps1 monitor -Port COM5 -ServoPowerDisconnected
+</code></pre>
+<p>Run each line separately. Upload replaces the previous program. This lesson does not require Companion. The shared repository library is included automatically by robot.ps1.</p>
+<h4>6. Commands inside the monitor</h4>
+<p>After <code>Connecting to COM...</code>, stay in that terminal. You are now talking to the board, not PowerShell. Type <strong>one command and press Enter</strong> each time. Nothing streams or moves automatically at startup. If you missed the greeting, <code>help</code> repeats it.</p>
+<pre><code class="language-text">help
+status
+scan
+read
+</code></pre>
+<p><code>start</code> repeats readings every half-second; <code>stop</code> ends them. <code>scan</code> also stops tests. <code>test</code> starts a ten-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send <code>stop</code>.</p>
+<h4>7. Investigate</h4>
+<p>Type <code>read</code> while still. Type <code>test</code>, rotate gently one way, pause, rotate the opposite way, then pause again. Repeat with another axis. Use <code>start</code> and <code>stop</code> if you need more observation time.</p>
+<h4>8. Evidence and exit ticket</h4>
+<p>Rotation produces a rate change; opposite rotation changes its sign; holding still returns near the baseline, even while tilted. Record baseline, direction and approximate peak for two directions.</p>
+<p>Write: <strong>prediction → command → actual observation → explanation → next question</strong>. Repeat the observation once. Ask your teammate to explain the result in their own words; if either person is unsure, record NOT SURE and repeat or troubleshoot instead of declaring a pass.</p>
+<h4>9. Troubleshoot one change at a time</h4>
+<p>The program converts library radians/second to degrees/second. It does not estimate angle. Small stationary bias is expected; avoid pulling wires or spinning repeatedly.</p>
+<h4>10. Finish and hand off</h4>
+<p>Keep the same GY-521 wiring for its third measuring function: temperature.</p>
+<h3>04. The chip thermometer</h3>
+<p><strong>Program:</strong> <code>Temperature</code> · <strong>Time:</strong> 20–30 minutes · <strong>Partners:</strong> learner operates and explains; adult checks connections and power. Swap the observer/operator roles after the first experiment.</p>
+<h4>1. Mission and success</h4>
+<p>Read Celsius and distinguish chip temperature from room or body temperature. Success requires the observations below, not just compilation or <code>[OK]</code>.</p>
+<h4>2. Starting setup</h4>
+<p>Keep the same XIAO + GY-521 circuit. Close the monitor and upload Temperature. No separate temperature module is needed: this sensor is inside the MPU6050.</p>
+<h4>3. Wiring and pinout</h4>
+<p>These custom functional illustrations identify the purchased hardware. They are not exact hole-placement diagrams or Tinkercad simulations. Read printed labels; colors are suggestions. Change wiring only with power unplugged.</p>
+<p><img alt="imu: functional connections; follow actual board labels" src="images/wiring-imu.png" /></p>
+<p>Functional pinout: VCC, GND, SCL, SDA, XDA, XCL, AD0, INT. Leave XDA/XCL/INT open; verify AD0 default through scanning. Exact delivered header order is unconfirmed. Check regulator/pull-ups at 3.3V; do not substitute 5V to fix detection.</p>
+<table>
+<thead>
+<tr>
+<th>From / pin</th>
+<th>To / pin</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>XIAO 3V3</td>
+<td>GY-521 / MPU6050 VCC</td>
+<td>3.3V logic</td>
+</tr>
+<tr>
+<td>XIAO GND</td>
+<td>GY-521 / MPU6050 GND</td>
+<td>Shared ground</td>
+</tr>
+<tr>
+<td>XIAO D4 / GPIO6</td>
+<td>GY-521 / MPU6050 SDA</td>
+<td>I2C data</td>
+</tr>
+<tr>
+<td>XIAO D5 / GPIO7</td>
+<td>GY-521 / MPU6050 SCL</td>
+<td>I2C clock</td>
+</tr>
+</tbody>
+</table>
+<h4>4. Predict before you run</h4>
+<p>Could a powered chip be warmer than the room around it? Write one prediction before pressing Enter. Discuss what would count as evidence against it.</p>
+<h4>5. Upload from PowerShell</h4>
+<p>Close any monitor with Ctrl+C. USB powers this lesson. If returning from an assembled robot, disconnect motor power first. From the repository root, run ports and identify the XIAO. COM5 is an example, not automatic selection. Replace it in both commands if different.</p>
+<pre><code class="language-powershell">.\robot.ps1 ports
+.\robot.ps1 upload -Sketch Temperature -Port COM5 -ServoPowerDisconnected
+.\robot.ps1 monitor -Port COM5 -ServoPowerDisconnected
+</code></pre>
+<p>Run each line separately. Upload replaces the previous program. This lesson does not require Companion. The shared repository library is included automatically by robot.ps1.</p>
+<h4>6. Commands inside the monitor</h4>
+<p>After <code>Connecting to COM...</code>, stay in that terminal. You are now talking to the board, not PowerShell. Type <strong>one command and press Enter</strong> each time. Nothing streams or moves automatically at startup. If you missed the greeting, <code>help</code> repeats it.</p>
+<pre><code class="language-text">help
+status
+scan
+read
+</code></pre>
+<p><code>start</code> repeats readings every half-second; <code>stop</code> ends them. <code>scan</code> also stops tests. <code>test</code> starts a ten-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send <code>stop</code>.</p>
+<h4>7. Investigate</h4>
+<p>Type <code>read</code> and record the value. Type <code>test</code> for a ten-second sample. Leave the board in the same place for a minute and repeat; compare the readings without touching contacts, applying heat, liquids or cooling sprays.</p>
+<h4>8. Evidence and exit ticket</h4>
+<p>Obtain finite Celsius readings in two observation windows and explain why an unchanged value is a valid result. A difference over time may be small; do not require an artificial temperature increase to pass.</p>
+<p>Write: <strong>prediction → command → actual observation → explanation → next question</strong>. Repeat the observation once. Ask your teammate to explain the result in their own words; if either person is unsure, record NOT SURE and repeat or troubleshoot instead of declaring a pass.</p>
+<h4>9. Troubleshoot one change at a time</h4>
+<p>This measures die temperature, not calibrated ambient temperature. It is not a medical thermometer. An I2C response alone does not validate accuracy.</p>
+<h4>10. Finish and hand off</h4>
+<p>Close the monitor and unplug USB. The next lesson swaps the GY-521 for the OLED; leave the sensor wiring until that setup step.</p>
+<h3>05. Pixels tell a story</h3>
+<p><strong>Program:</strong> <code>Display</code> · <strong>Time:</strong> 20–30 minutes · <strong>Partners:</strong> learner operates and explains; adult checks connections and power. Swap the observer/operator roles after the first experiment.</p>
+<h4>1. Mission and success</h4>
+<p>Connect a successful I2C exchange to a visible change in screen pixels. Success requires the observations below, not just compilation or <code>[OK]</code>.</p>
+<h4>2. Starting setup</h4>
+<p>With USB unplugged, remove the GY-521 connections and set it aside. Add only the AITRIP SSD1306 OLED using the table. Reconnect USB after an adult checks the labels.</p>
+<h4>3. Wiring and pinout</h4>
+<p>These custom functional illustrations identify the purchased hardware. They are not exact hole-placement diagrams or Tinkercad simulations. Read printed labels; colors are suggestions. Change wiring only with power unplugged.</p>
+<p><img alt="oled: functional connections; follow actual board labels" src="images/wiring-oled.png" /></p>
+<p>Functional pinout: VCC, GND, SDA, SCL. The supplied display photo has <strong>GND / VCC / SCL / SDA</strong> across its top header when viewed from the front. Our illustration groups wires by function, not that physical order.</p>
+<table>
+<thead>
+<tr>
+<th>From / pin</th>
+<th>To / pin</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>XIAO 3V3</td>
+<td>AITRIP SSD1306 OLED VCC</td>
+<td>3.3V logic</td>
+</tr>
+<tr>
+<td>XIAO GND</td>
+<td>AITRIP SSD1306 OLED GND</td>
+<td>Shared ground</td>
+</tr>
+<tr>
+<td>XIAO D4 / GPIO6</td>
+<td>AITRIP SSD1306 OLED SDA</td>
+<td>I2C data</td>
+</tr>
+<tr>
+<td>XIAO D5 / GPIO7</td>
+<td>AITRIP SSD1306 OLED SCL</td>
+<td>I2C clock</td>
+</tr>
+</tbody>
+</table>
+<h4>4. Predict before you run</h4>
+<p>Can a screen answer a scan but still fail to draw the picture we expect? Write one prediction before pressing Enter. Discuss what would count as evidence against it.</p>
+<h4>5. Upload from PowerShell</h4>
+<p>Close any monitor with Ctrl+C. USB powers this lesson. If returning from an assembled robot, disconnect motor power first. From the repository root, run ports and identify the XIAO. COM5 is an example, not automatic selection. Replace it in both commands if different.</p>
+<pre><code class="language-powershell">.\robot.ps1 ports
+.\robot.ps1 upload -Sketch Display -Port COM5 -ServoPowerDisconnected
+.\robot.ps1 monitor -Port COM5 -ServoPowerDisconnected
+</code></pre>
+<p>Run each line separately. Upload replaces the previous program. This lesson does not require Companion. The shared repository library is included automatically by robot.ps1.</p>
+<h4>6. Commands inside the monitor</h4>
+<p>After <code>Connecting to COM...</code>, stay in that terminal. You are now talking to the board, not PowerShell. Type <strong>one command and press Enter</strong> each time. Nothing streams or moves automatically at startup. If you missed the greeting, <code>help</code> repeats it.</p>
+<pre><code class="language-text">help
+status
+scan
+read
+</code></pre>
+<p><code>start</code> repeats readings every half-second; <code>stop</code> ends them. <code>scan</code> also stops tests. <code>test</code> starts a ten-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send <code>stop</code>.</p>
+<h4>7. Investigate</h4>
+<p>Type <code>awake</code>, then <code>happy</code>, then <code>sleep</code>, pausing after each. Type <code>clear</code>, then <code>awake</code> again. Type <code>test</code> for a ten-second expression sequence. <code>stop</code> freezes the last image; it does not erase it.</p>
+<h4>8. Evidence and exit ticket</h4>
+<p>Observe three distinct expressions and a cleared screen. Record the actual address (0x3C or 0x3D) and what each command displayed.</p>
+<p>Write: <strong>prediction → command → actual observation → explanation → next question</strong>. Repeat the observation once. Ask your teammate to explain the result in their own words; if either person is unsure, record NOT SURE and repeat or troubleshoot instead of declaring a pass.</p>
+<h4>9. Troubleshoot one change at a time</h4>
+<p>Initialization does not prove pixels drew correctly. Match VCC/GND/SDA/SCL labels, not pin position. If missing, inspect only with USB off.</p>
+<h4>10. Finish and hand off</h4>
+<p>Close the monitor and unplug USB. The next lesson swaps the OLED for the servo system; leave the OLED wiring until that setup step.</p>
+<h3>06. Signals become movement</h3>
+<p><strong>Program:</strong> <code>Servo</code> · <strong>Time:</strong> 20–30 minutes · <strong>Partners:</strong> learner operates and explains; adult checks connections and power. Swap the observer/operator roles after the first experiment.</p>
+<h4>1. Mission and success</h4>
+<p>Separate driver communication, motor power and observed shaft movement. Success requires the observations below, not just compilation or <code>[OK]</code>.</p>
+<h4>2. Starting setup</h4>
+<p>With USB off, set the OLED aside. Introduce the PCA9685 driver, one unloaded SG90, and the previously specified regulated 5V supply and connector. Keep the 5V supply unplugged. Start with the four XIAO-to-driver logic wires; check scan/status before adding motor power. Use the complete circuit below to connect channel 0 with both supplies unplugged. No horn, leg or mechanism; all other servo channels empty. Keep the verified OE-to-GND jumper if fitted. On first assembly an adult must verify supply voltage/polarity using the linked first-power check before attaching it.</p>
+<h4>3. Wiring and pinout</h4>
+<p>These custom functional illustrations identify the purchased hardware. They are not exact hole-placement diagrams or Tinkercad simulations. Read printed labels; colors are suggestions. Change wiring only with power unplugged.</p>
+<p><img alt="servo: functional connections; follow actual board labels" src="images/wiring-servo.png" /></p>
+<p><strong>Identify the green two-screw block on the PCA9685:</strong> its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Keep all four XIAO logic wires connected</strong>, as shown in this complete diagram: 3V3/VCC, GND/GND, D4/SDA and D5/SCL. The shared-ground wire is one of these four wires, not an extra fifth wire. Channel 0 is the three-pin output group beside the printed 0 among groups 0 through 15. One plug spans GND, V+ and signal within that group, not three neighboring channel numbers. The green block is not channel 0. Verify actual markings; left/right orientation is not established by this diagram. Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
+<table>
+<thead>
+<tr>
+<th>From / pin</th>
+<th>To / pin</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Adapter positive</td>
+<td>PCA green block: + / V+</td>
+<td>Regulated 5V; direct power wire</td>
+</tr>
+<tr>
+<td>Adapter negative</td>
+<td>PCA green block: - / GND</td>
+<td>Direct power wire</td>
+</tr>
+<tr>
+<td>XIAO 3V3</td>
+<td>PCA VCC</td>
+<td>Logic power, separate from V+</td>
+</tr>
+<tr>
+<td>XIAO GND</td>
+<td>PCA GND</td>
+<td>Common reference</td>
+</tr>
+<tr>
+<td>XIAO D4 / GPIO6</td>
+<td>PCA SDA</td>
+<td>I2C data</td>
+</tr>
+<tr>
+<td>XIAO D5 / GPIO7</td>
+<td>PCA SCL</td>
+<td>I2C clock</td>
+</tr>
+<tr>
+<td>PCA channel 0 GND</td>
+<td>SG90 ground</td>
+<td>Usually brown/black; verify</td>
+</tr>
+<tr>
+<td>PCA channel 0 V+</td>
+<td>SG90 power</td>
+<td>Usually red; verify</td>
+</tr>
+<tr>
+<td>PCA channel 0 PWM</td>
+<td>SG90 signal</td>
+<td>Usually orange/yellow; verify</td>
+</tr>
+</tbody>
+</table>
+<h4>4. Predict before you run</h4>
+<p>Does finding 0x40 prove that the servo has power or that its shaft moves? Write one prediction before pressing Enter. Discuss what would count as evidence against it.</p>
+<h4>5. Upload from PowerShell</h4>
+<p>Close any monitor with Ctrl+C. Keep the 5V motor supply unplugged throughout upload and monitor opening. From the repository root, run ports and identify the XIAO. COM5 is an example, not automatic selection. Replace it in both commands if different.</p>
+<pre><code class="language-powershell">.\robot.ps1 ports
+.\robot.ps1 upload -Sketch Servo -Port COM5 -ServoPowerDisconnected
+.\robot.ps1 monitor -Port COM5 -ServoPowerDisconnected
+</code></pre>
+<p>Run each line separately. Upload replaces the previous program. This lesson does not require Companion. The shared repository library is included automatically by robot.ps1.</p>
+<h4>6. Commands inside the monitor</h4>
+<p>After <code>Connecting to COM...</code>, stay in that terminal. You are now talking to the board, not PowerShell. Type <strong>one command and press Enter</strong> each time. Nothing streams or moves automatically at startup. If you missed the greeting, <code>help</code> repeats it.</p>
+<pre><code class="language-text">help
+status
+scan
+read
+</code></pre>
+<p><code>start</code> repeats readings every half-second; <code>stop</code> ends them. <code>scan</code> also stops tests. <code>test</code> prints motor preparation without moving; <code>run</code> is the separate physical start after the adult check. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send <code>stop</code>.</p>
+<h4>7. Investigate</h4>
+<p>With the motor supply still unplugged, open the monitor, type <code>scan</code>, <code>status</code>, <code>read</code> and <code>outputs</code>. Type <code>test</code> to read the preparation guide: it starts no movement. After the adult wiring/power check, plug the supply into the wall and type <code>run</code> within 60 seconds. Watch three low/high pairs, then return to center and automatic pulse-off at eight seconds. Type <code>stop</code> to cancel early. Unplug motor power afterward; type <code>status</code> and <code>outputs</code>. For a prepared repeat, type <code>test</code> again before <code>run</code>.</p>
+<h4>8. Evidence and exit ticket</h4>
+<p>Observe actual shaft movement and automatic completion, then a separate prepared run cancelled by stop that does not resume. All 16 output full-off flags should read 1 afterward. Record YES/NO/NOT SURE; software cannot see the shaft.</p>
+<p>Write: <strong>prediction → command → actual observation → explanation → next question</strong>. Repeat the observation once. Ask your teammate to explain the result in their own words; if either person is unsure, record NOT SURE and repeat or troubleshoot instead of declaring a pass.</p>
+<h4>9. Troubleshoot one change at a time</h4>
+<p>Fixed bench range is 1450–1550µs with center 1500µs, ramping for 0.5s and holding for 0.5s at each endpoint. It does NOT use saved Companion calibration. Only use an unloaded servo checked for this range; initial centering may move farther from an unknown start. A supported shaft can be harmed by full sweeps: no automatic limit widening. If binding, continuous buzzing or communications fail, unplug motor power. Software stop is not a hardware power cutoff.</p>
+<h4>10. Finish and hand off</h4>
+<p>Leave motor power unplugged. Close the monitor and unplug USB before building the team circuit. Keep the tested driver logic; the servo will be set aside during the first integration checks.</p>
+<h3>07. The team test</h3>
+<p><strong>Program:</strong> <code>Integration</code> · <strong>Time:</strong> 20–30 minutes · <strong>Partners:</strong> learner operates and explains; adult checks connections and power. Swap the observer/operator roles after the first experiment.</p>
+<h4>1. Mission and success</h4>
+<p>Combine individually tested functions while identifying which observation proves each one works. Success requires the observations below, not just compilation or <code>[OK]</code>.</p>
+<h4>2. Starting setup</h4>
+<p>All five standalone function checks should have an observation record. With USB and motor supply unplugged, remove the motor plug and keep the driver logic. Add the OLED using the first diagram; power USB and scan to verify 0x40 plus 0x3C/0x3D. Close the monitor and unplug USB, then add the GY-521 using the second diagram. Reconnect USB. Share four separate breadboard groups, never join different groups. No motor power during these additions.</p>
+<h4>3. Wiring and pinout</h4>
+<p>These custom functional illustrations identify the purchased hardware. They are not exact hole-placement diagrams or Tinkercad simulations. Read printed labels; colors are suggestions. Change wiring only with power unplugged.</p>
+<p><img alt="team-oled: functional connections; follow actual board labels" src="images/wiring-team-oled.png" /></p>
 <p>Models: Seeed XIAO ESP32C3, Teyleten PCA9685, AITRIP SSD1306 OLED. Read the printed pin labels on each board. Each colored line means one connected breadboard group, not a physical row or rail. The picture rearranges pins to make the four connections easy to follow; it is not a top-view placement guide. Colors are suggestions. Use the XIAO D4 pin for SDA and D5 for SCL.</p>
 <table>
 <thead>
@@ -1329,52 +1702,7 @@ stop
 </tr>
 </tbody>
 </table>
-<!-- wiring:end -->
-
-<p><strong>Predict:</strong> we should find two devices now: the driver and the screen.</p>
-<p>With USB unplugged, keep the driver connected. Add the OLED's four wires using the diagram and table above. Connect one wire, trace it with your finger, then move to the next. The OLED's <strong>VCC joins the 3V3 group</strong>, not the 5V motor supply. Leave the motion sensor on the table for now.</p>
-<p>Reconnect USB. At the PowerShell prompt, run this command (replace COM5 if your board uses another port):</p>
-<pre><code class="language-powershell">.\robot.ps1 monitor -Port COM5 -ServoPowerDisconnected
-</code></pre>
-<p>After <strong>Connecting to COM5</strong>, you are inside the monitor. Type each line below and press <strong>Enter</strong> after each one. These are messages to the robot, not PowerShell commands:</p>
-<pre><code class="language-text">scan
-status
-face happy
-face awake
-</code></pre>
-<p>Pause between the face commands so you can see each expression.</p>
-<table>
-<thead>
-<tr>
-<th>Look for</th>
-<th>What it means</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>0x40</code> and <code>0x3C</code> (or <code>0x3D</code>) in the scan</td>
-<td>Driver and screen both answer</td>
-</tr>
-<tr>
-<td><code>[OK]</code> for driver and OLED</td>
-<td>Companion initialized both</td>
-</tr>
-<tr>
-<td><code>[X]</code> for motion sensor</td>
-<td>Correct for now: it is still on the table</td>
-</tr>
-<tr>
-<td>The face changes on the screen</td>
-<td>We checked real behavior, not just an address</td>
-</tr>
-</tbody>
-</table>
-<p>The driver may also answer at <code>0x70</code>; that is not another board. <strong>Checkpoint:</strong> record the two addresses and the expressions you saw. Continue only when both parts pass.</p>
-<h3>5C.2 Add the motion sensor</h3>
-<!-- wiring:start -->
-<h3>Wiring visuals and pinouts</h3>
-<p><strong>5C setup:</strong> keep the 5V wall supply unplugged and the motor plug removed. Close the monitor and unplug USB before each wiring change. Keep the tested PCA logic connections and any OE-to-GND jumper from 5B. These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.</p>
-<p><img alt="TEAM-ALL wiring: labelled endpoints and separate power paths" src="images/wiring-team-all.png" /></p>
+<p><img alt="team-all: functional connections; follow actual board labels" src="images/wiring-team-all.png" /></p>
 <p>Models: Seeed XIAO ESP32C3, Teyleten PCA9685, AITRIP SSD1306 OLED, and GY-521 / MPU6050. Read the printed pin labels on each board. Each colored line means one connected breadboard group, not a physical row or rail. The picture rearranges pins to make the four connections easy to follow; it is not a top-view placement guide. Colors are suggestions. Use the XIAO D4 pin for SDA and D5 for SCL.</p>
 <table>
 <thead>
@@ -1407,44 +1735,90 @@ face awake
 </tr>
 </tbody>
 </table>
-<!-- wiring:end -->
-
-<p><strong>Predict:</strong> the two working parts should keep working, and one new address should appear.</p>
-<p>Press <strong>Ctrl+C</strong>, then unplug USB. Keep the driver and screen wires exactly as they are. Add the GY-521's <strong>VCC, GND, SDA and SCL</strong> to the same four groups shown above. Keep its other pins as they were in lesson 4; do not add wires to XDA, XCL or INT.</p>
-<p>Reconnect USB and run the same PowerShell monitor command from 5C.1. In the monitor, type <code>scan</code>, then <code>status</code>, pressing Enter after each. Try <code>face happy</code> and <code>face awake</code> again. Gently tilt the sensor by its edges and watch the repeating <code>accel m/s2:</code> line: its three numbers should change as you tilt it. Set it down and let the numbers settle. Those numbers describe acceleration along three directions; gravity is part of what the sensor measures.</p>
+<p><img alt="servo: functional connections; follow actual board labels" src="images/wiring-servo.png" /></p>
+<p><strong>Identify the green two-screw block on the PCA9685:</strong> its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Keep all four XIAO logic wires connected</strong>, as shown in this complete diagram: 3V3/VCC, GND/GND, D4/SDA and D5/SCL. The shared-ground wire is one of these four wires, not an extra fifth wire. Channel 0 is the three-pin output group beside the printed 0 among groups 0 through 15. One plug spans GND, V+ and signal within that group, not three neighboring channel numbers. The green block is not channel 0. Verify actual markings; left/right orientation is not established by this diagram. Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
 <table>
 <thead>
 <tr>
-<th>Team member</th>
-<th>Expected address</th>
-<th>Real-world check</th>
+<th>From / pin</th>
+<th>To / pin</th>
+<th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>PCA9685 driver</td>
-<td><code>0x40</code></td>
-<td>Still recognized; movement was tested in 5B</td>
+<td>Adapter positive</td>
+<td>PCA green block: + / V+</td>
+<td>Regulated 5V; direct power wire</td>
 </tr>
 <tr>
-<td>OLED screen</td>
-<td><code>0x3C</code> or <code>0x3D</code></td>
-<td>Changes expression on command</td>
+<td>Adapter negative</td>
+<td>PCA green block: - / GND</td>
+<td>Direct power wire</td>
 </tr>
 <tr>
-<td>GY-521 motion sensor</td>
-<td><code>0x68</code> or <code>0x69</code></td>
-<td>Acceleration readings change when tilted</td>
+<td>XIAO 3V3</td>
+<td>PCA VCC</td>
+<td>Logic power, separate from V+</td>
+</tr>
+<tr>
+<td>XIAO GND</td>
+<td>PCA GND</td>
+<td>Common reference</td>
+</tr>
+<tr>
+<td>XIAO D4 / GPIO6</td>
+<td>PCA SDA</td>
+<td>I2C data</td>
+</tr>
+<tr>
+<td>XIAO D5 / GPIO7</td>
+<td>PCA SCL</td>
+<td>I2C clock</td>
+</tr>
+<tr>
+<td>PCA channel 0 GND</td>
+<td>SG90 ground</td>
+<td>Usually brown/black; verify</td>
+</tr>
+<tr>
+<td>PCA channel 0 V+</td>
+<td>SG90 power</td>
+<td>Usually red; verify</td>
+</tr>
+<tr>
+<td>PCA channel 0 PWM</td>
+<td>SG90 signal</td>
+<td>Usually orange/yellow; verify</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Mission complete:</strong> all three show <code>[OK]</code>, the screen changes, and sensor readings respond to tilt. Write down the addresses and what you observed. We are checking the electronics together; the motor stays set aside and the 5V wall supply stays unplugged.</p>
-<p><strong>If a teammate disappears:</strong> close the monitor and unplug USB. Remove only the module you just added, then reconnect USB and repeat the last passing test. Inspect the new module's four connections with power off before trying again. This is why we added one part at a time: we know where to investigate!</p>
-<p><strong>Explain it to Andrew:</strong> “Why do three boards share SDA and SCL without all having the same address?” Let him trace each of the four groups and explain its job.</p>
-<p><strong>Session 6 — Shape meets reality.</strong> Read chapter 16. Inspect measurements and print fit gauges with an adult. Success: record fit without forcing a component. Final body design waits for these results.</p>
-<p><strong>Session 7 — A personality experiment.</strong> Read chapters 13 and 17. Choose a small display change and test it from a saved baseline. Success: explain the observed result and restore the original if needed.</p>
-<p><strong>Session 8 — The project review.</strong> Read chapters 18–20. Show a notebook, a bug report, and a future-feature card. Success: distinguish tested results, assumptions, and unfinished plans.</p>
-<p>These are a suggested teaching route, not eight finished lesson directories already present in the repository. Except for the standalone Hello example in this book, use the actual Companion firmware and current project instructions.</p></section><section id="c22"><h1>Appendix B. The notebook that saves the day</h1>
+<h4>4. Predict before you run</h4>
+<p>Will all three addresses remain when the last board joins the circuit? Write one prediction before pressing Enter. Discuss what would count as evidence against it.</p>
+<h4>5. Upload from PowerShell</h4>
+<p>Close any monitor with Ctrl+C. Keep the 5V motor supply unplugged throughout upload and monitor opening. From the repository root, run ports and identify the XIAO. COM5 is an example, not automatic selection. Replace it in both commands if different.</p>
+<pre><code class="language-powershell">.\robot.ps1 ports
+.\robot.ps1 upload -Sketch Integration -Port COM5 -ServoPowerDisconnected
+.\robot.ps1 monitor -Port COM5 -ServoPowerDisconnected
+</code></pre>
+<p>Run each line separately. Upload replaces the previous program. This lesson does not require Companion. The shared repository library is included automatically by robot.ps1.</p>
+<h4>6. Commands inside the monitor</h4>
+<p>After <code>Connecting to COM...</code>, stay in that terminal. You are now talking to the board, not PowerShell. Type <strong>one command and press Enter</strong> each time. Nothing streams or moves automatically at startup. If you missed the greeting, <code>help</code> repeats it.</p>
+<pre><code class="language-text">help
+status
+scan
+read
+</code></pre>
+<p><code>start</code> repeats readings every half-second; <code>stop</code> ends them. <code>scan</code> also stops tests. <code>test</code> prints motor preparation without moving; <code>run</code> is the separate physical start after the adult check. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send <code>stop</code>.</p>
+<h4>7. Investigate</h4>
+<p>Type <code>scan</code>, <code>status</code>, <code>read</code>, then <code>start</code>. Observe acceleration, rotation rate and chip Celsius together. Tilt and rotate gently, then set the sensor down. Type <code>stop</code>. Use <code>awake</code>, <code>happy</code>, <code>sleep</code> to recheck the OLED. Only after these pass, close the monitor and unplug USB; restore the single unloaded channel-0 servo using the complete diagram, keeping the 5V supply unplugged. Reconnect USB and reopen the monitor before motor power. Type <code>test</code>, complete the adult check, connect motor power, then type <code>run</code>. Observe synchronized expressions and the same eight-second servo trajectory. After completion unplug motor power, then <code>status</code> and <code>outputs</code>.</p>
+<h4>8. Evidence and exit ticket</h4>
+<p>Record all three addresses, each sensor measurement with units, visible expressions, actual servo motion and final output-off flags. Missing devices must prevent run; do not mark an address reply as a full pass. The integrated motion is scripted, not autonomous walking or sensor-controlled movement.</p>
+<p>Write: <strong>prediction → command → actual observation → explanation → next question</strong>. Repeat the observation once. Ask your teammate to explain the result in their own words; if either person is unsure, record NOT SURE and repeat or troubleshoot instead of declaring a pass.</p>
+<h4>9. Troubleshoot one change at a time</h4>
+<p>If an addition fails, unplug USB and motor power before removing only the newest module, then restore the last passing setup. Integration requires all three boards; the individual sketches require only their own hardware.</p>
+<h4>10. Finish and hand off</h4>
+<p>Unplug motor power, close the monitor, then unplug USB. Keep your five independent results plus the team result. Next use the measurement and fit-gauge guides; no enclosure is assumed complete.</p></section><section id="c22"><h1>Appendix B. The notebook that saves the day</h1>
 <p>Copy this template into a notebook or a new project document:</p>
 <p><strong>Question:</strong> What are we trying to learn?</p>
 <p><strong>Prediction:</strong> What do we think will happen, and why?</p>
@@ -1455,7 +1829,7 @@ face awake
 <p><strong>Result:</strong> Pass, fail, or inconclusive—and according to which condition?</p>
 <p><strong>Explanation:</strong> What does this evidence support? What does it not prove?</p>
 <p><strong>Next step:</strong> What is the smallest useful experiment now?</p>
-<p>Example, entirely hypothetical: “Question: is the OLED on the expected address? Prediction: scan finds 0x3C. Setup: only XIAO and OLED, checked 3.3V wiring, Companion. Observation: scan reports 0x3C, but screen blank. Result: address detection passed; drawing not established. Next: send <code>face awake</code> and inspect display status.” Notice that the record does not turn one successful observation into a claim that everything works.</p></section><section id="c23"><h1>Appendix C. Quick-reference dictionary</h1>
+<p>Example, entirely hypothetical: “Question: is the OLED on the expected address? Prediction: scan finds 0x3C. Setup: only XIAO and OLED, checked 3.3V wiring, Display sketch. Observation: scan reports 0x3C, but screen blank. Result: address detection passed; drawing not established. Next: send <code>awake</code> and inspect display status.” Notice that the record does not turn one successful observation into a claim that everything works.</p></section><section id="c23"><h1>Appendix C. Quick-reference dictionary</h1>
 <p><strong>Actuator:</strong> a device that produces physical action, such as a servo.</p>
 <p><strong>Address:</strong> a value used to select a communication destination; not necessarily a pin number.</p>
 <p><strong>Algorithm:</strong> a procedure for solving a problem or choosing actions.</p>
@@ -1530,167 +1904,4 @@ face awake
 <li><a href="https://www.amazon.com/sendtokindle">Amazon Send to Kindle</a> — personal-document delivery.</li>
 </ul>
 <p>Adult reminder: a chip data sheet, a reference breakout tutorial, a seller listing, and a measurement of your own part are different kinds of evidence. Good engineering keeps those distinctions visible.</p>
-<p>The most important future source will be Andrew’s notebook.</p></section><section id="c26"><h1>Bonus lab: Andrew's tiny talent show</h1>
-<p>After lesson 5C, try the repository's lesson 5D before printing a body. The updated Companion command 'show' explains a twelve-second performance: open eyes and a sway, curious eyes and a look around, smiling eyes and three wiggles, then sleepy eyes and a return to center. The prepared 'show start' command runs it with one unloaded servo on channel 0. Follow lesson 5D's complete setup and range checks first; 'stop' cancels. This scripted sequence coordinates face and motor, but does not represent real feelings. The display now says SERVO RESTING when motor control is inactive; the motion sensor keeps reading. Physical performance must still be observed.</p></section><section id="c27"><h1>Two places to type: computer or robot?</h1>
-<p>The same terminal window has two modes. <strong>Check which mode you are in before typing.</strong></p>
-<table>
-<thead>
-<tr>
-<th>What you see</th>
-<th>Who receives your typing?</th>
-<th>What to type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>PS C:\...&gt;</code></td>
-<td>Your computer (PowerShell)</td>
-<td>Commands beginning with <code>.\robot.ps1</code></td>
-</tr>
-<tr>
-<td><code>Connecting to COM... Press CTRL-C to exit.</code> followed by robot messages</td>
-<td>Your robot (serial monitor)</td>
-<td>For Companion: <code>help</code>, <code>scan</code>, <code>status</code>, and the lesson's commands</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Enter sends a command. Ctrl+C closes the monitor and returns to PowerShell.</strong> Click inside the terminal before typing. You might not see your typing echoed, and sensor messages may appear while you type. Finish the command and press Enter once. Do not type the backticks, the word <code>text</code>, or the <code>PS ...&gt;</code> prompt shown in examples.</p>
-<p>Uploading puts the program on the board; <strong>it does not open the monitor</strong>. Run the lesson's separate monitor command afterward. Wait for <code>Connecting to...</code>, then send the robot commands one at a time. A monitor command such as <code>scan</code> is different from the PowerShell command <code>.\robot.ps1 status ...</code>, which opens the port for a brief report and closes it again.</p>
-<p>Hello, Scanner, Face and Motion are standalone teaching programs: watch their output as their lessons describe. The interactive commands below belong to <strong>Companion</strong>, introduced in 5A; they are not available in those earlier sketches.</p>
-<p><strong>If something seems wrong:</strong></p>
-<ul>
-<li><code>scan is not recognized</code> means you typed at PowerShell. Open the monitor first.</li>
-<li>No response? Press Enter. In Companion, type <code>help</code> and Enter to redisplay the menu.</li>
-<li>Port access denied? Close other serial monitors; only one program can use the port.</li>
-<li>Need to upload again? Press Ctrl+C first and follow that lesson's power preparation.</li>
-</ul>
-<h3>Talent-show monitor recipe</h3>
-<p>Follow repository lesson 5D for hardware preparation and the upload. Open the monitor with motor power unplugged. Once <code>Connecting to...</code> appears, type <code>scan</code>, then <code>status</code>, then <code>show</code>, pressing Enter after each. Read the guide. After the adult power check and connection of motor power, type <code>show start</code> and Enter. Watch the four scenes. After <code>CURTAIN DOWN</code>, type <code>status</code> and then <code>diagnose</code>; look for show off and every output's full-off flag set. Type <code>stop</code> to cancel early. Unplug motor power before closing or reopening the monitor. The command <code>demo</code> is a different, four-servo experiment; it is not used here.</p></section><section id="c28"><h1>Bonus servo lab: 5B.1 Big wiggle: make movement easier to see</h1>
-<!-- wiring:start -->
-<p><strong>Big wiggle setup:</strong> same checked one-servo circuit as lesson 5B.</p>
-<h3>Wiring visuals and pinouts</h3>
-<p><strong>Keep the checked 5B circuit. Unplug USB and the 5V wall supply before changing any wiring. Keep motor power off while uploading and opening the monitor.</strong> These are functional illustrations: locate terminals by their printed labels. Board shapes do not establish physical pin positions.</p>
-<p><img alt="SERVO wiring: labelled endpoints and separate power paths" src="images/wiring-servo.png" /></p>
-<p><strong>Identify the green two-screw block on the PCA9685:</strong> its + / V+ terminal accepts the regulated 5V supply positive wire; its - / GND terminal accepts the negative wire. They are not both V+. This block is not VCC, and it is different from the separate barrel-to-terminal connector on the supply cable. Confirm the actual board markings with power unplugged; the illustration does not establish left/right orientation. Functional servo pinout: ground, power, signal. Read the driver row labels before inserting the plug. <strong>Keep all four XIAO logic wires connected</strong>, as shown in this complete diagram: 3V3/VCC, GND/GND, D4/SDA and D5/SCL. The shared-ground wire is one of these four wires, not an extra fifth wire. Channel 0 is the three-pin output group beside the printed 0 among groups 0 through 15. One plug spans GND, V+ and signal within that group, not three neighboring channel numbers. The green block is not channel 0. Verify actual markings; left/right orientation is not established by this diagram. Use only channel 0 for this experiment. USB and adapter grounds meet at PCA GND; adapter positive never meets XIAO 5V or 3V3. Grounded OE is not a reset interlock: unplug servo power for uploads, resets and horn fitting.</p>
-<table>
-<thead>
-<tr>
-<th>From / pin</th>
-<th>To / pin</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Adapter positive</td>
-<td>PCA green block: + / V+</td>
-<td>Regulated 5V; direct power wire</td>
-</tr>
-<tr>
-<td>Adapter negative</td>
-<td>PCA green block: - / GND</td>
-<td>Direct power wire</td>
-</tr>
-<tr>
-<td>XIAO 3V3</td>
-<td>PCA VCC</td>
-<td>Logic power, separate from V+</td>
-</tr>
-<tr>
-<td>XIAO GND</td>
-<td>PCA GND</td>
-<td>Common reference</td>
-</tr>
-<tr>
-<td>XIAO D4 / GPIO6</td>
-<td>PCA SDA</td>
-<td>I2C data</td>
-</tr>
-<tr>
-<td>XIAO D5 / GPIO7</td>
-<td>PCA SCL</td>
-<td>I2C clock</td>
-</tr>
-<tr>
-<td>PCA channel 0 GND</td>
-<td>SG90 ground</td>
-<td>Usually brown/black; verify</td>
-</tr>
-<tr>
-<td>PCA channel 0 V+</td>
-<td>SG90 power</td>
-<td>Usually red; verify</td>
-</tr>
-<tr>
-<td>PCA channel 0 PWM</td>
-<td>SG90 signal</td>
-<td>Usually orange/yellow; verify</td>
-</tr>
-</tbody>
-</table>
-<!-- wiring:end -->
-
-<p><strong>Mission:</strong> replace “not sure” with an observation. The first motor test changed the pulse by only 10 microseconds. This test requests up to 100 microseconds from one end to the other, repeats three times, and pauses briefly at each end. It takes eight seconds. It does not promise a particular angle or spin in circles.</p>
-<p><strong>Start where you are:</strong> keep the checked XIAO + PCA9685 + one unloaded channel-0 SG90 setup from 5B. Keep the OE-to-GND jumper if fitted. Only the driver is required; if you already combined the screen and sensor, they may stay connected. This test does not choreograph expressions. Other motor connectors must be empty. Use the diagram and table above if you need to restore the setup, with both supplies unplugged. Leave the shaft free, without a horn, leg or mechanism.</p>
-<h3>A. Install the new command — PowerShell</h3>
-<p>Unplug the 5V motor supply. Press Ctrl+C to close the monitor. Leave USB connected if you are not changing wiring. Run these separately; replace COM5 with your identified port if different:</p>
-<pre><code class="language-powershell">.\robot.ps1 upload -Sketch Companion -Port COM5 -ServoPowerDisconnected
-</code></pre>
-<pre><code class="language-powershell">.\robot.ps1 monitor -Port COM5 -ServoPowerDisconnected
-</code></pre>
-<h3>B. Read the plan — inside the monitor</h3>
-<p>After <code>Connecting to COM5</code>, click in that same terminal. Type each line and press Enter:</p>
-<pre><code class="language-text">scan
-status
-wiggle
-</code></pre>
-<p>Expect driver <code>0x40</code> and <code>[OK]</code>. Screen/sensor <code>[X]</code> is normal when they are set aside. <code>wiggle</code> prints the planned range and starts no movement. Default range is <strong>1450–1550us</strong>, centered at 1500us. Existing narrower limits reduce the range; no limits are widened. If a different servo or mechanism has not been checked, perform the supervised calibration checks from 5B first. The owner's original unloaded servo previously moved within this range; that does not validate every servo.</p>
-<h3>C. Watch the big wiggle</h3>
-<p>After the adult's 5B wiring and power check, plug the 5V supply into the wall. Keep the monitor open and the wiring untouched. Type:</p>
-<pre><code class="language-text">wiggle start
-</code></pre>
-<p>Press Enter once and watch the shaft. The monitor tells you where the sequence is:</p>
-<table>
-<thead>
-<tr>
-<th>Time</th>
-<th>What to expect</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0–1 seconds</td>
-<td>Center; the initial move depends on the starting position</td>
-</tr>
-<tr>
-<td>1–3 seconds</td>
-<td>First low/high pair</td>
-</tr>
-<tr>
-<td>3–5 seconds</td>
-<td>Second low/high pair</td>
-</tr>
-<tr>
-<td>5–7 seconds</td>
-<td>Third low/high pair</td>
-</tr>
-<tr>
-<td>7–8 seconds</td>
-<td>Return to center</td>
-</tr>
-<tr>
-<td>Finish</td>
-<td><code>[DONE]</code>; all pulses requested off</td>
-</tr>
-</tbody>
-</table>
-<p>Each change ramps for half a second and holds for half a second. “Low/high” means pulse width, not a guaranteed left/right direction. Sensor chatter is hidden during the guide and test so you can read the progress; connected sensors continue being checked.</p>
-<p><strong>Cancel:</strong> type <code>stop</code> and Enter. If the servo binds or buzzes continuously, unplug the 5V supply. Software pulse-off is not electrical power-off and cannot guarantee a stop if communication fails.</p>
-<h3>D. Check and record</h3>
-<p>After <code>[DONE]</code>, unplug the 5V supply. In the monitor type these separately:</p>
-<pre><code class="language-text">status
-diagnose
-</code></pre>
-<p>Expect <code>Servo wiggle: off</code>, <code>Calibration channel: none</code>, and all 16 <code>full-off=1</code> flags. Record <strong>YES / NO / NOT SURE</strong> for actual movement. A register report cannot see the shaft. If still unsure, stop here and investigate; do not keep increasing travel. The new test must be observed before marking it passed.</p>
-<p>For another prepared run, type <code>wiggle</code> again, reconnect motor power after the check, and type <code>wiggle start</code>. Repeating <code>wiggle start</code> alone will not restart it. To end the session, unplug motor power before Ctrl+C and USB removal.</p>
-<p><strong>Teach it back:</strong> why do repeating the motion and holding each position make a test easier to observe? What did the actual shaft do compared with our prediction?</p></section></body></html>
+<p>The most important future source will be Andrew’s notebook.</p></section></body></html>
