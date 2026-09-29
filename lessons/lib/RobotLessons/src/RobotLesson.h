@@ -20,6 +20,9 @@ namespace lesson {
 bool streaming=false, testing=false, moving=false, prepared=false;
 uint32_t started=0, lastSample=0, lastMotion=0, lastHealth=0, preparedAt=0;
 int stage=-1;
+bool calibrationPrepared=false, calibrating=false, rangeChecked=false;
+bool lowMarked=false, highMarked=false;
+int sweepLow=1450, sweepHigh=1550, draftLow=1450, draftHigh=1550, calibrationTarget=1500;
 bool animating=false;
 uint32_t faceStarted=0, lastFrame=0;
 int shownFrame=-1;
@@ -51,6 +54,7 @@ bool outputsOff() {
 }
 void stop() {
   moving=streaming=testing=prepared=animating=false;
+  calibrating=calibrationPrepared=false;
   requestedPulse=0;
   outputsOff();
 }
@@ -75,6 +79,7 @@ void status() {
 #endif
 #if LESSON_SERVO
   report("PCA9685",driverReady,0x40);
+  Serial.printf("Sweep: %d..%dus | checked=%s | endpoint marks: low=%s high=%s\n",sweepLow,sweepHigh,rangeChecked ? "yes" : "no",lowMarked ? "yes" : "no",highMarked ? "yes" : "no");
   Serial.printf("Motor sequence: %s | prepared: %s | channel 0 only\n", moving ? "RUNNING" : "off",prepared ? "yes (60s expiry)" : "no");
 #endif
   Serial.printf("Readings: %s | timed test: %s\n",streaming ? "on" : "off",testing ? "on" : "off");
@@ -89,7 +94,11 @@ void help() {
   Serial.println("start  : readings every 100ms for 60 seconds (never starts a motor)");
   Serial.println("stop   : stop readings/test; request all motor pulses off where supported");
 #if LESSON_SERVO
-  Serial.println("test   : stop and print motor preparation; no movement");
+  Serial.println("calibrate : prepare endpoint teaching; then run starts at center");
+  Serial.println("lower | higher | center | marklow | markhigh | finish : during calibration");
+  Serial.println("range LOW HIGH : load endpoints YOU already checked (microseconds)");
+  Serial.println("range reset : forget endpoints before changing servo or mechanism");
+  Serial.println("test   : prepare full checked-range sweep; no movement yet");
   Serial.println("run    : after test + adult check, run channel 0 for 60 seconds");
   Serial.println("outputs: read all 16 output-off flags; only while stopped");
   Serial.println("Motor power must be off before upload/reset/opening monitor. stop is not power-off.");
@@ -218,17 +227,72 @@ void command(const char *cmd) {
 #if LESSON_SERVO
   if(!strcmp(cmd,"outputs")) { outputReport(); return; }
 #endif
+#if LESSON_SERVO
+  if(calibrating) {
+    if(!strcmp(cmd,"lower") || !strcmp(cmd,"higher") || !strcmp(cmd,"center")) {
+      if(requestedPulse!=calibrationTarget) { Serial.println("Still moving slowly. Wait before the next step."); return; }
+      int next=!strcmp(cmd,"center") ? 1500 : calibrationTarget+(!strcmp(cmd,"lower") ? -25 : 25);
+      if(next<500 || next>2500) { Serial.println("Software ceiling reached. Do not force more travel."); return; }
+      calibrationTarget=next;
+      Serial.printf("Moving gently toward %dus. Watch the shaft; stop if binding or buzzing.\n",next); return;
+    }
+    if(!strcmp(cmd,"marklow") || !strcmp(cmd,"markhigh")) {
+      if(requestedPulse!=calibrationTarget) { Serial.println("Wait for the step to finish before marking."); return; }
+      if(!strcmp(cmd,"marklow") && requestedPulse<=1450) { draftLow=requestedPulse; lowMarked=true; }
+      else if(!strcmp(cmd,"markhigh") && requestedPulse>=1550) { draftHigh=requestedPulse; highMarked=true; }
+      else { Serial.println("Low must be below center (<=1450); high above center (>=1550)."); return; }
+      Serial.printf("Recorded %dus as observed usable. Both marks + finish enable the sweep.\n",requestedPulse); return;
+    }
+    if(!strcmp(cmd,"finish")) {
+      const bool checked=lowMarked && highMarked && validRange(draftLow,draftHigh);
+      stop();
+      if(!checked) { Serial.println("Stopped; both endpoint marks are needed. calibrate then run to continue."); return; }
+      sweepLow=draftLow; sweepHigh=draftHigh; rangeChecked=true;
+      Serial.printf("Checked range stored for THIS session/channel 0: %d..%dus.\n",sweepLow,sweepHigh);
+      Serial.printf("Notebook/reload command for this same servo: range %d %d\n",sweepLow,sweepHigh);
+      Serial.println("Unplug motor power. Use test, adult check, then run for the sweep."); return;
+    }
+    Serial.println("Calibration: lower / higher / center / marklow / markhigh / finish / stop."); return;
+  }
+#endif
   if(moving) { Serial.println("Motor running. stop cancels; status reports progress."); return; }
+#if LESSON_SERVO
+  if(!strcmp(cmd,"range reset")) {
+    stop(); rangeChecked=lowMarked=highMarked=false; sweepLow=draftLow=1450; sweepHigh=draftHigh=1550;
+    Serial.println("Endpoints forgotten. Calibrate this unloaded servo before a sweep."); return;
+  }
+  if(!strncmp(cmd,"range ",6)) {
+    stop();
+    char lowText[6], highText[6], extra;
+    if(sscanf(cmd,"range %5s %5s %c",lowText,highText,&extra)!=2) { Serial.println("Use range LOW HIGH with previously checked microseconds."); return; }
+    char *lowEnd, *highEnd;
+    long low=strtol(lowText,&lowEnd,10), high=strtol(highText,&highEnd,10);
+    if(*lowEnd || *highEnd || !validRange(low,high)) { Serial.println("Invalid endpoints. Software envelope 500..2500; low<=1450, high>=1550. This is NOT a safe-range recommendation."); return; }
+    sweepLow=low; sweepHigh=high; rangeChecked=true;
+    draftLow=low; draftHigh=high; lowMarked=highMarked=true;
+    Serial.printf("Using your checked endpoints %d..%dus; no motion. test prepares the sweep.\n",sweepLow,sweepHigh); return;
+  }
+  if(!strcmp(cmd,"calibrate")) {
+    stop(); if(!ready()) { status(); return; }
+    rangeChecked=false; prepared=calibrationPrepared=true; preparedAt=millis();
+    Serial.println("CALIBRATION: unloaded channel-0 servo, shaft clear. No movement yet.");
+    Serial.println("After lesson power check, run within 60s starts at 1500us; initial centering may move.");
+    Serial.println("lower/higher requests one 25us step; center returns gradually. Never push against a stop.");
+    Serial.println("Mark comfortably usable endpoints with marklow/markhigh; finish stops and accepts both.");
+    Serial.println("60s automatic pulse-off; marks survive stop so another calibrate/run can continue."); return;
+  }
+#endif
   if(!strcmp(cmd,"read")) { columns(); read(); return; }
   if(!strcmp(cmd,"start")) { stop(); if(ready()) { streaming=true; started=lastSample=millis(); columns(); } else status(); return; }
   if(!strcmp(cmd,"test")) {
     stop(); if(!ready()) { status(); return; }
 #if LESSON_SERVO
+    if(!rangeChecked) { Serial.println("No checked travel range. Type calibrate first, or range LOW HIGH from your notebook for this servo."); return; }
     prepared=true; preparedAt=millis();
     Serial.println("PREPARE: one unloaded SG90, channel 0; no horn/leg; shaft clear.");
     Serial.println("Follow this lesson's adult wiring and 5V power check. Guide starts NO movement.");
-    Serial.println("Fixed 1450-1550us bench range, center 1500us. Saved Companion calibration is NOT used.");
-    Serial.println("Seven bounded wiggle cycles (56s), center rest (4s), OFF at 60s. stop cancels.");
+    Serial.printf("Full CHECKED range %d..%dus, center 1500us. No inferred angles or mechanical stop detection.\n",sweepLow,sweepHigh);
+    Serial.println("Seven slow center/low/high/center sweeps (56s), center rest (4s), OFF at 60s. stop cancels.");
     Serial.println("Only after preparation, connect motor power and type run within 60 seconds.");
 #else
     testing=streaming=true; started=lastSample=millis(); stage=-1;
@@ -244,10 +308,12 @@ void command(const char *cmd) {
     }
     // Recheck now: initialization flags may be stale since preparation.
     if(!present() || !sample()) { fault("[FAULT] Pre-run device check failed. No motor start; inspect with power off."); return; }
+    const bool beginCalibration=calibrationPrepared;
     stop(); if(!outputsOff() || !ready()) return;
     if(driver.setPWM(0,0,307)!=0) { driverReady=false; fault("[FAULT] Motor write failed. Unplug power."); return; }
+    calibrating=beginCalibration; calibrationTarget=1500;
     requestedPulse=1500; moving=true; started=lastSample=millis(); stage=-1;
-    Serial.println("RUN: 60 seconds, channel 0 only. Watch the shaft; stop cancels."); columns(); return;
+    Serial.println(calibrating ? "CALIBRATING: 60 seconds. lower/higher/center; marklow/markhigh; finish. stop cancels." : "SWEEP: 60 seconds through your checked limits, channel 0. stop cancels."); columns(); return;
   }
 #endif
 #if LESSON_OLED
@@ -313,12 +379,12 @@ void tick() {
         stage=age/1000;
 #if LESSON_OLED
         const int nextFace=age>=56000 ? 2 : (stage/4)%FACE_COUNT;
-        if(expressionShown!=nextFace || !animating) draw(nextFace);
+        if(!calibrating && (expressionShown!=nextFace || !animating)) draw(nextFace);
 #endif
       }
       if(finished(now,lastMotion,20)) {
         lastMotion=now;
-        requestedPulse=motorPulse(age);
+        requestedPulse=calibrating ? approach(requestedPulse,calibrationTarget) : sweepPulse(age,sweepLow,sweepHigh);
         const uint16_t ticks=(requestedPulse*4096L+10000)/20000;
         if(driver.setPWM(0,0,ticks)!=0) { fault("[FAULT] Servo write failed. Unplug motor power."); driverReady=false; }
       }

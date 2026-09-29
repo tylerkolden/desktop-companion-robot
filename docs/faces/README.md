@@ -17,7 +17,7 @@ Seven cartoon eye-and-mouth animations fit the 128×64 OLED. No nose, words, or 
 
 Type one command, then Enter. Named animations repeat for **60 seconds**, then freeze. `stop` freezes the current frame immediately after the current bus operation finishes; it also stops readings and requests motor pulses off. Screen commands never start a motor. In Integration, stop a running motor sequence before selecting a face manually.
 
-In **Display**, `test` is a one-minute parade: each face gets its full four-second routine before the next face. In **Integration**, `test` is still motor preparation; the separately prepared `run` shows these animations with the existing bounded movement and Sleep for the final four seconds. No servo travel or motor timings were changed.
+In **Display**, `test` is a one-minute parade: each face gets its full four-second routine before the next face. In **Integration**, `test` is still motor preparation; the separately prepared `run` shows these animations with the checked-range sweep and Sleep for the final four seconds. Follow the servo endpoint lesson before requesting the combined sweep.
 
 To watch sensor data while a face animates, use Integration: type `start`, then `curious` (or another face). The aligned sensor rows continue at their scheduled 100ms interval. Changing a face cancels the automatic face parade but does not cancel an existing readings stream. `read` is a snapshot; `status` names the selected face and reports whether animation is on or paused. At startup the face is still until you request animation. `cool` replaces `love`.
 
