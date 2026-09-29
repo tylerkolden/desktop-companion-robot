@@ -42,8 +42,8 @@ COURSE=[
   'Connect a successful I2C exchange to a visible change in screen pixels.',
   'With USB unplugged, remove the GY-521 connections and set it aside. Add only the AITRIP SSD1306 OLED using the table. Reconnect USB after an adult checks the labels.',
   'Can a screen answer a scan but still fail to draw the picture we expect?',
-  'Type `awake`, then `happy`, then `sleep`, pausing after each. Type `clear`, then `awake` again. Type `test` for a 60-second expression sequence. `stop` freezes the last image; it does not erase it.',
-  'Observe three distinct expressions and a cleared screen. Record the actual address (0x3C or 0x3D) and what each command displayed.',
+  'Type `awake`, `happy`, `sleep`, `curious`, `surprised`, `love`, and `cheeky`, pressing Enter and pausing after each. Look for eyes, a tiny nose and a different mouth. Curious raises an eyebrow; Surprised gasps; Love has heart eyes; Cheeky winks and sticks out its tongue. Type `clear`, then `awake` again. Type `test` for a 60-second face parade: each face stays for two seconds, then the seven-face sequence repeats. `stop` freezes the last image; it does not erase it.',
+  'Observe seven distinct full faces and a cleared screen. Record the actual address (0x3C or 0x3D) and what each command displayed. Have a teammate guess the emotion from the eyes and mouth before reading its name.',
   'Initialization does not prove pixels drew correctly. Match VCC/GND/SDA/SCL labels, not pin position. If missing, inspect only with USB off.',
   'Close the monitor and unplug USB. The next lesson swaps the OLED for the servo system; leave the OLED wiring until that setup step.'),
  ('06-servo','Servo','Signals become movement','servo',
@@ -58,7 +58,7 @@ COURSE=[
   'Combine individually tested functions while identifying which observation proves each one works.',
   'All five standalone function checks should have an observation record. With USB and motor supply unplugged, remove the motor plug and keep the driver logic. Add the OLED using the first diagram; power USB and scan to verify 0x40 plus 0x3C/0x3D. Close the monitor and unplug USB, then add the GY-521 using the second diagram. Reconnect USB. Share four separate breadboard groups, never join different groups. No motor power during these additions.',
   'Will all three addresses remain when the last board joins the circuit?',
-  'Type `scan`, `status`, `read`, then `start`. Observe acceleration, rotation rate and chip Celsius together. Tilt and rotate gently, then set the sensor down. Type `stop`. Use `awake`, `happy`, `sleep` to recheck the OLED. Only after these pass, close the monitor and unplug USB; restore the single unloaded channel-0 servo using the complete diagram, keeping the 5V supply unplugged. Reconnect USB and reopen the monitor before motor power. Type `test`, complete the adult check, connect motor power, then type `run`. Observe synchronized expressions and the same 60-second servo trajectory. After completion unplug motor power, then `status` and `outputs`.',
+  'Type `scan`, `status`, `read`, then `start`. Observe acceleration, rotation rate and chip Celsius together. Tilt and rotate gently, then set the sensor down. Type `stop`. Use `awake`, `happy`, `sleep`, `curious`, `surprised`, `love`, `cheeky` to recheck the OLED. Only after these pass, close the monitor and unplug USB; restore the single unloaded channel-0 servo using the complete diagram, keeping the 5V supply unplugged. Reconnect USB and reopen the monitor before motor power. Type `test`, complete the adult check, connect motor power, then type `run`. Observe all seven full faces cycling every two seconds with the same 60-second servo trajectory; the final four seconds show Sleep. After completion unplug motor power, then `status` and `outputs`.',
   'Record all three addresses, each sensor measurement with units, visible expressions, actual servo motion and final output-off flags. Missing devices must prevent run; do not mark an address reply as a full pass. The integrated motion is scripted, not autonomous walking or sensor-controlled movement.',
   'If an addition fails, unplug USB and motor power before removing only the newest module, then restore the last passing setup. Integration requires all three boards; the individual sketches require only their own hardware.',
   'Unplug motor power, close the monitor, then unplug USB. Keep your five independent results plus the team result. Next use the measurement and fit-gauge guides; no enclosure is assumed complete.')]
@@ -168,6 +168,8 @@ Write: **prediction → command → actual observation → explanation → next 
 '''
     if not book:
         i=COURSE.index(item)
+        if sketch in ['Display','Integration']:
+            text+='\n[Preview all seven faces and learn to edit their pixels](../../docs/faces/README.md).\n'
         text+='\n[Course map](../README.md)'
         if i: text+=f' · [Previous lesson]({COURSE[i-1][0]}.md)'
         if i+1<len(COURSE): text+=f' · [Next lesson]({COURSE[i+1][0]}.md)'
@@ -175,7 +177,7 @@ Write: **prediction → command → actual observation → explanation → next 
         if motor: text+='\n[Supply voltage/polarity measurement](../../docs/wiring/README.md) · [Motor power background](../../docs/WIRING.md)\n'
     return text
 
-def main():
+def main(update_book=False):
     (LESSONS/'plans').mkdir(exist_ok=True)
     for item in COURSE:
         (LESSONS/'plans'/(item[0]+'.md')).write_text(lesson_text(item),encoding='utf-8')
@@ -205,7 +207,7 @@ Unplug the motor supply and USB before changing wires. Follow lesson 1's bare-bo
 ## Teacher and maintainer notes
 
 - [Setup](../docs/SETUP.md), [command reference](../docs/COMMANDS.md), [experiment record](../templates/EXPERIMENT.md).
-- The canonical page source is `scripts/build_lessons.py`; regenerate after `scripts/build_wiring.py`, then rebuild the book.
+- The canonical page source is `scripts/build_lessons.py`; regenerate after `scripts/build_wiring.py`, leave the book unchanged until the final book pass (`--book`).
 - Each sketch chooses devices at compile time. Shared command handling and bounded motor timing live in `lessons/lib/RobotLessons/src/`; a sensor sketch neither includes the PCA driver nor writes motor outputs.
 - For Arduino IDE, install the repository's `lessons/lib/RobotLessons` as a custom library and the pinned dependencies from `toolchain.psd1`. The repository PowerShell workflow supplies the library automatically.
 - [Legacy lessons](legacy.md) preserve historical experiments, not the recommended sequence. Hello/Scanner/Face/Motion/Companion remain buildable for compatibility.
@@ -217,6 +219,9 @@ Unplug the motor supply and USB before changing wires. Follow lesson 1's bare-bo
 - [Adafruit Arduino example](https://learn.adafruit.com/mpu6050-6-dof-accelerometer-and-gyro/arduino): acceleration m/s², gyro rad/s, temperature Celsius. Our gyro lesson converts rad/s to deg/s.
 '''
     (LESSONS/'README.md').write_text(index,encoding='utf-8')
+    if not update_book:
+        print('Generated seven lesson pages and course index. Book unchanged; use --book only for the final book pass.')
+        return
     p=ROOT/'docs/book/manuscript.md'; text=p.read_text(encoding='utf-8-sig')
     start=text.index('## Appendix A.'); end=text.index('## Appendix B.',start)
     appendix='## Appendix A. The seven-lesson workshop\n\nUse one program per lesson. The repository lesson index has one page per experiment. PowerShell commands assume the repository root; COM5 is an example.\n\n'
@@ -231,4 +236,6 @@ Unplug the motor supply and USB before changing wires. Follow lesson 1's bare-bo
     (ROOT/'docs/book/manuscript.md').write_text(text.rstrip()+'\n',encoding='utf-8')
     print('Generated seven standalone lesson pages, course index and book workshop.')
 
-if __name__=='__main__': main()
+if __name__=='__main__':
+    import sys
+    main(update_book='--book' in sys.argv)

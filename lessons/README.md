@@ -27,7 +27,7 @@ Unplug the motor supply and USB before changing wires. Follow lesson 1's bare-bo
 ## Teacher and maintainer notes
 
 - [Setup](../docs/SETUP.md), [command reference](../docs/COMMANDS.md), [experiment record](../templates/EXPERIMENT.md).
-- The canonical page source is `scripts/build_lessons.py`; regenerate after `scripts/build_wiring.py`, then rebuild the book.
+- The canonical page source is `scripts/build_lessons.py`; regenerate after `scripts/build_wiring.py`, leave the book unchanged until the final book pass (`--book`).
 - Each sketch chooses devices at compile time. Shared command handling and bounded motor timing live in `lessons/lib/RobotLessons/src/`; a sensor sketch neither includes the PCA driver nor writes motor outputs.
 - For Arduino IDE, install the repository's `lessons/lib/RobotLessons` as a custom library and the pinned dependencies from `toolchain.psd1`. The repository PowerShell workflow supplies the library automatically.
 - [Legacy lessons](legacy.md) preserve historical experiments, not the recommended sequence. Hello/Scanner/Face/Motion/Companion remain buildable for compatibility.

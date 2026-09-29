@@ -10,6 +10,7 @@
 #endif
 #if LESSON_OLED
 #include <Adafruit_SSD1306.h>
+#include "FaceArt.h"
 #endif
 #if LESSON_SERVO
 #include <Adafruit_PWMServoDriver.h>
@@ -92,7 +93,11 @@ void help() {
   Serial.println("test   : a 60-second observation experiment; 100ms rows; ends automatically");
 #endif
 #if LESSON_OLED
-  Serial.println("awake | happy | sleep | clear : choose what the screen draws");
+  Serial.println("awake | happy | sleep | curious | surprised | love | cheeky | clear");
+  Serial.println("Choose a full face; face commands never start movement.");
+#if LESSON_KIND == 4
+  Serial.println("test cycles all seven faces, two seconds each, for one minute.");
+#endif
 #endif
   Serial.println("Ctrl+C closes the COMPUTER monitor; it does not send stop to the board.");
 }
@@ -117,15 +122,8 @@ void draw(int expression) {
 #if LESSON_OLED
   if (!displayReady) return;
   display.clearDisplay();
-  if (expression>=0) {
-    int h=expression==2 ? 4 : 24;
-    for(int x : {25,79}) {
-      display.fillRoundRect(x,22,24,h,3,SSD1306_WHITE);
-      if(expression==1) display.fillRect(x,34,24,12,SSD1306_BLACK);
-    }
-    display.setTextSize(1); display.setTextColor(SSD1306_WHITE); display.setCursor(0,54);
-    display.print(expression==0 ? "AWAKE" : expression==1 ? "HAPPY" : "SLEEP");
-  }
+  if (expression>=0 && expression<FACE_COUNT)
+    display.drawBitmap(0,0,FACE_BITMAPS[expression],128,64,SSD1306_WHITE);
   display.display();
 #else
   (void)expression;
@@ -162,7 +160,7 @@ void read() {
 #elif LESSON_KIND == 3
   Serial.printf("%10lu %9.2f\n",static_cast<unsigned long>(millis()),temp);
 #elif LESSON_KIND == 4
-  const char *name=expressionShown<0 ? "CLEAR" : expressionShown==0 ? "AWAKE" : expressionShown==1 ? "HAPPY" : "SLEEP";
+  const char *name=faceName(expressionShown);
   Serial.printf("%10lu %9s\n",static_cast<unsigned long>(millis()),name);
 #elif LESSON_KIND == 5
   Serial.printf("%10lu %9d %9d\n",static_cast<unsigned long>(millis()),0,requestedPulse);
@@ -231,10 +229,14 @@ void command(const char *cmd) {
   }
 #endif
 #if LESSON_OLED
-  if(!strcmp(cmd,"awake")||!strcmp(cmd,"happy")||!strcmp(cmd,"sleep")||!strcmp(cmd,"clear")) {
+  const char *faceCommands[]={"awake","happy","sleep","curious","surprised","love","cheeky"};
+  int chosen=-2;
+  for(int i=0;i<FACE_COUNT;i++) if(!strcmp(cmd,faceCommands[i])) chosen=i;
+  if(!strcmp(cmd,"clear")) chosen=-1;
+  if(chosen!=-2) {
     testing=streaming=prepared=false;
-    draw(!strcmp(cmd,"clear") ? -1 : !strcmp(cmd,"awake") ? 0 : !strcmp(cmd,"happy") ? 1 : 2);
-    Serial.println("Drawing requested. Check the screen with your eyes."); return;
+    draw(chosen);
+    Serial.printf("Face: %s. Check the eyes, nose and mouth on the screen.\n",faceName(chosen)); return;
   }
 #endif
   prepared=false;
@@ -288,7 +290,7 @@ void tick() {
       if(int(age/1000)!=stage) {
         stage=age/1000;
 #if LESSON_OLED
-        draw(age>=56000 || stage%8==7 ? 2 : stage%2 ? 1 : 0);
+        draw(age>=56000 ? 2 : (stage/2)%FACE_COUNT);
 #endif
       }
       if(finished(now,lastMotion,20)) {
@@ -304,7 +306,7 @@ void tick() {
 #if LESSON_OLED
   if(testing) {
     int next=elapsed(now,started)/2000;
-    if(next!=stage) { stage=next; draw(next%3); }
+    if(next!=stage) { stage=next; draw(next%FACE_COUNT); }
   }
 #endif
   if((streaming || moving) && finished(now,lastSample,SAMPLE_MS)) { lastSample=now; read(); }

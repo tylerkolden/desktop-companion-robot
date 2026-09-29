@@ -70,11 +70,11 @@ Example rows to explain the layout (not recorded test evidence):
 
 ## 7. Investigate
 
-Type `awake`, then `happy`, then `sleep`, pausing after each. Type `clear`, then `awake` again. Type `test` for a 60-second expression sequence. `stop` freezes the last image; it does not erase it.
+Type `awake`, `happy`, `sleep`, `curious`, `surprised`, `love`, and `cheeky`, pressing Enter and pausing after each. Look for eyes, a tiny nose and a different mouth. Curious raises an eyebrow; Surprised gasps; Love has heart eyes; Cheeky winks and sticks out its tongue. Type `clear`, then `awake` again. Type `test` for a 60-second face parade: each face stays for two seconds, then the seven-face sequence repeats. `stop` freezes the last image; it does not erase it.
 
 ## 8. Evidence and exit ticket
 
-Observe three distinct expressions and a cleared screen. Record the actual address (0x3C or 0x3D) and what each command displayed.
+Observe seven distinct full faces and a cleared screen. Record the actual address (0x3C or 0x3D) and what each command displayed. Have a teammate guess the emotion from the eyes and mouth before reading its name.
 
 Write: **prediction → command → actual observation → explanation → next question**. Repeat the observation once. Ask your teammate to explain the result in their own words; if either person is unsure, record NOT SURE and repeat or troubleshoot instead of declaring a pass.
 
@@ -85,5 +85,7 @@ Initialization does not prove pixels drew correctly. Match VCC/GND/SDA/SCL label
 ## 10. Finish and hand off
 
 Close the monitor and unplug USB. The next lesson swaps the OLED for the servo system; leave the OLED wiring until that setup step.
+
+[Preview all seven faces and learn to edit their pixels](../../docs/faces/README.md).
 
 [Course map](../README.md) · [Previous lesson](04-temperature.md) · [Next lesson](06-servo.md) · [Source code](../sketches/Display/Display.ino)

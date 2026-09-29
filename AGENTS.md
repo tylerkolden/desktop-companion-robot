@@ -1,5 +1,7 @@
 # Project working instructions
 
+- Defer book manuscript, HTML, EPUB and external book-copy changes until the user requests the final book pass. Update repository lesson plans independently with scripts/build_lessons.py (without --book). Do not run book-generating scripts during routine code updates; build_wiring.py also modifies book content.
+
 - Every wiring instruction must include a stage-specific visual diagram and pinout/connection table. Maintain `scripts/build_wiring.py` and the wiring atlas; regenerate affected guides and the book. Identify the exact model, viewing orientation and verification limits. Never invent physical pin positions, breadboard hole coordinates, or an actual Tinkercad simulation. Clearly label functional diagrams when physical layout is unverified. Preserve the learner's solder-free, adult-supervised staged sequence.
 
 - Preserve requirements: solder-free assembly, Amazon-only purchases, XIAO ESP32C3, corded V1 before cordless V2.

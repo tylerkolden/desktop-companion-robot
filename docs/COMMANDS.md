@@ -43,7 +43,7 @@ After `Connecting to COM...`, stay in the same terminal and type one command fol
 | `test` | 60-second observation in lessons 1–5; preparation only in lessons 6–7 |
 | `run` | Lessons 6–7 only: after test and adult preparation, one 60-second motor sequence |
 | `outputs` | Lessons 6–7 only: stopped driver output-register check |
-| `awake`, `happy`, `sleep`, `clear` | Display and Integration only |
+| `awake`, `happy`, `sleep`, `curious`, `surprised`, `love`, `cheeky`, `clear` | Display and Integration only; [face gallery](faces/README.md) |
 
 Motor preparation expires after 60 seconds; repeat test to prepare again. A run consumes preparation. stop/scan cancel it. Long/invalid commands never arm motion. The servo course uses fixed 1450–1550µs limits and does not load Companion calibration. Read the exact lesson before powering any motor.
 
