@@ -75,7 +75,7 @@ Example rows to explain the layout (not recorded test evidence):
 
 ## 7. Investigate
 
-With the motor supply still unplugged, open the monitor, type `scan`, `status`, `read` and `outputs`. First follow the [guided endpoint lesson](../../docs/SERVO-RANGE.md) to record usable low/high limits on this unloaded servo. Type `test` to review those limits: it starts no movement. After the adult wiring/power check, plug the supply into the wall and type `run` within 60 seconds. Watch seven slow eight-second sweeps: center to your checked low limit, across to your checked high limit, then back to center, followed by four seconds resting at center and automatic pulse-off at 60 seconds. Type `stop` to cancel early. Unplug motor power afterward; type `status` and `outputs`. For a prepared repeat, type `test` again before `run`.
+With the motor supply still unplugged, open the monitor, type `scan`, `status`, `read` and `outputs`. Type `calibrate` and follow the screen. It uses three words: `more`, `back`, and `keep`. Choose the first end, wait for the return to the middle, then choose the second end. See the [simple motor setup](../../docs/SERVO-RANGE.md) if needed. Type `test` to review those limits: it starts no movement. After the adult wiring/power check, plug the supply into the wall and type `run` within 60 seconds. Watch seven slow eight-second sweeps: center to your checked low limit, across to your checked high limit, then back to center, followed by four seconds resting at center and automatic pulse-off at 60 seconds. Type `stop` to cancel early. Unplug motor power afterward; type `status` and `outputs`. For a prepared repeat, type `test` again before `run`.
 
 ## 8. Evidence and exit ticket
 
@@ -85,7 +85,7 @@ Write: **prediction → command → actual observation → explanation → next 
 
 ## 9. Troubleshoot one change at a time
 
-The sweep covers the whole range YOU checked, with center at 1500µs. It does NOT use Companion calibration or assume 180 degrees. Endpoints reset on reboot/upload; copy the exact range command printed by finish for this same servo. Calibrate again if the servo or mechanism changes. Initial centering can move farther from an unknown start. Software cannot detect mechanical stops. If binding, continuous buzzing or communications fail, unplug motor power. Software stop is not a hardware power cutoff.
+The sweep covers the whole range YOU checked, with center at 1500µs. It does NOT use Companion calibration or assume 180 degrees. Endpoints reset on reboot/upload; copy the exact range command printed after the second keep for this same servo. Calibrate again if the servo or mechanism changes. Initial centering can move farther from an unknown start. Software cannot detect mechanical stops. If binding, continuous buzzing or communications fail, unplug motor power. Software stop is not a hardware power cutoff.
 
 ## 10. Finish and hand off
 

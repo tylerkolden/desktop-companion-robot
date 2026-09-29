@@ -13,6 +13,7 @@
 - Record physical tests and exact firmware dependencies. Update documentation when design decisions change.
 - Do not commit Wi-Fi credentials, tokens, local account details, or upstream assets with unverified reuse terms.
 - This is a first-time learner training repository. Read docs/START-HERE.md and lessons/README.md. Explain one checkpoint at a time: prediction, action, expected result, and evidence.
+- Write learner-facing instructions for a 10-year-old: short direct actions, exact words to type, and the next step after each command. During interactive motor setup, keep prompts visible instead of flooding the monitor with data; retain optional numeric output and normal test sampling. Use the guided more/back/keep flow rather than requiring pulse-width vocabulary.
 - Use robot.ps1 and toolchain.psd1 for all firmware operations. Never depend on build.local.psd1, the original author's external toolchain, or remembered absolute installation paths.
 - Downloads belong in ignored .tools/ and generated output in build/. Document prerequisites and reproduction commands for any added artifact.
 - Never guess a COM port or overwrite a potentially programmed board just to identify it. Opening serial can reset it. Obtain physical confirmation of disconnected servo power before serial/upload actions; compile and discovery do not need it.

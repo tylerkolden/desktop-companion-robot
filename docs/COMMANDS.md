@@ -42,7 +42,9 @@ After `Connecting to COM...`, stay in the same terminal and type one command fol
 | `stop` | End streaming/test; motor sketches request outputs off |
 | `test` | 60-second observation in lessons 1–5; preparation only in lessons 6–7 |
 | `run` | Lessons 6–7 only: after test and adult preparation, one 60-second motor sequence |
-| `calibrate` | Prepare guided endpoint checking; `run` starts centering, then use `lower`, `higher`, `center`, `marklow`, `markhigh`, `finish` |
+| `calibrate` | Start guided motor setup; follow the screen, then use `more`, `back`, and `keep` |
+| `more`, `back`, `keep` | During setup: one step outward, one step inward, or choose this end; the helper switches sides automatically |
+| `numbers`, `quiet` | During setup: show 100ms data, or hide it to keep instructions visible |
 | `range LOW HIGH` | Import pulse widths you physically checked for this same servo; no movement |
 | `range reset` | Forget endpoints before changing the servo or mechanism |
 | `outputs` | Lessons 6–7 only: stopped driver output-register check |

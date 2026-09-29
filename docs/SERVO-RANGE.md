@@ -1,66 +1,82 @@
-# Teach the robot its servo's usable travel
+# Teach your robot how far to move
 
-**Mission:** find comfortable endpoints on one unloaded channel-0 servo, then sweep through that whole checked range. A position command does not measure the shaft. This is not a promise of 180 degrees and does not mean pushing against a mechanical stop.
+Do this with an adult. We will choose one end position, then the other. **You do not need to type any numbers.**
 
-Use the [Servo lesson's starting setup, complete wiring diagram, pin table and power check](../lessons/plans/06-servo.md). Keep the shaft clear, with no leg or mechanism attached. Open the monitor with the motor supply disconnected, as that lesson explains. This page changes commands, not wiring. Servo and Integration both support them; use Servo for the first calibration.
+Use the [Servo lesson](../lessons/plans/06-servo.md) to connect the parts and open the monitor. Its pictures and pin table show the wiring. Keep the motor power off when opening the monitor. Use one bare motor on connector 0, without a leg attached.
 
-## Predict
+## 1. Start the helper
 
-Which way will the shaft move when its pulse width decreases? Write a prediction. The pulse is a position request in microseconds; it is not a number of degrees. Increasing and decreasing pulse width move in opposite directions, whose appearance depends on how you view the servo.
-
-## Prepare without movement
-
-In the monitor, type each line separately and press Enter:
+Inside the monitor, type this and press Enter:
 
 ```text
-range reset
 calibrate
 ```
 
-`range reset` clears old endpoints. Use it whenever you change servo or mechanism. `calibrate` shows the guide and starts no movement. After the lesson's adult power check, connect motor power and type `run` within 60 seconds. It requests 1500us center; this initial movement can be substantial from an unknown starting position.
-
-## Find comfortable limits, one step at a time
-
-1. Type `lower`. It requests 25us less, ramped in small increments. Wait until it finishes and watch the actual shaft before asking for another step. Do not paste a batch of commands.
-2. Repeat only while motion is free and useful. Do not intentionally seek a stall. If it binds, stops responding to position changes or buzzes continuously, type `stop` and unplug motor power; do not continue pushing. Choose a comfortably smaller range when restarting.
-3. At a low position you have observed working comfortably, type `marklow`. This records your observation, not an automatic measurement. Low must be at or below 1450us.
-4. Type `center` and wait for the gentle return to 1500us. Then use `higher`, one step at a time, to find a comfortable high position. Type `markhigh` when checked. High must be at or above 1550us.
-5. Type `finish`. It turns pulses off and, if both marks are present, accepts the range. Unplug motor power. Write down the **exact `range` command printed by the board** for this servo.
-
-Each calibration session ends automatically after **60 seconds**, even if you keep typing. `stop` also ends it. Endpoint marks survive within this powered session, so you can use `calibrate`, perform the power check, then `run` again to continue; each session starts at center. `status` shows whether each endpoint has been marked. Only `finish` accepts both marks as a checked range. Restarting the board loses all marks and limits.
-
-The software refuses requests outside 500–2500us. Those numbers are **software ceilings, not recommended endpoints**. Your particular servo may need a much narrower range. Leave margin for load and variation; a mounted robot leg needs its own mechanical calibration.
-
-## Sweep the complete checked range
-
-With motor power disconnected and the monitor already open:
-
-```text
-test
-```
-
-Read the printed low/high values. After the adult power check, connect motor power and type:
+Read the steps on the screen. Ask the adult to check the motor and turn on its power. Keep your hands clear. Then type:
 
 ```text
 run
 ```
 
-The one-minute run repeats this eight-second path seven times:
+The motor goes to the middle. Its first move might be big.
 
-| Time within each cycle | Requested motion |
-|---|---|
-| 0–2 seconds | Center to checked low endpoint |
-| 2–2.5 seconds | Brief low-end hold |
-| 2.5–5.5 seconds | Across the full checked range to high |
-| 5.5–6 seconds | Brief high-end hold |
-| 6–8 seconds | Return to center |
+## 2. Choose the first end
 
-It then rests at center for four seconds and requests all pulses off. `stop` cancels at any time; it does not disconnect electrical power. Remove motor power afterward. The monitor reports requested pulse widths every 100ms, not measured angles. The first centering request is not a ramp from a known physical position.
+The screen says **SIDE 1 OF 2**.
 
-## Reuse and verify
+- Type `more`. Press Enter. Watch one small move.
+- Wait for the next message before typing again.
+- Type `more` again if you want to try a little farther.
+- Type `back` to come one small step toward the middle.
+- When the position works smoothly, type `keep`.
 
-After uploading Integration, re-enter the exact `range LOW HIGH` command the board printed for this **same servo and unchanged unloaded setup**. Replace LOW and HIGH with your recorded numbers; do not copy someone else's endpoints. The command only sets limits and stops existing activity. Follow with `test`, the power check and `run`. If no notebook record exists, calibrate again. No endpoints are loaded from Companion or retained through a reboot.
+**A small range is OK. Do not try to force the motor to turn farther.** If it sticks or keeps buzzing, type `stop`. Ask the adult to unplug motor power.
 
-Record whether the shaft reaches both checked endpoints smoothly, returns to center, responds to `stop`, and does not restart. Record YES / NO / NOT SURE. An `[OK]` driver reply cannot answer these questions for you.
+The robot will not let you choose the middle as an end. If it says to try another small step, use `more` and watch again.
 
-[Adafruit's servo calibration guidance](https://learn.adafruit.com/16-channel-pwm-servo-driver/using-the-adafruit-library) explains why endpoint pulse widths vary and why travel should be approached gradually.
+## 3. Choose the other end
+
+After `keep`, the motor gently returns to the middle. Wait.
+
+The screen says **SIDE 2 OF 2**. Use the same three words:
+
+- `more`: one small step outward on this side.
+- `back`: one small step toward the middle.
+- `keep`: choose this end position.
+
+After the second `keep`, the screen says **SETUP COMPLETE!** The motor signals turn off. Ask the adult to unplug motor power. Leave USB connected.
+
+## 4. Try the movement
+
+Type:
+
+```text
+test
+```
+
+Follow the steps on the screen. Ask the adult to turn on motor power when instructed. Then type:
+
+```text
+run
+```
+
+Watch the motor move between the two positions you chose. It returns to the middle and stops after one minute. Type `stop` to stop sooner. Ask the adult to unplug motor power when it finishes.
+
+Tell your teammate: **Did it move smoothly both ways?** Say YES, NO, or NOT SURE. The robot cannot see whether its motor moved.
+
+## If you get stuck
+
+- Type `help`. The robot repeats your current step.
+- If one minute runs out during setup, do not rush. Ask the adult to unplug motor power. Type `calibrate` and follow the screen again. A chosen first end is remembered while USB stays connected; each new session begins at the middle.
+- If you mistype a word, the robot shows the words to use.
+- Type `stop` whenever you want to stop. It stops sending movement signals; the adult still needs to unplug motor power.
+
+## Notes for the adult
+
+The helper hides scrolling readings during setup so prompts stay visible. Sampling still occurs every 100ms. `numbers` shows the data; `quiet` returns to the simple prompts. Normal one-minute test runs still show data every 100ms.
+
+Setup uses 25us requests, ramped in 5us increments. `more` changes direction automatically for side 2. `back` cannot cross the middle. Both sides require observed positions away from center before `keep` accepts them. Software limits are not mechanical limit detection. Stop before binding and leave margin; this does not certify 180 degrees or suitability for a mounted leg.
+
+On completion, copy the printed `range` line into your notebook. After uploading Integration, you may re-enter that exact line for this same unloaded servo and unchanged setup. Rebooting loses the stored positions. Use `range reset` before changing the servo or mechanism, then run setup again. Starting `calibrate` after completed setup begins a fresh pair of positions.
+
+[Servo calibration background](https://learn.adafruit.com/16-channel-pwm-servo-driver/using-the-adafruit-library).

@@ -29,6 +29,17 @@ constexpr int approach(int current, int target) {
   return current<target ? (target-current>5 ? current+5 : target)
        : current>target ? (current-target>5 ? current-5 : target) : current;
 }
+constexpr int guideStep(int current, bool secondSide, bool back) {
+  const int next=current+((secondSide != back) ? 25 : -25);
+  return back ? (secondSide ? (next<1500 ? 1500 : next) : (next>1500 ? 1500 : next)) : next;
+}
+constexpr bool canKeep(int current, bool secondSide) {
+  return secondSide ? current>=1550 && current<=2500 : current>=500 && current<=1450;
+}
+static_assert(guideStep(1500,false,false)==1475 && guideStep(1500,true,false)==1525, "more follows the current side");
+static_assert(guideStep(1450,false,true)==1475 && guideStep(1550,true,true)==1525, "back goes toward center");
+static_assert(guideStep(1500,false,true)==1500 && guideStep(1500,true,true)==1500, "back cannot cross center");
+static_assert(!canKeep(1500,false) && !canKeep(1500,true) && canKeep(1450,false) && canKeep(1550,true), "keep requires a position on the right side");
 constexpr bool sweepEnvelope() {
   for(uint32_t t=0;t<=TEST_MS;t+=20)
     if(sweepPulse(t,500,2500)<500 || sweepPulse(t,500,2500)>2500) return false;
