@@ -49,15 +49,29 @@ scan
 read
 ```
 
-`start` repeats readings every half-second; `stop` ends them. `scan` also stops tests. `test` starts a ten-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+`start` repeats readings every 100 milliseconds for one minute, then ends automatically; `stop` ends them early. `scan` also stops tests. `test` starts a 60-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+
+### Read the columns
+
+All timed runs last **60 seconds** unless stopped or faulted. Rows are scheduled every **100ms (10 per second)**. `read` remains one snapshot. `TIME_MS` is board uptime, so compare consecutive timestamps to see the actual spacing; I2C and serial work can delay a row, and missed rows are not replayed in a burst. `help` repeats the command menu; begin another reading run to print a fresh data header.
+
+Read TIME_MS and MESSAGE: the changing timestamp proves the program keeps running.
+
+Example rows to explain the layout (not recorded test evidence):
+
+```text
+   TIME_MS  MESSAGE
+      1200  Hello, teammate!
+      1300  Hello, teammate!
+```
 
 ## 7. Investigate
 
-Type `read` to receive one greeting. Type `test` and count the greetings during the ten-second test. After it ends, close the monitor, unplug/reconnect USB, reopen the monitor and type `read` without uploading again.
+Type `read` to receive one greeting. Type `test` and watch the timestamps advance during the 60-second test. After it ends, close the monitor, unplug/reconnect USB, reopen the monitor and type `read` without uploading again.
 
 ## 8. Evidence and exit ticket
 
-The greeting returns after reconnecting. During test, messages arrive about twice a second. Explain that flash stores the program while power lets it run.
+The greeting returns after reconnecting. During test, messages arrive about ten times a second. Explain that flash stores the program while power lets it run.
 
 Write: **prediction → command → actual observation → explanation → next question**. Repeat the observation once. Ask your teammate to explain the result in their own words; if either person is unsure, record NOT SURE and repeat or troubleshoot instead of declaring a pass.
 

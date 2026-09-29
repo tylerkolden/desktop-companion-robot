@@ -52,7 +52,22 @@ scan
 read
 ```
 
-`start` repeats readings every half-second; `stop` ends them. `scan` also stops tests. `test` starts a ten-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+`start` repeats readings every 100 milliseconds for one minute, then ends automatically; `stop` ends them early. `scan` also stops tests. `test` starts a 60-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+
+### Read the columns
+
+All timed runs last **60 seconds** unless stopped or faulted. Rows are scheduled every **100ms (10 per second)**. `read` remains one snapshot. `TIME_MS` is board uptime, so compare consecutive timestamps to see the actual spacing; I2C and serial work can delay a row, and missed rows are not replayed in a burst. `help` repeats the command menu; begin another reading run to print a fresh data header.
+
+Watch the same **X, Y, Z** column order as the acceleration lesson. Here the units are degrees per second: rotation rate, not angle.
+
+Example rows to explain the layout (not recorded test evidence):
+
+```text
+   TIME_MS         X         Y         Z
+      1200      0.12     -0.08      0.19
+      1300     15.45     -0.10      0.65
+      1400     32.10     -0.12      0.28
+```
 
 ## 7. Investigate
 

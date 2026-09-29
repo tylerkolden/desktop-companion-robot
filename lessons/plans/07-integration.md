@@ -79,11 +79,24 @@ scan
 read
 ```
 
-`start` repeats readings every half-second; `stop` ends them. `scan` also stops tests. `test` prints motor preparation without moving; `run` is the separate physical start after the adult check. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+`start` repeats readings every 100 milliseconds for one minute, then ends automatically; `stop` ends them early. `scan` also stops tests. `test` prints motor preparation without moving; `run` is the separate physical start after the adult check. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+
+### Read the columns
+
+All timed runs last **60 seconds** unless stopped or faulted. Rows are scheduled every **100ms (10 per second)**. `read` remains one snapshot. `TIME_MS` is board uptime, so compare consecutive timestamps to see the actual spacing; I2C and serial work can delay a row, and missed rows are not replayed in a burst. `help` repeats the command menu; begin another reading run to print a fresh data header.
+
+AX/AY/AZ are acceleration in m/s²; GX/GY/GZ are rotation rate in degrees per second. TEMP_C is chip temperature. PULSE_US is requested pulse width, not measured shaft position; zero means pulse-off requested. Widen the terminal to at least 80 characters.
+
+Example rows to explain the layout (not recorded test evidence):
+
+```text
+   TIME_MS      AX      AY      AZ      GX      GY      GZ  TEMP_C PULSE_US
+      1200    0.12   -0.08    9.79    0.10    0.20   -0.10   25.12     1500
+```
 
 ## 7. Investigate
 
-Type `scan`, `status`, `read`, then `start`. Observe acceleration, rotation rate and chip Celsius together. Tilt and rotate gently, then set the sensor down. Type `stop`. Use `awake`, `happy`, `sleep` to recheck the OLED. Only after these pass, close the monitor and unplug USB; restore the single unloaded channel-0 servo using the complete diagram, keeping the 5V supply unplugged. Reconnect USB and reopen the monitor before motor power. Type `test`, complete the adult check, connect motor power, then type `run`. Observe synchronized expressions and the same eight-second servo trajectory. After completion unplug motor power, then `status` and `outputs`.
+Type `scan`, `status`, `read`, then `start`. Observe acceleration, rotation rate and chip Celsius together. Tilt and rotate gently, then set the sensor down. Type `stop`. Use `awake`, `happy`, `sleep` to recheck the OLED. Only after these pass, close the monitor and unplug USB; restore the single unloaded channel-0 servo using the complete diagram, keeping the 5V supply unplugged. Reconnect USB and reopen the monitor before motor power. Type `test`, complete the adult check, connect motor power, then type `run`. Observe synchronized expressions and the same 60-second servo trajectory. After completion unplug motor power, then `status` and `outputs`.
 
 ## 8. Evidence and exit ticket
 

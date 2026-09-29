@@ -52,11 +52,25 @@ scan
 read
 ```
 
-`start` repeats readings every half-second; `stop` ends them. `scan` also stops tests. `test` starts a ten-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+`start` repeats readings every 100 milliseconds for one minute, then ends automatically; `stop` ends them early. `scan` also stops tests. `test` starts a 60-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+
+### Read the columns
+
+All timed runs last **60 seconds** unless stopped or faulted. Rows are scheduled every **100ms (10 per second)**. `read` remains one snapshot. `TIME_MS` is board uptime, so compare consecutive timestamps to see the actual spacing; I2C and serial work can delay a row, and missed rows are not replayed in a burst. `help` repeats the command menu; begin another reading run to print a fresh data header.
+
+DISPLAY names the expression requested on the OLED. Compare the word with the actual screen; the table cannot prove pixels lit.
+
+Example rows to explain the layout (not recorded test evidence):
+
+```text
+   TIME_MS   DISPLAY
+      1200     AWAKE
+      1300     AWAKE
+```
 
 ## 7. Investigate
 
-Type `awake`, then `happy`, then `sleep`, pausing after each. Type `clear`, then `awake` again. Type `test` for a ten-second expression sequence. `stop` freezes the last image; it does not erase it.
+Type `awake`, then `happy`, then `sleep`, pausing after each. Type `clear`, then `awake` again. Type `test` for a 60-second expression sequence. `stop` freezes the last image; it does not erase it.
 
 ## 8. Evidence and exit ticket
 

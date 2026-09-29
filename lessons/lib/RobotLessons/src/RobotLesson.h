@@ -19,6 +19,7 @@ namespace lesson {
 bool streaming=false, testing=false, moving=false, prepared=false;
 uint32_t started=0, lastSample=0, lastMotion=0, lastHealth=0, preparedAt=0;
 int stage=-1;
+int requestedPulse=0, expressionShown=0;
 char line[64]; size_t used=0; bool overflow=false;
 float ax=0,ay=0,az=0,gx=0,gy=0,gz=0,temp=0;
 uint8_t imuAddress=0, displayAddress=0;
@@ -46,6 +47,7 @@ bool outputsOff() {
 }
 void stop() {
   moving=streaming=testing=prepared=false;
+  requestedPulse=0;
   outputsOff();
 }
 bool ready() {
@@ -79,15 +81,15 @@ void help() {
   Serial.println("status : show only the devices needed for THIS lesson");
   Serial.println("scan   : fresh I2C addresses; stops any test first");
   Serial.println("read   : one reading/report (never starts a motor)");
-  Serial.println("start  : repeat readings every 500ms (never starts a motor)");
+  Serial.println("start  : readings every 100ms for 60 seconds (never starts a motor)");
   Serial.println("stop   : stop readings/test; request all motor pulses off where supported");
 #if LESSON_SERVO
   Serial.println("test   : stop and print motor preparation; no movement");
-  Serial.println("run    : after test + adult check, run channel 0 for 8 seconds");
+  Serial.println("run    : after test + adult check, run channel 0 for 60 seconds");
   Serial.println("outputs: read all 16 output-off flags; only while stopped");
   Serial.println("Motor power must be off before upload/reset/opening monitor. stop is not power-off.");
 #else
-  Serial.println("test   : a 10-second observation experiment; ends automatically");
+  Serial.println("test   : a 60-second observation experiment; 100ms rows; ends automatically");
 #endif
 #if LESSON_OLED
   Serial.println("awake | happy | sleep | clear : choose what the screen draws");
@@ -111,6 +113,7 @@ bool sample() {
   return true;
 }
 void draw(int expression) {
+  expressionShown=expression;
 #if LESSON_OLED
   if (!displayReady) return;
   display.clearDisplay();
@@ -128,23 +131,43 @@ void draw(int expression) {
   (void)expression;
 #endif
 }
+void columns() {
+#if LESSON_KIND == 0
+  Serial.printf("%10s  %s\n","TIME_MS","MESSAGE");
+#elif LESSON_KIND == 1 || LESSON_KIND == 2
+  Serial.println(LESSON_KIND==1 ? "Acceleration in m/s2 (includes gravity). TIME_MS is board uptime." : "Rotation rate in deg/s (not angle). TIME_MS is board uptime.");
+  Serial.printf("%10s %9s %9s %9s\n","TIME_MS","X","Y","Z");
+#elif LESSON_KIND == 3
+  Serial.println("Chip temperature, not calibrated room/body temperature.");
+  Serial.printf("%10s %9s\n","TIME_MS","TEMP_C");
+#elif LESSON_KIND == 4
+  Serial.printf("%10s %9s\n","TIME_MS","DISPLAY");
+#elif LESSON_KIND == 5
+  Serial.println("Pulse request is NOT measured position; 0 means pulses requested off.");
+  Serial.printf("%10s %9s %9s\n","TIME_MS","CHANNEL","PULSE_US");
+#elif LESSON_KIND == 6
+  Serial.println("A: m/s2 | G: deg/s | chip: C | pulse: us (requested, 0=off). TIME_MS: uptime.");
+  Serial.printf("%10s %7s %7s %7s %7s %7s %7s %7s %8s\n","TIME_MS","AX","AY","AZ","GX","GY","GZ","TEMP_C","PULSE_US");
+#endif
+}
 void read() {
   if(!ready()) { Serial.println("[X] Required device not ready. Type status."); return; }
   if(!sample()) return;
 #if LESSON_KIND == 0
-  Serial.printf("Hello, teammate! Uptime %lu seconds.\n",static_cast<unsigned long>(millis()/1000));
+  Serial.printf("%10lu  Hello, teammate!\n",static_cast<unsigned long>(millis()));
 #elif LESSON_KIND == 1
-  Serial.printf("Acceleration m/s2: X=%.2f Y=%.2f Z=%.2f (includes gravity)\n",ax,ay,az);
+  Serial.printf("%10lu %9.2f %9.2f %9.2f\n",static_cast<unsigned long>(millis()),ax,ay,az);
 #elif LESSON_KIND == 2
-  Serial.printf("Rotation rate deg/s: X=%.2f Y=%.2f Z=%.2f (rate, NOT angle)\n",gx,gy,gz);
+  Serial.printf("%10lu %9.2f %9.2f %9.2f\n",static_cast<unsigned long>(millis()),gx,gy,gz);
 #elif LESSON_KIND == 3
-  Serial.printf("Chip temperature: %.2f C (not a room/body thermometer)\n",temp);
+  Serial.printf("%10lu %9.2f\n",static_cast<unsigned long>(millis()),temp);
 #elif LESSON_KIND == 4
-  Serial.println("OLED initialized. Use awake, happy, sleep, clear or test; observe the actual screen.");
+  const char *name=expressionShown<0 ? "CLEAR" : expressionShown==0 ? "AWAKE" : expressionShown==1 ? "HAPPY" : "SLEEP";
+  Serial.printf("%10lu %9s\n",static_cast<unsigned long>(millis()),name);
 #elif LESSON_KIND == 5
-  Serial.println("Driver initialized; pulse targets are not measured shaft positions. test explains the movement check.");
+  Serial.printf("%10lu %9d %9d\n",static_cast<unsigned long>(millis()),0,requestedPulse);
 #elif LESSON_KIND == 6
-  Serial.printf("Accel m/s2 %.2f %.2f %.2f | Gyro deg/s %.2f %.2f %.2f | Chip %.2f C\n",ax,ay,az,gx,gy,gz,temp);
+  Serial.printf("%10lu %7.2f %7.2f %7.2f %7.2f %7.2f %7.2f %7.2f %8d\n",static_cast<unsigned long>(millis()),ax,ay,az,gx,gy,gz,temp,requestedPulse);
 #endif
 }
 void scan() {
@@ -176,8 +199,8 @@ void command(const char *cmd) {
   if(!strcmp(cmd,"outputs")) { outputReport(); return; }
 #endif
   if(moving) { Serial.println("Motor running. stop cancels; status reports progress."); return; }
-  if(!strcmp(cmd,"read")) { read(); return; }
-  if(!strcmp(cmd,"start")) { stop(); if(ready()) streaming=true; else status(); return; }
+  if(!strcmp(cmd,"read")) { columns(); read(); return; }
+  if(!strcmp(cmd,"start")) { stop(); if(ready()) { streaming=true; started=lastSample=millis(); columns(); } else status(); return; }
   if(!strcmp(cmd,"test")) {
     stop(); if(!ready()) { status(); return; }
 #if LESSON_SERVO
@@ -185,11 +208,12 @@ void command(const char *cmd) {
     Serial.println("PREPARE: one unloaded SG90, channel 0; no horn/leg; shaft clear.");
     Serial.println("Follow this lesson's adult wiring and 5V power check. Guide starts NO movement.");
     Serial.println("Fixed 1450-1550us bench range, center 1500us. Saved Companion calibration is NOT used.");
-    Serial.println("Center -> three low/high pairs -> center -> OFF at 8s. stop cancels.");
+    Serial.println("Seven bounded wiggle cycles (56s), center rest (4s), OFF at 60s. stop cancels.");
     Serial.println("Only after preparation, connect motor power and type run within 60 seconds.");
 #else
-    testing=streaming=true; started=millis(); stage=-1;
-    Serial.println("10-second test started. Observe, predict, record. stop ends early.");
+    testing=streaming=true; started=lastSample=millis(); stage=-1;
+    Serial.println("60-second test started; a row every 100ms. stop ends early.");
+    columns();
 #endif
     return;
   }
@@ -202,8 +226,8 @@ void command(const char *cmd) {
     if(!present() || !sample()) { fault("[FAULT] Pre-run device check failed. No motor start; inspect with power off."); return; }
     stop(); if(!outputsOff() || !ready()) return;
     if(driver.setPWM(0,0,307)!=0) { driverReady=false; fault("[FAULT] Motor write failed. Unplug power."); return; }
-    moving=true; started=millis(); stage=-1;
-    Serial.println("RUN: channel 0 only. Watch the shaft; stop cancels."); return;
+    requestedPulse=1500; moving=true; started=lastSample=millis(); stage=-1;
+    Serial.println("RUN: 60 seconds, channel 0 only. Watch the shaft; stop cancels."); columns(); return;
   }
 #endif
 #if LESSON_OLED
@@ -259,33 +283,30 @@ void tick() {
 #if LESSON_SERVO
   if(moving) {
     const uint32_t age=elapsed(now,started);
-    if(age>=8000) { stop(); Serial.println("DONE: pulses requested OFF. Unplug motor supply. Observe YES / NO / NOT SURE."); }
+    if(age>=TEST_MS) { stop(); Serial.println("DONE: 60 seconds; pulses requested OFF. Unplug motor supply. Observe YES / NO / NOT SURE."); }
     else {
       if(int(age/1000)!=stage) {
         stage=age/1000;
-        Serial.printf("Step %d/8: %s\n",stage+1,stage==0||stage==7 ? "CENTER" : stage%2 ? "LOW" : "HIGH");
 #if LESSON_OLED
-        draw(stage==7 ? 2 : stage%2 ? 1 : 0);
+        draw(age>=56000 || stage%8==7 ? 2 : stage%2 ? 1 : 0);
 #endif
       }
       if(finished(now,lastMotion,20)) {
         lastMotion=now;
-        const uint16_t ticks=(motorPulse(age)*4096L+10000)/20000;
+        requestedPulse=motorPulse(age);
+        const uint16_t ticks=(requestedPulse*4096L+10000)/20000;
         if(driver.setPWM(0,0,ticks)!=0) { fault("[FAULT] Servo write failed. Unplug motor power."); driverReady=false; }
       }
     }
   }
 #endif
-  if(testing && finished(now,started,10000)) { stop(); Serial.println("DONE: test ended. Record your observation; no automatic pass."); }
+  if(streaming && finished(now,started,TEST_MS)) { stop(); Serial.println("DONE: 60-second test ended. Record your observation; no automatic pass."); }
 #if LESSON_OLED
   if(testing) {
     int next=elapsed(now,started)/2000;
-    if(next!=stage) { stage=next; draw(next%3); Serial.println("Expression changed: observe the screen."); }
+    if(next!=stage) { stage=next; draw(next%3); }
   }
 #endif
-  if(streaming && finished(now,lastSample,500)) { lastSample=now; read(); }
-#if LESSON_KIND == 6
-  if(moving && finished(now,lastSample,500)) { lastSample=now; read(); }
-#endif
+  if((streaming || moving) && finished(now,lastSample,SAMPLE_MS)) { lastSample=now; read(); }
 }
 }

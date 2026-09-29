@@ -52,11 +52,25 @@ scan
 read
 ```
 
-`start` repeats readings every half-second; `stop` ends them. `scan` also stops tests. `test` starts a ten-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+`start` repeats readings every 100 milliseconds for one minute, then ends automatically; `stop` ends them early. `scan` also stops tests. `test` starts a 60-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+
+### Read the columns
+
+All timed runs last **60 seconds** unless stopped or faulted. Rows are scheduled every **100ms (10 per second)**. `read` remains one snapshot. `TIME_MS` is board uptime, so compare consecutive timestamps to see the actual spacing; I2C and serial work can delay a row, and missed rows are not replayed in a burst. `help` repeats the command menu; begin another reading run to print a fresh data header.
+
+TEMP_C is one chip-temperature measurement in Celsius. It has no X, Y or Z axes. It may barely change during a minute.
+
+Example rows to explain the layout (not recorded test evidence):
+
+```text
+   TIME_MS    TEMP_C
+      1200     25.12
+      1300     25.12
+```
 
 ## 7. Investigate
 
-Type `read` and record the value. Type `test` for a ten-second sample. Leave the board in the same place for a minute and repeat; compare the readings without touching contacts, applying heat, liquids or cooling sprays.
+Type `read` and record the value. Type `test` for a 60-second sample. Leave the board in the same place for a minute and repeat; compare the readings without touching contacts, applying heat, liquids or cooling sprays.
 
 ## 8. Evidence and exit ticket
 

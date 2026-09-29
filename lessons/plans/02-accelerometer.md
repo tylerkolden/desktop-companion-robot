@@ -52,11 +52,26 @@ scan
 read
 ```
 
-`start` repeats readings every half-second; `stop` ends them. `scan` also stops tests. `test` starts a ten-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+`start` repeats readings every 100 milliseconds for one minute, then ends automatically; `stop` ends them early. `scan` also stops tests. `test` starts a 60-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+
+### Read the columns
+
+All timed runs last **60 seconds** unless stopped or faulted. Rows are scheduled every **100ms (10 per second)**. `read` remains one snapshot. `TIME_MS` is board uptime, so compare consecutive timestamps to see the actual spacing; I2C and serial work can delay a row, and missed rows are not replayed in a burst. `help` repeats the command menu; begin another reading run to print a fresh data header.
+
+Watch the **X, Y, Z** columns. All three use m/s², include gravity, and show two decimal places.
+
+Example rows to explain the layout (not recorded test evidence):
+
+```text
+   TIME_MS         X         Y         Z
+      1200      0.12     -0.08      9.79
+      1300      1.45     -0.10      9.65
+      1400      3.10     -0.12      9.28
+```
 
 ## 7. Investigate
 
-Type `read` while still. Type `test`, slowly tilt the board by its edges, and return it to the original position. For a longer experiment use `start`, then `stop`. Repeat with +Z up and down; try +X and +Y up.
+Type `read` while still. Type `test`, slowly tilt the board by its edges, and return it to the original position. For another one-minute experiment use `start`; `stop` ends it early. Repeat with +Z up and down; try +X and +Y up.
 
 ## 8. Evidence and exit ticket
 

@@ -57,11 +57,25 @@ scan
 read
 ```
 
-`start` repeats readings every half-second; `stop` ends them. `scan` also stops tests. `test` prints motor preparation without moving; `run` is the separate physical start after the adult check. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+`start` repeats readings every 100 milliseconds for one minute, then ends automatically; `stop` ends them early. `scan` also stops tests. `test` prints motor preparation without moving; `run` is the separate physical start after the adult check. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+
+### Read the columns
+
+All timed runs last **60 seconds** unless stopped or faulted. Rows are scheduled every **100ms (10 per second)**. `read` remains one snapshot. `TIME_MS` is board uptime, so compare consecutive timestamps to see the actual spacing; I2C and serial work can delay a row, and missed rows are not replayed in a burst. `help` repeats the command menu; begin another reading run to print a fresh data header.
+
+CHANNEL stays at 0. PULSE_US is the requested pulse width, not a measured shaft position. Zero means pulse-off requested. Watch the shaft as the numbers change.
+
+Example rows to explain the layout (not recorded test evidence):
+
+```text
+   TIME_MS   CHANNEL  PULSE_US
+      1200         0      1500
+      1300         0      1490
+```
 
 ## 7. Investigate
 
-With the motor supply still unplugged, open the monitor, type `scan`, `status`, `read` and `outputs`. Type `test` to read the preparation guide: it starts no movement. After the adult wiring/power check, plug the supply into the wall and type `run` within 60 seconds. Watch three low/high pairs, then return to center and automatic pulse-off at eight seconds. Type `stop` to cancel early. Unplug motor power afterward; type `status` and `outputs`. For a prepared repeat, type `test` again before `run`.
+With the motor supply still unplugged, open the monitor, type `scan`, `status`, `read` and `outputs`. Type `test` to read the preparation guide: it starts no movement. After the adult wiring/power check, plug the supply into the wall and type `run` within 60 seconds. Watch seven repeating eight-second wiggle cycles (three low/high pairs per cycle), followed by four seconds resting at center and automatic pulse-off at 60 seconds. Type `stop` to cancel early. Unplug motor power afterward; type `status` and `outputs`. For a prepared repeat, type `test` again before `run`.
 
 ## 8. Evidence and exit ticket
 

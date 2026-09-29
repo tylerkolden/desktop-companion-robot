@@ -992,15 +992,29 @@ scan
 read
 ```
 
-`start` repeats readings every half-second; `stop` ends them. `scan` also stops tests. `test` starts a ten-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+`start` repeats readings every 100 milliseconds for one minute, then ends automatically; `stop` ends them early. `scan` also stops tests. `test` starts a 60-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+
+### Read the columns
+
+All timed runs last **60 seconds** unless stopped or faulted. Rows are scheduled every **100ms (10 per second)**. `read` remains one snapshot. `TIME_MS` is board uptime, so compare consecutive timestamps to see the actual spacing; I2C and serial work can delay a row, and missed rows are not replayed in a burst. `help` repeats the command menu; begin another reading run to print a fresh data header.
+
+Read TIME_MS and MESSAGE: the changing timestamp proves the program keeps running.
+
+Example rows to explain the layout (not recorded test evidence):
+
+```text
+   TIME_MS  MESSAGE
+      1200  Hello, teammate!
+      1300  Hello, teammate!
+```
 
 #### 7. Investigate
 
-Type `read` to receive one greeting. Type `test` and count the greetings during the ten-second test. After it ends, close the monitor, unplug/reconnect USB, reopen the monitor and type `read` without uploading again.
+Type `read` to receive one greeting. Type `test` and watch the timestamps advance during the 60-second test. After it ends, close the monitor, unplug/reconnect USB, reopen the monitor and type `read` without uploading again.
 
 #### 8. Evidence and exit ticket
 
-The greeting returns after reconnecting. During test, messages arrive about twice a second. Explain that flash stores the program while power lets it run.
+The greeting returns after reconnecting. During test, messages arrive about ten times a second. Explain that flash stores the program while power lets it run.
 
 Write: **prediction → command → actual observation → explanation → next question**. Repeat the observation once. Ask your teammate to explain the result in their own words; if either person is unsure, record NOT SURE and repeat or troubleshoot instead of declaring a pass.
 
@@ -1066,11 +1080,26 @@ scan
 read
 ```
 
-`start` repeats readings every half-second; `stop` ends them. `scan` also stops tests. `test` starts a ten-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+`start` repeats readings every 100 milliseconds for one minute, then ends automatically; `stop` ends them early. `scan` also stops tests. `test` starts a 60-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+
+### Read the columns
+
+All timed runs last **60 seconds** unless stopped or faulted. Rows are scheduled every **100ms (10 per second)**. `read` remains one snapshot. `TIME_MS` is board uptime, so compare consecutive timestamps to see the actual spacing; I2C and serial work can delay a row, and missed rows are not replayed in a burst. `help` repeats the command menu; begin another reading run to print a fresh data header.
+
+Watch the **X, Y, Z** columns. All three use m/s², include gravity, and show two decimal places.
+
+Example rows to explain the layout (not recorded test evidence):
+
+```text
+   TIME_MS         X         Y         Z
+      1200      0.12     -0.08      9.79
+      1300      1.45     -0.10      9.65
+      1400      3.10     -0.12      9.28
+```
 
 #### 7. Investigate
 
-Type `read` while still. Type `test`, slowly tilt the board by its edges, and return it to the original position. For a longer experiment use `start`, then `stop`. Repeat with +Z up and down; try +X and +Y up.
+Type `read` while still. Type `test`, slowly tilt the board by its edges, and return it to the original position. For another one-minute experiment use `start`; `stop` ends it early. Repeat with +Z up and down; try +X and +Y up.
 
 #### 8. Evidence and exit ticket
 
@@ -1140,7 +1169,22 @@ scan
 read
 ```
 
-`start` repeats readings every half-second; `stop` ends them. `scan` also stops tests. `test` starts a ten-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+`start` repeats readings every 100 milliseconds for one minute, then ends automatically; `stop` ends them early. `scan` also stops tests. `test` starts a 60-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+
+### Read the columns
+
+All timed runs last **60 seconds** unless stopped or faulted. Rows are scheduled every **100ms (10 per second)**. `read` remains one snapshot. `TIME_MS` is board uptime, so compare consecutive timestamps to see the actual spacing; I2C and serial work can delay a row, and missed rows are not replayed in a burst. `help` repeats the command menu; begin another reading run to print a fresh data header.
+
+Watch the same **X, Y, Z** column order as the acceleration lesson. Here the units are degrees per second: rotation rate, not angle.
+
+Example rows to explain the layout (not recorded test evidence):
+
+```text
+   TIME_MS         X         Y         Z
+      1200      0.12     -0.08      0.19
+      1300     15.45     -0.10      0.65
+      1400     32.10     -0.12      0.28
+```
 
 #### 7. Investigate
 
@@ -1214,11 +1258,25 @@ scan
 read
 ```
 
-`start` repeats readings every half-second; `stop` ends them. `scan` also stops tests. `test` starts a ten-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+`start` repeats readings every 100 milliseconds for one minute, then ends automatically; `stop` ends them early. `scan` also stops tests. `test` starts a 60-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+
+### Read the columns
+
+All timed runs last **60 seconds** unless stopped or faulted. Rows are scheduled every **100ms (10 per second)**. `read` remains one snapshot. `TIME_MS` is board uptime, so compare consecutive timestamps to see the actual spacing; I2C and serial work can delay a row, and missed rows are not replayed in a burst. `help` repeats the command menu; begin another reading run to print a fresh data header.
+
+TEMP_C is one chip-temperature measurement in Celsius. It has no X, Y or Z axes. It may barely change during a minute.
+
+Example rows to explain the layout (not recorded test evidence):
+
+```text
+   TIME_MS    TEMP_C
+      1200     25.12
+      1300     25.12
+```
 
 #### 7. Investigate
 
-Type `read` and record the value. Type `test` for a ten-second sample. Leave the board in the same place for a minute and repeat; compare the readings without touching contacts, applying heat, liquids or cooling sprays.
+Type `read` and record the value. Type `test` for a 60-second sample. Leave the board in the same place for a minute and repeat; compare the readings without touching contacts, applying heat, liquids or cooling sprays.
 
 #### 8. Evidence and exit ticket
 
@@ -1288,11 +1346,25 @@ scan
 read
 ```
 
-`start` repeats readings every half-second; `stop` ends them. `scan` also stops tests. `test` starts a ten-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+`start` repeats readings every 100 milliseconds for one minute, then ends automatically; `stop` ends them early. `scan` also stops tests. `test` starts a 60-second observation window and ends automatically. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+
+### Read the columns
+
+All timed runs last **60 seconds** unless stopped or faulted. Rows are scheduled every **100ms (10 per second)**. `read` remains one snapshot. `TIME_MS` is board uptime, so compare consecutive timestamps to see the actual spacing; I2C and serial work can delay a row, and missed rows are not replayed in a burst. `help` repeats the command menu; begin another reading run to print a fresh data header.
+
+DISPLAY names the expression requested on the OLED. Compare the word with the actual screen; the table cannot prove pixels lit.
+
+Example rows to explain the layout (not recorded test evidence):
+
+```text
+   TIME_MS   DISPLAY
+      1200     AWAKE
+      1300     AWAKE
+```
 
 #### 7. Investigate
 
-Type `awake`, then `happy`, then `sleep`, pausing after each. Type `clear`, then `awake` again. Type `test` for a ten-second expression sequence. `stop` freezes the last image; it does not erase it.
+Type `awake`, then `happy`, then `sleep`, pausing after each. Type `clear`, then `awake` again. Type `test` for a 60-second expression sequence. `stop` freezes the last image; it does not erase it.
 
 #### 8. Evidence and exit ticket
 
@@ -1367,11 +1439,25 @@ scan
 read
 ```
 
-`start` repeats readings every half-second; `stop` ends them. `scan` also stops tests. `test` prints motor preparation without moving; `run` is the separate physical start after the adult check. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+`start` repeats readings every 100 milliseconds for one minute, then ends automatically; `stop` ends them early. `scan` also stops tests. `test` prints motor preparation without moving; `run` is the separate physical start after the adult check. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+
+### Read the columns
+
+All timed runs last **60 seconds** unless stopped or faulted. Rows are scheduled every **100ms (10 per second)**. `read` remains one snapshot. `TIME_MS` is board uptime, so compare consecutive timestamps to see the actual spacing; I2C and serial work can delay a row, and missed rows are not replayed in a burst. `help` repeats the command menu; begin another reading run to print a fresh data header.
+
+CHANNEL stays at 0. PULSE_US is the requested pulse width, not a measured shaft position. Zero means pulse-off requested. Watch the shaft as the numbers change.
+
+Example rows to explain the layout (not recorded test evidence):
+
+```text
+   TIME_MS   CHANNEL  PULSE_US
+      1200         0      1500
+      1300         0      1490
+```
 
 #### 7. Investigate
 
-With the motor supply still unplugged, open the monitor, type `scan`, `status`, `read` and `outputs`. Type `test` to read the preparation guide: it starts no movement. After the adult wiring/power check, plug the supply into the wall and type `run` within 60 seconds. Watch three low/high pairs, then return to center and automatic pulse-off at eight seconds. Type `stop` to cancel early. Unplug motor power afterward; type `status` and `outputs`. For a prepared repeat, type `test` again before `run`.
+With the motor supply still unplugged, open the monitor, type `scan`, `status`, `read` and `outputs`. Type `test` to read the preparation guide: it starts no movement. After the adult wiring/power check, plug the supply into the wall and type `run` within 60 seconds. Watch seven repeating eight-second wiggle cycles (three low/high pairs per cycle), followed by four seconds resting at center and automatic pulse-off at 60 seconds. Type `stop` to cancel early. Unplug motor power afterward; type `status` and `outputs`. For a prepared repeat, type `test` again before `run`.
 
 #### 8. Evidence and exit ticket
 
@@ -1468,11 +1554,24 @@ scan
 read
 ```
 
-`start` repeats readings every half-second; `stop` ends them. `scan` also stops tests. `test` prints motor preparation without moving; `run` is the separate physical start after the adult check. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+`start` repeats readings every 100 milliseconds for one minute, then ends automatically; `stop` ends them early. `scan` also stops tests. `test` prints motor preparation without moving; `run` is the separate physical start after the adult check. Do not paste preparation and movement commands together. Unknown commands print help guidance. Ctrl+C closes the monitor; it does not send `stop`.
+
+### Read the columns
+
+All timed runs last **60 seconds** unless stopped or faulted. Rows are scheduled every **100ms (10 per second)**. `read` remains one snapshot. `TIME_MS` is board uptime, so compare consecutive timestamps to see the actual spacing; I2C and serial work can delay a row, and missed rows are not replayed in a burst. `help` repeats the command menu; begin another reading run to print a fresh data header.
+
+AX/AY/AZ are acceleration in m/s²; GX/GY/GZ are rotation rate in degrees per second. TEMP_C is chip temperature. PULSE_US is requested pulse width, not measured shaft position; zero means pulse-off requested. Widen the terminal to at least 80 characters.
+
+Example rows to explain the layout (not recorded test evidence):
+
+```text
+   TIME_MS      AX      AY      AZ      GX      GY      GZ  TEMP_C PULSE_US
+      1200    0.12   -0.08    9.79    0.10    0.20   -0.10   25.12     1500
+```
 
 #### 7. Investigate
 
-Type `scan`, `status`, `read`, then `start`. Observe acceleration, rotation rate and chip Celsius together. Tilt and rotate gently, then set the sensor down. Type `stop`. Use `awake`, `happy`, `sleep` to recheck the OLED. Only after these pass, close the monitor and unplug USB; restore the single unloaded channel-0 servo using the complete diagram, keeping the 5V supply unplugged. Reconnect USB and reopen the monitor before motor power. Type `test`, complete the adult check, connect motor power, then type `run`. Observe synchronized expressions and the same eight-second servo trajectory. After completion unplug motor power, then `status` and `outputs`.
+Type `scan`, `status`, `read`, then `start`. Observe acceleration, rotation rate and chip Celsius together. Tilt and rotate gently, then set the sensor down. Type `stop`. Use `awake`, `happy`, `sleep` to recheck the OLED. Only after these pass, close the monitor and unplug USB; restore the single unloaded channel-0 servo using the complete diagram, keeping the 5V supply unplugged. Reconnect USB and reopen the monitor before motor power. Type `test`, complete the adult check, connect motor power, then type `run`. Observe synchronized expressions and the same 60-second servo trajectory. After completion unplug motor power, then `status` and `outputs`.
 
 #### 8. Evidence and exit ticket
 
