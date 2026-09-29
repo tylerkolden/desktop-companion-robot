@@ -145,3 +145,6 @@ Owner reported improvement and requested twice the current travel. Changed Servo
 
 ## 2026-09-28 — owner reports course completion
 Owner called the larger sweep perfect and reported all seven lessons great and done. Record this as user-reported completion of Basics, Accelerometer, Gyroscope, Temperature, Display, Servo and Integration. Last committed firmware baseline at this report: 720f248; the exact binary installed was not independently read back. Dependencies are pinned in toolchain.psd1. No new serial capture, angle measurement, current measurement, print-fit test or four-servo mechanism test accompanied this report. The 500–2500us bench preset is satisfactory by owner observation; it is not a measured mechanical limit for future mounted legs. Next: print one servo fit gauge and collect the fit result. Book remains deferred.
+
+## 2026-09-28 - exact Amazon servo listing fit gauge
+Reviewed WWZMDiB B0C7KPXPQV seller dimension illustration and matching owner screenshot. Updated generic 23.0 x 12.2mm basis to listing-derived 22.6 x 12.5mm; documented conflicting ear-to-ear dimension rather than claiming exact mechanical geometry. Regenerated OpenSCAD STL and preview. Mesh closure, winding, connected shell, positive volume and bounds passed; 255 Markdown destinations checked. Preview visually reviewed. Physical print fit remains pending. Book unchanged.

@@ -25,9 +25,9 @@ Which opening will fit best: the smallest, middle, or largest? Tell your teammat
 ## What the dimples mean
 | Dimples | Opening length x width |
 |---|---|
-| 1 | 23.0 x 12.2 mm |
-| 2 | 23.4 x 12.6 mm |
-| 3 | 23.8 x 13.0 mm |
+| 1 | 22.6 x 12.5 mm |
+| 2 | 23.0 x 12.9 mm |
+| 3 | 23.4 x 13.3 mm |
 
 This is a measuring sample, not a mount or a leg. It does not check screw positions, case height or shaft clearance.
 
@@ -49,3 +49,5 @@ A photo with the servo in the best opening helps. If the print is warped or the 
 Success means we know which opening fits, or how the gauge needs to change. We do not need a perfect first print.
 
 Next checkpoint: measure the mounting ears and shaft location, then design one cradle using your fit result. We will do that after this check, not guess those dimensions now. The wide bench sweep is not a movement limit for a leg attached to a servo.
+
+Servo openings use your Amazon WWZMDiB SG90 listing, with three clearance choices. See [dimension sources and the seller drawing discrepancy](../cad/SERVO-DIMENSIONS.md). Use the regenerated STL; an earlier copy used generic SG90 dimensions.

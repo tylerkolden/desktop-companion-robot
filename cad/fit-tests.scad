@@ -3,9 +3,12 @@
 part = "servo"; // [servo,oled]
 $fn = 48;
 
-// Provisional nominal dimensions, deliberately adjustable for clone hardware.
-servo_length = 23.0;
-servo_width = 12.2;
+// WWZMDiB SG90, Amazon B0C7KPXPQV dimension image reviewed 2026-09-28.
+// Body length derived from 7.9+14.7; width explicitly 12.5mm.
+// Seller total 31.8 conflicts with 5+7.9+14.7+5=32.6; see SERVO-DIMENSIONS.md.
+// Listing-derived fit sample, not a verified structural mount.
+servo_length = 22.6;
+servo_width = 12.5;
 servo_clearances = [0.0, 0.4, 0.8]; // total added to aperture length and width
 oled_board_width = 27.5;
 oled_board_height = 27.8;
