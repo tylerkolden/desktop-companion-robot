@@ -85,7 +85,7 @@ Write: **prediction → command → actual observation → explanation → next 
 
 ## 9. Troubleshoot one change at a time
 
-This lesson uses a fixed wider practice range (1000–2000µs, centered at 1500µs), not the full mechanical range or an assumed angle. It is for one unloaded servo. No numbers need to be entered or saved. The first centering move can be larger. If it sticks or keeps buzzing, type stop and unplug motor power. DONE means the one-minute timer finished normally; FAULT means a device error. A new BOOT message means the board restarted: save that output for troubleshooting.
+This lesson uses a fixed wider practice range (500–2500µs, centered at 1500µs), not the full mechanical range or an assumed angle. It is for one unloaded servo. No numbers need to be entered or saved. The first centering move can be larger. If it sticks or keeps buzzing, type stop and unplug motor power. DONE means the one-minute timer finished normally; FAULT means a device error. A new BOOT message means the board restarted: save that output for troubleshooting.
 
 ## 10. Finish and hand off
 

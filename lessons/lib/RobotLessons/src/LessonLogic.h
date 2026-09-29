@@ -9,9 +9,9 @@ constexpr bool finished(uint32_t now, uint32_t start, uint32_t duration) {
 }
 constexpr float degreesPerSecond(float radians) { return radians*57.295779513f; }
 // Wider lesson preset, not measured mechanical endpoints or a claimed angle.
-constexpr int PRACTICE_LOW=1000;
-constexpr int PRACTICE_HIGH=2000;
-static_assert((1500-PRACTICE_LOW)*2==200*5 && (PRACTICE_HIGH-1500)*2==200*5, "2.5x previous pulse excursion each side");
+constexpr int PRACTICE_LOW=500;
+constexpr int PRACTICE_HIGH=2500;
+static_assert((1500-PRACTICE_LOW)==500*2 && (PRACTICE_HIGH-1500)==500*2, "2x previous pulse excursion each side");
 constexpr int ramp(int from, int to, uint32_t age, uint32_t duration) {
   return from+(to-from)*static_cast<int32_t>(age)/static_cast<int32_t>(duration);
 }
@@ -33,7 +33,7 @@ constexpr bool sweepEnvelope() {
     if(practicePulse(t)<PRACTICE_LOW || practicePulse(t)>PRACTICE_HIGH) return false;
   return true;
 }
-static_assert(practicePulse(2000)==1000 && practicePulse(5500)==2000 && practicePulse(TEST_MS)==1500, "preset endpoints and finish");
+static_assert(practicePulse(2000)==500 && practicePulse(5500)==2500 && practicePulse(TEST_MS)==1500, "preset endpoints and finish");
 static_assert(sweepEnvelope(), "sweep stays inside selected endpoints");
 static_assert(sweepPulse(2000,800,2200)==800 && sweepPulse(5500,800,2200)==2200, "both endpoints reached");
 static_assert(sweepPulse(8000,800,2200)==1500 && sweepPulse(56000,800,2200)==1500, "cycle and final center");

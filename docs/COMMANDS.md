@@ -61,7 +61,7 @@ Hello, Scanner, Face, Motion and Companion remain available for historical work.
 
 Current course sketches use a 60-second automatic deadline and 100ms scheduled rows for start/test/run as applicable. read is one snapshot. TIME_MS is board uptime; actual spacing can vary with I2C/serial work. There is no burst of catch-up rows. Headers print at the beginning of a run; units stay above the data instead of being repeated in every row.
 
-Accelerometer and Gyroscope show TIME_MS, X, Y, Z in matching fixed-width columns. Temperature shows TEMP_C. Display shows the requested expression. Servo shows CHANNEL and PULSE_US; 0 indicates requested pulse-off. Integration puts AX/AY/AZ, GX/GY/GZ, TEMP_C and PULSE_US in one row. Requested motor values are not shaft-position measurements. The one-minute motor test repeats seven eight-second sweeps through the fixed 1000–2000us practice range, then rests at center for four seconds.
+Accelerometer and Gyroscope show TIME_MS, X, Y, Z in matching fixed-width columns. Temperature shows TEMP_C. Display shows the requested expression. Servo shows CHANNEL and PULSE_US; 0 indicates requested pulse-off. Integration puts AX/AY/AZ, GX/GY/GZ, TEMP_C and PULSE_US in one row. Requested motor values are not shaft-position measurements. The one-minute motor test repeats seven eight-second sweeps through the fixed 500–2500us practice range, then rests at center for four seconds.
 
 The archived legacy sketches and Companion retain their historical timing. Use the named current lesson sketches for these one-minute tests.
 

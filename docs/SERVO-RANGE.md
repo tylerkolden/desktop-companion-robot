@@ -30,7 +30,7 @@ The board still accepts `status` after a normal finish. Old commands such as `ca
 
 ## Adult notes
 
-This replaces the endpoint-finding activity. The preset sends 1000–2000 microsecond position requests around 1500us center. It makes a wider sweep, not a full-travel or 180-degree claim. It has not been physically verified on every servo. Use it only with the unloaded bench motor; a mounted leg needs a separate mechanical design and limit check. The first move to center may be larger than later moves.
+This replaces the endpoint-finding activity. The preset sends 500–2500 microsecond position requests around 1500us center. It makes a wider sweep, not a full-travel or 180-degree claim. It has not been physically verified on every servo. Use it only with the unloaded bench motor; a mounted leg needs a separate mechanical design and limit check. The first move to center may be larger than later moves.
 
 The one-minute program repeats seven slow eight-second cycles, rests centered for four seconds, then requests all pulses off. It keeps 100ms data rows and periodic countdown messages. `stop` is still available; it does not disconnect power. Nothing starts automatically on boot.
 

@@ -9,7 +9,7 @@
 - Do not describe proposed hardware, generated meshes, or compiled code as physically tested.
 - Keep servo V+ separate from 3.3V logic. Do not silently change the two-supply V1 architecture.
 - Verify exact product variants, installed headers, connector polarity and included accessories.
-- Keep calibration per leg; do not add uncontrolled startup movement. The beginner lesson now uses a fixed wider practice sweep (1000–2000us), with test/run and no calibration prerequisite. Full mechanical travel is outside this beginner test and must not be claimed. Preserve stop/deadline controls. Never infer mechanical limits from an SG90 label.
+- Keep calibration per leg; do not add uncontrolled startup movement. The beginner lesson now uses a fixed wider practice sweep (500–2500us), with test/run and no calibration prerequisite. Full mechanical travel is outside this beginner test and must not be claimed. Preserve stop/deadline controls. Never infer mechanical limits from an SG90 label.
 - Record physical tests and exact firmware dependencies. Update documentation when design decisions change.
 - Do not commit Wi-Fi credentials, tokens, local account details, or upstream assets with unverified reuse terms.
 - This is a first-time learner training repository. Read docs/START-HERE.md and lessons/README.md. Explain one checkpoint at a time: prediction, action, expected result, and evidence.
