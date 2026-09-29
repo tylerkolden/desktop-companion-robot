@@ -96,7 +96,7 @@ Example rows to explain the layout (not recorded test evidence):
 
 ## 7. Investigate
 
-Type `scan`, `status`, `read`, then `start`. Observe acceleration, rotation rate and chip Celsius together. Tilt and rotate gently, then set the sensor down. Type `stop`. Use `awake`, `happy`, `sleep`, `curious`, `surprised`, `love`, `cheeky` to recheck the OLED. Only after these pass, close the monitor and unplug USB; restore the single unloaded channel-0 servo using the complete diagram, keeping the 5V supply unplugged. Reconnect USB and reopen the monitor before motor power. Type `test`, complete the adult check, connect motor power, then type `run`. Observe all seven full faces cycling every two seconds with the same 60-second servo trajectory; the final four seconds show Sleep. After completion unplug motor power, then `status` and `outputs`.
+Type `scan`, `status`, `read`, then `start`. Observe acceleration, rotation rate and chip Celsius together. Tilt and rotate gently, then set the sensor down. Type `stop`. Use `awake`, `happy`, `sleep`, `curious`, `surprised`, `cool`, `cheeky` to recheck the OLED. Only after these pass, close the monitor and unplug USB; restore the single unloaded channel-0 servo using the complete diagram, keeping the 5V supply unplugged. Reconnect USB and reopen the monitor before motor power. Type `test`, complete the adult check, connect motor power, then type `run`. Observe all seven full faces cycling every four seconds with the same 60-second servo trajectory; the final four seconds show Sleep. After completion unplug motor power, then `status` and `outputs`.
 
 ## 8. Evidence and exit ticket
 

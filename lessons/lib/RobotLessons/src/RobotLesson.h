@@ -20,6 +20,9 @@ namespace lesson {
 bool streaming=false, testing=false, moving=false, prepared=false;
 uint32_t started=0, lastSample=0, lastMotion=0, lastHealth=0, preparedAt=0;
 int stage=-1;
+bool animating=false;
+uint32_t faceStarted=0, lastFrame=0;
+int shownFrame=-1;
 int requestedPulse=0, expressionShown=0;
 char line[64]; size_t used=0; bool overflow=false;
 float ax=0,ay=0,az=0,gx=0,gy=0,gz=0,temp=0;
@@ -47,7 +50,7 @@ bool outputsOff() {
   return ok;
 }
 void stop() {
-  moving=streaming=testing=prepared=false;
+  moving=streaming=testing=prepared=animating=false;
   requestedPulse=0;
   outputsOff();
 }
@@ -68,6 +71,7 @@ void status() {
 #endif
 #if LESSON_OLED
   report("OLED",displayReady,displayAddress ? displayAddress : 0x3c);
+  Serial.printf("Face: %s | animation: %s\n",faceName(expressionShown),animating ? "on" : "paused");
 #endif
 #if LESSON_SERVO
   report("PCA9685",driverReady,0x40);
@@ -93,10 +97,10 @@ void help() {
   Serial.println("test   : a 60-second observation experiment; 100ms rows; ends automatically");
 #endif
 #if LESSON_OLED
-  Serial.println("awake | happy | sleep | curious | surprised | love | cheeky | clear");
-  Serial.println("Choose a full face; face commands never start movement.");
+  Serial.println("awake | happy | sleep | curious | surprised | cool | cheeky | clear");
+  Serial.println("Choose a 4-second animation, repeated for 60s; stop freezes it. No motor start.");
 #if LESSON_KIND == 4
-  Serial.println("test cycles all seven faces, two seconds each, for one minute.");
+  Serial.println("test cycles all seven faces, four seconds each, for one minute.");
 #endif
 #endif
   Serial.println("Ctrl+C closes the COMPUTER monitor; it does not send stop to the board.");
@@ -117,16 +121,34 @@ bool sample() {
 #endif
   return true;
 }
-void draw(int expression) {
-  expressionShown=expression;
+void renderFace(int frame) {
 #if LESSON_OLED
   if (!displayReady) return;
   display.clearDisplay();
-  if (expression>=0 && expression<FACE_COUNT)
-    display.drawBitmap(0,0,FACE_BITMAPS[expression],128,64,SSD1306_WHITE);
+  if (expressionShown>=0 && expressionShown<FACE_COUNT) {
+    const uint16_t index=pgm_read_word(&FACE_SEQUENCE[expressionShown][frame]);
+    display.drawBitmap(0,0,FACE_BITMAPS[index],128,64,SSD1306_WHITE);
+  }
   display.display();
-#else
-  (void)expression;
+#endif
+  shownFrame=frame;
+}
+void draw(int expression) {
+  expressionShown=expression;
+  faceStarted=lastFrame=millis();
+  animating=expression>=0 && displayReady;
+  renderFace(0);
+}
+void animateFace(uint32_t now) {
+#if LESSON_OLED
+  if (!animating) return;
+  if (finished(now,faceStarted,TEST_MS)) { animating=false; return; }
+  // No delay or catch-up loop: serial, sampling and motor deadlines get a turn.
+  if (finished(now,lastFrame,FACE_FRAME_MS)) {
+    lastFrame=now;
+    const int next=faceFrame(elapsed(now,faceStarted));
+    if (next!=shownFrame) renderFace(next);
+  }
 #endif
 }
 void columns() {
@@ -229,12 +251,12 @@ void command(const char *cmd) {
   }
 #endif
 #if LESSON_OLED
-  const char *faceCommands[]={"awake","happy","sleep","curious","surprised","love","cheeky"};
+  const char *faceCommands[]={"awake","happy","sleep","curious","surprised","cool","cheeky"};
   int chosen=-2;
   for(int i=0;i<FACE_COUNT;i++) if(!strcmp(cmd,faceCommands[i])) chosen=i;
   if(!strcmp(cmd,"clear")) chosen=-1;
   if(chosen!=-2) {
-    testing=streaming=prepared=false;
+    testing=prepared=false;
     draw(chosen);
     Serial.printf("Face: %s. Check the cartoon eyes and mouth on the screen.\n",faceName(chosen)); return;
   }
@@ -256,7 +278,7 @@ void begin() {
 #if LESSON_OLED
   displayAddress=probe(0x3c) ? 0x3c : probe(0x3d) ? 0x3d : 0;
   displayReady=displayAddress && display.begin(SSD1306_SWITCHCAPVCC,displayAddress,true,false);
-  if(displayReady) draw(0);
+  if(displayReady) { draw(0); animating=false; }
 #endif
   help(); status();
 }
@@ -275,7 +297,7 @@ void tick() {
   }
   const uint32_t now=millis();
   if(prepared && finished(now,preparedAt,60000)) { prepared=false; Serial.println("Preparation expired. Type test again."); }
-  if((moving||streaming||testing) && finished(now,lastHealth,250)) {
+  if((moving||streaming||testing||animating) && finished(now,lastHealth,250)) {
     lastHealth=now;
     if(!present()) {
       fault("[FAULT] Required device stopped answering. Remove motor power if used; inspect with power off.");
@@ -290,7 +312,8 @@ void tick() {
       if(int(age/1000)!=stage) {
         stage=age/1000;
 #if LESSON_OLED
-        draw(age>=56000 ? 2 : (stage/2)%FACE_COUNT);
+        const int nextFace=age>=56000 ? 2 : (stage/4)%FACE_COUNT;
+        if(expressionShown!=nextFace || !animating) draw(nextFace);
 #endif
       }
       if(finished(now,lastMotion,20)) {
@@ -305,10 +328,11 @@ void tick() {
   if(streaming && finished(now,started,TEST_MS)) { stop(); Serial.println("DONE: 60-second test ended. Record your observation; no automatic pass."); }
 #if LESSON_OLED
   if(testing) {
-    int next=elapsed(now,started)/2000;
+    int next=elapsed(now,started)/FACE_LOOP_MS;
     if(next!=stage) { stage=next; draw(next%FACE_COUNT); }
   }
 #endif
   if((streaming || moving) && finished(now,lastSample,SAMPLE_MS)) { lastSample=now; read(); }
+  animateFace(millis());
 }
 }

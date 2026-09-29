@@ -43,7 +43,7 @@ After `Connecting to COM...`, stay in the same terminal and type one command fol
 | `test` | 60-second observation in lessons 1–5; preparation only in lessons 6–7 |
 | `run` | Lessons 6–7 only: after test and adult preparation, one 60-second motor sequence |
 | `outputs` | Lessons 6–7 only: stopped driver output-register check |
-| `awake`, `happy`, `sleep`, `curious`, `surprised`, `love`, `cheeky`, `clear` | Display and Integration only; [face gallery](faces/README.md) |
+| `awake`, `happy`, `sleep`, `curious`, `surprised`, `cool`, `cheeky`, `clear` | Display and Integration only; [face gallery](faces/README.md) |
 
 Motor preparation expires after 60 seconds; repeat test to prepare again. A run consumes preparation. stop/scan cancel it. Long/invalid commands never arm motion. The servo course uses fixed 1450–1550µs limits and does not load Companion calibration. Read the exact lesson before powering any motor.
 
@@ -64,3 +64,5 @@ Current course sketches use a 60-second automatic deadline and 100ms scheduled r
 Accelerometer and Gyroscope show TIME_MS, X, Y, Z in matching fixed-width columns. Temperature shows TEMP_C. Display shows the requested expression. Servo shows CHANNEL and PULSE_US; 0 indicates requested pulse-off. Integration puts AX/AY/AZ, GX/GY/GZ, TEMP_C and PULSE_US in one row. Requested motor values are not shaft-position measurements. The one-minute motor test repeats seven bounded eight-second cycles and rests at center for the final four seconds; its travel envelope is unchanged.
 
 The archived legacy sketches and Companion retain their historical timing. Use the named current lesson sketches for these one-minute tests.
+
+Face commands animate eyes and mouth in four-second loops for up to 60 seconds; `stop` freezes the current frame and `clear` blanks the screen. Start readings with `start`, then select a face to animate alongside the 100ms sensor rows. Display `test` shows each routine for four seconds during its minute-long parade. Integration `test` still prepares the motor; only the separate `run` starts it. `cool` replaces the old `love` command.
