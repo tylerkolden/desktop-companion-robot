@@ -8,10 +8,9 @@ constexpr bool finished(uint32_t now, uint32_t start, uint32_t duration) {
   return elapsed(now,start) >= duration;
 }
 constexpr float degreesPerSecond(float radians) { return radians*57.295779513f; }
-// These are software ceilings, NOT guaranteed safe physical endpoints.
-constexpr bool validRange(int low, int high) {
-  return low>=500 && low<=1450 && high>=1550 && high<=2500;
-}
+// Moderate lesson preset, not measured mechanical endpoints or a claimed angle.
+constexpr int PRACTICE_LOW=1300;
+constexpr int PRACTICE_HIGH=1700;
 constexpr int ramp(int from, int to, uint32_t age, uint32_t duration) {
   return from+(to-from)*static_cast<int32_t>(age)/static_cast<int32_t>(duration);
 }
@@ -25,32 +24,19 @@ constexpr int sweepPulse(uint32_t age, int low, int high) {
   if(age<6000) return high;
   return ramp(high,1500,age-6000,2000);
 }
-constexpr int approach(int current, int target) {
-  return current<target ? (target-current>5 ? current+5 : target)
-       : current>target ? (current-target>5 ? current-5 : target) : current;
+constexpr int practicePulse(uint32_t age) {
+  return sweepPulse(age,PRACTICE_LOW,PRACTICE_HIGH);
 }
-constexpr int guideStep(int current, bool secondSide, bool back) {
-  const int next=current+((secondSide != back) ? 25 : -25);
-  return back ? (secondSide ? (next<1500 ? 1500 : next) : (next>1500 ? 1500 : next)) : next;
-}
-constexpr bool canKeep(int current, bool secondSide) {
-  return secondSide ? current>=1550 && current<=2500 : current>=500 && current<=1450;
-}
-static_assert(guideStep(1500,false,false)==1475 && guideStep(1500,true,false)==1525, "more follows the current side");
-static_assert(guideStep(1450,false,true)==1475 && guideStep(1550,true,true)==1525, "back goes toward center");
-static_assert(guideStep(1500,false,true)==1500 && guideStep(1500,true,true)==1500, "back cannot cross center");
-static_assert(!canKeep(1500,false) && !canKeep(1500,true) && canKeep(1450,false) && canKeep(1550,true), "keep requires a position on the right side");
 constexpr bool sweepEnvelope() {
   for(uint32_t t=0;t<=TEST_MS;t+=20)
-    if(sweepPulse(t,500,2500)<500 || sweepPulse(t,500,2500)>2500) return false;
+    if(practicePulse(t)<PRACTICE_LOW || practicePulse(t)>PRACTICE_HIGH) return false;
   return true;
 }
+static_assert(practicePulse(2000)==1300 && practicePulse(5500)==1700 && practicePulse(TEST_MS)==1500, "preset endpoints and finish");
 static_assert(sweepEnvelope(), "sweep stays inside selected endpoints");
 static_assert(sweepPulse(2000,800,2200)==800 && sweepPulse(5500,800,2200)==2200, "both endpoints reached");
 static_assert(sweepPulse(8000,800,2200)==1500 && sweepPulse(56000,800,2200)==1500, "cycle and final center");
 static_assert(sweepPulse(1000,1000,2100)==1250 && sweepPulse(4000,1000,2100)==1550, "asymmetric range ramps");
-static_assert(!validRange(499,2500) && !validRange(500,2501) && !validRange(1600,1400), "reject invalid limits");
-static_assert(approach(1500,1525)==1505 && approach(1500,1475)==1495 && approach(1503,1500)==1500, "calibration steps are ramped");
 static_assert(finished(59744,0xffffff00u,TEST_MS), "minute deadline across millis rollover");
 static_assert(!finished(59743,0xffffff00u,TEST_MS), "minute deadline boundary");
 static_assert(finished(100,0,SAMPLE_MS) && !finished(99,0,SAMPLE_MS), "100ms sample boundary");

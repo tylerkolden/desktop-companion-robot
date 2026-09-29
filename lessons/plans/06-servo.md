@@ -75,7 +75,7 @@ Example rows to explain the layout (not recorded test evidence):
 
 ## 7. Investigate
 
-With the motor supply still unplugged, open the monitor, type `scan`, `status`, `read` and `outputs`. Type `calibrate` and follow the screen. It uses three words: `more`, `back`, and `keep`. Choose the first end, wait for the return to the middle, then choose the second end. See the [simple motor setup](../../docs/SERVO-RANGE.md) if needed. Type `test` to review those limits: it starts no movement. After the adult wiring/power check, plug the supply into the wall and type `run` within 60 seconds. Watch seven slow eight-second sweeps: center to your checked low limit, across to your checked high limit, then back to center, followed by four seconds resting at center and automatic pulse-off at 60 seconds. Type `stop` to cancel early. Unplug motor power afterward; type `status` and `outputs`. For a prepared repeat, type `test` again before `run`.
+With motor power unplugged, open the monitor. Type `scan` and `status`. Type `test`. Follow its three steps: keep the bare motor clear, ask the adult to turn on the checked supply, then type `run`. Watch it turn slowly back and forth for one minute. No calibration or repeated typing is needed. Type `stop` to end early. When DONE appears, unplug motor power. Type `status` or repeat `test` when ready. See the [quick motor test](../../docs/SERVO-RANGE.md) for the short version.
 
 ## 8. Evidence and exit ticket
 
@@ -85,7 +85,7 @@ Write: **prediction → command → actual observation → explanation → next 
 
 ## 9. Troubleshoot one change at a time
 
-The sweep covers the whole range YOU checked, with center at 1500µs. It does NOT use Companion calibration or assume 180 degrees. Endpoints reset on reboot/upload; copy the exact range command printed after the second keep for this same servo. Calibrate again if the servo or mechanism changes. Initial centering can move farther from an unknown start. Software cannot detect mechanical stops. If binding, continuous buzzing or communications fail, unplug motor power. Software stop is not a hardware power cutoff.
+This lesson uses a fixed moderate practice range (1300–1700µs, centered at 1500µs), not the full mechanical range or an assumed angle. It is for one unloaded servo. No numbers need to be entered or saved. The first centering move can be larger. If it sticks or keeps buzzing, type stop and unplug motor power. DONE means the one-minute timer finished normally; FAULT means a device error. A new BOOT message means the board restarted: save that output for troubleshooting.
 
 ## 10. Finish and hand off
 

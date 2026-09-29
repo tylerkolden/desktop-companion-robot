@@ -20,10 +20,6 @@ namespace lesson {
 bool streaming=false, testing=false, moving=false, prepared=false;
 uint32_t started=0, lastSample=0, lastMotion=0, lastHealth=0, preparedAt=0;
 int stage=-1;
-bool calibrationPrepared=false, calibrating=false, rangeChecked=false;
-bool lowMarked=false, highMarked=false;
-bool calibrationNumbers=false, stepPending=false;
-int sweepLow=1450, sweepHigh=1550, draftLow=1450, draftHigh=1550, calibrationTarget=1500;
 bool animating=false;
 uint32_t faceStarted=0, lastFrame=0;
 int shownFrame=-1;
@@ -55,7 +51,6 @@ bool outputsOff() {
 }
 void stop() {
   moving=streaming=testing=prepared=animating=false;
-  calibrating=calibrationPrepared=stepPending=false;
   requestedPulse=0;
   outputsOff();
 }
@@ -69,27 +64,7 @@ void report(const char *name, bool initialized, uint8_t address) {
   Serial.printf("%s %s at 0x%02X: %s\n", initialized ? "[OK]" : "[X]",name,address,
     initialized ? "initialized; test its behavior next" : "not ready; stop and check this lesson's wiring");
 }
-void calibrationPrompt() {
-  if(calibrationPrepared) {
-    Serial.println("SERVO SETUP - get ready");
-    Serial.println("1. Ask an adult to check the bare motor on connector 0. Keep its shaft clear.");
-    Serial.println("2. Ask the adult to turn on the checked 5V motor supply.");
-    Serial.println("3. Type run and press Enter. The motor will go to its middle position.");
-    Serial.println("It may move a lot on that first move. Keep hands clear.");
-    return;
-  }
-  if(!calibrating) return;
-  if(stepPending) { Serial.println("Wait for the step to finish. Watch the motor."); return; }
-  Serial.println(lowMarked ? "SIDE 2 OF 2 - try the other direction." : "SIDE 1 OF 2 - choose the first end position.");
-  Serial.println("Type more, then Enter, for ONE small step outward. Watch it before typing again.");
-  Serial.println("Type back for one step toward the middle.");
-  if(canKeep(requestedPulse,lowMarked))
-    Serial.println("If this position works smoothly, type keep to choose it. A small range is OK.");
-  else Serial.println("Type more to move away from the middle before choosing an end position.");
-  Serial.println("If it sticks or keeps buzzing: type stop. Ask the adult to unplug motor power.");
-}
 void status() {
-  if(calibrating || calibrationPrepared) { calibrationPrompt(); return; }
   Serial.printf("\nLESSON: %s | ESP32 answering\n",LESSON_NAME);
 #if LESSON_IMU
   report("MPU6050",imuReady,imuAddress ? imuAddress : 0x68);
@@ -100,14 +75,13 @@ void status() {
 #endif
 #if LESSON_SERVO
   report("PCA9685",driverReady,0x40);
-  Serial.printf("Sweep: %d..%dus | checked=%s | endpoint marks: low=%s high=%s\n",sweepLow,sweepHigh,rangeChecked ? "yes" : "no",lowMarked ? "yes" : "no",highMarked ? "yes" : "no");
+  Serial.println("Motor lesson: fixed practice sweep. No calibration needed.");
   Serial.printf("Motor sequence: %s | prepared: %s | channel 0 only\n", moving ? "RUNNING" : "off",prepared ? "yes (60s expiry)" : "no");
 #endif
   Serial.printf("Readings: %s | timed test: %s\n",streaming ? "on" : "off",testing ? "on" : "off");
   Serial.println("Readiness is not a fresh scan or a physical pass. Record what YOU observe.");
 }
 void help() {
-  if(calibrating || calibrationPrepared) { calibrationNumbers=false; calibrationPrompt(); return; }
   Serial.printf("\n%s -- type one command, then Enter\n",LESSON_NAME);
   Serial.println("help   : show this menu again");
   Serial.println("status : show only the devices needed for THIS lesson");
@@ -116,11 +90,7 @@ void help() {
   Serial.println("start  : readings every 100ms for 60 seconds (never starts a motor)");
   Serial.println("stop   : stop readings/test; request all motor pulses off where supported");
 #if LESSON_SERVO
-  Serial.println("calibrate : start the step-by-step motor setup. Nothing moves yet.");
-  Serial.println("During setup: more = small step; back = step inward; keep = choose this end.");
-  Serial.println("range LOW HIGH : load endpoints YOU already checked (microseconds)");
-  Serial.println("range reset : forget endpoints before changing servo or mechanism");
-  Serial.println("test   : prepare full checked-range sweep; no movement yet");
+  Serial.println("test   : show the motor instructions; nothing moves yet");
   Serial.println("run    : after test + adult check, run channel 0 for 60 seconds");
   Serial.println("outputs: read all 16 output-off flags; only while stopped");
   Serial.println("Motor power must be off before upload/reset/opening monitor. stop is not power-off.");
@@ -243,14 +213,12 @@ void outputReport() {
 }
 void command(const char *cmd) {
   if(!strcmp(cmd,"stop")) {
-    const bool wasSetup=calibrating || calibrationPrepared;
     stop();
 #if LESSON_SERVO
     Serial.println("Stopped. Ask an adult to unplug motor power. Nothing will restart by itself.");
 #else
     Serial.println("Stopped. Type help for your next command.");
 #endif
-    if(wasSetup) Serial.println("To continue setup, type calibrate. Any chosen first side is kept until USB is unplugged.");
     return;
   }
   if(!strcmp(cmd,"help")) { help(); return; }
@@ -259,60 +227,10 @@ void command(const char *cmd) {
 #if LESSON_SERVO
   if(!strcmp(cmd,"outputs")) { outputReport(); return; }
 #endif
+  if(moving) { Serial.println("The motor test is running. Type stop to end it now."); return; }
 #if LESSON_SERVO
-  if(calibrating) {
-    if(!strcmp(cmd,"numbers")) { calibrationNumbers=true; columns(); return; }
-    if(!strcmp(cmd,"quiet")) { calibrationNumbers=false; calibrationPrompt(); return; }
-    if(stepPending) { Serial.println("Wait. Watch the motor. I will tell you when to choose the next step."); return; }
-    if(!strcmp(cmd,"more") || !strcmp(cmd,"back")) {
-      const int next=guideStep(requestedPulse,lowMarked,!strcmp(cmd,"back"));
-      if(next<500 || next>2500) { Serial.println("That is the software limit. Do not push farther. Type back, or stop if it is not moving freely."); return; }
-      if(next==requestedPulse) { Serial.println("Already at the middle. Type more to try this side."); return; }
-      calibrationTarget=next; stepPending=true;
-      Serial.println("Sending one small step. Watch the motor..."); return;
-    }
-    if(!strcmp(cmd,"keep")) {
-      if(!canKeep(requestedPulse,lowMarked)) { Serial.println("Still near the middle. Type more, then watch the motor before choosing keep."); return; }
-      if(!lowMarked) {
-        draftLow=requestedPulse; lowMarked=true;
-        calibrationTarget=1500; stepPending=true;
-        Serial.println("First side chosen! Returning gently to the middle. Wait for SIDE 2."); return;
-      }
-      draftHigh=requestedPulse; highMarked=true;
-      sweepLow=draftLow; sweepHigh=draftHigh; rangeChecked=validRange(sweepLow,sweepHigh);
-      stop();
-      Serial.println("SETUP COMPLETE! Both end positions are chosen. Motor signals are off.");
-      Serial.println("1. Ask the adult to unplug motor power. Leave USB connected.");
-      Serial.println("2. Type test. I will tell you how to try the back-and-forth movement.");
-      Serial.printf("Adult notebook: range %d %d (for this same motor after an upload).\n",sweepLow,sweepHigh);
-      return;
-    }
-    Serial.println("Use more, back, or keep. Type help to repeat this step. Type stop to stop."); return;
-  }
-#endif
-  if(moving) { Serial.println("Motor running. stop cancels; status reports progress."); return; }
-#if LESSON_SERVO
-  if(!strcmp(cmd,"range reset")) {
-    stop(); rangeChecked=lowMarked=highMarked=false; sweepLow=draftLow=1450; sweepHigh=draftHigh=1550;
-    Serial.println("Endpoints forgotten. Calibrate this unloaded servo before a sweep."); return;
-  }
-  if(!strncmp(cmd,"range ",6)) {
-    stop();
-    char lowText[6], highText[6], extra;
-    if(sscanf(cmd,"range %5s %5s %c",lowText,highText,&extra)!=2) { Serial.println("Use range LOW HIGH with previously checked microseconds."); return; }
-    char *lowEnd, *highEnd;
-    long low=strtol(lowText,&lowEnd,10), high=strtol(highText,&highEnd,10);
-    if(*lowEnd || *highEnd || !validRange(low,high)) { Serial.println("Invalid endpoints. Software envelope 500..2500; low<=1450, high>=1550. This is NOT a safe-range recommendation."); return; }
-    sweepLow=low; sweepHigh=high; rangeChecked=true;
-    draftLow=low; draftHigh=high; lowMarked=highMarked=true;
-    Serial.printf("Using your checked endpoints %d..%dus; no motion. test prepares the sweep.\n",sweepLow,sweepHigh); return;
-  }
-  if(!strcmp(cmd,"calibrate")) {
-    stop(); if(!ready()) { status(); return; }
-    if(rangeChecked) lowMarked=highMarked=false;
-    rangeChecked=false; calibrationNumbers=false;
-    prepared=calibrationPrepared=true; preparedAt=millis();
-    calibrationPrompt(); return;
+  if(!strcmp(cmd,"calibrate") || !strcmp(cmd,"more") || !strcmp(cmd,"back") || !strcmp(cmd,"keep") || !strncmp(cmd,"range",5)) {
+    Serial.println("No calibration needed in this lesson. Type test, then follow the three steps."); return;
   }
 #endif
   if(!strcmp(cmd,"read")) { columns(); read(); return; }
@@ -320,13 +238,14 @@ void command(const char *cmd) {
   if(!strcmp(cmd,"test")) {
     stop(); if(!ready()) { status(); return; }
 #if LESSON_SERVO
-    if(!rangeChecked) { Serial.println("First, teach me the two end positions. Type calibrate and press Enter."); return; }
     prepared=true; preparedAt=millis();
     Serial.println("TRY THE MOVEMENT - nothing moves yet.");
     Serial.println("1. Keep the bare motor on connector 0. Keep hands clear.");
     Serial.println("2. Ask an adult to check it and turn on its 5V supply.");
-    Serial.println("3. Type run and press Enter. Watch it move between your two chosen ends.");
+    Serial.println("3. Type run and press Enter. Watch the motor slowly turn back and forth.");
+    Serial.println("This is a moderate practice movement, not a full-travel test.");
     Serial.println("It stops after one minute. Type stop to stop sooner.");
+    Serial.println("If it sticks or keeps buzzing, type stop and unplug motor power.");
 #else
     testing=streaming=true; started=lastSample=millis(); stage=-1;
     Serial.println("60-second test started; a row every 100ms. stop ends early.");
@@ -337,19 +256,15 @@ void command(const char *cmd) {
 #if LESSON_SERVO
   if(!strcmp(cmd,"run")) {
     if(!prepared || finished(millis(),preparedAt,60000) || !ready()) {
-      prepared=false; Serial.println(calibrationPrepared ? "Time to check again. Type calibrate, then follow the steps." : "Type test first, then follow its steps."); calibrationPrepared=false; return;
+      prepared=false; Serial.println("Type test first, then follow its three steps. Nothing moved."); return;
     }
     // Recheck now: initialization flags may be stale since preparation.
     if(!present() || !sample()) { fault("[FAULT] Pre-run device check failed. No motor start; inspect with power off."); return; }
-    const bool beginCalibration=calibrationPrepared;
     stop(); if(!outputsOff() || !ready()) return;
     if(driver.setPWM(0,0,307)!=0) { driverReady=false; fault("[FAULT] Motor write failed. Unplug power."); return; }
-    calibrating=beginCalibration; calibrationTarget=1500;
     requestedPulse=1500; moving=true; started=lastSample=millis(); stage=-1;
-    if(calibrating) {
-      Serial.println("Watch the motor go to the middle. Keep hands clear.");
-      calibrationPrompt();
-    } else { Serial.println("Watch the back-and-forth movement. Type stop to stop early."); columns(); }
+    Serial.println("RUNNING: one minute. Watch the motor; no more typing is needed.");
+    Serial.println("Type stop to finish early. A normal finish prints DONE; an error prints FAULT."); columns();
     return;
   }
 #endif
@@ -383,6 +298,7 @@ void begin() {
   displayReady=displayAddress && display.begin(SSD1306_SWITCHCAPVCC,displayAddress,true,false);
   if(displayReady) { draw(0); animating=false; }
 #endif
+  Serial.println("[BOOT] Robot lessons: practice sweep edition. Ready for commands.");
   help(); status();
 }
 void tick() {
@@ -400,8 +316,8 @@ void tick() {
   }
   const uint32_t now=millis();
   if(prepared && finished(now,preparedAt,60000)) {
-    Serial.println(calibrationPrepared ? "Setup paused while you read. Type calibrate to show the steps again." : "Ready check paused. Type test to show the steps again.");
-    prepared=calibrationPrepared=false;
+    Serial.println("READY CHECK TIMED OUT. Nothing moved. Type test when you are ready.");
+    prepared=false;
   }
   if((moving||streaming||testing||animating) && finished(now,lastHealth,250)) {
     lastHealth=now;
@@ -414,30 +330,26 @@ void tick() {
   if(moving) {
     const uint32_t age=elapsed(now,started);
     if(age>=TEST_MS) {
-      const bool wasSetup=calibrating;
       stop();
-      Serial.println("One minute is up. Motor signals are off. Ask the adult to unplug motor power.");
-      if(wasSetup) Serial.println("Any chosen first side is kept. Type calibrate to continue. No need to rush.");
-      else Serial.println("Did it move smoothly both ways? Tell your teammate. Type test to try again.");
+      Serial.println("DONE: the one-minute test finished normally. Motor signals are off.");
+      Serial.println("Ask the adult to unplug motor power. Tell your teammate what moved.");
+      Serial.println("The board is still ready. Type test to try again, or status to check it.");
     }
     else {
       if(int(age/1000)!=stage) {
         stage=age/1000;
+        if(stage%10==0) Serial.printf("RUNNING: %d seconds left.\n",60-stage);
 #if LESSON_OLED
         const int nextFace=age>=56000 ? 2 : (stage/4)%FACE_COUNT;
-        if(!calibrating && (expressionShown!=nextFace || !animating)) draw(nextFace);
+        if(expressionShown!=nextFace || !animating) draw(nextFace);
 #endif
       }
       if(finished(now,lastMotion,20)) {
         lastMotion=now;
-        requestedPulse=calibrating ? approach(requestedPulse,calibrationTarget) : sweepPulse(age,sweepLow,sweepHigh);
+        requestedPulse=practicePulse(age);
         const uint16_t ticks=(requestedPulse*4096L+10000)/20000;
         if(driver.setPWM(0,0,ticks)!=0) { fault("[FAULT] Servo write failed. Unplug motor power."); driverReady=false; }
-        else if(calibrating && stepPending && requestedPulse==calibrationTarget) {
-          stepPending=false;
-          Serial.println("Step sent. Check that the motor moved smoothly.");
-          calibrationPrompt();
-        }
+
       }
     }
   }
@@ -451,7 +363,7 @@ void tick() {
 #endif
   if((streaming || moving) && finished(now,lastSample,SAMPLE_MS)) {
     lastSample=now;
-    if(calibrating && !calibrationNumbers) sample(); else read();
+    read();
   }
   animateFace(millis());
 }
