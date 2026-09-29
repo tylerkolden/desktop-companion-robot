@@ -2,7 +2,11 @@
 
 ## Current teaching architecture
 
-Seven separate lesson pages and sketches replace the stacked Companion lesson flow. Test acceleration, rotation rate, die temperature, OLED and servo control independently, then integrate. Shared command handling keeps the interface consistent. Physical validation of the new sketches is pending; historical Companion success does not certify them.
+Seven separate lesson pages and sketches replace the stacked Companion lesson flow. Test acceleration, rotation rate, die temperature, OLED and servo control independently, then integrate. Shared command handling keeps the interface consistent. The owner reports all seven current lessons completed successfully, including satisfactory larger servo movement. This is user-reported bench evidence, not a measured mechanical-range or four-leg validation. See the test log.
+
+## Current build checkpoint
+
+[Checkpoint 1: fit a servo](BUILD-CHECKPOINT-01.md). Print the existing servo gauge and report which opening fits. Use that result and actual mounting dimensions to design one servo cradle before a complete body. No assembled leg should use the bare-servo sweep without checking its mechanical limits.
 
 ## Milestone 0: documented starting point
 

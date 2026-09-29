@@ -6,7 +6,7 @@ Wiring reference: [full pinout atlas and verification limits](docs/wiring/README
 
 A personal, solder-free desktop robot inspired by Nickson Kiprotich's TN-24: an OLED face, four expressive legs, and motion sensing. Build a corded V1 first, then develop a cordless V2.
 
-**Status: first bench firmware and printable fit gauges available; no physical hardware or print tests yet.** This is an early build in progress, not a completed robot kit. Full body/leg CAD and walking behavior remain pending.
+**Status: owner reports all seven electronics lessons completed successfully. Printable fit gauges are available; physical print fit, full body/leg CAD and assembled robot behavior remain unverified.** This is an early build in progress, not a completed robot kit. Full body/leg CAD and walking behavior remain pending.
 
 ## Learn together
 
@@ -36,6 +36,8 @@ Setup downloads pinned tools into this checkout's ignored `.tools/` folder. No a
 The repository is currently private; new users need GitHub access or an authorized copy. Tool binaries are downloaded, not committed. The final printable body and legs are still unfinished; this is a teaching project in development.
 
 ## Build something now
+
+Finished the seven lessons? Start [Build checkpoint 1: fit a servo](docs/BUILD-CHECKPOINT-01.md). Print one small gauge before designing a leg.
 
 - All additional V1 parts are reported in hand. Begin with checks rather than more electronics purchases.
 - Start with [First power-on](docs/FIRST-POWER-ON.md): upload the bench firmware, check the OLED and motion sensor, then calibrate one unloaded servo.
