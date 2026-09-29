@@ -5,7 +5,7 @@ use the SAME pixels, so no separately maintained illustration can drift.
 Requires Pillow (also used by build_wiring.py).
 """
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 
 ROOT = Path(__file__).resolve().parents[1]
 NAMES = ['awake', 'happy', 'sleep', 'curious', 'surprised', 'love', 'cheeky']
@@ -13,57 +13,39 @@ NAMES = ['awake', 'happy', 'sleep', 'curious', 'surprised', 'love', 'cheeky']
 def face(name):
     im = Image.new('1', (128, 64))
     d = ImageDraw.Draw(im)
-    def eye(x, y=23):
-        d.ellipse((x-10,y-10,x+10,y+10), fill=1)
-        d.ellipse((x-3,y-4,x+3,y+4), fill=0)
-        d.point((x-2,y-3), fill=1)
+    # Soft solid eyes, no staring pupils, noses, labels or decoration.
+    def eye(x, y=8, width=25, height=27):
+        d.rounded_rectangle((x,y,x+width,y+height),radius=10,fill=1)
     def smile():
-        d.arc((47,31,81,48), 0, 180, fill=1, width=2)
+        d.arc((42,30,86,57),0,180,fill=1,width=4)
     if name == 'awake':
-        eye(38); eye(90); smile()
+        eye(19); eye(84); smile()
     elif name == 'happy':
-        for x in (38,90):
-            d.arc((x-10,15,x+10,31),180,360,fill=1,width=3)
-        d.ellipse((47,34,81,49),fill=1)
-        d.rectangle((47,33,81,39),fill=0)
-        d.line((52,40,76,40),fill=1,width=2)
+        for x in (18,83):
+            d.arc((x,9,x+28,35),180,360,fill=1,width=5)
+        d.ellipse((42,27,86,59),fill=1)
+        d.rectangle((41,26,87,40),fill=0)
     elif name == 'sleep':
-        for x in (38,90):
-            d.arc((x-10,16,x+10,27),0,180,fill=1,width=2)
-        d.ellipse((60,39,68,48),outline=1,width=2)
-        d.text((106,4),'z',fill=1)
-        d.text((117,0),'Z',fill=1)
+        for x in (18,83):
+            d.arc((x,9,x+28,31),0,180,fill=1,width=4)
+        d.arc((51,40,77,54),0,180,fill=1,width=3)
     elif name == 'curious':
-        eye(38); eye(90,26)
-        d.line((25,8,47,5),fill=1,width=2)
-        d.line((80,12,99,15),fill=1,width=2)
-        d.line((51,45,74,41),fill=1,width=2)
-        d.text((112,9),'?',fill=1)
+        eye(19,13,25,19); eye(84,5,25,30)
+        d.arc((48,35,84,54),10,155,fill=1,width=4)
     elif name == 'surprised':
-        for x in (38,90):
-            eye(x)
-            d.line((x-8,7,x+8,7),fill=1,width=2)
-        d.ellipse((57,37,71,50),outline=1,width=3)
+        eye(19,5,25,30); eye(84,5,25,30)
+        d.ellipse((54,40,74,60),fill=1)
     elif name == 'love':
-        for x in (38,90):
-            d.ellipse((x-11,13,x+1,25),fill=1)
-            d.ellipse((x-1,13,x+11,25),fill=1)
-            d.polygon([(x-11,21),(x+11,21),(x,34)],fill=1)
+        for x in (32,97):
+            d.ellipse((x-15,7,x+1,23),fill=1)
+            d.ellipse((x-1,7,x+15,23),fill=1)
+            d.polygon([(x-15,17),(x+15,17),(x,36)],fill=1)
         smile()
-        for x in (27,95):
-            d.line((x,37,x+6,37),fill=1,width=2)
     elif name == 'cheeky':
-        eye(38)
-        d.line([(79,19),(90,25),(101,19)],fill=1,width=3)
+        eye(19)
+        d.arc((83,11,111,33),180,360,fill=1,width=5)
         smile()
-        d.rounded_rectangle((64,42,75,51),radius=4,fill=1)
-        d.line((69,45,69,49),fill=0)
-    # The tiny triangle is our robot's nose. All faces have eyes and a mouth.
-    d.line([(64,28),(61,33),(66,33)],fill=1,width=1)
-    font=ImageFont.load_default()
-    label=name.upper()
-    box=d.textbbox((0,0),label,font=font)
-    d.text(((128-(box[2]-box[0]))//2,53),label,font=font,fill=1)
+        d.rounded_rectangle((65,48,78,61),radius=5,fill=1)
     return im
 
 def main():

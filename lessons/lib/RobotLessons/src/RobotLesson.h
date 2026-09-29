@@ -236,7 +236,7 @@ void command(const char *cmd) {
   if(chosen!=-2) {
     testing=streaming=prepared=false;
     draw(chosen);
-    Serial.printf("Face: %s. Check the eyes, nose and mouth on the screen.\n",faceName(chosen)); return;
+    Serial.printf("Face: %s. Check the cartoon eyes and mouth on the screen.\n",faceName(chosen)); return;
   }
 #endif
   prepared=false;

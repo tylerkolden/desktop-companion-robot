@@ -70,11 +70,11 @@ Example rows to explain the layout (not recorded test evidence):
 
 ## 7. Investigate
 
-Type `awake`, `happy`, `sleep`, `curious`, `surprised`, `love`, and `cheeky`, pressing Enter and pausing after each. Look for eyes, a tiny nose and a different mouth. Curious raises an eyebrow; Surprised gasps; Love has heart eyes; Cheeky winks and sticks out its tongue. Type `clear`, then `awake` again. Type `test` for a 60-second face parade: each face stays for two seconds, then the seven-face sequence repeats. `stop` freezes the last image; it does not erase it.
+Type `awake`, `happy`, `sleep`, `curious`, `surprised`, `love`, and `cheeky`, pressing Enter and pausing after each. Look for big cartoon eyes and expressive mouths, with no nose or on-screen words. Curious has one taller eye; Surprised gasps; Love has heart eyes; Cheeky winks and sticks out its tongue. Type `clear`, then `awake` again. Type `test` for a 60-second face parade: each face stays for two seconds, then the seven-face sequence repeats. `stop` freezes the last image; it does not erase it.
 
 ## 8. Evidence and exit ticket
 
-Observe seven distinct full faces and a cleared screen. Record the actual address (0x3C or 0x3D) and what each command displayed. Have a teammate guess the emotion from the eyes and mouth before reading its name.
+Observe seven distinct full faces and a cleared screen. Record the actual address (0x3C or 0x3D) and what each command displayed. Have a teammate guess the emotion from the eyes and mouth without looking at the monitor command.
 
 Write: **prediction → command → actual observation → explanation → next question**. Repeat the observation once. Ask your teammate to explain the result in their own words; if either person is unsure, record NOT SURE and repeat or troubleshoot instead of declaring a pass.
 
