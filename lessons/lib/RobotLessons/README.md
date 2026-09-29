@@ -13,7 +13,7 @@ Read the `.ino` first: its flags tell you which devices belong in the experiment
 | `tick` | Keep checking input, deadlines, readings and device health |
 | `stop` / `outputsOff` | Cancel software activity and request pulse-off |
 
-`src/LessonLogic.h` contains the pure timing, unit conversion and motor trajectory functions. Its compile-time assertions cover the motor envelope, ramps, final center and timer rollover. No lesson uses saved Companion calibration. Servo/Integration use a fixed 1300–1700us channel-0 practice sweep and two-step test/run commands, without calibration; they are not suitable for a mounted robot mechanism without a separate mechanical calibration design.
+`src/LessonLogic.h` contains the pure timing, unit conversion and motor trajectory functions. Its compile-time assertions cover the motor envelope, ramps, final center and timer rollover. No lesson uses saved Companion calibration. Servo/Integration use a fixed 1000–2000us channel-0 practice sweep and two-step test/run commands, without calibration; they are not suitable for a mounted robot mechanism without a separate mechanical calibration design.
 
 The command parser limits line length and work per loop; oversized input stops activity. Motor starts require a successful initialization and an unexpired preparation, consumed when run begins. Stop/scan cancel preparation. Device health checks run during active tasks; failures request pulse-off, which is not a hardware power disconnect.
 

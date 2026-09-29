@@ -243,7 +243,7 @@ void command(const char *cmd) {
     Serial.println("1. Keep the bare motor on connector 0. Keep hands clear.");
     Serial.println("2. Ask an adult to check it and turn on its 5V supply.");
     Serial.println("3. Type run and press Enter. Watch the motor slowly turn back and forth.");
-    Serial.println("This is a moderate practice movement, not a full-travel test.");
+    Serial.println("This is a wider practice movement, not a full-travel test.");
     Serial.println("It stops after one minute. Type stop to stop sooner.");
     Serial.println("If it sticks or keeps buzzing, type stop and unplug motor power.");
 #else

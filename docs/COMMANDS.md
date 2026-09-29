@@ -45,7 +45,7 @@ After `Connecting to COM...`, stay in the same terminal and type one command fol
 | `outputs` | Lessons 6–7 only: stopped driver output-register check |
 | `awake`, `happy`, `sleep`, `curious`, `surprised`, `cool`, `cheeky`, `clear` | Display and Integration only; [face gallery](faces/README.md) |
 
-Motor preparation expires after 60 seconds; repeat test to prepare again. A run consumes preparation. stop/scan cancel it. Long/invalid commands never arm motion. The servo course uses a fixed moderate practice range, with no calibration required. Use the [quick motor test](SERVO-RANGE.md). Read the exact lesson before powering any motor.
+Motor preparation expires after 60 seconds; repeat test to prepare again. A run consumes preparation. stop/scan cancel it. Long/invalid commands never arm motion. The servo course uses a fixed wider practice range, with no calibration required. Use the [quick motor test](SERVO-RANGE.md). Read the exact lesson before powering any motor.
 
 **What closes what?** stop is sent to the board. Ctrl+C closes the computer monitor and does not remove electrical power. Unplug motor power before closing/reopening a motor session, resets or wiring changes.
 
@@ -61,7 +61,7 @@ Hello, Scanner, Face, Motion and Companion remain available for historical work.
 
 Current course sketches use a 60-second automatic deadline and 100ms scheduled rows for start/test/run as applicable. read is one snapshot. TIME_MS is board uptime; actual spacing can vary with I2C/serial work. There is no burst of catch-up rows. Headers print at the beginning of a run; units stay above the data instead of being repeated in every row.
 
-Accelerometer and Gyroscope show TIME_MS, X, Y, Z in matching fixed-width columns. Temperature shows TEMP_C. Display shows the requested expression. Servo shows CHANNEL and PULSE_US; 0 indicates requested pulse-off. Integration puts AX/AY/AZ, GX/GY/GZ, TEMP_C and PULSE_US in one row. Requested motor values are not shaft-position measurements. The one-minute motor test repeats seven eight-second sweeps through the fixed 1300–1700us practice range, then rests at center for four seconds.
+Accelerometer and Gyroscope show TIME_MS, X, Y, Z in matching fixed-width columns. Temperature shows TEMP_C. Display shows the requested expression. Servo shows CHANNEL and PULSE_US; 0 indicates requested pulse-off. Integration puts AX/AY/AZ, GX/GY/GZ, TEMP_C and PULSE_US in one row. Requested motor values are not shaft-position measurements. The one-minute motor test repeats seven eight-second sweeps through the fixed 1000–2000us practice range, then rests at center for four seconds.
 
 The archived legacy sketches and Companion retain their historical timing. Use the named current lesson sketches for these one-minute tests.
 
