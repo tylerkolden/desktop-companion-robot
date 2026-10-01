@@ -6,7 +6,7 @@ Seven separate lesson pages and sketches replace the stacked Companion lesson fl
 
 ## Current build checkpoint
 
-[Checkpoint 1: fit a servo](BUILD-CHECKPOINT-01.md). Print the existing servo gauge and report which opening fits. Use that result and actual mounting dimensions to design one servo cradle before a complete body. No assembled leg should use the bare-servo sweep without checking its mechanical limits.
+[Checkpoint 1: fit a servo](BUILD-CHECKPOINT-01.md). Owner reports the revised two-dot opening fits best (23.0 x 12.9mm nominal CAD aperture, 2026-09-30). Next: check mounting-hole spacing and shaft location, then design one servo cradle using that opening before a complete body. No assembled leg should use the bare-servo sweep without checking its mechanical limits.
 
 ## Milestone 0: documented starting point
 

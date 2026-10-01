@@ -148,3 +148,6 @@ Owner called the larger sweep perfect and reported all seven lessons great and d
 
 ## 2026-09-28 - exact Amazon servo listing fit gauge
 Reviewed WWZMDiB B0C7KPXPQV seller dimension illustration and matching owner screenshot. Updated generic 23.0 x 12.2mm basis to listing-derived 22.6 x 12.5mm; documented conflicting ear-to-ear dimension rather than claiming exact mechanical geometry. Regenerated OpenSCAD STL and preview. Mesh closure, winding, connected shell, positive volume and bounds passed; 255 Markdown destinations checked. Preview visually reviewed. Physical print fit remains pending. Book unchanged.
+
+## 2026-09-30 — first servo gauge fit result
+Owner reports: "the two dot size fit the best" after the listing-based gauge revision 416532b. Interpreted as the current two-dimple aperture, nominal CAD opening 23.0 x 12.9mm. Use this opening as the next cradle prototype basis. This is a reported fit result, not a measured servo body size or a structural mount test. Actual print dimensions, material, nozzle and settings were not supplied. Mounting-hole spacing, shaft clearance and assembled leg travel remain unchecked. Gauge geometry and book unchanged.
