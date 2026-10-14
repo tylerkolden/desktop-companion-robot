@@ -151,3 +151,6 @@ Reviewed WWZMDiB B0C7KPXPQV seller dimension illustration and matching owner scr
 
 ## 2026-09-30 — first servo gauge fit result
 Owner reports: "the two dot size fit the best" after the listing-based gauge revision 416532b. Interpreted as the current two-dimple aperture, nominal CAD opening 23.0 x 12.9mm. Use this opening as the next cradle prototype basis. This is a reported fit result, not a measured servo body size or a structural mount test. Actual print dimensions, material, nozzle and settings were not supplied. Mounting-hole spacing, shaft clearance and assembled leg travel remain unchecked. Gauge geometry and book unchanged.
+
+## 2026-10-13 - first servo cradle prototype
+Created original editable OpenSCAD cradle and STL with confirmed 23.0 x 12.9mm gauge aperture, two 7mm guide walls, 3mm flange and adjustable slots. Slot positions and 2.2mm width are provisional design choices, not measured hardware geometry. Exported with OpenSCAD 2021.01. Mesh checks passed: closed edges, consistent winding, one connected shell, positive volume and 42 x 24.9 x 10mm bounds. Preview visually reviewed; 262 documentation links checked. Added unpowered fit checkpoint. No physical print, screw fit, load or motion test performed. Book unchanged.
