@@ -1,5 +1,7 @@
 # Build checkpoint 2: a home for one motor
 
+**Superseded for printing:** the side cable obstructed V1 installation. Use [the screw-free V2 checkpoint](BUILD-CHECKPOINT-03.md) instead. This page preserves the first experiment.
+
 ## Mission
 Print one cradle and check whether your motor sits comfortably in it. A cradle is the bracket that will hold the motor in the robot. This is a fit prototype; do not attach a leg or run a motor in it yet.
 

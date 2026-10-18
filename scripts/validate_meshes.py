@@ -9,7 +9,7 @@ import math
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
-EXPECTED = {"servo-cradle-v1.stl": (42, 24.9, 10), "servo-fit-gauge.stl": (94, 28, 2.4), "oled-fit-gauge.stl": (32, 32.3, 2.4)}
+EXPECTED = {"servo-cradle-v2.stl": (42, 28, 7.2), "servo-cradle-v1.stl": (42, 24.9, 10), "servo-fit-gauge.stl": (94, 28, 2.4), "oled-fit-gauge.stl": (32, 32.3, 2.4)}
 
 def validate(path, expected):
     vertices = [tuple(map(float, v.split())) for v in

@@ -6,7 +6,7 @@ Seven separate lesson pages and sketches replace the stacked Companion lesson fl
 
 ## Current build checkpoint
 
-[Checkpoint 1: fit a servo](BUILD-CHECKPOINT-01.md). Owner reports the revised two-dot opening fits best (23.0 x 12.9mm nominal CAD aperture, 2026-09-30). Next: [print one cradle prototype](BUILD-CHECKPOINT-02.md) with the confirmed opening and adjustable mounting slots; report fit before adding retention hardware or a leg. No assembled leg should use the bare-servo sweep without checking its mechanical limits.
+[Checkpoint 1: fit a servo](BUILD-CHECKPOINT-01.md). Owner reports the revised two-dot opening fits best (23.0 x 12.9mm nominal CAD aperture, 2026-09-30). Next: [print the screw-free V2 cradle](BUILD-CHECKPOINT-03.md) with a side-entry cable slot and snap tabs. V1 obstructed cable insertion. Check V2 fit and release before adding a leg. No assembled leg should use the bare-servo sweep without checking its mechanical limits.
 
 ## Milestone 0: documented starting point
 
