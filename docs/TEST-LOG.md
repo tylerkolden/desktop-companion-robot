@@ -160,3 +160,7 @@ Owner reported that V1 trapped the servo side cable during insertion. Created V2
 
 ## 2026-10-25 - V2 retention failure and V3 fit revision
 Owner reports the four snap tabs are too loose to hold the servo; supplied four photographs show visible gaps. This is a failed V2 retention checkpoint, not a validated mount. V3 increases inward hook reach by 1.0mm each side and reduces ear clearance from 2.9 to 2.7mm. The body aperture, cable slot and beam dimensions are unchanged. Adjustments are prototype choices, not calibrated photo measurements. OpenSCAD export passed connected manifold mesh, winding, positive volume and 42 x 28 x 7mm bounds checks; preview reviewed and 270 documentation destinations checked. Longer overhang and greater release deflection need physical print and fit checks. No V3 print, retention, fatigue or powered test yet. Firmware and book unchanged.
+
+## 2026-10-25 — V4 screw-retained cradle
+
+Owner rejected snap retention as flimsy and requested screws. V4 preserves the 23 x 12.9mm aperture, removes tabs, uses a 4mm plate and moves the 6mm cable entry to a long edge. Two adjustable slots accept the selected M2 hardware. Computational STL checks cover closed manifold edges, winding, connected shell, positive volume and 44 x 30 x 4mm bounds. Physical cable routing, M2 passage, washer clearance, retention and load strength remain pending. No physical operation or book update performed. See checkpoint 4 for failure-mode review and acceptance checks.

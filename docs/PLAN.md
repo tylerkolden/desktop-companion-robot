@@ -6,7 +6,7 @@ Seven separate lesson pages and sketches replace the stacked Companion lesson fl
 
 ## Current build checkpoint
 
-[Checkpoint 1: fit a servo](BUILD-CHECKPOINT-01.md). Owner reports the revised two-dot opening fits best (23.0 x 12.9mm nominal CAD aperture, 2026-09-30). Next: [print the revised screw-free V3 cradle](BUILD-CHECKPOINT-03.md) with a side-entry cable slot and snap tabs. V1 obstructed cable insertion. V2 retention was reported loose; V3 extends and lowers the hooks. Check V3 fit and release before adding a leg. No assembled leg should use the bare-servo sweep without checking its mechanical limits.
+[Checkpoint 4: screw-retained servo mount](BUILD-CHECKPOINT-04.md) is current. Preserve the owner-approved 23 x 12.9mm opening. V4 replaces snap tabs with two M2 x 10mm machine screws, nuts and flat washers; cable entry moves to the long side. Print and check one before designing the chassis. M2 passage through the actual ear holes, cable insertion, washer seating and retention remain unverified. The sensor/personality app is paused at the owner's request. No assembled leg should use the bare-servo sweep without checking its mechanical limits.
 
 ## Milestone 0: documented starting point
 

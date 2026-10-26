@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="660" viewBox="0 0 1100 660">
+<rect width="1100" height="660" fill="#faf9f3"/>
+<g font-family="Segoe UI, sans-serif" fill="#183d35"><text x="40" y="48" font-size="28" font-weight="bold">V4: two screws. No snap tabs.</text><text x="40" y="80" font-size="17">Assembly guide — schematic, not to scale. Repeat the fastener stack at both ears.</text>
+<text x="55" y="130" font-size="21">TOP VIEW</text>
+<path d="M70 170 H465 Q480 170 480 185 V440 Q480 455 465 455 H70 Q55 455 55 440 V185 Q55 170 70 170 Z M165 245 V380 H370 V245 H295 V170 H240 V245 Z" fill="#e9b83b" fill-rule="evenodd" stroke="#725b21" stroke-width="2"/>
+<rect x="100" y="296" width="32" height="18" rx="9" fill="#faf9f3" stroke="#725b21"/><rect x="399" y="296" width="32" height="18" rx="9" fill="#faf9f3" stroke="#725b21"/>
+<text x="82" y="350" font-size="15">screw</text><text x="390" y="350" font-size="15">screw</text>
+<path d="M268 145 V270" stroke="#e0613c" stroke-width="5"/><path d="M258 255 L268 270 L278 255" fill="none" stroke="#e0613c" stroke-width="4"/>
+<text x="160" y="155" font-size="15">Wire bundle enters here</text><text x="183" y="322" font-size="17">Servo body opening</text>
+<text x="65" y="490" font-size="17">Both screw lands stay solid.</text><text x="65" y="520" font-size="17">Cable moves below the plate as</text><text x="65" y="545" font-size="17">you lower the servo into place.</text>
+<text x="580" y="130" font-size="21">SIDE VIEW: ONE FASTENER</text>
+<path d="M627 180 H673 V203 H654 V475 H646 V203 H627 Z" fill="#78878a" stroke="#405457" stroke-width="2"/>
+<rect x="615" y="230" width="70" height="8" fill="#a2aeb0"/>
+<rect x="598" y="265" width="105" height="34" fill="#418ac1"/>
+<rect x="580" y="325" width="140" height="54" fill="#e9b83b"/>
+<rect x="615" y="405" width="70" height="8" fill="#a2aeb0"/>
+<path d="M620 439 L631 430 H669 L680 439 V459 L669 468 H631 L620 459 Z" fill="#78878a"/>
+<g font-size="18"><text x="740" y="198">M2 x 10mm screw</text><text x="740" y="239">Flat washer</text><text x="740" y="288">Blue servo mounting ear</text><text x="740" y="357">Printed plate (4mm)</text><text x="740" y="417">Flat washer</text><text x="740" y="455">M2 nut — hold with pliers</text></g>
+<text x="580" y="520" font-size="17">Tighten only until washers stop rattling.</text><text x="580" y="548" font-size="17">Do not bend or crush the blue ear.</text>
+<text x="40" y="615" font-size="16">Print one. Check fit with power off. Keep the plug attached. No powered movement in this checkpoint.</text></g></svg>

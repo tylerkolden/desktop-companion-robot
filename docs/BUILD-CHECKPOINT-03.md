@@ -1,5 +1,7 @@
 # Checkpoint 3: cable slot and snap tabs
 
+**Historical design. Superseded by [checkpoint 4: screw-retained V4](BUILD-CHECKPOINT-04.md). Do not print this snap version for the current build.**
+
 Print **one** [V3 cradle](../cad/stl/servo-cradle-v3.stl). [Editable source](../cad/servo-cradle-v3.scad).
 
 V1 trapped the side-exiting cable during insertion. This replacement has a 6mm-wide channel from the body opening to the outside edge. Four flexible tabs catch the mounting ears. No screws, glue, wire cutting or connector removal are part of this fit test.

@@ -37,7 +37,7 @@ The repository is currently private; new users need GitHub access or an authoriz
 
 ## Build something now
 
-Finished the seven lessons? Start [Build checkpoint 1: fit a servo](docs/BUILD-CHECKPOINT-01.md). Print one small gauge before designing a leg.
+Finished the seven lessons? Current build: [checkpoint 4, screw-retained servo mount](docs/BUILD-CHECKPOINT-04.md). Print one V4 and check its fasteners before designing a leg. New builders should first complete [checkpoint 1](docs/BUILD-CHECKPOINT-01.md).
 
 - All additional V1 parts are reported in hand. Begin with checks rather than more electronics purchases.
 - Start with [First power-on](docs/FIRST-POWER-ON.md): upload the bench firmware, check the OLED and motion sensor, then calibrate one unloaded servo.

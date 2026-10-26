@@ -92,3 +92,11 @@ If the supply does not include its pictured terminal adapter, [CENTROPOWER B07C7
 ## Not needed for V1
 
 Soldering iron, solder, battery charger, boost converter, replacement controller, replacement display, camera, Raspberry Pi, or a separate servo tester. Firmware will provide controlled servo calibration. V2 purchases are deferred until measured power requirements are known.
+
+## V4 servo-mount fasteners (2026-10-25)
+
+For one mount: **2 M2 x 10mm socket-head machine screws, 2 M2 hex nuts, 4 M2 flat washers**. For four: 8 screws, 8 nuts, 16 washers. Keep spares. Standard thread is M2 x 0.4. Use a 1.5mm hex key and small pliers; verify tools fit.
+
+Amazon: [VGBUY 840-piece M2 assortment](https://www.amazon.com/dp/B0FJ1XLMJT). Reviewed Amazon contents list 10mm screws, matching nuts and flat washers among other sizes. Select M2, not M2.5 or M3. Tool inclusion and current delivery are unconfirmed. [Full purchase and assembly instructions](BUILD-CHECKPOINT-04.md) include Amazon tool searches and the unpowered screw-passage check. The seller servo drawing does not dimension the mounting holes, so physical M2 compatibility is still a checkpoint, not a verified promise.
+
+This specifies case-mount fasteners only. Chassis and horn fasteners remain separate.
