@@ -200,3 +200,7 @@ Owner printed Leg V1: the double-arm horn did not fit. Owner photos on the new p
 
 - Owner photos of the servo-bag screws on the grid sheet (about 10 px/mm top-down): 2 large pointed screws about 8.7mm overall (head about 1.6 thick, 4.7 dia flange, thread about 2.2); 1 small screw about 5mm overall (head about 2.8 dia, thread about 2.0). +/-0.3mm.
 - Leg V6: large screws up through horn 4th holes into 2.0mm blind pilot holes; small screw through a 6.0mm access hole holds horn on shaft. 14 x 70 x 8.5mm. Mesh checks pass. Not printed. Screw-head clearance to servo body unverified (guide Part C step 2 checks it).
+
+## 2026-11-27: Leg V6 printed (owner)
+
+- Owner report: "The Leg V6 is perfect." Horn fit accepted by owner. No measurements. Screw-head clearance to the servo, stand fit and motion not yet reported.
