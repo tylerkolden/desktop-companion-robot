@@ -6,9 +6,9 @@
 
 [Leg V3 STL](../cad/stl/leg-v3.stl) · [Stand STL](../cad/stl/leg-stand-v1.stl) · [Editable leg](../cad/leg-v3.scad) · [Editable stand](../cad/leg-v1.scad) · [Leg program](../lessons/sketches/Leg/Leg.ino)
 
-![Leg V3: horn-shaped pocket, sloped hub recess and screw hole](../cad/leg-v3-preview.png)
+![Leg V3: horn-shaped pocket, round disc recess with sloped room for the ramps, and screw hole](../cad/leg-v3-preview.png)
 
-**Use Leg V3.** Andrew noticed that the bump on the horn's top side is not a flat disc: its sides slope, like a tiny hill. Leg V3 has a sloped, bowl-shaped recess to match, and is 0.3mm thicker so the screw still has 2mm of plastic to squeeze. If you already printed Leg V2, try it too and tell us which fits better.
+**Use Leg V3.** Andrew noticed that the horn's top side is a round disc with tiny ramps where it joins the arm. From the side, the ramps make it look sloped. Leg V3 has a deeper round recess for the disc, with sloped room for the ramps, and is 0.3mm thicker so the screw still has 2mm of plastic to squeeze. If you already printed Leg V2, try it too and tell us which fits better.
 
 Why not V1 or V2? Leg V1 did not fit: the horn is about 36mm long, not the 33mm the listing suggested, and its raised middle hit V1's flat pocket floor. V2 and V3 are shaped from photos of your own horn on the [measuring sheet](measure/README.md).
 
@@ -40,9 +40,9 @@ Print one leg only. You will print three more in checkpoint 6, after this one wo
 
 ![Side view: leg on top, horn in the middle, servo underneath, one screw through all three](../cad/leg-v3-assembly.svg)
 
-The horn stays the same way up as it sits on the motor: tall boss **down** toward the motor, sloped bump **up**. The leg goes **on top** of it, like a lid.
+The horn stays the same way up as it sits on the motor: tall boss **down** toward the motor, disc with ramps **up**. The leg goes **on top** of it, like a lid.
 
-1. Lay the leg on the table with its pocket facing up. Turn the horn upside down (tall boss up) and drop it into the pocket. The sloped bump drops into the round, bowl-shaped recess.
+1. Lay the leg on the table with its pocket facing up. Turn the horn upside down (tall boss up) and drop it into the pocket. The disc drops into the round recess, and its little ramps slide into the sloped part next to it.
 2. Flip both over together: now the leg is on top and the tall boss points down, ready for the motor.
 3. **Expected:** the horn sits flush with the top of the leg, with a tiny gap around the arms. It does not need pushing, and it cannot turn in the pocket.
 4. Find one **M2 x 6mm** screw in the M2 kit.

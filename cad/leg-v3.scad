@@ -1,8 +1,9 @@
-// Leg V3: Leg V2 with a sloped hub recess. Shaped around the owner's measured double-arm horn. Units mm. OpenSCAD 2021.01.
+// Leg V3: Leg V2 with a deeper disc recess plus sloped room for the ramps. Shaped around the owner's measured double-arm horn. Units mm. OpenSCAD 2021.01.
 // Horn measured 2026-11-27 from grid-sheet photos (about +/-0.2mm), not calipers:
 //   overall length 35.7, hub boss 7.2 dia x 2.0 tall (spline side),
-//   screw-side bump is NOT a flat disc (Andrew spotted this, side photos 2026-11-27):
-//   it slopes up from about 9.0 dia at the arm to a 5-6 dia top, about 1.1 tall.
+//   screw-side bump (Andrew spotted this, photos 2026-11-27): a straight-sided disc,
+//   about 8.0-8.7 dia x 1.1 tall, PLUS small ramps where it meets the arm. The ramps
+//   rise from the arm face up to the disc top, so from the side the bump looks sloped.
 //   Owner's printed gauge: arm 2.0 thick, spline boss 7.5.
 //   arm 2.0 thick,
 //   arm 6.0 wide beside the hub tapering to 3.6 at the rounded tip,
@@ -13,8 +14,10 @@
 $fn=64;
 
 horn_len=35.7; arm_t=2.0; arm_w_hub=6.0; arm_w_tip=3.6; hub_x=3.5;
-bump_base=9.0; bump_top=5.5; bump_h=1.1;   // measured sloped bump
-rc_base=bump_base+0.6; rc_top=bump_top+0.9; rc_h=bump_h+0.2;  // recess: same slope, a little bigger
+disc_d=8.7; bump_h=1.1;   // largest measured disc; height from the side photo
+rc_d=disc_d+0.7;           // straight recess for the disc
+rc_h=bump_h+0.2;           // a little deeper than the disc
+ramp_d=13.4;               // ramp clearance: widens to this at the arm face, only inside the arm pocket
 pilot_r=13.4;     // 4th hole from the centre, both arms
 clr=0.4;          // total extra width/length in the pocket (0.2 each side)
 
@@ -38,8 +41,11 @@ module leg() {
   difference() {
     linear_extrude(leg_t) leg_outline();
     translate([0,0,leg_t-pocket]) linear_extrude(pocket+.1) arm_outline();
-    translate([0,0,leg_t-recess]) cylinder(d1=rc_top,d2=rc_base,h=rc_h+.01);   // bowl: narrow at the bottom, wide at the arm
-    translate([0,0,leg_t-pocket]) cylinder(d=rc_base,h=pocket+.1);
+    translate([0,0,leg_t-recess]) cylinder(d=rc_d,h=recess+.1);                 // straight-sided disc recess
+    intersection() {                                                             // sloped room for the ramps
+      translate([0,0,leg_t-recess]) cylinder(d1=rc_d,d2=ramp_d,h=rc_h+.01);
+      translate([0,0,leg_t-recess-.1]) linear_extrude(rc_h+.2) arm_outline();
+    }
     translate([0,0,-.1]) cylinder(d=2.4,h=leg_t+.2);              // M2 shaft screw
     for(s=[-1,1]) translate([0,s*pilot_r,leg_t-pocket-2.5]) cylinder(d=1.0,h=2.6); // optional tiny horn screws
     translate([-2,-leg_len-foot_d/2-1,-.1]) cube([4,4,0.7]);      // toe mark on the bed face
@@ -49,5 +55,5 @@ leg();
 
 assert(floor_t>=2,"Plastic under the hub for the clamp screw");
 assert(tail_len+tail_d/2-(horn_len+clr)/2>=1.5,"Wall beyond the upper horn tip");
-assert((hip_d-rc_base)/2>=1.6,"Side wall around the hub recess");
+assert((hip_d-rc_d)/2>=1.6,"Side wall around the hub recess");
 assert(leg_t-pocket-2.5>=0.4,"Pilot holes stay inside the leg");

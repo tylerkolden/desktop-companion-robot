@@ -185,3 +185,4 @@ Owner printed Leg V1: the double-arm horn did not fit. Owner photos on the new p
 - Two side-view photos (one on the 1mm grid sheet, about 63 px/mm). Grid photo: bump about 9.0mm across at the arm, about 5.0-5.5mm flat top, about 1.1mm tall. Second photo (no scale, sized by horn length) agrees on shape, about 0.9-1.0mm tall.
 - Leg V2's straight recess was 1.0mm deep, so a 1.1mm bump could hold the horn about 0.1mm proud and it would not centre on the slope.
 - Leg V3: bowl recess 9.6 -> 6.4mm over 1.3mm, leg 5.3mm thick, 2mm floor kept. Mesh checks pass. Not printed.
+- Correction, same day: four close-up photos show the bump is a straight-sided disc with small ramps where it joins the arm, not a cone. The first V3 bowl (narrowing to 6.4mm at the bottom) would have blocked a straight 8.7mm disc, so V3 was reworked before printing: straight 9.4 x 1.3mm recess plus sloped ramp room inside the arm pocket. Mesh checks pass. Not printed.
