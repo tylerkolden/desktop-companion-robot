@@ -2,7 +2,8 @@
 
 ## Checkpoint 6 (in progress): dog body and electronics deck — 2026-11-27
 
-- Added Dog body V1 (four servos, deck posts, MPU6050 floor mount) and top deck V1 (mini breadboard + XIAO, PCA9685, OLED face slot). Board sizes from owner photos; not yet printed.
+- Added Dog body V1 (four servos, deck posts, MPU6050 floor mount).
+- Owner asked for a cute look: added Puppy V1 parts (deck V2 with neck, round body shell with tail, round head with screen window and nose, chin plate with OLED slot and breadboard, floppy ears, Leg V7 with paws). Deck V1 was replaced before printing. Nothing printed yet.
 - Added dog stand/sit/bow pose timing to LessonLogic.h (host-compiled static checks only; the Dog sketch is not written yet).
 
 ## Checkpoint 5: one working leg — 2026-11-27
