@@ -50,3 +50,7 @@ The owner reports loose V2 hooks. Use [V3 STL](stl/servo-cradle-v3.stl) and [upd
 ## Current prototype: V4 screw retention
 
 Use [checkpoint 4](../docs/BUILD-CHECKPOINT-04.md) and [V4 STL](stl/servo-cradle-v4.stl). Two M2 x 10mm screws, two M2 nuts and four flat washers retain the servo. The 44 x 30 x 4mm plate preserves the proven opening and moves cable entry to the long side to keep both screw supports intact. V1–V3 are design history; do not print snap-tab versions for the next checkpoint. Physical validation remains pending.
+
+## Current: Leg V1 and single-leg stand
+
+Use [checkpoint 5](../docs/BUILD-CHECKPOINT-05.md). [Leg STL](stl/leg-v1.stl) (14 x 70 x 8mm) has a pocket for the SG90 double-arm horn, sized from the 33mm listing length with 0.6mm clearance, a 5.5mm screwdriver hole over the shaft screw, and 6mm of plastic under the horn for the horn screws. [Stand STL](stl/leg-stand-v1.stl) (80 x 60 x 58mm) holds a V4 mount upright by its continuous long edge so the shaft sits about 65mm above the table. Source: [leg-v1.scad](leg-v1.scad), `part="leg"` or `part="stand"`. Horn hub and tip widths are assumptions, not measurements. No print, fit or motion test yet.

@@ -1,5 +1,12 @@
 # Changelog
 
+## Checkpoint 5: one working leg — 2026-11-27
+
+- Leg V1 and single-leg test stand (OpenSCAD source, STLs, previews, mesh bounds checks).
+- `Leg` sketch: nine fixed measuring poses between 1000 and 2000us with 4-second holds and HOLD markers; same test/run/stop safety flow as Servo. Compile-time assertions keep poses inside 1000–2000us.
+- Checkpoint 5 learner guide: horn fit, centering with the Leg program, assembly, angle measurement.
+- Not physically tested. The Leg sketch's pose logic was host-compiled; the full ESP32 build was not run in this change.
+
 ## Training workflow — 2026-09-20
 
 - Repository-local Windows x64 setup with verified Arduino CLI download, pinned board/libraries, and no dependency on the author's tool directories or PATH.

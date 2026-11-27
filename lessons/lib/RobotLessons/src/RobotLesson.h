@@ -19,7 +19,7 @@
 namespace lesson {
 bool streaming=false, testing=false, moving=false, prepared=false;
 uint32_t started=0, lastSample=0, lastMotion=0, lastHealth=0, preparedAt=0;
-int stage=-1;
+int stage=-1, legShown=-1;
 bool animating=false;
 uint32_t faceStarted=0, lastFrame=0;
 int shownFrame=-1;
@@ -75,7 +75,11 @@ void status() {
 #endif
 #if LESSON_SERVO
   report("PCA9685",driverReady,0x40);
+#if LESSON_KIND == 7
+  Serial.println("Leg lesson: fixed poses 1000-2000us with 4-second holds. No calibration needed.");
+#else
   Serial.println("Motor lesson: fixed practice sweep. No calibration needed.");
+#endif
   Serial.printf("Motor sequence: %s | prepared: %s | channel 0 only\n", moving ? "RUNNING" : "off",prepared ? "yes (60s expiry)" : "no");
 #endif
   Serial.printf("Readings: %s | timed test: %s\n",streaming ? "on" : "off",testing ? "on" : "off");
@@ -163,7 +167,7 @@ void columns() {
   Serial.printf("%10s %9s\n","TIME_MS","TEMP_C");
 #elif LESSON_KIND == 4
   Serial.printf("%10s %9s\n","TIME_MS","DISPLAY");
-#elif LESSON_KIND == 5
+#elif LESSON_KIND == 5 || LESSON_KIND == 7
   Serial.println("Pulse request is NOT measured position; 0 means pulses requested off.");
   Serial.printf("%10s %9s %9s\n","TIME_MS","CHANNEL","PULSE_US");
 #elif LESSON_KIND == 6
@@ -185,7 +189,7 @@ void read() {
 #elif LESSON_KIND == 4
   const char *name=faceName(expressionShown);
   Serial.printf("%10lu %9s\n",static_cast<unsigned long>(millis()),name);
-#elif LESSON_KIND == 5
+#elif LESSON_KIND == 5 || LESSON_KIND == 7
   Serial.printf("%10lu %9d %9d\n",static_cast<unsigned long>(millis()),0,requestedPulse);
 #elif LESSON_KIND == 6
   Serial.printf("%10lu %7.2f %7.2f %7.2f %7.2f %7.2f %7.2f %7.2f %8d\n",static_cast<unsigned long>(millis()),ax,ay,az,gx,gy,gz,temp,requestedPulse);
@@ -240,10 +244,17 @@ void command(const char *cmd) {
 #if LESSON_SERVO
     prepared=true; preparedAt=millis();
     Serial.println("TRY THE MOVEMENT - nothing moves yet.");
+#if LESSON_KIND == 7
+    Serial.println("1. Leg motor on connector 0, stand weighed down, protractor ready. Hands clear.");
+    Serial.println("2. Ask an adult to check it and turn on its 5V supply.");
+    Serial.println("3. Type run and press Enter. The leg stops at 9 poses, 4 seconds each.");
+    Serial.println("When you see HOLD, read the leg angle and write it next to the number.");
+#else
     Serial.println("1. Keep the bare motor on connector 0. Keep hands clear.");
     Serial.println("2. Ask an adult to check it and turn on its 5V supply.");
     Serial.println("3. Type run and press Enter. Watch the motor slowly turn back and forth.");
     Serial.println("This is a wider practice movement, not a full-travel test.");
+#endif
     Serial.println("It stops after one minute. Type stop to stop sooner.");
     Serial.println("If it sticks or keeps buzzing, type stop and unplug motor power.");
 #else
@@ -262,7 +273,7 @@ void command(const char *cmd) {
     if(!present() || !sample()) { fault("[FAULT] Pre-run device check failed. No motor start; inspect with power off."); return; }
     stop(); if(!outputsOff() || !ready()) return;
     if(driver.setPWM(0,0,307)!=0) { driverReady=false; fault("[FAULT] Motor write failed. Unplug power."); return; }
-    requestedPulse=1500; moving=true; started=lastSample=millis(); stage=-1;
+    requestedPulse=1500; moving=true; started=lastSample=millis(); stage=-1; legShown=-1;
     Serial.println("RUNNING: one minute. Watch the motor; no more typing is needed.");
     Serial.println("Type stop to finish early. A normal finish prints DONE; an error prints FAULT."); columns();
     return;
@@ -346,7 +357,16 @@ void tick() {
       }
       if(finished(now,lastMotion,20)) {
         lastMotion=now;
+#if LESSON_KIND == 7
+        requestedPulse=legPulse(age);
+        const int pose=legPose(age);
+        if(legHolding(age) && pose!=legShown) {
+          legShown=pose;
+          Serial.printf("HOLD %d of %d: %d us. Read the leg angle now.\n",pose+1,LEG_POSE_COUNT,LEG_POSES[pose]);
+        }
+#else
         requestedPulse=practicePulse(age);
+#endif
         const uint16_t ticks=(requestedPulse*4096L+10000)/20000;
         if(driver.setPWM(0,0,ticks)!=0) { fault("[FAULT] Servo write failed. Unplug motor power."); driverReady=false; }
 

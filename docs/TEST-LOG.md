@@ -164,3 +164,7 @@ Owner reports the four snap tabs are too loose to hold the servo; supplied four 
 ## 2026-10-25 — V4 screw-retained cradle
 
 Owner rejected snap retention as flimsy and requested screws. V4 preserves the 23 x 12.9mm aperture, removes tabs, uses a 4mm plate and moves the 6mm cable entry to a long edge. Two adjustable slots accept the selected M2 hardware. Computational STL checks cover closed manifold edges, winding, connected shell, positive volume and 44 x 30 x 4mm bounds. Physical cable routing, M2 passage, washer clearance, retention and load strength remain pending. No physical operation or book update performed. See checkpoint 4 for failure-mode review and acceptance checks.
+
+## 2026-11-27 — owner report: V4 built; Leg V1 design
+
+Owner reports the V4 cradle was built and the M2 screws fit. Created Leg V1 and a single-leg stand in `cad/leg-v1.scad`. OpenSCAD 2021.01 export passed closed-edge, winding, connected-shell, positive-volume and bounds checks: leg 14 x 70 x 8mm (816 triangles, 5,938mm3), stand 80 x 60 x 58mm (44 triangles, 42,274mm3). Previews reviewed. Added the `Leg` sketch (LESSON_KIND 7). Its pose logic and static assertions compiled with host g++ (gnu++17); the pinned ESP32 toolchain could not be downloaded in the cloud environment, so `robot.ps1 build -Sketch Leg` still needs to run on the Windows machine. `check_lessons.py` passed. No print, horn fit, upload or leg motion performed.
