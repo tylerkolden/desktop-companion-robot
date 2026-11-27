@@ -4,11 +4,13 @@
 
 **Big idea:** the computer sends the motor a number (a pulse in microseconds, written **us**). The leg turns to an angle. Today you find out which number makes which angle. You will use your numbers in checkpoint 6 to make the dog stand.
 
-[Leg V2 STL](../cad/stl/leg-v2.stl) · [Stand STL](../cad/stl/leg-stand-v1.stl) · [Editable leg](../cad/leg-v2.scad) · [Editable stand](../cad/leg-v1.scad) · [Leg program](../lessons/sketches/Leg/Leg.ino)
+[Leg V3 STL](../cad/stl/leg-v3.stl) · [Stand STL](../cad/stl/leg-stand-v1.stl) · [Editable leg](../cad/leg-v3.scad) · [Editable stand](../cad/leg-v1.scad) · [Leg program](../lessons/sketches/Leg/Leg.ino)
 
-![Leg V2: horn-shaped pocket, round hub recess and screw hole](../cad/leg-v2-preview.png)
+![Leg V3: horn-shaped pocket, sloped hub recess and screw hole](../cad/leg-v3-preview.png)
 
-**Use Leg V2.** Leg V1 did not fit: the horn is about 36mm long, not the 33mm the listing suggested, and its raised middle hit V1's flat pocket floor. V2 is shaped from photos of your own horn on the [measuring sheet](measure/README.md).
+**Use Leg V3.** Andrew noticed that the bump on the horn's top side is not a flat disc: its sides slope, like a tiny hill. Leg V3 has a sloped, bowl-shaped recess to match, and is 0.3mm thicker so the screw still has 2mm of plastic to squeeze. If you already printed Leg V2, try it too and tell us which fits better.
+
+Why not V1 or V2? Leg V1 did not fit: the horn is about 36mm long, not the 33mm the listing suggested, and its raised middle hit V1's flat pocket floor. V2 and V3 are shaped from photos of your own horn on the [measuring sheet](measure/README.md).
 
 ![Test stand: the V4 mount slides into the slot on top](../cad/leg-stand-v1-preview.png)
 
@@ -24,8 +26,8 @@ Keep from checkpoint 4: your V4 mount with the servo screwed in. Keep from lesso
 
 ## Print
 
-1. Open **leg-v2.stl** and **leg-stand-v1.stl** in Bambu Studio. Keep **100% scale**.
-2. Check the sizes. Leg: **13 x 70 x 5mm**. Stand: **80 x 60 x 58mm**.
+1. Open **leg-v3.stl** and **leg-stand-v1.stl** in Bambu Studio. Keep **100% scale**.
+2. Check the sizes. Leg: **13 x 70 x 5.3mm**. Stand: **80 x 60 x 58mm**.
 3. Leg: keep the **pocket facing up**. Use PLA, 0.20mm layers and 4 walls.
 4. Stand: base flat on the bed. 3 walls and 15% infill is enough.
 5. No supports are intended. In the slicer preview, the pocket, the round recess and the centre hole must stay open.
@@ -36,11 +38,11 @@ Print one leg only. You will print three more in checkpoint 6, after this one wo
 
 **Predict:** will the horn sit flat inside the leg pocket? Write yes or no.
 
-![Side view: leg on top, horn in the middle, servo underneath, one screw through all three](../cad/leg-v2-assembly.svg)
+![Side view: leg on top, horn in the middle, servo underneath, one screw through all three](../cad/leg-v3-assembly.svg)
 
-The horn stays the same way up as it sits on the motor: tall boss **down** toward the motor, small disc **up**. The leg goes **on top** of it, like a lid.
+The horn stays the same way up as it sits on the motor: tall boss **down** toward the motor, sloped bump **up**. The leg goes **on top** of it, like a lid.
 
-1. Lay the leg on the table with its pocket facing up. Turn the horn upside down (tall boss up) and drop it into the pocket. The small disc drops into the round recess.
+1. Lay the leg on the table with its pocket facing up. Turn the horn upside down (tall boss up) and drop it into the pocket. The sloped bump drops into the round, bowl-shaped recess.
 2. Flip both over together: now the leg is on top and the tall boss points down, ready for the motor.
 3. **Expected:** the horn sits flush with the top of the leg, with a tiny gap around the arms. It does not need pushing, and it cannot turn in the pocket.
 4. Find one **M2 x 6mm** screw in the M2 kit.
@@ -141,23 +143,23 @@ Write: **prediction → command → what you saw → explanation → next questi
 
 ## Engineering challenge: how could this fail?
 
-- **The pocket is the wrong size again:** V2 comes from grid-sheet photos measured to about 0.2mm, with 0.2mm of clearance on each side. Part A checks the fit before anything is screwed. The [horn gauge](measure/README.md) shows how your printer prints small holes.
+- **The pocket is the wrong size again:** V3 comes from grid-sheet photos measured to about 0.2mm, with 0.2mm of clearance on each side. Part A checks the fit before anything is screwed. The [horn gauge](measure/README.md) shows how your printer prints small holes.
 - **The clamp screw loosens or strips:** the leg has 2mm of plastic under the hub for the screw to squeeze. Check it is snug before each run. The two optional tiny screws add a second hold.
 - **The leg is not straight at 1500 us:** the horn teeth only allow certain steps. Write down how far off it is. Checkpoint 6 can correct this in software.
 - **The leg hits the table:** at the middle position the foot is about 15mm above the stand's base. The poses only use 1000 to 2000 us, which is gentler than lesson 6.
 - **The stand tips over:** the book on the base stops this. The slot holds the mount by friction only. If it wobbles, wedge a folded strip of paper into the slot.
 - **The numbers are a guess about angle:** the program sends pulse numbers. It cannot see the leg. Only your protractor readings are evidence.
 
-**What is not tested yet:** the leg and stand are new designs. Their meshes passed the computer checks, but nobody has printed Leg V2, fitted a horn to it, or moved a leg yet. Leg V1 was printed and did not fit. The Leg program has not been built with the full toolchain or run on the board.
+**What is not tested yet:** the leg and stand are new designs. Their meshes passed the computer checks, but nobody has printed Leg V3, fitted a horn to it, or moved a leg yet. Leg V1 was printed and did not fit. The Leg program has not been built with the full toolchain or run on the board.
 
 ## Reproduce
 
 With OpenSCAD 2021.01, from the repository root:
 
 ```powershell
-openscad -o cad/stl/leg-v2.stl cad/leg-v2.scad
+openscad -o cad/stl/leg-v3.stl cad/leg-v3.scad
 openscad -o cad/stl/leg-stand-v1.stl -D 'part="stand"' cad/leg-v1.scad
-openscad -o cad/leg-v2-preview.png --imgsize=1200,700 --viewall --autocenter cad/leg-v2.scad
+openscad -o cad/leg-v3-preview.png --imgsize=1200,700 --viewall --autocenter cad/leg-v3.scad
 openscad -o cad/leg-stand-v1-preview.png -D 'part="stand"' --imgsize=1200,700 --viewall --autocenter cad/leg-v1.scad
 python scripts/validate_meshes.py
 .\robot.ps1 build -Sketch Leg

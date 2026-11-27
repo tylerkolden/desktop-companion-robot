@@ -178,3 +178,10 @@ Owner printed Leg V1: the double-arm horn did not fit. Owner photos on the new p
 - Arm/disc thickness: fits the **2.0** slot. Leg V2 uses 2.0 (pocket depth = arm thickness). Matches.
 - Hub: fits the **7.5** hole. Photos gave 7.2 for the boss. The leg's round recess is 9.2, so anything up to 9.2 drops in. No change to Leg V2.
 - Evidence: owner's gauge reading, not calipers. Leg V2 fit not yet reported.
+
+## 2026-11-27: sloped horn bump (Andrew's observation) and Leg V3
+
+- Andrew noticed the spline side has a clean straight-sided boss, but the screw side has a bump with sloped sides.
+- Two side-view photos (one on the 1mm grid sheet, about 63 px/mm). Grid photo: bump about 9.0mm across at the arm, about 5.0-5.5mm flat top, about 1.1mm tall. Second photo (no scale, sized by horn length) agrees on shape, about 0.9-1.0mm tall.
+- Leg V2's straight recess was 1.0mm deep, so a 1.1mm bump could hold the horn about 0.1mm proud and it would not centre on the slope.
+- Leg V3: bowl recess 9.6 -> 6.4mm over 1.3mm, leg 5.3mm thick, 2mm floor kept. Mesh checks pass. Not printed.

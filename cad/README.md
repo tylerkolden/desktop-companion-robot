@@ -58,3 +58,7 @@ Use [checkpoint 5](../docs/BUILD-CHECKPOINT-05.md). [Leg STL](stl/leg-v1.stl) (1
 ## Leg V2 (replaces Leg V1)
 
 Leg V1 was printed by the owner and did not fit the horn. [Leg V2](stl/leg-v2.stl) (13 x 70 x 5mm, [source](leg-v2.scad)) follows the owner's horn as measured from grid-sheet photos: about 35.7mm long, with a 7.2mm spline boss and a raised 8.7mm disc on the screw side. The horn's flat side goes into the pocket. An M2 x 6 screw through the leg and horn into the shaft clamps it. A [horn gauge](stl/horn-gauge.stl) and [measuring sheet](../docs/measure/README.md) support re-measuring. Not yet printed.
+
+## Leg V3 (replaces Leg V2)
+
+Andrew noticed from side photos that the screw-side bump is sloped, not a flat disc: about 9.0mm across where it meets the arm, about 5.5mm across on top, about 1.1mm tall. [Leg V3](stl/leg-v3.stl) (13 x 70 x 5.3mm, [source](leg-v3.scad)) replaces V2's straight 9.2 x 1.0mm recess with a matching bowl (9.6mm at the arm, 6.4mm at the bottom, 1.3mm deep) so the bump seats and centres instead of standing proud. The leg is 0.3mm thicker to keep 2mm of plastic under the hub. Owner's printed gauge: arm 2.0mm, spline boss 7.5mm. Not yet printed.
