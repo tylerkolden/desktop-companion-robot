@@ -172,3 +172,9 @@ Owner reports the V4 cradle was built and the M2 screws fit. Created Leg V1 and 
 ## 2026-11-27 — Leg V1 physical fit failure; Leg V2 from measured horn
 
 Owner printed Leg V1: the double-arm horn did not fit. Owner photos on the new printed measuring sheet (1mm grid with corner reference squares) were measured at about 18–20 px/mm: horn length about 35.7mm (listing basis was 33mm), spline boss 7.2mm dia x 2.0mm, screw-side raised disc about 8.7mm dia x 1.0mm, arm 2.0mm thick, 6.0mm wide beside the hub tapering to 3.6mm, arm holes about 1.4mm at 2.5mm pitch from 5.9 to 15.9mm. Photo measurements, not calipers; about ±0.2mm. Leg V2 (`cad/leg-v2.scad`, 13 x 70 x 5mm, 3,271mm3) has a horn-outline pocket 2.0mm deep with 0.4mm total clearance, a 9.2mm hub recess 3.0mm deep, a 2.4mm centre hole for an M2 x 6 clamp screw into the servo shaft, and optional 1.0mm pilot holes at 13.4mm. Mesh checks passed. Added a printed horn gauge (85 x 36 x 3mm) and the measuring sheet. M2 thread compatibility with the servo shaft, pocket fit and clamp retention are untested.
+
+## 2026-11-27: horn gauge result (owner report)
+
+- Arm/disc thickness: fits the **2.0** slot. Leg V2 uses 2.0 (pocket depth = arm thickness). Matches.
+- Hub: fits the **7.5** hole. Photos gave 7.2 for the boss. The leg's round recess is 9.2, so anything up to 9.2 drops in. No change to Leg V2.
+- Evidence: owner's gauge reading, not calipers. Leg V2 fit not yet reported.
