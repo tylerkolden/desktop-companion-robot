@@ -66,3 +66,7 @@ Andrew noticed from close-up photos that the horn's screw side is a straight-sid
 ## Leg V4 (replaces Leg V3)
 
 The owner printed V3: the horn would not go in and the screw holes were too small. [Leg V4](stl/leg-v4.stl) (14 x 70 x 5.8mm, [source](leg-v4.scad)) keeps the V3 layout with more clearance: 0.5mm per side around the horn arms (was 0.2), a 10.0mm x 1.5mm disc recess (was 9.4 x 1.3), a 2.2mm pocket (was 2.0), a 2.9mm shaft-screw hole (was 2.4) and 1.6mm pilot holes (was 1.0). The leg is wider and thicker to keep 2mm walls and floor. Not yet printed.
+
+## Leg V5 (replaces Leg V4)
+
+Owner's screw plan: the servo's own centre screw holds the horn on the shaft, and two M2 x 4 screws go down through the leg into the horn's 4th arm holes (13.4mm from centre), cutting their own thread in the horn plastic. [Leg V5](stl/leg-v5.stl) (14 x 70 x 5.8mm, [source](leg-v5.scad)) keeps V4's clearances, replaces the centre hole with a 5.5mm screwdriver hole, and adds two 2.6mm side holes with 4.4mm x 1.2mm head recesses on the outside face. Not yet printed.

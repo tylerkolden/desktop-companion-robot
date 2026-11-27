@@ -4,11 +4,11 @@
 
 **Big idea:** the computer sends the motor a number (a pulse in microseconds, written **us**). The leg turns to an angle. Today you find out which number makes which angle. You will use your numbers in checkpoint 6 to make the dog stand.
 
-[Leg V4 STL](../cad/stl/leg-v4.stl) · [Stand STL](../cad/stl/leg-stand-v1.stl) · [Editable leg](../cad/leg-v4.scad) · [Editable stand](../cad/leg-v1.scad) · [Leg program](../lessons/sketches/Leg/Leg.ino)
+[Leg V5 STL](../cad/stl/leg-v5.stl) · [Stand STL](../cad/stl/leg-stand-v1.stl) · [Editable leg](../cad/leg-v5.scad) · [Editable stand](../cad/leg-v1.scad) · [Leg program](../lessons/sketches/Leg/Leg.ino)
 
-![Leg V4: horn-shaped pocket, round disc recess with sloped room for the ramps, and screw hole](../cad/leg-v4-preview.png)
+![Leg V5: horn-shaped pocket, round disc recess, centre screwdriver hole and two side screw holes](../cad/leg-v5-preview.png)
 
-**Use Leg V4.** You printed V3 and everything was too tight, so V4 has more wiggle room: 0.5mm extra on each side of the horn, a bigger disc recess, and bigger screw holes.
+**Use Leg V5.** It has V4's extra wiggle room (V3 printed too tight) and your screw plan: the servo's own centre screw holds the horn on the motor, and two small M2 screws hold the leg to the horn arms.
 
 Why V3 existed: Andrew noticed that the horn's top side is a round disc with tiny ramps where it joins the arm. From the side, the ramps make it look sloped. Leg V3 has a deeper round recess for the disc, with sloped room for the ramps, and is 0.3mm thicker so the screw still has 2mm of plastic to squeeze. If you already printed Leg V2, try it too and tell us which fits better.
 
@@ -18,17 +18,18 @@ Why not V1 or V2? Leg V1 did not fit: the horn is about 36mm long, not the 33mm 
 
 ## Meet the new parts
 
-- **Leg:** a printed bar. The big end has a **pocket** shaped like the servo horn, a deeper round **recess** for the horn's middle, and a small **screw hole** in the centre. The narrow end is the **foot**. A small groove on the flat side marks the foot end.
+- **Leg:** a printed bar. The big end has a **pocket** shaped like the servo horn and a deeper round **recess** for the horn's middle. A big **centre hole** lets a screwdriver reach the horn screw. Two small **side holes** line up with the 4th hole on each horn arm. The narrow end is the **foot**. A small groove on the flat side marks the foot end.
 - **Stand:** a printed tower on a flat base. Your V4 mount slides into the **slot** on top, so the leg can hang down and swing without hitting the table.
 - **Double-arm horn:** the long, straight plastic arm with two sides that came in your servo bag. It pushes onto the servo's gear shaft. You did not use a horn in the lessons.
-- **Clamp screw:** one **M2 x 6mm** screw from the same M2 kit you used in checkpoint 4. It goes through the leg and the horn into the servo shaft, and squeezes them together.
+- **Centre screw:** the one small screw that came with the servo. It holds the horn on the motor shaft.
+- **Side screws:** two **M2 x 4mm** screws from your M2 kit (M2 x 5 also works). They go down through the leg and cut their own thread into the horn's small arm holes.
 - **Horn's two sides:** one side of the horn has a round **boss** (a short tube with teeth inside) that pushes onto the motor. The other side is nearly flat. The flat side goes into the leg.
 
 Keep from checkpoint 4: your V4 mount with the servo screwed in. Keep from lesson 6: the XIAO, the PCA9685 driver, the 5V motor supply and the USB cable.
 
 ## Print
 
-1. Open **leg-v4.stl** and **leg-stand-v1.stl** in Bambu Studio. Keep **100% scale**.
+1. Open **leg-v5.stl** and **leg-stand-v1.stl** in Bambu Studio. Keep **100% scale**.
 2. Check the sizes. Leg: **14 x 70 x 5.8mm**. Stand: **80 x 60 x 58mm**.
 3. Leg: keep the **pocket facing up**. Use PLA, 0.20mm layers and 4 walls.
 4. Stand: base flat on the bed. 3 walls and 15% infill is enough.
@@ -40,14 +41,14 @@ Print one leg only. You will print three more in checkpoint 6, after this one wo
 
 **Predict:** will the horn sit flat inside the leg pocket? Write yes or no.
 
-![Side view: leg on top, horn in the middle, servo underneath, one screw through all three](../cad/leg-v3-assembly.svg)
+![Side view: leg on top, horn in the middle, servo underneath](../cad/leg-v5-assembly.svg)
 
 The horn stays the same way up as it sits on the motor: tall boss **down** toward the motor, disc with ramps **up**. The leg goes **on top** of it, like a lid.
 
 1. Lay the leg on the table with its pocket facing up. Turn the horn upside down (tall boss up) and drop it into the pocket. The disc drops into the round recess, and its little ramps slide into the sloped part next to it.
 2. Flip both over together: now the leg is on top and the tall boss points down, ready for the motor.
 3. **Expected:** the horn sits flush with the top of the leg, with a tiny gap around the arms. It does not need pushing, and it cannot turn in the pocket.
-4. Find one **M2 x 6mm** screw in the M2 kit.
+4. Look down the two side holes: you should see a horn arm hole under each one. Find two **M2 x 4mm** screws and the servo's centre screw.
 
 **Stop and report** if the horn sticks up above the leg, rocks, or will not go in. Say which part catches: the tips, the arms beside the middle, or the middle.
 
@@ -98,17 +99,16 @@ Same wiring as lesson 6. This is a functional picture, not an exact hole-placeme
 
 Motor supply stays unplugged for this whole part. Do not turn the shaft by hand; that can strip its tiny gears.
 
-1. Put the horn in the leg pocket as in Part A, so the tall boss sticks out of the pocket.
-2. Slide your V4 mount into the stand slot. The **long edge without the cable gap** goes down into the slot. The servo shaft points toward you.
-3. Hold the leg and horn together. Turn them so the foot points **straight down**. Push the horn's boss onto the shaft. The teeth only allow certain steps; choose the step closest to straight down.
-4. Push the M2 x 6mm screw through the hole in the middle of the leg. Turn it with the 1.5mm hex key until it is snug. It goes through the leg and the horn and into the motor shaft. Do not force it.
-5. Put a heavy book on the stand's base so it cannot tip over.
+1. Slide your V4 mount into the stand slot. The **long edge without the cable gap** goes down into the slot. The servo shaft points toward you.
+2. Push the horn's boss onto the shaft so the arm points **straight up and down**. The teeth only allow certain steps; choose the step closest to straight.
+3. Put the servo's centre screw in the middle of the horn. Turn it until it is snug. Now the horn cannot pull off.
+4. Lay the leg over the horn with the foot pointing **down**. The horn disappears into the pocket, and the disc drops into the round recess.
+5. Put one M2 x 4mm screw in each side hole. Turn it with the 1.5mm hex key. It will feel stiff: it is cutting a thread into the horn plastic. Stop when the head sits snug in its round dip. Do not keep turning after that, or it strips.
+6. Put a heavy book on the stand's base so it cannot tip over.
 
-**If the screw spins without biting,** or will not start, stop and report it. Nobody has checked yet that an M2 screw matches the hole in this servo's shaft.
+**If a side screw spins without biting,** stop and report it. Try the next size longer (M2 x 5). Do not use a screw longer than 5mm: the tip could poke out under the horn and rub on the servo.
 
-**Optional extra hold:** the leg has two tiny starter holes under the 4th horn hole on each arm. If your servo bag has tiny pointed screws, one in each hole stops the leg working loose.
-
-**Check:** gently wiggle the foot. The leg should not slide on the horn. A little play from the motor gears is normal.
+**Check:** gently wiggle the foot. The leg should not slide on the horn, and the horn should not lift off the shaft. A little play from the motor gears is normal.
 
 ## Part D: measure the angles
 
@@ -145,23 +145,23 @@ Write: **prediction → command → what you saw → explanation → next questi
 
 ## Engineering challenge: how could this fail?
 
-- **The pocket is the wrong size again:** V4 comes from grid-sheet photos measured to about 0.2mm, with 0.5mm of clearance on each side (V3 had 0.2mm and was too tight on a real print). Part A checks the fit before anything is screwed. The [horn gauge](measure/README.md) shows how your printer prints small holes.
-- **The clamp screw loosens or strips:** the leg has 2mm of plastic under the hub for the screw to squeeze. Check it is snug before each run. The two optional tiny screws add a second hold.
+- **The pocket is the wrong size again:** V5 comes from grid-sheet photos measured to about 0.2mm, with 0.5mm of clearance on each side (V3 had 0.2mm and was too tight on a real print). Part A checks the fit before anything is screwed. The [horn gauge](measure/README.md) shows how your printer prints small holes.
+- **A screw loosens or strips:** the side screws cut threads in soft horn plastic, so overtightening strips them. Check all three screws are snug before each run.
 - **The leg is not straight at 1500 us:** the horn teeth only allow certain steps. Write down how far off it is. Checkpoint 6 can correct this in software.
 - **The leg hits the table:** at the middle position the foot is about 15mm above the stand's base. The poses only use 1000 to 2000 us, which is gentler than lesson 6.
 - **The stand tips over:** the book on the base stops this. The slot holds the mount by friction only. If it wobbles, wedge a folded strip of paper into the slot.
 - **The numbers are a guess about angle:** the program sends pulse numbers. It cannot see the leg. Only your protractor readings are evidence.
 
-**What is not tested yet:** the leg and stand are new designs. Their meshes passed the computer checks, but nobody has printed Leg V4, fitted a horn to it, or moved a leg yet. Leg V1 was printed and did not fit. The Leg program has not been built with the full toolchain or run on the board.
+**What is not tested yet:** the leg and stand are new designs. Their meshes passed the computer checks, but nobody has printed Leg V5, fitted a horn to it, or moved a leg yet. Leg V1 was printed and did not fit. The Leg program has not been built with the full toolchain or run on the board.
 
 ## Reproduce
 
 With OpenSCAD 2021.01, from the repository root:
 
 ```powershell
-openscad -o cad/stl/leg-v4.stl cad/leg-v4.scad
+openscad -o cad/stl/leg-v5.stl cad/leg-v5.scad
 openscad -o cad/stl/leg-stand-v1.stl -D 'part="stand"' cad/leg-v1.scad
-openscad -o cad/leg-v3-preview.png --imgsize=1200,700 --viewall --autocenter cad/leg-v4.scad
+openscad -o cad/leg-v3-preview.png --imgsize=1200,700 --viewall --autocenter cad/leg-v5.scad
 openscad -o cad/leg-stand-v1-preview.png -D 'part="stand"' --imgsize=1200,700 --viewall --autocenter cad/leg-v1.scad
 python scripts/validate_meshes.py
 .\robot.ps1 build -Sketch Leg

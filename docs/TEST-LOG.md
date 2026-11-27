@@ -191,3 +191,7 @@ Owner printed Leg V1: the double-arm horn did not fit. Owner photos on the new p
 
 - Owner printed Leg V3: horn did not fit, margins too tight, screw holes too small. No measurements of the print.
 - Leg V4: per-side horn clearance 0.2 -> 0.5mm, disc recess 9.4 x 1.3 -> 10.0 x 1.5mm, pocket 2.0 -> 2.2mm, shaft-screw hole 2.4 -> 2.9mm, pilot holes 1.0 -> 1.6mm. Leg 14 x 70 x 5.8mm. Mesh checks pass. Not printed.
+
+## 2026-11-27: Leg V5 screw plan (owner)
+
+- Owner's plan: stock centre screw holds the horn on the motor; two smaller screws through the arm holes hold the leg to the horn. Leg V5 adds a 5.5mm centre access hole and two counterbored M2 side holes at the 4th horn holes. Recommended M2 x 4 (M2 x 5 at most) so tips do not poke out under the 2mm horn. Mesh checks pass. Not printed.
