@@ -4,6 +4,7 @@
 
 - Added Dog body V1 (four servos, deck posts, MPU6050 floor mount).
 - Owner asked for a cute look: added Puppy V1 parts (deck V2 with neck, round body shell with tail, round head with screen window and nose, chin plate with OLED slot and breadboard, floppy ears, Leg V7 with paws). Deck V1 was replaced before printing. Nothing printed yet.
+- Owner asked for lie-flat (legs 90 deg) and a cuter face: added Puppy V2 (body V2, deck V3 with breadboard, slim shell V2 with gear slots, small head V2 with big screen window, round ears V2, Leg V8 with round thighs). Legs now sit outside the shell. Puppy V1 replaced before printing. Nothing printed yet.
 - Added dog stand/sit/bow pose timing to LessonLogic.h (host-compiled static checks only; the Dog sketch is not written yet).
 
 ## Checkpoint 5: one working leg — 2026-11-27

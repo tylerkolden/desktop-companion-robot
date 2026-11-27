@@ -79,7 +79,36 @@ Owner found that the servo bag has the right screws: two large pointed self-tapp
 
 The owner printed stand V1: the mount sat loose in the 4.3mm slot and leaned badly. The mount plate's real thickness is not measured, so [stand V2](stl/leg-stand-v2.stl) ([source](leg-stand-v2.scad)) has a 6.0mm slot, 4mm walls and two [wedges](stl/leg-stand-v2-wedge.stl) (print two) pushed in at the slot ends beside the plate. The wedges taper 0.8 to 3.8mm, covering plates about 2.2 to 4.7mm thick, and sit outside the servo body and ear screws. Slot depth stays 8mm because the servo body sticks out of the plate just above the tower top. Not yet printed.
 
-## Puppy V1 (checkpoint 6)
+## Puppy V2 (checkpoint 6, current)
+
+![Puppy V2](dog-puppy-v2.png)
+
+Owner feedback on V1 (2026-11-27): the dog must be able to lie flat with the legs swung at least 90 deg, and the head was too big for its small screen face. V2 fixes both:
+
+- The body shell is slimmer (64 wide) than the legs, so the legs and their round thighs stay **outside** it and can swing all the way round. U-slots, open at the bottom, slide over the servo gear towers; the round thighs hide them. Lying down, the dog rests on its tummy and thighs.
+- The breadboard and XIAO moved into the body, so the head is small (50 x 56 x 54) and the screen window (25 x 17) is most of the face. No neck, like a chubby puppy. Bigger, rounder ears.
+
+Shared numbers live in `dog-puppy2-common.scad` (whole-dog coordinates: x forward, z=0 under the body frame).
+
+| Part | File | Print |
+|---|---|---|
+| Body frame V2: same as V1 but the 4 deck posts moved in to x=+/-10 | `dog-body-v2.scad` | flat, no supports |
+| Deck V3: PCA9685 at the back (header pointing to the tail), breadboard sideways at the front (XIAO USB-C to the left), 2 wire slots, 4 shell screw blocks | `dog-deck-v3.scad` | flat, no supports |
+| Body shell V2: slim capsule, curly tail, 4 gear U-slots, USB-C hole on the left, OLED wire hole and 2 chin screw holes on top | `dog-shell-v2.scad` | open side down, tree supports |
+| Head shell V2: small round head, big screen window, nose | `dog-head-v2.scad` (`part="shell"`) | open side down, tree supports |
+| Chin plate V2: OLED slot, ear posts; screws to the body roof | `dog-head-v2.scad` (`part="chin"`) | flat, no supports |
+| Ear V2 (print 2) | `dog-ears-v2.scad` | flat, no supports |
+| Leg V8 (print 4): Leg V6 hip unchanged + round paw + 32mm round thigh | `leg-v8.scad` | pocket up, no supports |
+
+Fasteners: 4 big servo-bag screws (deck to body); 6 M2 x 10 + nuts (PCA, MPU); 2 M2 x 10 + nuts (chin to body roof, before the shell goes on); 4 M2 x 10 (shell sides into the deck blocks); 2 M2 x 10 (ears through head into the chin posts).
+
+Build order: servos into the body, deck on, boards on, chin plate onto the shell roof, shell down over the deck and screwed at the sides, OLED in, head shell and ears on, legs last.
+
+Not checked yet: the 90 deg swing is clear of the body in the CAD, but whether each servo can reach +/-90 deg from straight down depends on where the horn lands on the spline; the program will find out per leg. Gear tower size, leg position and servo protrusion come from the SG90 drawing, not a measurement. Board sizes from the owner's grid photos (about +/-1mm). Nothing in this section has been printed or fitted.
+
+Reproduce: `openscad -o cad/stl/<name>.stl cad/<file>.scad` (add `-D part="chin"` for the chin plate; the ear STL is `dog-ear-v2.stl`), then `python3 scripts/validate_meshes.py`. Picture: `cad/dog-v2-assembly.scad` with `-D pose="stand"` or `-D pose="lie"`.
+
+## Puppy V1 (checkpoint 6, replaced by V2 before printing)
 
 ![Puppy V1](dog-puppy-v1.png)
 
