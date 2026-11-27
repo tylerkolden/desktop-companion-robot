@@ -68,6 +68,62 @@ static_assert(legPulse(LEG_STEP_MS+LEG_RAMP_MS)==1250 && legPulse(3*LEG_STEP_MS+
 static_assert(legPulse(LEG_STEP_MS+750)==1375, "leg ramps gently between poses");
 static_assert(legHolding(LEG_STEP_MS+LEG_RAMP_MS) && !legHolding(LEG_STEP_MS+LEG_RAMP_MS-1) && !legHolding(TEST_MS), "hold windows");
 static_assert(LEG_POSE_COUNT*LEG_STEP_MS<=TEST_MS, "poses fit inside the minute");
+// Dog lesson: four legs. Angles are in degrees, + = foot forward. The sketch turns them into
+// pulses with each leg's own center and direction. Requests only; nothing here is measured.
+constexpr int DOG_LEGS=4;
+constexpr int DOG_MAX_DEG=40;
+// Part 1 (0-18s): stand, then each leg alone swings forward 20 degrees so the learner can
+// check its direction and channel. Part 2 (18-60s): named poses.
+constexpr uint32_t DOG_CHECK_START=2000, DOG_CHECK_STEP=4000, DOG_POSE_START=18000;
+constexpr uint32_t DOG_POSE_MS=7000, DOG_POSE_RAMP=1500;
+constexpr int DOG_POSE_COUNT=6;
+constexpr int DOG_STAND=0, DOG_SIT=1, DOG_BOW=2;
+// Pose angles per leg: front-left, front-right, back-left, back-right.
+constexpr int DOG_POSE_DEG[3][DOG_LEGS]={{0,0,0,0},{0,0,35,35},{-35,-35,0,0}};
+constexpr int DOG_SEQUENCE[DOG_POSE_COUNT]={DOG_SIT,DOG_STAND,DOG_BOW,DOG_STAND,DOG_SIT,DOG_STAND};
+constexpr int dogCheckLeg(uint32_t age) {
+  return age<DOG_CHECK_START || (age-DOG_CHECK_START)/DOG_CHECK_STEP>=DOG_LEGS ? -1
+    : static_cast<int>((age-DOG_CHECK_START)/DOG_CHECK_STEP);
+}
+constexpr int dogCheckDeg(uint32_t into) {   // 1s out, 2s hold, 1s back
+  return into<1000 ? ramp(0,20,into,1000) : into<3000 ? 20 : into<4000 ? ramp(20,0,into-3000,1000) : 0;
+}
+constexpr int dogPoseIndex(uint32_t age) {
+  return age<DOG_POSE_START || age>=DOG_POSE_START+DOG_POSE_COUNT*DOG_POSE_MS ? -1
+    : static_cast<int>((age-DOG_POSE_START)/DOG_POSE_MS);
+}
+constexpr bool dogHolding(uint32_t age) {
+  return dogPoseIndex(age)>=0 && (age-DOG_POSE_START)%DOG_POSE_MS>=DOG_POSE_RAMP;
+}
+constexpr bool dogCheckHolding(uint32_t age) {
+  return dogCheckLeg(age)>=0 && (age-DOG_CHECK_START)%DOG_CHECK_STEP>=1000 && (age-DOG_CHECK_START)%DOG_CHECK_STEP<3000;
+}
+constexpr int dogAngle(int leg, uint32_t age) {
+  if(age<DOG_POSE_START) {
+    const int checking=dogCheckLeg(age);
+    return checking==leg ? dogCheckDeg((age-DOG_CHECK_START)%DOG_CHECK_STEP) : 0;
+  }
+  const int pose=dogPoseIndex(age);
+  if(pose<0) return 0;
+  const int from=pose==0 ? DOG_POSE_DEG[DOG_STAND][leg] : DOG_POSE_DEG[DOG_SEQUENCE[pose-1]][leg];
+  const int to=DOG_POSE_DEG[DOG_SEQUENCE[pose]][leg];
+  const uint32_t into=(age-DOG_POSE_START)%DOG_POSE_MS;
+  return into<DOG_POSE_RAMP ? ramp(from,to,into,DOG_POSE_RAMP) : to;
+}
+constexpr bool dogEnvelope() {
+  for(int leg=0;leg<DOG_LEGS;leg++)
+    for(uint32_t t=0;t<=TEST_MS;t+=20) { const int a=dogAngle(leg,t); if(a<-DOG_MAX_DEG || a>DOG_MAX_DEG) return false; }
+  return true;
+}
+static_assert(dogEnvelope(), "dog angles stay inside +/-40 degrees");
+static_assert(DOG_POSE_START+DOG_POSE_COUNT*DOG_POSE_MS<=TEST_MS, "dog routine fits the minute");
+static_assert(DOG_CHECK_START+DOG_LEGS*DOG_CHECK_STEP<=DOG_POSE_START, "leg check finishes before poses");
+static_assert(dogAngle(0,0)==0 && dogAngle(3,TEST_MS)==0, "dog starts and ends standing");
+static_assert(dogCheckLeg(DOG_CHECK_START+2000)==0 && dogCheckLeg(DOG_CHECK_START+3*DOG_CHECK_STEP+2000)==3, "legs checked in order");
+static_assert(dogAngle(0,DOG_CHECK_START+2000)==20 && dogAngle(1,DOG_CHECK_START+2000)==0, "one leg at a time");
+static_assert(dogAngle(2,DOG_POSE_START+DOG_POSE_RAMP)==35 && dogAngle(0,DOG_POSE_START+DOG_POSE_RAMP)==0, "first pose is sit");
+static_assert(dogAngle(2,DOG_POSE_START+750)==17, "dog ramps between poses");
+static_assert(dogAngle(DOG_LEGS-1,DOG_POSE_START+DOG_POSE_COUNT*DOG_POSE_MS-1)==0, "dog finishes standing");
 static_assert(finished(59744,0xffffff00u,TEST_MS), "minute deadline across millis rollover");
 static_assert(!finished(59743,0xffffff00u,TEST_MS), "minute deadline boundary");
 static_assert(finished(100,0,SAMPLE_MS) && !finished(99,0,SAMPLE_MS), "100ms sample boundary");

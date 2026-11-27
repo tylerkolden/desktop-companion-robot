@@ -78,3 +78,12 @@ Owner found that the servo bag has the right screws: two large pointed self-tapp
 ## Leg test stand V2
 
 The owner printed stand V1: the mount sat loose in the 4.3mm slot and leaned badly. The mount plate's real thickness is not measured, so [stand V2](stl/leg-stand-v2.stl) ([source](leg-stand-v2.scad)) has a 6.0mm slot, 4mm walls and two [wedges](stl/leg-stand-v2-wedge.stl) (print two) pushed in at the slot ends beside the plate. The wedges taper 0.8 to 3.8mm, covering plates about 2.2 to 4.7mm thick, and sit outside the servo body and ear screws. Slot depth stays 8mm because the servo body sticks out of the plate just above the tower top. Not yet printed.
+
+## Dog body V1 and top deck V1 (checkpoint 6)
+
+![Dog V1 with electronics](dog-v1-electronics.png)
+
+- `dog-body-v1.scad` holds the four SG90 servos (same opening and screw slots as the V4 mount), four posts for the deck screws, and two short posts on the floor centre for the MPU6050.
+- `dog-deck-v1.scad` screws on top with four big servo-bag screws. Rear to front: a rim for a 170-point mini breadboard (the XIAO plugs into it, USB-C out the back), a wire hole, four posts for the PCA9685 (M2 x 10 + nut, nut trap underneath), and a slot that holds the OLED behind a window.
+- Board sizes come from the owner's grid-sheet photos (about +/-1mm). PCA hole spacing 57.2 x 19.8 and MPU hole spacing 15.5 are estimates; the 3.4mm holes forgive about 0.7mm of error. Not yet printed or fitted.
+- Reproduce: `openscad -o cad/stl/dog-body-v1.stl cad/dog-body-v1.scad` and `openscad -o cad/stl/dog-deck-v1.stl cad/dog-deck-v1.scad`, then `python3 scripts/validate_meshes.py`.

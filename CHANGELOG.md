@@ -1,5 +1,10 @@
 # Changelog
 
+## Checkpoint 6 (in progress): dog body and electronics deck — 2026-11-27
+
+- Added Dog body V1 (four servos, deck posts, MPU6050 floor mount) and top deck V1 (mini breadboard + XIAO, PCA9685, OLED face slot). Board sizes from owner photos; not yet printed.
+- Added dog stand/sit/bow pose timing to LessonLogic.h (host-compiled static checks only; the Dog sketch is not written yet).
+
 ## Checkpoint 5: one working leg — 2026-11-27
 
 - Leg V1 and single-leg test stand (OpenSCAD source, STLs, previews, mesh bounds checks).
