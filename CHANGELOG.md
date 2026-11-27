@@ -5,7 +5,7 @@
 - Leg V1 and single-leg test stand (OpenSCAD source, STLs, previews, mesh bounds checks).
 - `Leg` sketch: nine fixed measuring poses between 1000 and 2000us with 4-second holds and HOLD markers; same test/run/stop safety flow as Servo. Compile-time assertions keep poses inside 1000–2000us.
 - Checkpoint 5 learner guide: horn fit, centering with the Leg program, assembly, angle measurement.
-- Leg V2 after V1 failed the owner's fit test; Leg V3 adds a sloped hub recess matching the horn's sloped bump (spotted by Andrew).
+- Leg V2 after V1 failed the owner's fit test; V3 adds a disc-and-ramp recess (spotted by Andrew) but printed too tight; V4 adds clearance; V5 tried kit M2 screws; V6 (current) uses only the servo-bag screws.
 - Not physically tested. The Leg sketch's pose logic was host-compiled; the full ESP32 build was not run in this change.
 
 ## Training workflow — 2026-09-20

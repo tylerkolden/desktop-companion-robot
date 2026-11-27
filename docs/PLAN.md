@@ -6,7 +6,7 @@ Seven separate lesson pages and sketches replace the stacked Companion lesson fl
 
 ## Current build checkpoint
 
-[Checkpoint 5: one working leg](BUILD-CHECKPOINT-05.md) is current. Leg V1 fits the double-arm horn (listing size, 0.6mm clearance) and is retained by the horn screws; a printed stand holds one V4 mount upright. The new `Leg` sketch moves through nine fixed poses (1000–2000us, 4-second holds) so the learner measures angle per pulse. Leg, stand and sketch are untested on hardware.
+[Checkpoint 5: one working leg](BUILD-CHECKPOINT-05.md) is current. Current leg is Leg V6 (V1 and V3 printed and did not fit): shaped from grid-sheet photos of the owner's horn with 0.5mm per-side clearance, held by the two large servo-bag screws into pilot holes, with the small servo-bag screw holding the horn on the shaft. A printed stand holds one V4 mount upright. The new `Leg` sketch moves through nine fixed poses (1000–2000us, 4-second holds) so the learner measures angle per pulse. Leg, stand and sketch are untested on hardware.
 
 Round goal agreed with the owner on 2026-11-27, in bite-sized checkpoints for learning: (5) one working leg, (6) body plus four legs that stand and sit, (7) first slow walk, (8) sensor-driven faces on the OLED.
 
@@ -42,7 +42,7 @@ Exit: repeatable upload, detected modules, stable power, recorded calibration.
 - [x] Create and mesh-check original servo/OLED outline fit gauges with editable OpenSCAD source.
 - [ ] Measure actual boards, servo horns and connector envelopes.
 - [x] Model servo cradle fit coupons (V1–V4); V4 built, screws fit per owner. Display mount pending.
-- [ ] Print Leg V1 and stand; record horn fit and measured angle per pulse (checkpoint 5).
+- [ ] Print Leg V6 and stand; record horn fit and measured angle per pulse (checkpoint 5).
 - [ ] Print, measure and revise coupons.
 - [ ] Design lightweight chassis, removable shell, four legs and cord strain relief.
 - [ ] Use captive nuts or accessible screws; avoid heat-set inserts and permanent glue for service parts.

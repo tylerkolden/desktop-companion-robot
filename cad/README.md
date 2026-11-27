@@ -70,3 +70,7 @@ The owner printed V3: the horn would not go in and the screw holes were too smal
 ## Leg V5 (replaces Leg V4)
 
 Owner's screw plan: the servo's own centre screw holds the horn on the shaft, and two M2 x 4 screws go down through the leg into the horn's 4th arm holes (13.4mm from centre), cutting their own thread in the horn plastic. [Leg V5](stl/leg-v5.stl) (14 x 70 x 5.8mm, [source](leg-v5.scad)) keeps V4's clearances, replaces the centre hole with a 5.5mm screwdriver hole, and adds two 2.6mm side holes with 4.4mm x 1.2mm head recesses on the outside face. Not yet printed.
+
+## Leg V6 (replaces Leg V5) — current
+
+Owner found that the servo bag has the right screws: two large pointed self-tapping screws (about 2.2mm thread, 7mm shank, 4.7mm flanged head) and one small screw (about 2.0mm thread, 3.5mm shank, 2.8mm head), measured from grid-sheet photos. [Leg V6](stl/leg-v6.stl) (14 x 70 x 8.5mm, [source](leg-v6.scad)): the large screws go up through the horn's 4th arm holes (13.4mm from centre) into 2.0mm blind pilot holes 5.6mm deep; the small screw holds the horn on the shaft, reached through a 6.0mm centre hole. Keeps V4 clearances (0.5mm per side, 10.0 x 1.5mm disc recess, 2.2mm pocket). The leg is 8.5mm thick so the 7mm screws stay blind. The large screw heads sit under the horn: their clearance to the servo case through the swing is not verified. Not yet printed.

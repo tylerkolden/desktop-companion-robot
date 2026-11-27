@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" font-family="Arial, sans-serif" font-size="15">
+<rect width="640" height="360" fill="#ffffff"/>
+<text x="20" y="28" font-size="18" font-weight="bold">Leg V6 side view (cut through the middle). Not to scale.</text>
+<!-- M2 screw -->
+
+<text x="250" y="190" font-size="13"></text>
+<!-- leg -->
+<path d="M60 66 H580 V116 H400 V106 H372 L350 92 H338 V66 H302 V92 H290 L268 106 H240 V116 H60 Z" fill="#222"/>
+<rect x="308" y="84" width="24" height="8" fill="#aaa"/>
+<rect x="152" y="78" width="10" height="48" fill="#aaa"/><rect x="144" y="126" width="26" height="8" fill="#888"/>
+<rect x="478" y="78" width="10" height="48" fill="#aaa"/><rect x="470" y="126" width="26" height="8" fill="#888"/>
+<text x="20" y="52">2 large servo-bag screws: UP through the horn into the leg</text>
+<text x="172" y="94" fill="#fff">LEG (black print)</text>
+<!-- horn: disc, arm, boss -->
+<path d="M268 106 L290 94 H350 L372 106 Z" fill="#e8eef5" stroke="#999"/>
+<rect x="150" y="106" width="340" height="20" fill="#e8eef5" stroke="#999"/>
+<rect x="284" y="126" width="72" height="20" fill="#e8eef5" stroke="#999"/>
+<text x="400" y="140">disc + little ramps: INTO the leg</text>
+<text x="390" y="160">tall 2mm boss: DOWN onto the motor</text>
+<text x="20" y="152">white horn arm (2mm)</text>
+<line x1="372" y1="101" x2="396" y2="135" stroke="#c00"/>
+<line x1="356" y1="140" x2="386" y2="155" stroke="#c00"/>
+<!-- servo -->
+<rect x="296" y="146" width="48" height="38" fill="#4a7bd0"/>
+<rect x="200" y="184" width="240" height="120" fill="#2f5fb3"/>
+<text x="248" y="250" fill="#fff" font-size="18">SERVO (blue)</text>
+<text x="352" y="178" font-size="13">gear shaft</text>
+<text x="20" y="330">Large screws hold the leg to the horn (heads under the horn). The small screw, reached</text>
+<text x="20" y="350">through the big hole in the leg, holds the horn on the motor shaft.</text>
+<text x="20" y="172" font-size="13">screw head: check it clears the servo</text>
+<line x1="120" y1="162" x2="148" y2="136" stroke="#c00"/>
+<text x="345" y="94" font-size="13" fill="#fff">small screw</text>
+</svg>
