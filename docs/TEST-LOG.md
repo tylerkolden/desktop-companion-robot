@@ -211,3 +211,8 @@ Owner printed Leg V1: the double-arm horn did not fit. Owner photos on the new p
 - Owner report: Leg V6 on the servo, Leg program run. "The leg moved about 45° in each direction from centerline." Reading is approximate (not a per-HOLD protractor table yet).
 - Implied: 1000 to 2000us is about 90°, about 9° per 100us. First physical evidence that the Leg sketch builds, uploads and moves channel 0.
 - Earlier the same session: PCA9685 showed "not ready" because it did not answer at boot; scan then found 0x40; a USB power cycle fixed readiness.
+
+## 2026-11-27: stand V1 too loose; stand V2
+
+- Owner printed stand V1 and photographed it with Leg V6 on the servo: the mount "slides all around" in the slot and leans at a bad angle. Supply idle at 5.00V, 0.003A.
+- Stand V2: 6.0mm slot, 4mm walls, two tapered end wedges (0.8 to 3.8mm) to clamp plates of unknown thickness. Mesh checks pass. Not printed.

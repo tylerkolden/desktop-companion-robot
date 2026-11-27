@@ -4,7 +4,7 @@
 
 **Big idea:** the computer sends the motor a number (a pulse in microseconds, written **us**). The leg turns to an angle. Today you find out which number makes which angle. You will use your numbers in checkpoint 6 to make the dog stand.
 
-[Leg V6 STL](../cad/stl/leg-v6.stl) · [Stand STL](../cad/stl/leg-stand-v1.stl) · [Editable leg](../cad/leg-v6.scad) · [Editable stand](../cad/leg-v1.scad) · [Leg program](../lessons/sketches/Leg/Leg.ino)
+[Leg V6 STL](../cad/stl/leg-v6.stl) · [Stand STL](../cad/stl/leg-stand-v2.stl) · [Wedge STL](../cad/stl/leg-stand-v2-wedge.stl) · [Editable leg](../cad/leg-v6.scad) · [Editable stand](../cad/leg-stand-v2.scad) · [Leg program](../lessons/sketches/Leg/Leg.ino)
 
 ![Leg V6: horn-shaped pocket, round disc recess, big centre hole and two small pilot holes](../cad/leg-v6-preview.png)
 
@@ -21,7 +21,7 @@
 | V5 | First screw plan, with screws from your M2 kit. |
 | V6 | You found that the servo bag already has the right screws. |
 
-![Test stand: the V4 mount slides into the slot on top](../cad/leg-stand-v1-preview.png)
+![Test stand V2: the mount stands in the slot, held tight by a wedge at each end](../cad/leg-stand-v2-preview.png)
 
 ## Meet the new parts
 
@@ -36,8 +36,8 @@ Keep from checkpoint 4: your V4 mount with the servo screwed in. Keep from lesso
 
 ## Print
 
-1. Open **leg-v6.stl** and **leg-stand-v1.stl** in Bambu Studio. Keep **100% scale**.
-2. Check the sizes. Leg: **14 x 70 x 8.5mm**. Stand: **80 x 60 x 58mm**.
+1. Open **leg-v6.stl**, **leg-stand-v2.stl** and **leg-stand-v2-wedge.stl** in Bambu Studio. Print **two** wedges. Keep **100% scale**.
+2. Check the sizes. Leg: **14 x 70 x 8.5mm**. Stand: **80 x 60 x 58mm**. Each wedge: **4.5 x 14 x 3.8mm**.
 3. Leg: keep the **pocket facing up**. Use PLA, 0.20mm layers and 4 walls.
 4. Stand: base flat on the bed. 3 walls and 15% infill is enough.
 5. No supports are intended. In the slicer preview, the pocket, the round recess, the centre hole and both small pilot holes must stay open.
@@ -107,6 +107,7 @@ Same wiring as lesson 6. This is a functional picture, not an exact hole-placeme
 Motor supply stays unplugged for this whole part. Do not turn the shaft by hand; that can strip its tiny gears.
 
 1. Slide your V4 mount into the stand slot. The **long edge without the cable gap** goes down into the slot. The servo shaft points toward you.
+   Push one **wedge**, thin edge first, into each **end** of the slot, beside the plate. Press until the mount stands straight and does not wiggle. The wedges go at the ends so they miss the servo and its screws.
 2. **Head clearance check:** the two big screw heads now stick out under the horn, on the motor side. Hold the leg and horn up to the servo without pushing it on. Look from the side: the screw heads must not touch the servo body or the mount. If they would touch, stop and report it with a photo.
 3. Turn the leg so the foot points **straight down**. Push the horn's boss onto the shaft. The teeth only allow certain steps; choose the step closest to straight down.
 4. Put the **small screw** through the big centre hole in the leg, into the middle of the horn. Turn it with the small Phillips screwdriver until it is snug. Now the horn cannot pull off the shaft.
@@ -156,7 +157,7 @@ Write: **prediction → command → what you saw → explanation → next questi
 - **A screw head rubs the servo:** the big screw heads sit under the horn and swing in a circle as the leg moves. The Part C check looks for this before the motor runs. Watch for rubbing during the first slow poses.
 - **The leg is not straight at 1500 us:** the horn teeth only allow certain steps. Write down how far off it is. Checkpoint 6 can correct this in software.
 - **The leg hits the table:** at the middle position the foot is about 15mm above the stand's base. The poses only use 1000 to 2000 us, which is gentler than lesson 6.
-- **The stand tips over:** the book on the base stops this. The slot holds the mount by friction only. If it wobbles, wedge a folded strip of paper into the slot.
+- **The stand tips over or the mount leans:** the book on the base stops tipping. Stand V1 let the mount lean (owner print). Stand V2 clamps it with two wedges. If it still wobbles, push the wedges in harder or add a folded strip of paper.
 - **The numbers are a guess about angle:** the program sends pulse numbers. It cannot see the leg. Only your protractor readings are evidence.
 
 **What is not tested yet:** the leg and stand are new designs. Their meshes passed the computer checks, but nobody has printed Leg V6, fitted a horn to it, or moved a leg yet. Legs V1 and V3 were printed and did not fit. The Leg program has not been built with the full toolchain or run on the board.
@@ -167,9 +168,10 @@ With OpenSCAD 2021.01, from the repository root:
 
 ```powershell
 openscad -o cad/stl/leg-v6.stl cad/leg-v6.scad
-openscad -o cad/stl/leg-stand-v1.stl -D 'part="stand"' cad/leg-v1.scad
+openscad -o cad/stl/leg-stand-v2.stl cad/leg-stand-v2.scad
+openscad -o cad/stl/leg-stand-v2-wedge.stl -D 'part="wedge"' cad/leg-stand-v2.scad
 openscad -o cad/leg-v6-preview.png --imgsize=1200,700 --camera=0,8,0,40,0,20,70 cad/leg-v6.scad
-openscad -o cad/leg-stand-v1-preview.png -D 'part="stand"' --imgsize=1200,700 --viewall --autocenter cad/leg-v1.scad
+openscad -o cad/leg-stand-v2-preview.png --imgsize=1200,700 --viewall --autocenter cad/leg-stand-v2.scad
 python scripts/validate_meshes.py
 .\robot.ps1 build -Sketch Leg
 ```
