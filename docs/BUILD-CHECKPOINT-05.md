@@ -4,11 +4,13 @@
 
 **Big idea:** the computer sends the motor a number (a pulse in microseconds, written **us**). The leg turns to an angle. Today you find out which number makes which angle. You will use your numbers in checkpoint 6 to make the dog stand.
 
-[Leg V3 STL](../cad/stl/leg-v3.stl) · [Stand STL](../cad/stl/leg-stand-v1.stl) · [Editable leg](../cad/leg-v3.scad) · [Editable stand](../cad/leg-v1.scad) · [Leg program](../lessons/sketches/Leg/Leg.ino)
+[Leg V4 STL](../cad/stl/leg-v4.stl) · [Stand STL](../cad/stl/leg-stand-v1.stl) · [Editable leg](../cad/leg-v4.scad) · [Editable stand](../cad/leg-v1.scad) · [Leg program](../lessons/sketches/Leg/Leg.ino)
 
-![Leg V3: horn-shaped pocket, round disc recess with sloped room for the ramps, and screw hole](../cad/leg-v3-preview.png)
+![Leg V4: horn-shaped pocket, round disc recess with sloped room for the ramps, and screw hole](../cad/leg-v4-preview.png)
 
-**Use Leg V3.** Andrew noticed that the horn's top side is a round disc with tiny ramps where it joins the arm. From the side, the ramps make it look sloped. Leg V3 has a deeper round recess for the disc, with sloped room for the ramps, and is 0.3mm thicker so the screw still has 2mm of plastic to squeeze. If you already printed Leg V2, try it too and tell us which fits better.
+**Use Leg V4.** You printed V3 and everything was too tight, so V4 has more wiggle room: 0.5mm extra on each side of the horn, a bigger disc recess, and bigger screw holes.
+
+Why V3 existed: Andrew noticed that the horn's top side is a round disc with tiny ramps where it joins the arm. From the side, the ramps make it look sloped. Leg V3 has a deeper round recess for the disc, with sloped room for the ramps, and is 0.3mm thicker so the screw still has 2mm of plastic to squeeze. If you already printed Leg V2, try it too and tell us which fits better.
 
 Why not V1 or V2? Leg V1 did not fit: the horn is about 36mm long, not the 33mm the listing suggested, and its raised middle hit V1's flat pocket floor. V2 and V3 are shaped from photos of your own horn on the [measuring sheet](measure/README.md).
 
@@ -26,8 +28,8 @@ Keep from checkpoint 4: your V4 mount with the servo screwed in. Keep from lesso
 
 ## Print
 
-1. Open **leg-v3.stl** and **leg-stand-v1.stl** in Bambu Studio. Keep **100% scale**.
-2. Check the sizes. Leg: **13 x 70 x 5.3mm**. Stand: **80 x 60 x 58mm**.
+1. Open **leg-v4.stl** and **leg-stand-v1.stl** in Bambu Studio. Keep **100% scale**.
+2. Check the sizes. Leg: **14 x 70 x 5.8mm**. Stand: **80 x 60 x 58mm**.
 3. Leg: keep the **pocket facing up**. Use PLA, 0.20mm layers and 4 walls.
 4. Stand: base flat on the bed. 3 walls and 15% infill is enough.
 5. No supports are intended. In the slicer preview, the pocket, the round recess and the centre hole must stay open.
@@ -143,23 +145,23 @@ Write: **prediction → command → what you saw → explanation → next questi
 
 ## Engineering challenge: how could this fail?
 
-- **The pocket is the wrong size again:** V3 comes from grid-sheet photos measured to about 0.2mm, with 0.2mm of clearance on each side. Part A checks the fit before anything is screwed. The [horn gauge](measure/README.md) shows how your printer prints small holes.
+- **The pocket is the wrong size again:** V4 comes from grid-sheet photos measured to about 0.2mm, with 0.5mm of clearance on each side (V3 had 0.2mm and was too tight on a real print). Part A checks the fit before anything is screwed. The [horn gauge](measure/README.md) shows how your printer prints small holes.
 - **The clamp screw loosens or strips:** the leg has 2mm of plastic under the hub for the screw to squeeze. Check it is snug before each run. The two optional tiny screws add a second hold.
 - **The leg is not straight at 1500 us:** the horn teeth only allow certain steps. Write down how far off it is. Checkpoint 6 can correct this in software.
 - **The leg hits the table:** at the middle position the foot is about 15mm above the stand's base. The poses only use 1000 to 2000 us, which is gentler than lesson 6.
 - **The stand tips over:** the book on the base stops this. The slot holds the mount by friction only. If it wobbles, wedge a folded strip of paper into the slot.
 - **The numbers are a guess about angle:** the program sends pulse numbers. It cannot see the leg. Only your protractor readings are evidence.
 
-**What is not tested yet:** the leg and stand are new designs. Their meshes passed the computer checks, but nobody has printed Leg V3, fitted a horn to it, or moved a leg yet. Leg V1 was printed and did not fit. The Leg program has not been built with the full toolchain or run on the board.
+**What is not tested yet:** the leg and stand are new designs. Their meshes passed the computer checks, but nobody has printed Leg V4, fitted a horn to it, or moved a leg yet. Leg V1 was printed and did not fit. The Leg program has not been built with the full toolchain or run on the board.
 
 ## Reproduce
 
 With OpenSCAD 2021.01, from the repository root:
 
 ```powershell
-openscad -o cad/stl/leg-v3.stl cad/leg-v3.scad
+openscad -o cad/stl/leg-v4.stl cad/leg-v4.scad
 openscad -o cad/stl/leg-stand-v1.stl -D 'part="stand"' cad/leg-v1.scad
-openscad -o cad/leg-v3-preview.png --imgsize=1200,700 --viewall --autocenter cad/leg-v3.scad
+openscad -o cad/leg-v3-preview.png --imgsize=1200,700 --viewall --autocenter cad/leg-v4.scad
 openscad -o cad/leg-stand-v1-preview.png -D 'part="stand"' --imgsize=1200,700 --viewall --autocenter cad/leg-v1.scad
 python scripts/validate_meshes.py
 .\robot.ps1 build -Sketch Leg

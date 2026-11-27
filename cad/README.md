@@ -62,3 +62,7 @@ Leg V1 was printed by the owner and did not fit the horn. [Leg V2](stl/leg-v2.st
 ## Leg V3 (replaces Leg V2)
 
 Andrew noticed from close-up photos that the horn's screw side is a straight-sided disc (about 8.0-8.7mm across, about 1.1mm tall) with small ramps where it joins the arm; from the side the ramps make it look sloped. [Leg V3](stl/leg-v3.stl) (13 x 70 x 5.3mm, [source](leg-v3.scad)) has a 9.4mm round recess 1.3mm deep for the disc, plus a sloped clearance (9.4mm at the bottom to 13.4mm at the arm face, trimmed to the arm pocket) for the ramps. V2's recess was only 1.0mm deep. The leg is 0.3mm thicker to keep 2mm of plastic under the hub. Owner's printed gauge: arm 2.0mm, spline boss 7.5mm. Not yet printed.
+
+## Leg V4 (replaces Leg V3)
+
+The owner printed V3: the horn would not go in and the screw holes were too small. [Leg V4](stl/leg-v4.stl) (14 x 70 x 5.8mm, [source](leg-v4.scad)) keeps the V3 layout with more clearance: 0.5mm per side around the horn arms (was 0.2), a 10.0mm x 1.5mm disc recess (was 9.4 x 1.3), a 2.2mm pocket (was 2.0), a 2.9mm shaft-screw hole (was 2.4) and 1.6mm pilot holes (was 1.0). The leg is wider and thicker to keep 2mm walls and floor. Not yet printed.
