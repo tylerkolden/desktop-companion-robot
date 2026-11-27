@@ -4,7 +4,7 @@
 //   raised disc on the screw side about 8.7 dia x 1.0, arm 2.0 thick,
 //   arm 6.0 wide beside the hub tapering to 3.6 at the rounded tip,
 //   arm holes about 1.4 dia at 5.9, 8.4, 10.9, 13.4, 15.9 from centre.
-// The horn's SCREW side goes into the pocket; the spline boss points at the servo.
+// The horn stays as mounted on the servo: tall spline boss DOWN onto the motor, small 1mm disc UP into this leg pocket. The leg sits on top like a lid.
 // An M2 x 6 screw through the leg and horn into the servo shaft clamps everything.
 // Print pocket side UP. No supports.
 $fn=64;

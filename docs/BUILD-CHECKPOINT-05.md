@@ -36,8 +36,12 @@ Print one leg only. You will print three more in checkpoint 6, after this one wo
 
 **Predict:** will the horn sit flat inside the leg pocket? Write yes or no.
 
-1. Hold the horn so the round **boss** points up at you. The flat side faces down.
-2. Lower it into the pocket. The middle drops into the round recess.
+![Side view: leg on top, horn in the middle, servo underneath, one screw through all three](../cad/leg-v2-assembly.svg)
+
+The horn stays the same way up as it sits on the motor: tall boss **down** toward the motor, small disc **up**. The leg goes **on top** of it, like a lid.
+
+1. Lay the leg on the table with its pocket facing up. Turn the horn upside down (tall boss up) and drop it into the pocket. The small disc drops into the round recess.
+2. Flip both over together: now the leg is on top and the tall boss points down, ready for the motor.
 3. **Expected:** the horn sits flush with the top of the leg, with a tiny gap around the arms. It does not need pushing, and it cannot turn in the pocket.
 4. Find one **M2 x 6mm** screw in the M2 kit.
 
@@ -90,7 +94,7 @@ Same wiring as lesson 6. This is a functional picture, not an exact hole-placeme
 
 Motor supply stays unplugged for this whole part. Do not turn the shaft by hand; that can strip its tiny gears.
 
-1. Put the horn in the leg pocket as in Part A: boss pointing out of the pocket.
+1. Put the horn in the leg pocket as in Part A, so the tall boss sticks out of the pocket.
 2. Slide your V4 mount into the stand slot. The **long edge without the cable gap** goes down into the slot. The servo shaft points toward you.
 3. Hold the leg and horn together. Turn them so the foot points **straight down**. Push the horn's boss onto the shaft. The teeth only allow certain steps; choose the step closest to straight down.
 4. Push the M2 x 6mm screw through the hole in the middle of the leg. Turn it with the 1.5mm hex key until it is snug. It goes through the leg and the horn and into the motor shaft. Do not force it.
