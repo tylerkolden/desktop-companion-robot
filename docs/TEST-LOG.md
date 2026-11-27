@@ -204,3 +204,4 @@ Owner printed Leg V1: the double-arm horn did not fit. Owner photos on the new p
 ## 2026-11-27: Leg V6 printed (owner)
 
 - Owner report: "The Leg V6 is perfect." Horn fit accepted by owner. No measurements. Screw-head clearance to the servo, stand fit and motion not yet reported.
+- Part A assembled (owner photos, 2026-11-27): horn seated in Leg V6 pocket, both large servo-bag screws driven through the 4th horn holes. From the grid photos: leg about 71 x 9mm (design 70 x 8.5), screw heads stand about 1mm above the horn face, spline boss about 2mm. Head clearance to the servo still to be checked on the motor (Part C step 2).
