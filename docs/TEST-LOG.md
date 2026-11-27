@@ -205,3 +205,9 @@ Owner printed Leg V1: the double-arm horn did not fit. Owner photos on the new p
 
 - Owner report: "The Leg V6 is perfect." Horn fit accepted by owner. No measurements. Screw-head clearance to the servo, stand fit and motion not yet reported.
 - Part A assembled (owner photos, 2026-11-27): horn seated in Leg V6 pocket, both large servo-bag screws driven through the 4th horn holes. From the grid photos: leg about 71 x 9mm (design 70 x 8.5), screw heads stand about 1mm above the horn face, spline boss about 2mm. Head clearance to the servo still to be checked on the motor (Part C step 2).
+
+## 2026-11-27: first leg motion (owner)
+
+- Owner report: Leg V6 on the servo, Leg program run. "The leg moved about 45° in each direction from centerline." Reading is approximate (not a per-HOLD protractor table yet).
+- Implied: 1000 to 2000us is about 90°, about 9° per 100us. First physical evidence that the Leg sketch builds, uploads and moves channel 0.
+- Earlier the same session: PCA9685 showed "not ready" because it did not answer at boot; scan then found 0x40; a USB power cycle fixed readiness.
