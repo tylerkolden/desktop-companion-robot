@@ -7,12 +7,13 @@ m2_pilot=1.7;                                   // M2 machine screw cuts its own
 m2_free=2.9;                                    // M2 passes through freely (Leg V4 lesson)
 wall=2;                                         // shell and head wall
 
-// body shell: a round bean with an open belly. It is narrower than the legs, so the legs
-// and their round hip discs sit OUTSIDE it, like a toy dog's shoulders and hips.
-shell=[140,70]; shell_bot=22; shell_top=72;
-shell_R=30;             // the bean is a hull of four balls this big
-leg_in_y=37;            // inside face of Leg V6 (from the SG90 drawing; not measured)
-servo_top=21.5;         // servo cases poke out of the body walls below this height
+// body shell: one big round bean that hides the frame, servos and hips. Open belly: only the
+// lower legs poke out underneath. It is a hull of four big balls, cut flat at the bottom.
+shell=[150,120]; shell_bot=2; shell_top=68;
+shell_R=41;
+// leg points that must stay inside (from Leg V6 at +/-40 deg; leg y from the SG90 drawing, not measured)
+leg_out_y=46; leg_top=[58,35]; hip=[52,8];   // [x,z] of the upper-tail tip and the hip disc bottom-front
+servo_top=21.5;
 
 // neck: a hollow tube on the deck. The shell rests on its shoulder; the head sits on its top.
 neck_lo=[[26,50],16];   // x range, half width (below the shell roof)

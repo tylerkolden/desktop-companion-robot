@@ -89,13 +89,15 @@ The owner asked for a cute, lovable dog that still works. The tested parts stay 
 |---|---|---|
 | Body frame: 4 servos (V4 openings), 4 deck posts, MPU6050 floor posts | `dog-body-v1.scad` | flat, no supports |
 | Deck V2: PCA9685 (header forward), hollow neck for wires, 2 rear rests | `dog-deck-v2.scad` | flat, no supports |
-| Body shell: round bean with curly tail; legs stay outside it | `dog-shell-v1.scad` | open side down, tree supports |
+| Body shell: one round bean (150 x 120) with curly tail; hides frame, servos and hips; legs poke out the open belly | `dog-shell-v1.scad` | open side down, tree supports |
 | Head shell: round head, screen window, nose, USB hole; lower edge hugs the body | `dog-head-v1.scad` (`part="shell"`) | open side down, tree supports |
 | Chin plate: OLED slot, mini breadboard (XIAO), ear posts | `dog-head-v1.scad` (`part="chin"`) | flat, no supports |
 | Ear (print 2) | `dog-ears-v1.scad` | flat, no supports |
 | Leg V7 (print 4): Leg V6 hip unchanged + round paw | `leg-v7.scad` | pocket up, no supports |
 
 Fasteners: 4 big servo-bag screws (deck to body); 6 M2 x 10 + nuts (PCA, MPU); 4 M2 x 10 (chin to neck, ears through head into the chin posts).
+
+Owner feedback (2026-11-27): the first versions looked boxy, then piecemeal; this version encloses the whole body.
 
 Estimates, not measurements: board sizes from the owner's grid photos (about +/-1mm); PCA hole spacing 57.2 x 19.8 and MPU 15.5 (3.4mm holes forgive about 0.7mm); leg position and servo protrusion from the SG90 drawing. Nothing in this section has been printed or fitted. `dog-deck-v1.scad` (all electronics on one long deck) was replaced before printing; it is kept for history.
 
