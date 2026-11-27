@@ -54,3 +54,7 @@ Use [checkpoint 4](../docs/BUILD-CHECKPOINT-04.md) and [V4 STL](stl/servo-cradle
 ## Current: Leg V1 and single-leg stand
 
 Use [checkpoint 5](../docs/BUILD-CHECKPOINT-05.md). [Leg STL](stl/leg-v1.stl) (14 x 70 x 8mm) has a pocket for the SG90 double-arm horn, sized from the 33mm listing length with 0.6mm clearance, a 5.5mm screwdriver hole over the shaft screw, and 6mm of plastic under the horn for the horn screws. [Stand STL](stl/leg-stand-v1.stl) (80 x 60 x 58mm) holds a V4 mount upright by its continuous long edge so the shaft sits about 65mm above the table. Source: [leg-v1.scad](leg-v1.scad), `part="leg"` or `part="stand"`. Horn hub and tip widths are assumptions, not measurements. No print, fit or motion test yet.
+
+## Leg V2 (replaces Leg V1)
+
+Leg V1 was printed by the owner and did not fit the horn. [Leg V2](stl/leg-v2.stl) (13 x 70 x 5mm, [source](leg-v2.scad)) follows the owner's horn as measured from grid-sheet photos: about 35.7mm long, with a 7.2mm spline boss and a raised 8.7mm disc on the screw side. The horn's flat side goes into the pocket. An M2 x 6 screw through the leg and horn into the shaft clamps it. A [horn gauge](stl/horn-gauge.stl) and [measuring sheet](../docs/measure/README.md) support re-measuring. Not yet printed.
