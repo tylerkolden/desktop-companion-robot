@@ -55,7 +55,7 @@ Reviewed September 13, 2026. Links identify the researched ASIN, not a guarantee
 | Component | Used in V1 | Amazon listing | Receipt check |
 |---|---:|---|---|
 | XIAO ESP32C3, pre-soldered | 1 | [B0DRNSV5CS](https://www.amazon.com/dp/B0DRNSV5CS) | C3 model, installed headers, included antenna |
-| SG90 positional servo | 4 | [B0C7KPXPQV](https://www.amazon.com/dp/B0C7KPXPQV) | At least four; horns and horn screws; not continuous-rotation units |
+| SG90 positional servo | 5 | [B0C7KPXPQV](https://www.amazon.com/dp/B0C7KPXPQV) | Four legs plus the wagging tail (owner has a spare); horns and horn screws; not continuous-rotation units |
 | SSD1306 I2C OLED, 128 x 64 | 1 | [B0F5WPZJ92](https://www.amazon.com/dp/B0F5WPZJ92) | Photos show installed four-pin header; confirm actual delivery |
 | Pre-soldered GY-521 MPU6050 | 1 | [B0D2TJVMNY](https://www.amazon.com/dp/B0D2TJVMNY) | Installed header and labeled pin order |
 | Mini breadboards | As needed, start with 2 | [B0146MGBWI](https://www.amazon.com/dp/B0146MGBWI) | Check contact layout; used only for logic/sensor distribution |

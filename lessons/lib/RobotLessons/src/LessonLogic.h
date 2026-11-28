@@ -124,6 +124,36 @@ static_assert(dogAngle(0,DOG_CHECK_START+2000)==20 && dogAngle(1,DOG_CHECK_START
 static_assert(dogAngle(2,DOG_POSE_START+DOG_POSE_RAMP)==35 && dogAngle(0,DOG_POSE_START+DOG_POSE_RAMP)==0, "first pose is sit");
 static_assert(dogAngle(2,DOG_POSE_START+750)==17, "dog ramps between poses");
 static_assert(dogAngle(DOG_LEGS-1,DOG_POSE_START+DOG_POSE_COUNT*DOG_POSE_MS-1)==0, "dog finishes standing");
+
+// Tail servo (Puppy V2 + tail, 2026-11-28): PCA channel 4, after the four legs on 0-3.
+// The tail stays centred during the leg check and while sitting or bowing. During each STAND
+// hold it wags 5 times (+/-25 degrees, 0.8s per wag), then rests centred before the next pose.
+constexpr int DOG_TAIL_CHANNEL=DOG_LEGS;
+constexpr int DOG_TAIL_MAX_DEG=30, DOG_TAIL_WAG_DEG=25;
+constexpr uint32_t DOG_WAG_MS=800, DOG_WAG_COUNT=5;
+constexpr int dogWagDeg(uint32_t into) {   // 0 -> +25 -> 0 -> -25 -> 0, 200ms each part
+  return into<200 ? ramp(0,DOG_TAIL_WAG_DEG,into,200)
+    : into<400 ? ramp(DOG_TAIL_WAG_DEG,0,into-200,200)
+    : into<600 ? ramp(0,-DOG_TAIL_WAG_DEG,into-400,200)
+    : ramp(-DOG_TAIL_WAG_DEG,0,into-600,200);
+}
+constexpr int dogTailAngle(uint32_t age) {
+  const int pose=dogPoseIndex(age);
+  if(pose<0 || DOG_SEQUENCE[pose]!=DOG_STAND || !dogHolding(age)) return 0;
+  const uint32_t into=(age-DOG_POSE_START)%DOG_POSE_MS-DOG_POSE_RAMP;
+  return into<DOG_WAG_MS*DOG_WAG_COUNT ? dogWagDeg(into%DOG_WAG_MS) : 0;
+}
+constexpr bool dogTailEnvelope() {
+  for(uint32_t t=0;t<=TEST_MS;t+=10) { const int a=dogTailAngle(t); if(a<-DOG_TAIL_MAX_DEG || a>DOG_TAIL_MAX_DEG) return false; }
+  for(uint32_t t=10;t<=TEST_MS;t+=10) { const int d=dogTailAngle(t)-dogTailAngle(t-10); if(d>3 || d<-3) return false; }   // no jumps
+  return true;
+}
+static_assert(dogTailEnvelope(), "tail stays inside +/-30 degrees and never jumps");
+static_assert(DOG_POSE_RAMP+DOG_WAG_MS*DOG_WAG_COUNT<DOG_POSE_MS, "wagging finishes before the next pose");
+static_assert(dogTailAngle(0)==0 && dogTailAngle(DOG_POSE_START-1)==0 && dogTailAngle(TEST_MS)==0, "tail still during the leg check and at the end");
+static_assert(dogTailAngle(DOG_POSE_START+DOG_POSE_RAMP+100)==0, "tail still while sitting (first pose)");
+static_assert(dogTailAngle(DOG_POSE_START+DOG_POSE_MS+DOG_POSE_RAMP+200)==DOG_TAIL_WAG_DEG
+  && dogTailAngle(DOG_POSE_START+DOG_POSE_MS+DOG_POSE_RAMP+600)==-DOG_TAIL_WAG_DEG, "tail wags while standing");
 static_assert(finished(59744,0xffffff00u,TEST_MS), "minute deadline across millis rollover");
 static_assert(!finished(59743,0xffffff00u,TEST_MS), "minute deadline boundary");
 static_assert(finished(100,0,SAMPLE_MS) && !finished(99,0,SAMPLE_MS), "100ms sample boundary");

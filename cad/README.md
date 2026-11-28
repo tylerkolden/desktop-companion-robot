@@ -92,17 +92,22 @@ Shared numbers live in `dog-puppy2-common.scad` (whole-dog coordinates: x forwar
 
 | Part | File | Print |
 |---|---|---|
-| Body frame V2: same as V1 but the 4 deck posts moved in to x=+/-10 | `dog-body-v2.scad` | flat, no supports |
+| Body frame V3 (current): Body V2 plus a plate at the back for the tail servo (same opening, screw slots and cable gap as the V4 cradle) | `dog-body-v3.scad` | flat, no supports |
+| Body frame V2 (no tail): same as V1 but the 4 deck posts moved in to x=+/-10 | `dog-body-v2.scad` | flat, no supports |
 | Deck V3: PCA9685 at the back (header pointing to the tail), breadboard sideways at the front (XIAO USB-C to the left), 2 wire slots, 4 shell screw blocks | `dog-deck-v3.scad` | flat, no supports |
-| Body shell V2: slim capsule, curly tail, 4 gear U-slots, USB-C hole on the left, OLED wire hole and 2 chin screw holes on top | `dog-shell-v2.scad` | open side down, tree supports |
+| Body shell V3 (current): Shell V2 without the fixed tail, plus a fifth U-slot at the back for the tail servo (also the exit for the 5V wires) | `dog-shell-v3.scad` | open side down, tree supports |
+| Wagging tail (print 1): Leg V6 hip turned upside down, round disc, curly tip | `dog-tail-v1.scad` | pocket up, no supports |
+| Body shell V2 (no tail servo): slim capsule, curly tail, 4 gear U-slots, USB-C hole on the left, OLED wire hole and 2 chin screw holes on top | `dog-shell-v2.scad` | open side down, tree supports |
 | Head shell V2: small round head, big screen window, nose | `dog-head-v2.scad` (`part="shell"`) | open side down, tree supports |
 | Chin plate V2: OLED slot, ear posts; screws to the body roof | `dog-head-v2.scad` (`part="chin"`) | flat, no supports |
 | Ear V2 (print 2) | `dog-ears-v2.scad` | flat, no supports |
 | Leg V8 (print 4): Leg V6 hip unchanged + round paw + 32mm round thigh | `leg-v8.scad` | pocket up, no supports |
 
-Fasteners: 4 big servo-bag screws (deck to body); 6 M2 x 10 + nuts (PCA, MPU); 2 M2 x 10 + nuts (chin to body roof, before the shell goes on); 4 M2 x 10 (shell sides into the deck blocks); 2 M2 x 10 (ears through head into the chin posts).
+Tail servo (added 2026-11-28): a fifth SG90 lies at the back with its shaft pointing backward and its long side up and down, held by the plate on Body V3 exactly like the V4 cradle. The tail fits on its horn like a leg and wags side to side. It plugs into PCA channel 4. The PCA's header plugs hang just above the plate (0.5mm+ gap), so plug the 4 XIAO wires in after the tail servo is in. Uses the same 5V supply; 5 SG90s are still within the 4A adapter.
 
-Build order: servos into the body, deck on, boards on, chin plate onto the shell roof, shell down over the deck and screwed at the sides, OLED in, head shell and ears on, legs last.
+Fasteners: 4 big servo-bag screws (deck to body); 2 M2 x 10 + nuts (tail servo, like the V4 cradle); 2 big + 1 small servo-bag screw (tail onto its horn, like a leg); 6 M2 x 10 + nuts (PCA, MPU); 2 M2 x 10 + nuts (chin to body roof, before the shell goes on); 4 M2 x 10 (shell sides into the deck blocks); 2 M2 x 10 (ears through head into the chin posts).
+
+Build order: servos (4 legs + tail) into the body, deck on, boards on, chin plate onto the shell roof, shell down over the deck and screwed at the sides, OLED in, head shell and ears on, legs and tail last.
 
 Not checked yet: the 90 deg swing is clear of the body in the CAD, but whether each servo can reach +/-90 deg from straight down depends on where the horn lands on the spline; the program will find out per leg. Gear tower size, leg position and servo protrusion come from the SG90 drawing, not a measurement. Board sizes from the owner's grid photos (about +/-1mm). Nothing in this section has been printed or fitted.
 
@@ -124,7 +129,9 @@ The owner asked for a cute, lovable dog that still works. The tested parts stay 
 | Ear (print 2) | `dog-ears-v1.scad` | flat, no supports |
 | Leg V7 (print 4): Leg V6 hip unchanged + round paw | `leg-v7.scad` | pocket up, no supports |
 
-Fasteners: 4 big servo-bag screws (deck to body); 6 M2 x 10 + nuts (PCA, MPU); 4 M2 x 10 (chin to neck, ears through head into the chin posts).
+Tail servo (added 2026-11-28): a fifth SG90 lies at the back with its shaft pointing backward and its long side up and down, held by the plate on Body V3 exactly like the V4 cradle. The tail fits on its horn like a leg and wags side to side. It plugs into PCA channel 4. The PCA's header plugs hang just above the plate (0.5mm+ gap), so plug the 4 XIAO wires in after the tail servo is in. Uses the same 5V supply; 5 SG90s are still within the 4A adapter.
+
+Fasteners: 4 big servo-bag screws (deck to body); 2 M2 x 10 + nuts (tail servo, like the V4 cradle); 2 big + 1 small servo-bag screw (tail onto its horn, like a leg); 6 M2 x 10 + nuts (PCA, MPU); 4 M2 x 10 (chin to neck, ears through head into the chin posts).
 
 Owner feedback (2026-11-27): the first versions looked boxy, then piecemeal; this version encloses the whole body.
 

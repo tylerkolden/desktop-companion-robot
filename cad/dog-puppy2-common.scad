@@ -49,3 +49,14 @@ module head_outer() difference() { head_solid(0); shell_solid(-clr); }
 // top of the shell's inside at (x,y): used to check boards fit under the roof
 function roof_in(y) = let(o=wall, cy=shell[1]/2-shell_rp, r=shell_rp-o, dy=max(0,abs(y)-cy))
   dy>=r ? -1 : shell_top-shell_rt + (shell_rt-o)*sqrt(1-pow(dy/r,2));
+
+// Tail servo (added 2026-11-28, Puppy V2 + tail): an SG90 lying with its shaft pointing BACKWARD
+// through the rear of the shell, long side up and down. The tail turns around the shaft, so it
+// wags side to side. Held by a V4-style plate at the back of Dog body V3.
+tail_case_top_x=-74.5;              // case top (shaft side), from the SG90 drawing, not measured
+tail_ear_x=tail_case_top_x+4.3;     // ears rest on the back face of the plate (like the body walls)
+tail_plate_t=4;
+tail_zc=19;                         // middle of the servo case (height)
+tail_shaft_z=tail_zc+11.5-5.9;      // shaft is 5.9 from the top end of the case
+tail_gear_x=tail_case_top_x-4;      // gear tower tip
+tail_face_x=tail_gear_x-4.7;        // tail part's pocket face (same gap as the legs: gear top to leg face)
