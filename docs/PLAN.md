@@ -6,7 +6,11 @@ Seven separate lesson pages and sketches replace the stacked Companion lesson fl
 
 ## Current build checkpoint
 
-[Checkpoint 4: screw-retained servo mount](BUILD-CHECKPOINT-04.md) is current. Preserve the owner-approved 23 x 12.9mm opening. V4 replaces snap tabs with two M2 x 10mm machine screws, nuts and flat washers; cable entry moves to the long side. Print and check one before designing the chassis. M2 passage through the actual ear holes, cable insertion, washer seating and retention remain unverified. The sensor/personality app is paused at the owner's request. No assembled leg should use the bare-servo sweep without checking its mechanical limits.
+[Checkpoint 5: one working leg](BUILD-CHECKPOINT-05.md) is current. Current leg is Leg V6 (V1 and V3 printed and did not fit): shaped from grid-sheet photos of the owner's horn with 0.5mm per-side clearance, held by the two large servo-bag screws into pilot holes, with the small servo-bag screw holding the horn on the shaft. A printed stand holds one V4 mount upright. The new `Leg` sketch moves through nine fixed poses (1000–2000us, 4-second holds) so the learner measures angle per pulse. Leg, stand and sketch are untested on hardware.
+
+Round goal agreed with the owner on 2026-11-27, in bite-sized checkpoints for learning: (5) one working leg, (6) body plus four legs that stand and sit, (7) first slow walk, (8) sensor-driven faces on the OLED.
+
+Previous: [Checkpoint 4: screw-retained servo mount](BUILD-CHECKPOINT-04.md). Owner reports V4 built and screws fit (2026-11-27). Preserve the owner-approved 23 x 12.9mm opening. V4 replaces snap tabs with two M2 x 10mm machine screws, nuts and flat washers; cable entry moves to the long side. Print and check one before designing the chassis. M2 passage through the actual ear holes, cable insertion, washer seating and retention remain unverified. The sensor/personality app is paused at the owner's request. No assembled leg should use the bare-servo sweep without checking its mechanical limits.
 
 ## Milestone 0: documented starting point
 
@@ -37,7 +41,8 @@ Exit: repeatable upload, detected modules, stable power, recorded calibration.
 
 - [x] Create and mesh-check original servo/OLED outline fit gauges with editable OpenSCAD source.
 - [ ] Measure actual boards, servo horns and connector envelopes.
-- [ ] Model servo cradle and display mount fit coupons.
+- [x] Model servo cradle fit coupons (V1–V4); V4 built, screws fit per owner. Display mount pending.
+- [ ] Print Leg V6 and stand; record horn fit and measured angle per pulse (checkpoint 5).
 - [ ] Print, measure and revise coupons.
 - [ ] Design lightweight chassis, removable shell, four legs and cord strain relief.
 - [ ] Use captive nuts or accessible screws; avoid heat-set inserts and permanent glue for service parts.

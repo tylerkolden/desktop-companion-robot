@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [ValidateSet('help','setup','doctor','build','ports','upload','status','monitor')][string]$Task = 'help',
-    [ValidateSet('Basics','Accelerometer','Gyroscope','Temperature','Display','Servo','Integration','Companion','Hello','Scanner','Face','Motion')][string]$Sketch = 'Basics',
+    [ValidateSet('Basics','Accelerometer','Gyroscope','Temperature','Display','Servo','Leg','Integration','Companion','Hello','Scanner','Face','Motion')][string]$Sketch = 'Basics',
     [ValidatePattern('^COM[1-9][0-9]*$')][string]$Port,
     [ValidateSet(115200,230400,460800,921600)][int]$UploadBaud = 115200,
     [switch]$ServoPowerDisconnected

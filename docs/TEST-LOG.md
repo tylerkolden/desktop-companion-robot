@@ -164,3 +164,55 @@ Owner reports the four snap tabs are too loose to hold the servo; supplied four 
 ## 2026-10-25 — V4 screw-retained cradle
 
 Owner rejected snap retention as flimsy and requested screws. V4 preserves the 23 x 12.9mm aperture, removes tabs, uses a 4mm plate and moves the 6mm cable entry to a long edge. Two adjustable slots accept the selected M2 hardware. Computational STL checks cover closed manifold edges, winding, connected shell, positive volume and 44 x 30 x 4mm bounds. Physical cable routing, M2 passage, washer clearance, retention and load strength remain pending. No physical operation or book update performed. See checkpoint 4 for failure-mode review and acceptance checks.
+
+## 2026-11-27 — owner report: V4 built; Leg V1 design
+
+Owner reports the V4 cradle was built and the M2 screws fit. Created Leg V1 and a single-leg stand in `cad/leg-v1.scad`. OpenSCAD 2021.01 export passed closed-edge, winding, connected-shell, positive-volume and bounds checks: leg 14 x 70 x 8mm (816 triangles, 5,938mm3), stand 80 x 60 x 58mm (44 triangles, 42,274mm3). Previews reviewed. Added the `Leg` sketch (LESSON_KIND 7). Its pose logic and static assertions compiled with host g++ (gnu++17); the pinned ESP32 toolchain could not be downloaded in the cloud environment, so `robot.ps1 build -Sketch Leg` still needs to run on the Windows machine. `check_lessons.py` passed. No print, horn fit, upload or leg motion performed.
+
+## 2026-11-27 — Leg V1 physical fit failure; Leg V2 from measured horn
+
+Owner printed Leg V1: the double-arm horn did not fit. Owner photos on the new printed measuring sheet (1mm grid with corner reference squares) were measured at about 18–20 px/mm: horn length about 35.7mm (listing basis was 33mm), spline boss 7.2mm dia x 2.0mm, screw-side raised disc about 8.7mm dia x 1.0mm, arm 2.0mm thick, 6.0mm wide beside the hub tapering to 3.6mm, arm holes about 1.4mm at 2.5mm pitch from 5.9 to 15.9mm. Photo measurements, not calipers; about ±0.2mm. Leg V2 (`cad/leg-v2.scad`, 13 x 70 x 5mm, 3,271mm3) has a horn-outline pocket 2.0mm deep with 0.4mm total clearance, a 9.2mm hub recess 3.0mm deep, a 2.4mm centre hole for an M2 x 6 clamp screw into the servo shaft, and optional 1.0mm pilot holes at 13.4mm. Mesh checks passed. Added a printed horn gauge (85 x 36 x 3mm) and the measuring sheet. M2 thread compatibility with the servo shaft, pocket fit and clamp retention are untested.
+
+## 2026-11-27: horn gauge result (owner report)
+
+- Arm/disc thickness: fits the **2.0** slot. Leg V2 uses 2.0 (pocket depth = arm thickness). Matches.
+- Hub: fits the **7.5** hole. Photos gave 7.2 for the boss. The leg's round recess is 9.2, so anything up to 9.2 drops in. No change to Leg V2.
+- Evidence: owner's gauge reading, not calipers. Leg V2 fit not yet reported.
+
+## 2026-11-27: sloped horn bump (Andrew's observation) and Leg V3
+
+- Andrew noticed the spline side has a clean straight-sided boss, but the screw side has a bump with sloped sides.
+- Two side-view photos (one on the 1mm grid sheet, about 63 px/mm). Grid photo: bump about 9.0mm across at the arm, about 5.0-5.5mm flat top, about 1.1mm tall. Second photo (no scale, sized by horn length) agrees on shape, about 0.9-1.0mm tall.
+- Leg V2's straight recess was 1.0mm deep, so a 1.1mm bump could hold the horn about 0.1mm proud and it would not centre on the slope.
+- Leg V3: bowl recess 9.6 -> 6.4mm over 1.3mm, leg 5.3mm thick, 2mm floor kept. Mesh checks pass. Not printed.
+- Correction, same day: four close-up photos show the bump is a straight-sided disc with small ramps where it joins the arm, not a cone. The first V3 bowl (narrowing to 6.4mm at the bottom) would have blocked a straight 8.7mm disc, so V3 was reworked before printing: straight 9.4 x 1.3mm recess plus sloped ramp room inside the arm pocket. Mesh checks pass. Not printed.
+
+## 2026-11-27: Leg V3 printed, too tight; Leg V4
+
+- Owner printed Leg V3: horn did not fit, margins too tight, screw holes too small. No measurements of the print.
+- Leg V4: per-side horn clearance 0.2 -> 0.5mm, disc recess 9.4 x 1.3 -> 10.0 x 1.5mm, pocket 2.0 -> 2.2mm, shaft-screw hole 2.4 -> 2.9mm, pilot holes 1.0 -> 1.6mm. Leg 14 x 70 x 5.8mm. Mesh checks pass. Not printed.
+
+## 2026-11-27: Leg V5 screw plan (owner)
+
+- Owner's plan: stock centre screw holds the horn on the motor; two smaller screws through the arm holes hold the leg to the horn. Leg V5 adds a 5.5mm centre access hole and two counterbored M2 side holes at the 4th horn holes. Recommended M2 x 4 (M2 x 5 at most) so tips do not poke out under the 2mm horn. Mesh checks pass. Not printed.
+
+## 2026-11-27: servo-bag screws and Leg V6
+
+- Owner photos of the servo-bag screws on the grid sheet (about 10 px/mm top-down): 2 large pointed screws about 8.7mm overall (head about 1.6 thick, 4.7 dia flange, thread about 2.2); 1 small screw about 5mm overall (head about 2.8 dia, thread about 2.0). +/-0.3mm.
+- Leg V6: large screws up through horn 4th holes into 2.0mm blind pilot holes; small screw through a 6.0mm access hole holds horn on shaft. 14 x 70 x 8.5mm. Mesh checks pass. Not printed. Screw-head clearance to servo body unverified (guide Part C step 2 checks it).
+
+## 2026-11-27: Leg V6 printed (owner)
+
+- Owner report: "The Leg V6 is perfect." Horn fit accepted by owner. No measurements. Screw-head clearance to the servo, stand fit and motion not yet reported.
+- Part A assembled (owner photos, 2026-11-27): horn seated in Leg V6 pocket, both large servo-bag screws driven through the 4th horn holes. From the grid photos: leg about 71 x 9mm (design 70 x 8.5), screw heads stand about 1mm above the horn face, spline boss about 2mm. Head clearance to the servo still to be checked on the motor (Part C step 2).
+
+## 2026-11-27: first leg motion (owner)
+
+- Owner report: Leg V6 on the servo, Leg program run. "The leg moved about 45° in each direction from centerline." Reading is approximate (not a per-HOLD protractor table yet).
+- Implied: 1000 to 2000us is about 90°, about 9° per 100us. First physical evidence that the Leg sketch builds, uploads and moves channel 0.
+- Earlier the same session: PCA9685 showed "not ready" because it did not answer at boot; scan then found 0x40; a USB power cycle fixed readiness.
+
+## 2026-11-27: stand V1 too loose; stand V2
+
+- Owner printed stand V1 and photographed it with Leg V6 on the servo: the mount "slides all around" in the slot and leans at a bad angle. Supply idle at 5.00V, 0.003A.
+- Stand V2: 6.0mm slot, 4mm walls, two tapered end wedges (0.8 to 3.8mm) to clamp plates of unknown thickness. Mesh checks pass. Not printed.

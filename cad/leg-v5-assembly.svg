@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" font-family="Arial, sans-serif" font-size="15">
+<rect width="640" height="360" fill="#ffffff"/>
+<text x="20" y="28" font-size="18" font-weight="bold">Leg V5 side view (cut through the middle). Not to scale.</text>
+<!-- M2 screw -->
+
+<text x="340" y="52">centre screw (through the big hole)</text>
+<!-- leg -->
+<path d="M60 66 H580 V116 H400 V106 H372 L350 92 H338 V66 H302 V92 H290 L268 106 H240 V116 H60 Z" fill="#222"/>
+<rect x="308" y="84" width="24" height="8" fill="#aaa"/>
+<rect x="146" y="58" width="22" height="8" fill="#888"/><rect x="152" y="66" width="10" height="56" fill="#aaa"/>
+<rect x="472" y="58" width="22" height="8" fill="#888"/><rect x="478" y="66" width="10" height="56" fill="#aaa"/>
+<text x="20" y="52">2 side screws, M2 x 4</text>
+<text x="70" y="94" fill="#fff">LEG (black print)</text>
+<!-- horn: disc, arm, boss -->
+<path d="M268 106 L290 94 H350 L372 106 Z" fill="#e8eef5" stroke="#999"/>
+<rect x="150" y="106" width="340" height="20" fill="#e8eef5" stroke="#999"/>
+<rect x="284" y="126" width="72" height="20" fill="#e8eef5" stroke="#999"/>
+<text x="400" y="140">disc + little ramps: INTO the leg</text>
+<text x="390" y="160">tall 2mm boss: DOWN onto the motor</text>
+<text x="40" y="140">white horn arm (2mm)</text>
+<line x1="372" y1="101" x2="396" y2="135" stroke="#c00"/>
+<line x1="356" y1="140" x2="386" y2="155" stroke="#c00"/>
+<!-- servo -->
+<rect x="296" y="146" width="48" height="38" fill="#4a7bd0"/>
+<rect x="200" y="184" width="240" height="120" fill="#2f5fb3"/>
+<text x="248" y="250" fill="#fff" font-size="18">SERVO (blue)</text>
+<text x="352" y="178" font-size="13">gear shaft</text>
+<text x="20" y="330">The centre screw holds the horn on the motor. The leg sits ON TOP, and two side</text>
+<text x="20" y="350">screws go down through the leg into the horn arms.</text>
+</svg>

@@ -50,3 +50,91 @@ The owner reports loose V2 hooks. Use [V3 STL](stl/servo-cradle-v3.stl) and [upd
 ## Current prototype: V4 screw retention
 
 Use [checkpoint 4](../docs/BUILD-CHECKPOINT-04.md) and [V4 STL](stl/servo-cradle-v4.stl). Two M2 x 10mm screws, two M2 nuts and four flat washers retain the servo. The 44 x 30 x 4mm plate preserves the proven opening and moves cable entry to the long side to keep both screw supports intact. V1–V3 are design history; do not print snap-tab versions for the next checkpoint. Physical validation remains pending.
+
+## Current: Leg V1 and single-leg stand
+
+Use [checkpoint 5](../docs/BUILD-CHECKPOINT-05.md). [Leg STL](stl/leg-v1.stl) (14 x 70 x 8mm) has a pocket for the SG90 double-arm horn, sized from the 33mm listing length with 0.6mm clearance, a 5.5mm screwdriver hole over the shaft screw, and 6mm of plastic under the horn for the horn screws. [Stand STL](stl/leg-stand-v1.stl) (80 x 60 x 58mm) holds a V4 mount upright by its continuous long edge so the shaft sits about 65mm above the table. Source: [leg-v1.scad](leg-v1.scad), `part="leg"` or `part="stand"`. Horn hub and tip widths are assumptions, not measurements. No print, fit or motion test yet.
+
+## Leg V2 (replaces Leg V1)
+
+Leg V1 was printed by the owner and did not fit the horn. [Leg V2](stl/leg-v2.stl) (13 x 70 x 5mm, [source](leg-v2.scad)) follows the owner's horn as measured from grid-sheet photos: about 35.7mm long, with a 7.2mm spline boss and a raised 8.7mm disc on the screw side. The horn's flat side goes into the pocket. An M2 x 6 screw through the leg and horn into the shaft clamps it. A [horn gauge](stl/horn-gauge.stl) and [measuring sheet](../docs/measure/README.md) support re-measuring. Not yet printed.
+
+## Leg V3 (replaces Leg V2)
+
+Andrew noticed from close-up photos that the horn's screw side is a straight-sided disc (about 8.0-8.7mm across, about 1.1mm tall) with small ramps where it joins the arm; from the side the ramps make it look sloped. [Leg V3](stl/leg-v3.stl) (13 x 70 x 5.3mm, [source](leg-v3.scad)) has a 9.4mm round recess 1.3mm deep for the disc, plus a sloped clearance (9.4mm at the bottom to 13.4mm at the arm face, trimmed to the arm pocket) for the ramps. V2's recess was only 1.0mm deep. The leg is 0.3mm thicker to keep 2mm of plastic under the hub. Owner's printed gauge: arm 2.0mm, spline boss 7.5mm. Not yet printed.
+
+## Leg V4 (replaces Leg V3)
+
+The owner printed V3: the horn would not go in and the screw holes were too small. [Leg V4](stl/leg-v4.stl) (14 x 70 x 5.8mm, [source](leg-v4.scad)) keeps the V3 layout with more clearance: 0.5mm per side around the horn arms (was 0.2), a 10.0mm x 1.5mm disc recess (was 9.4 x 1.3), a 2.2mm pocket (was 2.0), a 2.9mm shaft-screw hole (was 2.4) and 1.6mm pilot holes (was 1.0). The leg is wider and thicker to keep 2mm walls and floor. Not yet printed.
+
+## Leg V5 (replaces Leg V4)
+
+Owner's screw plan: the servo's own centre screw holds the horn on the shaft, and two M2 x 4 screws go down through the leg into the horn's 4th arm holes (13.4mm from centre), cutting their own thread in the horn plastic. [Leg V5](stl/leg-v5.stl) (14 x 70 x 5.8mm, [source](leg-v5.scad)) keeps V4's clearances, replaces the centre hole with a 5.5mm screwdriver hole, and adds two 2.6mm side holes with 4.4mm x 1.2mm head recesses on the outside face. Not yet printed.
+
+## Leg V6 (replaces Leg V5) — current
+
+Owner found that the servo bag has the right screws: two large pointed self-tapping screws (about 2.2mm thread, 7mm shank, 4.7mm flanged head) and one small screw (about 2.0mm thread, 3.5mm shank, 2.8mm head), measured from grid-sheet photos. [Leg V6](stl/leg-v6.stl) (14 x 70 x 8.5mm, [source](leg-v6.scad)): the large screws go up through the horn's 4th arm holes (13.4mm from centre) into 2.0mm blind pilot holes 5.6mm deep; the small screw holds the horn on the shaft, reached through a 6.0mm centre hole. Keeps V4 clearances (0.5mm per side, 10.0 x 1.5mm disc recess, 2.2mm pocket). The leg is 8.5mm thick so the 7mm screws stay blind. The large screw heads sit under the horn: their clearance to the servo case through the swing is not verified. Not yet printed.
+
+## Leg test stand V2
+
+The owner printed stand V1: the mount sat loose in the 4.3mm slot and leaned badly. The mount plate's real thickness is not measured, so [stand V2](stl/leg-stand-v2.stl) ([source](leg-stand-v2.scad)) has a 6.0mm slot, 4mm walls and two [wedges](stl/leg-stand-v2-wedge.stl) (print two) pushed in at the slot ends beside the plate. The wedges taper 0.8 to 3.8mm, covering plates about 2.2 to 4.7mm thick, and sit outside the servo body and ear screws. Slot depth stays 8mm because the servo body sticks out of the plate just above the tower top. Not yet printed.
+
+## Puppy V2 (checkpoint 6, current)
+
+![Puppy V2](dog-puppy-v2.png)
+
+Owner feedback on V1 (2026-11-27): the dog must be able to lie flat with the legs swung at least 90 deg, and the head was too big for its small screen face. V2 fixes both:
+
+- The body shell is slimmer (64 wide) than the legs, so the legs and their round thighs stay **outside** it and can swing all the way round. U-slots, open at the bottom, slide over the servo gear towers; the round thighs hide them. Lying down, the dog rests on its tummy and thighs.
+- The breadboard and XIAO moved into the body, so the head is small (50 x 56 x 54) and the screen window (25 x 17) is most of the face. No neck, like a chubby puppy. Bigger, rounder ears.
+
+Shared numbers live in `dog-puppy2-common.scad` (whole-dog coordinates: x forward, z=0 under the body frame).
+
+| Part | File | Print |
+|---|---|---|
+| Body frame V3 (current): Body V2 plus a plate at the back for the tail servo (same opening, screw slots and cable gap as the V4 cradle) | `dog-body-v3.scad` | flat, no supports |
+| Body frame V2 (no tail): same as V1 but the 4 deck posts moved in to x=+/-10 | `dog-body-v2.scad` | flat, no supports |
+| Deck V3: PCA9685 at the back (header pointing to the tail), breadboard sideways at the front (XIAO USB-C to the left), 2 wire slots, 4 shell screw blocks | `dog-deck-v3.scad` | flat, no supports |
+| Body shell V3 (current): Shell V2 without the fixed tail, plus a fifth U-slot at the back for the tail servo (also the exit for the 5V wires) | `dog-shell-v3.scad` | open side down, tree supports |
+| Wagging tail (print 1): Leg V6 hip turned upside down, round disc, curly tip | `dog-tail-v1.scad` | pocket up, no supports |
+| Body shell V2 (no tail servo): slim capsule, curly tail, 4 gear U-slots, USB-C hole on the left, OLED wire hole and 2 chin screw holes on top | `dog-shell-v2.scad` | open side down, tree supports |
+| Head shell V2: small round head, big screen window, nose | `dog-head-v2.scad` (`part="shell"`) | open side down, tree supports |
+| Chin plate V2: OLED slot, ear posts; screws to the body roof | `dog-head-v2.scad` (`part="chin"`) | flat, no supports |
+| Ear V2 (print 2) | `dog-ears-v2.scad` | flat, no supports |
+| Leg V8 (print 4): Leg V6 hip unchanged + round paw + 32mm round thigh | `leg-v8.scad` | pocket up, no supports |
+
+Tail servo (added 2026-11-28): a fifth SG90 lies at the back with its shaft pointing backward and its long side up and down, held by the plate on Body V3 exactly like the V4 cradle. The tail fits on its horn like a leg and wags side to side. It plugs into PCA channel 4. The PCA's header plugs hang just above the plate (0.5mm+ gap), so plug the 4 XIAO wires in after the tail servo is in. Uses the same 5V supply; 5 SG90s are still within the 4A adapter.
+
+Fasteners: the 5 servo bags hold 10 big + 5 small screws, and the 4 legs + tail use all 10 big ones (2 each) and 5 small ones (1 each, horn onto shaft). Everything else is M2 x 10: 4 (deck to body, they cut their own thread in the posts); 2 + nuts (tail servo, like the V4 cradle); 6 + nuts (PCA, MPU); 2 + nuts (chin to body roof, before the shell goes on); 4 (shell sides into the deck blocks); 2 (ears through head into the chin posts). That is 20 M2 x 10 screws and 10 nuts.
+
+Pre-print check (2026-11-28, CAD only): every part pair was tested for overlap with the legs swept -90 to +90 deg in 10 deg steps and the tail +/-35 deg. Three fixes came out of it: the tail servo moved down 1.5mm (its case top touched the deck underside), the shell's tail slot is wider (the case corners had 0.3mm), and the deck screws became M2 (there were not enough big servo-bag screws). One limit for the program: legs on the same side touch if the front paw swings back past -55 deg while the back paw swings forward past +55 deg; `dogSideClear()` in `LessonLogic.h` keeps 10 deg spare.
+
+Build order: servos (4 legs + tail) into the body, deck on, boards on, chin plate onto the shell roof, shell down over the deck and screwed at the sides, OLED in, head shell and ears on, legs and tail last.
+
+Not checked yet: the 90 deg swing is clear of the body in the CAD, but whether each servo can reach +/-90 deg from straight down depends on where the horn lands on the spline; the program will find out per leg. Gear tower size, leg position and servo protrusion come from the SG90 drawing, not a measurement. Board sizes from the owner's grid photos (about +/-1mm). Nothing in this section has been printed or fitted.
+
+Reproduce: `openscad -o cad/stl/<name>.stl cad/<file>.scad` (add `-D part="chin"` for the chin plate; the ear STL is `dog-ear-v2.stl`), then `python3 scripts/validate_meshes.py`. Picture: `cad/dog-v2-assembly.scad` with `-D pose="stand"` or `-D pose="lie"`.
+
+## Puppy V1 (checkpoint 6, replaced by V2 before printing)
+
+![Puppy V1](dog-puppy-v1.png)
+
+The owner asked for a cute, lovable dog that still works. The tested parts stay inside; the cute parts go on the outside. Shared numbers live in `dog-puppy-common.scad` (whole-dog coordinates: x forward, z=0 under the body frame).
+
+| Part | File | Print |
+|---|---|---|
+| Body frame: 4 servos (V4 openings), 4 deck posts, MPU6050 floor posts | `dog-body-v1.scad` | flat, no supports |
+| Deck V2: PCA9685 (header forward), hollow neck for wires, 2 rear rests | `dog-deck-v2.scad` | flat, no supports |
+| Body shell: one round bean (150 x 120) with curly tail; hides frame, servos and hips; legs poke out the open belly | `dog-shell-v1.scad` | open side down, tree supports |
+| Head shell: round head, screen window, nose, USB hole; lower edge hugs the body | `dog-head-v1.scad` (`part="shell"`) | open side down, tree supports |
+| Chin plate: OLED slot, mini breadboard (XIAO), ear posts | `dog-head-v1.scad` (`part="chin"`) | flat, no supports |
+| Ear (print 2) | `dog-ears-v1.scad` | flat, no supports |
+| Leg V7 (print 4): Leg V6 hip unchanged + round paw | `leg-v7.scad` | pocket up, no supports |
+
+Fasteners: 4 big servo-bag screws (deck to body); 2 M2 x 10 + nuts (tail servo, like the V4 cradle); 2 big + 1 small servo-bag screw (tail onto its horn, like a leg); 6 M2 x 10 + nuts (PCA, MPU); 4 M2 x 10 (chin to neck, ears through head into the chin posts).
+
+Owner feedback (2026-11-27): the first versions looked boxy, then piecemeal; this version encloses the whole body.
+
+Estimates, not measurements: board sizes from the owner's grid photos (about +/-1mm); PCA hole spacing 57.2 x 19.8 and MPU 15.5 (3.4mm holes forgive about 0.7mm); leg position and servo protrusion from the SG90 drawing. Nothing in this section has been printed or fitted. `dog-deck-v1.scad` (all electronics on one long deck) was replaced before printing; it is kept for history.
+
+Reproduce: `openscad -o cad/stl/<name>.stl cad/<file>.scad` (add `-D part="chin"` for the chin plate), then `python3 scripts/validate_meshes.py`. Picture: `cad/dog-v1-assembly.scad`.
