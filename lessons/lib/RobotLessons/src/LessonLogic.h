@@ -128,6 +128,13 @@ static_assert(dogAngle(DOG_LEGS-1,DOG_POSE_START+DOG_POSE_COUNT*DOG_POSE_MS-1)==
 // Tail servo (Puppy V2 + tail, 2026-11-28): PCA channel 4, after the four legs on 0-3.
 // The tail stays centred during the leg check and while sitting or bowing. During each STAND
 // hold it wags 5 times (+/-25 degrees, 0.8s per wag), then rests centred before the next pose.
+// Same-side legs touch if the front paw swings far back while the back paw swings far forward
+// (Puppy V2 CAD, checked every 5 deg: first touch at front -55 with back +65). Keep 10 deg spare.
+constexpr int DOG_FRONT_BACK_LIMIT=-45, DOG_REAR_FORWARD_LIMIT=45;
+constexpr bool dogSideClear(int front,int rear) { return front>=DOG_FRONT_BACK_LIMIT || rear<=DOG_REAR_FORWARD_LIMIT; }
+static_assert(DOG_MAX_DEG<=DOG_REAR_FORWARD_LIMIT && -DOG_MAX_DEG>=DOG_FRONT_BACK_LIMIT, "today's poses can never make the legs touch");
+static_assert(dogSideClear(90,90) && dogSideClear(-60,0) && dogSideClear(0,70) && !dogSideClear(-60,60), "lie flat, play bow and sit are clear; front back + rear forward is not");
+
 constexpr int DOG_TAIL_CHANNEL=DOG_LEGS;
 constexpr int DOG_TAIL_MAX_DEG=30, DOG_TAIL_WAG_DEG=25;
 constexpr uint32_t DOG_WAG_MS=800, DOG_WAG_COUNT=5;

@@ -56,7 +56,7 @@ function roof_in(y) = let(o=wall, cy=shell[1]/2-shell_rp, r=shell_rp-o, dy=max(0
 tail_case_top_x=-74.5;              // case top (shaft side), from the SG90 drawing, not measured
 tail_ear_x=tail_case_top_x+4.3;     // ears rest on the back face of the plate (like the body walls)
 tail_plate_t=4;
-tail_zc=19;                         // middle of the servo case (height)
+tail_zc=17.5;                       // middle of the servo case (height). Was 19: the case top touched the deck (pre-print check 2026-11-28)
 tail_shaft_z=tail_zc+11.5-5.9;      // shaft is 5.9 from the top end of the case
 tail_gear_x=tail_case_top_x-4;      // gear tower tip
 tail_face_x=tail_gear_x-4.7;        // tail part's pocket face (same gap as the legs: gear top to leg face)

@@ -1,4 +1,4 @@
-// Dog deck V3 (Puppy V2): screws on top of Dog body V2 with 4 big servo-bag screws.
+// Dog deck V3 (Puppy V2): screws on top of Dog body V2 with 4 M2 x 10 screws (they cut their own thread in the body posts).
 // Rear: the PCA9685 (6-pin header pointing BACK, toward the tail).
 // Front: the mini breadboard turned sideways, XIAO at the left end, USB-C out the left side.
 // The MPU6050 stays on the body floor. Servo and MPU wires come up through the two rear slots.

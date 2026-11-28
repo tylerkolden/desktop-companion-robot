@@ -29,4 +29,6 @@ assert(plate_z[1]<=deck_top+3+1.6-0.5,"Plate top 0.5mm+ below the PCA header plu
 function in_shell(x,y,m) = let(cx=shell[0]/2-shell_rp, cy=shell[1]/2-shell_rp) sqrt(pow(max(0,abs(x)-cx),2)+pow(max(0,abs(y)-cy),2))<=shell_rp-wall-m;
 assert(in_shell(px0,plate_w/2,clr+0.5) && in_shell(px1,rib[1],clr+0.5) && in_shell(px0,0,clr),"Tail plate and ribs inside the shell");
 assert(plate_z[1]<40,"Plate below where the shell roof curls");
+assert(tail_zc+body_l/2<=deck_z-1,"Tail servo top (and its opening) 1mm+ below the deck underside (the deck reaches back to x=-62)");
+assert(tail_zc-body_l/2>=3+2,"Tail servo opening above the floor");
 echo(tail_shaft=[tail_case_top_x,0,tail_shaft_z], plate=[px0,px1,plate_z], case_bottom=tail_case_bottom_x);

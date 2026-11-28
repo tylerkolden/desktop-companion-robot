@@ -22,7 +22,7 @@ inner_w=40;          // between the walls; each servo pokes in about 12mm
 deck_t=3;
 body_len=120;
 // --- deck posts: blocks inside the walls between the servos ---
-post_x=10; post_l=7; post_in=5; pilot_d=2.0; pilot_depth=10;   // big servo-bag screws, same pilot as Leg V6
+post_x=10; post_l=7; post_in=5; pilot_d=1.7; pilot_depth=10;   // M2 x 10 cuts its own thread (was 2.0 for servo-bag screws: 5 bags have only 10 big screws, all needed for 4 legs + tail)
 // --- MPU6050 (GY-521) on the floor: owner photo about 21 x 16, two holes on the edge away from the pins ---
 mpu=[21,16]; mpu_hole=15.5; mpu_hole_in=2.5; mpu_post_h=3; mpu_post_d=6; m2_free=3.4; nut_flat=4.0+0.6; nut_h=1.8;
 open_cx=shaft_gap/2-(body_l/2-shaft_from_end);   // opening centre; shaft end faces the front/back

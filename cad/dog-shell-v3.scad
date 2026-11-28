@@ -17,12 +17,13 @@ blk_x=[-13,13]; blk_z=deck_z+deck_t+5;          // from dog-deck-v3.scad
 usb=[13,9]; usb_x=37.2; usb_z=46.6;            // XIAO USB-C (deck V3 echo)
 module gear_slot() for(sx=[-1,1]) hull() for(x=[shaft_x,shaft_x-gear_slot_back], z=[shaft_z,-10])
   translate([sx*x,0,z]) rotate([90,0,0]) cylinder(r=gear_slot_r,h=100,center=true);
+tail_slot_r=9.5;   // was gear_slot_r (8.5): the case corners had only 0.3mm (pre-print check 2026-11-28)
 module shell() {
   difference() {
     shell_solid(0);
     shell_solid(wall);
     gear_slot();
-    hull() for(z=[tail_shaft_z,tail_shaft_z-gear_slot_back,-10]) translate([-shell[0]/2-5,0,z]) rotate([0,90,0]) cylinder(r=gear_slot_r,h=20);   // tail servo
+    hull() for(z=[tail_shaft_z,tail_shaft_z-gear_slot_back,-10]) translate([-shell[0]/2-5,0,z]) rotate([0,90,0]) cylinder(r=tail_slot_r,h=20);   // tail servo: its case pokes through the wall, so the slot is wider
     for(x=blk_x) translate([x,0,blk_z]) rotate([90,0,0]) cylinder(d=m2_free,h=100,center=true);
     translate([usb_x-usb[0]/2,0,usb_z-usb[1]/2]) cube([usb[0],50,usb[1]]);
     translate([wire_hole[0][0],-wire_hole[1],shell_top-10]) cube([wire_hole[0][1]-wire_hole[0][0],2*wire_hole[1],20]);
@@ -38,5 +39,6 @@ assert(usb_z-usb[1]/2>=shaft_z+15+2,"USB hole above the front thigh");
 assert(abs(wire_hole[1])+1<abs(chin_screw[0][1])-m2_free/2,"Wire hole clear of the chin screws");
 assert(max(abs(chin_screw[0][1]),wire_hole[1])<=shell[1]/2-shell_rp,"Chin screws and wire hole on the flat top");
 assert(tail_shaft_z+gear_slot_r+3<=shell_top-shell_rt+8,"Wall above the tail slot");
+assert(tail_shaft_z+sqrt(pow(tail_slot_r,2)-pow(6.1+clr,2))>=tail_zc+11.25+1,"Tail slot clears the servo case corners by 1mm+");
 assert(tail_gear_x<-shell[0]/2-0.5,"Tail gear tower pokes out past the shell, so the tail clears it");
 echo(tail_slot_top=tail_shaft_z+gear_slot_r, slot_x=[shaft_x-gear_slot_back-gear_slot_r,shaft_x+gear_slot_r], slot_top=shaft_z+gear_slot_r);

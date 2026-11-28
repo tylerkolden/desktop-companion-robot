@@ -6,6 +6,7 @@
 - Owner asked for a cute look: added Puppy V1 parts (deck V2 with neck, round body shell with tail, round head with screen window and nose, chin plate with OLED slot and breadboard, floppy ears, Leg V7 with paws). Deck V1 was replaced before printing. Nothing printed yet.
 - Owner asked for lie-flat (legs 90 deg) and a cuter face: added Puppy V2 (body V2, deck V3 with breadboard, slim shell V2 with gear slots, small head V2 with big screen window, round ears V2, Leg V8 with round thighs). Legs now sit outside the shell. Puppy V1 replaced before printing. Nothing printed yet.
 - Owner asked for a wagging tail servo: added Body V3 (tail servo plate), Shell V3 (tail slot, no fixed tail), Dog tail V1 (Leg V6 hip, upside down), and tail wag logic on PCA channel 4 in LessonLogic.h (host-compiled static checks only). Not printed.
+- Pre-print collision check (CAD only, all parts, legs -90..+90, tail +/-35): tail servo lowered 1.5mm off the deck, wider shell tail slot, deck screws changed to M2 x 10 (not enough big servo-bag screws), and `dogSideClear()` added so same-side legs never touch. Nothing printed yet.
 - Added dog stand/sit/bow pose timing to LessonLogic.h (host-compiled static checks only; the Dog sketch is not written yet).
 
 ## Checkpoint 5: one working leg — 2026-11-27
